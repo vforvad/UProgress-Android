@@ -10,7 +10,7 @@ import com.example.vsokoltsov.uprogress.views.ApplicationBaseActivity;
 import com.example.vsokoltsov.uprogress.views.navigation.NavigationDrawer;
 
 public class AuthorizationActivity extends ApplicationBaseActivity{
-
+    private String action;
     private android.support.v4.app.FragmentManager fragmentManager;
     public AuthorizationBaseFragment authorizationBaseFragment;
     private Toolbar mActionBarToolbar;
@@ -23,8 +23,12 @@ public class AuthorizationActivity extends ApplicationBaseActivity{
         setContentView(R.layout.authorization_activity);
         setToolbar();
         setLeftNavigationBar();
+        defineCurrentTab();
         Bundle arguments = new Bundle();
-        arguments.putString("action", "sign_in");
+        if (action == null) {
+            action = "sign_in";
+        }
+        arguments.putString("action", action);
         fragmentManager = getSupportFragmentManager();
         android.support.v4.app.FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         authorizationBaseFragment = new AuthorizationBaseFragment();
@@ -43,5 +47,12 @@ public class AuthorizationActivity extends ApplicationBaseActivity{
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mNavigationDrawerFragment = (NavigationDrawer) fragmentManager.findFragmentById(R.id.navigation_drawer);
         mNavigationDrawerFragment.setUp(R.id.navigation_drawer, drawerLayout);
+    }
+
+    private void defineCurrentTab() {
+        Bundle extras = getIntent().getExtras();
+        if(extras != null) {
+            action = (String) extras.getString("action");
+        }
     }
 }

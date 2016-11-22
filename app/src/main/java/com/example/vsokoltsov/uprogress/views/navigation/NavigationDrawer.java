@@ -24,6 +24,7 @@ import android.widget.ListView;
 import com.example.vsokoltsov.uprogress.R;
 import com.example.vsokoltsov.uprogress.adapters.NavigationListAdapter;
 import com.example.vsokoltsov.uprogress.models.NavigationItem;
+import com.example.vsokoltsov.uprogress.views.authorizations.AuthorizationActivity;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -236,31 +237,33 @@ public class NavigationDrawer extends Fragment {
 //            setItemsActionsForTablet(position);
 //        }
 //        else {
-//            setItemsActionsForPhone(position);
+            setItemsActionsForPhone(position);
 //        }
     }
 
     private void setItemsActionsForPhone(int position) {
-//        NavigationItem navItem = navigationItems.get(position);
-//        String signIn = resources.getString(R.string.nav_sign_in);
+        NavigationItem navItem = navigationItems.get(position);
+        String signIn = "Sign in";
 //        String signUp = resources.getString(R.string.nav_sign_up);
 //        String users = resources.getString(R.string.nav_users);
 //        String messages = resources.getString(R.string.nav_chats);
 //        String courses = resources.getString(R.string.nav_course);
 //
-//        if (navItem.getTitle().equals(signIn)) {
-//            Intent authActivity = new Intent(getActivity(), AuthorizationActivity.class);
-//            authActivity.putExtra("action", "sign_in");
-//            startActivity(authActivity);
-//            getActivity().overridePendingTransition(R.anim.pull_in_right, R.anim.push_out_left);
-//            return;
-//        } else if (navItem.getTitle().equals(signUp)) {
-//            Intent regActivity = new Intent(getActivity(), AuthorizationActivity.class);
-//            regActivity.putExtra("action", "sign_up");
-//            startActivity(regActivity);
-//            getActivity().overridePendingTransition(R.anim.pull_in_right, R.anim.push_out_left);
-//            return;
-//        } else if (navItem.getTitle().equals(users)) {
+        if (navItem.getTitle().equals(signIn)) {
+            Intent authActivity = new Intent(getActivity(), AuthorizationActivity.class);
+            authActivity.putExtra("action", "sign_in");
+            startActivity(authActivity);
+            getActivity().overridePendingTransition(R.anim.pull_in_right, R.anim.push_out_left);
+            return;
+        }
+        else if (navItem.getTitle().equals("Sign up")) {
+            Intent regActivity = new Intent(getActivity(), AuthorizationActivity.class);
+            regActivity.putExtra("action", "sign_up");
+            startActivity(regActivity);
+            getActivity().overridePendingTransition(R.anim.pull_in_right, R.anim.push_out_left);
+            return;
+        }
+// else if (navItem.getTitle().equals(users)) {
 //            Intent usersActivity = new Intent(getActivity(), MainActivity.class);
 //            startActivity(usersActivity);
 //            getActivity().overridePendingTransition(R.anim.pull_in_right, R.anim.push_out_left);
@@ -277,7 +280,7 @@ public class NavigationDrawer extends Fragment {
 //            getActivity().overridePendingTransition(R.anim.pull_in_right, R.anim.push_out_left);
 //            return;
 //        }
-//        mDrawerLayout.closeDrawer(rootView);
+        mDrawerLayout.closeDrawer(rootView);
     }
 
     private void setItemsActionsForTablet(int position) {
