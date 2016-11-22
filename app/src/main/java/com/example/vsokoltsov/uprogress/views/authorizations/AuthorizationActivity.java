@@ -18,9 +18,12 @@ public class AuthorizationActivity extends ApplicationBaseActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.authorization_activity);
         setToolbar();
+        Bundle arguments = new Bundle();
+        arguments.putString("action", "sign_in");
         fragmentManager = getSupportFragmentManager();
         android.support.v4.app.FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         authorizationBaseFragment = new AuthorizationBaseFragment();
+        authorizationBaseFragment.setArguments(arguments);
         fragmentTransaction.replace(R.id.main_content, authorizationBaseFragment);
         fragmentTransaction.commit();
     }
