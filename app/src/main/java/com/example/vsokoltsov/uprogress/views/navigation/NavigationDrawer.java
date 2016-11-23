@@ -23,10 +23,13 @@ import android.widget.ListView;
 
 import com.example.vsokoltsov.uprogress.R;
 import com.example.vsokoltsov.uprogress.adapters.NavigationListAdapter;
+import com.example.vsokoltsov.uprogress.messages.UserMessage;
 import com.example.vsokoltsov.uprogress.models.NavigationItem;
+import com.example.vsokoltsov.uprogress.models.authorization.AuthorizationService;
 import com.example.vsokoltsov.uprogress.views.authorizations.AuthorizationActivity;
 
 import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -46,7 +49,7 @@ public class NavigationDrawer extends Fragment {
     private ActionBarDrawerToggle mDrawerToggle;
     private FrameLayout rootView;
     private Resources resources;
-//    private AuthorizationService authManager;
+    private AuthorizationService authManager;
 
     public NavigationDrawer() {
         // Required empty public constructor
@@ -319,13 +322,13 @@ public class NavigationDrawer extends Fragment {
 
     public void setupElementsList() {
         if(navigationItems != null) navigationItems = new ArrayList<NavigationItem>();
-//        authManager = AuthorizationService.getInstance();
-//        if (authManager.getCurrentUser() != null) {
-//            navigationItems.add(new NavigationItem(authManager.getCurrentUser()));
-//        } else {
+        authManager = AuthorizationService.getInstance();
+        if (authManager.getCurrentUser() != null) {
+            navigationItems.add(new NavigationItem(authManager.getCurrentUser()));
+        } else {
             navigationItems.add(new NavigationItem(R.drawable.sign_in, "Sign in"));
             navigationItems.add(new NavigationItem(R.drawable.sign_up, "Sign up"));
-//        }
+        }
 //        navigationItems.add(new NavigationItem(R.drawable.contacts, resources.getString(R.string.nav_users)));
 //        navigationItems.add(new NavigationItem(R.drawable.course, resources.getString(R.string.nav_course)));
         setSignOutButton();
@@ -335,50 +338,51 @@ public class NavigationDrawer extends Fragment {
 
     public void setSignOutButton() {
         Button signOutButton = (Button) rootView.findViewById(R.id.sign_out_button);
-//        if (authManager.getCurrentUser() != null) {
-//            signOutButton.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    signOut();
-//                }
-//            });
+        if (authManager.getCurrentUser() != null) {
+            signOutButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    signOut();
+                }
+            });
             signOutButton.setVisibility(View.VISIBLE);
-//        }
-//        else {
-//            signOutButton.setVisibility(View.INVISIBLE);
-//        }
+        }
+        else {
+            signOutButton.setVisibility(View.INVISIBLE);
+        }
     }
 
     public void signOut() {
-//        authManager.setCurrentUser(null);
-//        SharedPreferences.Editor editor = (SharedPreferences.Editor)
-//                getActivity().getSharedPreferences("estudy", Context.MODE_PRIVATE).edit();
-//        editor.putString("estudytoken", null);
-//        editor.commit();
-//        EventBus.getDefault().post(new UserMessage("signOut", authManager.getCurrentUser()));
+        authManager.setCurrentUser(null);
+        SharedPreferences.Editor editor = (SharedPreferences.Editor)
+                getActivity().getSharedPreferences("estudy", Context.MODE_PRIVATE).edit();
+        editor.putString("estudytoken", null);
+        editor.commit();
+        EventBus.getDefault().post(new UserMessage("signOut", authManager.getCurrentUser()));
     }
 
-//    public void onStart() {
-//        super.onStart();
-//        EventBus.getDefault().register(this);
-//    }
-//
-//    @Override
-//    public void onStop() {
-//        EventBus.getDefault().unregister(this);
-//        super.onStop();
-//    }
+    public void onStart() {
+        super.onStart();
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    public void onStop() {
+        EventBus.getDefault().unregister(this);
+        super.onStop();
+    }
 
     // This method will be called when a MessageEvent is posted
-//    public void onEvent(UserMessage event){
-//        switch (event.operationName){
-//            case "currentUser":
-//                setupElementsList();
-//                break;
-//            case "signOut":
-//                setupElementsList();
-//                break;
-//            default: break;
-//        }
-//    }
+    @Subscribe
+    public void onEvent(UserMessage event){
+        switch (event.operationName){
+            case "currentUser":
+                setupElementsList();
+                break;
+            case "signOut":
+                setupElementsList();
+                break;
+            default: break;
+        }
+    }
 }

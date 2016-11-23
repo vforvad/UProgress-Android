@@ -9,7 +9,7 @@ import android.graphics.Bitmap;
 public class NavigationItem {
     private int image;
     private String title;
-//    private User user;
+    private User user;
     private Bitmap userImageBitmap;
 
     public NavigationItem(int image, String title){
@@ -17,13 +17,13 @@ public class NavigationItem {
         this.title = title;
     }
 
-//    public NavigationItem(User user) {
-//        this.user = user;
-//    }
+    public NavigationItem(User user) {
+        this.user = user;
+    }
 
-//    public Boolean isUserCell() {
-//        return this.user != null;
-//    }
+    public Boolean isUserCell() {
+        return this.user != null;
+    }
 
     private void setUserImageBitMap(Bitmap bm) {
         this.userImageBitmap = bm;
@@ -33,9 +33,9 @@ public class NavigationItem {
         return this.getUserImageBitmap();
     }
 
-//    public User getUser() {
-//        return this.user;
-//    }
+    public User getUser() {
+        return this.user;
+    }
 
     public int getImage(){
         return this.image;
