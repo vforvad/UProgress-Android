@@ -75,6 +75,7 @@ public class ApiRequester {
 
     public String getToken() {
         SharedPreferences sPref = context.getSharedPreferences(APP_NAME, Context.MODE_PRIVATE);
+        String str = sPref.getString(TOKEN_NAME, null);
         return sPref.getString(TOKEN_NAME, null);
     }
 

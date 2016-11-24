@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.example.vsokoltsov.uprogress.R;
 import com.example.vsokoltsov.uprogress.models.NavigationItem;
+import com.example.vsokoltsov.uprogress.models.User;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -57,48 +58,47 @@ public class NavigationListAdapter extends BaseAdapter {
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         if (convertView == null) {
             // TODO: Make after authorization
-//            if (navigation.isUserCell()) {
-//                convertView = inflater.inflate(R.layout.navigation_header, null);
-//                configViewForUserItem(convertView);
-//            }
-//            else {
-            convertView = inflater.inflate(R.layout.navigation_drawer_item, null);
-            configViewForSimilarItem(convertView);
-//            }
+            if (navigation.isUserCell()) {
+                convertView = inflater.inflate(R.layout.navigation_header, null);
+                configViewForUserItem(convertView);
+            }
+            else {
+                convertView = inflater.inflate(R.layout.navigation_drawer_item, null);
+                configViewForSimilarItem(convertView);
+            }
         }
         return convertView;
     }
 
-    // TODO: Make after authorization
-//    private void configViewForUserItem(View contentView) {
-//        User user = navigation.getUser();
-//        final CircleImageView avatarView = (CircleImageView) contentView.findViewById(R.id.circleView);
-//        TextView userName = (TextView) contentView.findViewById(R.id.name);
-//        TextView userEmail = (TextView) contentView.findViewById(R.id.email);
-//        if (user.getCorrectName().equals(user.getEmail())) {
-//            userName.setText(user.getCorrectName());
-//        }
-//        else {
-//            userName.setText(user.getCorrectName());
-//            userName.setText(user.getEmail());
-//        }
+    private void configViewForUserItem(View contentView) {
+        User user = navigation.getUser();
+        final CircleImageView avatarView = (CircleImageView) contentView.findViewById(R.id.circleView);
+        TextView userName = (TextView) contentView.findViewById(R.id.name);
+        TextView userEmail = (TextView) contentView.findViewById(R.id.email);
+        if (user.getCorrectName().equals(user.getEmail())) {
+            userName.setText(user.getCorrectName());
+        }
+        else {
+            userName.setText(user.getCorrectName());
+            userEmail.setText(user.getEmail());
+        }
 //        Drawable background = (Drawable) activity.getResources().getDrawable(R.drawable.backgroundploy);
 //        int width = background.getIntrinsicWidth();
 //        Bitmap bitmap = ((BitmapDrawable) background).getBitmap();
 //        int backgroundHeight = (int) activity.getResources().getDimension(R.dimen.user_header_navigation_menu_height);
 //        Drawable d = new BitmapDrawable(activity.getResources(), Bitmap.createScaledBitmap(bitmap, width, backgroundHeight, true));
 //        contentView.findViewById(R.id.backgroundView).setBackground(d);
-////        nv.setDefaultImageResId(R.drawable.default_image); // image for loading...
-////        nv.setImageUrl(imageUrl, ImgController.getInstance().getImageLoader());
-//        if (navigation.getUser().getImage() != null) {
+//        nv.setDefaultImageResId(R.drawable.default_image); // image for loading...
+//        nv.setImageUrl(imageUrl, ImgController.getInstance().getImageLoader());
+        if (navigation.getUser().getImage() != null) {
 //            Drawable emptyUser = activity.getResources().getDrawable(R.drawable.empty_user);
-//            String fullUrl = navigation.getUser().getImage().getUrl();
-//            Picasso.with(this.activity.getApplicationContext())
-//                    .load(fullUrl)
+            String fullUrl = navigation.getUser().getImage().getUrl();
+            Picasso.with(this.activity.getApplicationContext())
+                    .load(fullUrl)
 //                    .placeholder(emptyUser)
-//                    .into(avatarView);
-//        }
-//    }
+                    .into(avatarView);
+        }
+    }
 
     private void configViewForSimilarItem(View convertView) {
         final TextView text = (TextView) convertView.findViewById(R.id.navigationText);

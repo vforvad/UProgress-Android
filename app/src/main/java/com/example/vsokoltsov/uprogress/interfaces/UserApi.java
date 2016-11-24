@@ -1,15 +1,12 @@
 package com.example.vsokoltsov.uprogress.interfaces;
 
 import com.example.vsokoltsov.uprogress.models.authorization.CurrentUser;
-import com.example.vsokoltsov.uprogress.models.authorization.SignInRequest;
+import com.example.vsokoltsov.uprogress.models.authorization.SignIn.SignInRequest;
 import com.example.vsokoltsov.uprogress.models.authorization.Token;
-import com.fasterxml.jackson.annotation.JsonRootName;
 
 import retrofit2.http.Body;
 import retrofit2.http.GET;
-import retrofit2.http.Multipart;
 import retrofit2.http.POST;
-import retrofit2.http.Part;
 import rx.Observable;
 
 /**

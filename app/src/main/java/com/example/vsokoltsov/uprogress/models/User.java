@@ -16,17 +16,14 @@ public class User {
     private String firstName;
     @JsonProperty("last_name")
     private String lastName;
-    @JsonProperty("image")
+    @JsonProperty("attachment")
     private Attachment image;
     @JsonProperty("nick")
     private String nick;
-    @JsonIgnore
-    private String password;
-
-    public User(String email, String password) {
-        this.email = email;
-        this.password = password;
-    }
+    @JsonProperty("description")
+    private String description;
+    @JsonProperty("location")
+    private String location;
 
     public String getEmail() {
         return email;

@@ -361,6 +361,7 @@ public class NavigationDrawer extends Fragment {
         EventBus.getDefault().post(new UserMessage("signOut", authManager.getCurrentUser()));
     }
 
+    @Override
     public void onStart() {
         super.onStart();
         EventBus.getDefault().register(this);

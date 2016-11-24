@@ -13,7 +13,7 @@ import android.widget.EditText;
 
 import com.example.vsokoltsov.uprogress.R;
 import com.example.vsokoltsov.uprogress.interfaces.UserApi;
-import com.example.vsokoltsov.uprogress.models.authorization.SignInRequest;
+import com.example.vsokoltsov.uprogress.models.authorization.SignIn.SignInRequest;
 import com.example.vsokoltsov.uprogress.models.authorization.Token;
 import com.example.vsokoltsov.uprogress.services.ErrorResponse;
 import com.example.vsokoltsov.uprogress.utils.ApiRequester;
@@ -102,6 +102,7 @@ public class SignInFragment extends Fragment implements Button.OnClickListener {
     }
 
     private void  successAuth(Token token) {
+        String str = token.getToken();
         ApiRequester.getInstance().setToken(token.getToken());
         activity.currentUserRequest();
     }
