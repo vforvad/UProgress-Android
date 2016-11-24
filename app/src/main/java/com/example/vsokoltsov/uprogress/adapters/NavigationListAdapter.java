@@ -82,20 +82,22 @@ public class NavigationListAdapter extends BaseAdapter {
             userName.setText(user.getCorrectName());
             userEmail.setText(user.getEmail());
         }
-//        Drawable background = (Drawable) activity.getResources().getDrawable(R.drawable.backgroundploy);
-//        int width = background.getIntrinsicWidth();
-//        Bitmap bitmap = ((BitmapDrawable) background).getBitmap();
-//        int backgroundHeight = (int) activity.getResources().getDimension(R.dimen.user_header_navigation_menu_height);
-//        Drawable d = new BitmapDrawable(activity.getResources(), Bitmap.createScaledBitmap(bitmap, width, backgroundHeight, true));
-//        contentView.findViewById(R.id.backgroundView).setBackground(d);
+        Drawable emptyUserImg = activity.getResources().getDrawable(R.drawable.empty_user);
+        avatarView.setImageDrawable(emptyUserImg);
+        Drawable background = (Drawable) activity.getResources().getDrawable(R.drawable.backgroundploy);
+        int width = background.getIntrinsicWidth();
+        Bitmap bitmap = ((BitmapDrawable) background).getBitmap();
+        int backgroundHeight = (int) activity.getResources().getDimension(R.dimen.user_header_navigation_menu_height);
+        Drawable d = new BitmapDrawable(activity.getResources(), Bitmap.createScaledBitmap(bitmap, width, backgroundHeight, true));
+        contentView.findViewById(R.id.backgroundView).setBackground(d);
 //        nv.setDefaultImageResId(R.drawable.default_image); // image for loading...
 //        nv.setImageUrl(imageUrl, ImgController.getInstance().getImageLoader());
         if (navigation.getUser().getImage() != null) {
-//            Drawable emptyUser = activity.getResources().getDrawable(R.drawable.empty_user);
+            Drawable emptyUser = activity.getResources().getDrawable(R.drawable.empty_user);
             String fullUrl = navigation.getUser().getImage().getUrl();
             Picasso.with(this.activity.getApplicationContext())
                     .load(fullUrl)
-//                    .placeholder(emptyUser)
+                    .placeholder(emptyUser)
                     .into(avatarView);
         }
     }
