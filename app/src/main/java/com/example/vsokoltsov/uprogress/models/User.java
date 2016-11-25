@@ -58,15 +58,23 @@ public class User {
     }
 
     public String getCorrectName() {
-        if (this.firstName != null && this.lastName != null) {
+        if (this.isFullNamePresent()) {
             return this.firstName + " " + this.lastName;
         }
         else {
-            return this.email;
+            return this.nick;
         }
+    }
+
+    public Boolean isFullNamePresent() {
+        return this.firstName != null && this.lastName != null;
     }
 
     public String getNick() {
         return nick;
+    }
+
+    public void setNick(String nick) {
+        this.nick = nick;
     }
 }

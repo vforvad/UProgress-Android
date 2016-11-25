@@ -73,15 +73,7 @@ public class NavigationListAdapter extends BaseAdapter {
     private void configViewForUserItem(View contentView) {
         User user = navigation.getUser();
         final CircleImageView avatarView = (CircleImageView) contentView.findViewById(R.id.circleView);
-        TextView userName = (TextView) contentView.findViewById(R.id.name);
-        TextView userEmail = (TextView) contentView.findViewById(R.id.email);
-        if (user.getCorrectName().equals(user.getEmail())) {
-            userName.setText(user.getCorrectName());
-        }
-        else {
-            userName.setText(user.getCorrectName());
-            userEmail.setText(user.getEmail());
-        }
+        setUserNameInHeader(user, contentView);
         Drawable emptyUserImg = activity.getResources().getDrawable(R.drawable.empty_user);
         avatarView.setImageDrawable(emptyUserImg);
         Drawable background = (Drawable) activity.getResources().getDrawable(R.drawable.backgroundploy);
@@ -90,8 +82,6 @@ public class NavigationListAdapter extends BaseAdapter {
         int backgroundHeight = (int) activity.getResources().getDimension(R.dimen.user_header_navigation_menu_height);
         Drawable d = new BitmapDrawable(activity.getResources(), Bitmap.createScaledBitmap(bitmap, width, backgroundHeight, true));
         contentView.findViewById(R.id.backgroundView).setBackground(d);
-//        nv.setDefaultImageResId(R.drawable.default_image); // image for loading...
-//        nv.setImageUrl(imageUrl, ImgController.getInstance().getImageLoader());
         if (navigation.getUser().getImage() != null) {
             Drawable emptyUser = activity.getResources().getDrawable(R.drawable.empty_user);
             String fullUrl = navigation.getUser().getImage().getUrl();
@@ -108,5 +98,18 @@ public class NavigationListAdapter extends BaseAdapter {
 
         text.setText(navigation.getTitle());
         image.setImageResource(navigation.getImage());
+    }
+
+    private void setUserNameInHeader(User user, View contentView) {
+        TextView userName = (TextView) contentView.findViewById(R.id.name);
+        TextView userEmail = (TextView) contentView.findViewById(R.id.email);
+
+        if (user.isFullNamePresent()) {
+            userName.setText(user.getCorrectName());
+            userEmail.setText(user.getNick());
+        }
+        else {
+            userName.setText(user.getNick());
+        }
     }
 }

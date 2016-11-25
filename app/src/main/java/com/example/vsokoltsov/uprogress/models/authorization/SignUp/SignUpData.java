@@ -2,12 +2,14 @@ package com.example.vsokoltsov.uprogress.models.authorization.SignUp;
 
 
 import com.example.vsokoltsov.uprogress.models.authorization.SignIn.SignInData;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * Created by vsokoltsov on 24.11.16.
  */
 
 public class SignUpData extends SignInData {
+    @JsonProperty("password_confirmation")
     private String passwordConfirmation;
     private String nick;
 

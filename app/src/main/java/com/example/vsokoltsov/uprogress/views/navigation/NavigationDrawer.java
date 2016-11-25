@@ -26,6 +26,7 @@ import com.example.vsokoltsov.uprogress.adapters.NavigationListAdapter;
 import com.example.vsokoltsov.uprogress.messages.UserMessage;
 import com.example.vsokoltsov.uprogress.models.NavigationItem;
 import com.example.vsokoltsov.uprogress.models.authorization.AuthorizationService;
+import com.example.vsokoltsov.uprogress.utils.ApiRequester;
 import com.example.vsokoltsov.uprogress.views.authorizations.AuthorizationActivity;
 
 import org.greenrobot.eventbus.EventBus;
@@ -355,8 +356,8 @@ public class NavigationDrawer extends Fragment {
     public void signOut() {
         authManager.setCurrentUser(null);
         SharedPreferences.Editor editor = (SharedPreferences.Editor)
-                getActivity().getSharedPreferences("estudy", Context.MODE_PRIVATE).edit();
-        editor.putString("estudytoken", null);
+                getActivity().getSharedPreferences(ApiRequester.APP_NAME, Context.MODE_PRIVATE).edit();
+        editor.putString(ApiRequester.TOKEN_NAME, null);
         editor.commit();
         EventBus.getDefault().post(new UserMessage("signOut", authManager.getCurrentUser()));
     }
