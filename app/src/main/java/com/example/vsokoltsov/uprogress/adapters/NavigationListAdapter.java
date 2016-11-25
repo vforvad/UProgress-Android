@@ -76,12 +76,12 @@ public class NavigationListAdapter extends BaseAdapter {
         setUserNameInHeader(user, contentView);
         Drawable emptyUserImg = activity.getResources().getDrawable(R.drawable.empty_user);
         avatarView.setImageDrawable(emptyUserImg);
-        Drawable background = (Drawable) activity.getResources().getDrawable(R.drawable.backgroundploy);
-        int width = background.getIntrinsicWidth();
-        Bitmap bitmap = ((BitmapDrawable) background).getBitmap();
-        int backgroundHeight = (int) activity.getResources().getDimension(R.dimen.user_header_navigation_menu_height);
-        Drawable d = new BitmapDrawable(activity.getResources(), Bitmap.createScaledBitmap(bitmap, width, backgroundHeight, true));
-        contentView.findViewById(R.id.backgroundView).setBackground(d);
+//        Drawable background = (Drawable) activity.getResources().getDrawable(R.drawable.backgroundploy);
+//        int width = background.getIntrinsicWidth();
+//        Bitmap bitmap = ((BitmapDrawable) background).getBitmap();
+//        int backgroundHeight = (int) activity.getResources().getDimension(R.dimen.user_header_navigation_menu_height);
+//        Drawable d = new BitmapDrawable(activity.getResources(), Bitmap.createScaledBitmap(bitmap, width, backgroundHeight, true));
+//        contentView.findViewById(R.id.backgroundView).setBackground(d);
         if (navigation.getUser().getImage() != null) {
             Drawable emptyUser = activity.getResources().getDrawable(R.drawable.empty_user);
             String fullUrl = navigation.getUser().getImage().getUrl();
