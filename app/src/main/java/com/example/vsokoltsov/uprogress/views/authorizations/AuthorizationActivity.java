@@ -27,8 +27,8 @@ public class AuthorizationActivity extends ApplicationBaseActivity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.authorization_activity);
-        setToolbar();
-        setLeftNavigationBar();
+        super.setToolbar();
+        super.setLeftNavigationBar();
         defineCurrentTab();
         Bundle arguments = new Bundle();
         if (action == null) {
@@ -43,12 +43,12 @@ public class AuthorizationActivity extends ApplicationBaseActivity{
         fragmentTransaction.commit();
     }
 
-    private void setToolbar() {
+    public void setToolbar() {
         mActionBarToolbar = (Toolbar) findViewById(R.id.toolbar_actionbar);
         setSupportActionBar(mActionBarToolbar);
     }
 
-    private void setLeftNavigationBar() {
+    public void setLeftNavigationBar() {
         android.support.v4.app.FragmentManager fragmentManager = getSupportFragmentManager();
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mNavigationDrawerFragment = (NavigationDrawer) fragmentManager.findFragmentById(R.id.navigation_drawer);

@@ -28,6 +28,7 @@ import com.example.vsokoltsov.uprogress.models.NavigationItem;
 import com.example.vsokoltsov.uprogress.models.authorization.AuthorizationService;
 import com.example.vsokoltsov.uprogress.utils.ApiRequester;
 import com.example.vsokoltsov.uprogress.views.authorizations.AuthorizationActivity;
+import com.example.vsokoltsov.uprogress.views.directions.DirectionsActivity;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -267,6 +268,12 @@ public class NavigationDrawer extends Fragment {
             getActivity().overridePendingTransition(R.anim.pull_in_right, R.anim.push_out_left);
             return;
         }
+        else if (navItem.getTitle().equals("Directions")) {
+            Intent dirActivity = new Intent(getActivity(), DirectionsActivity.class);
+            startActivity(dirActivity);
+            getActivity().overridePendingTransition(R.anim.pull_in_right, R.anim.push_out_left);
+            return;
+        }
 // else if (navItem.getTitle().equals(users)) {
 //            Intent usersActivity = new Intent(getActivity(), MainActivity.class);
 //            startActivity(usersActivity);
@@ -326,6 +333,7 @@ public class NavigationDrawer extends Fragment {
         authManager = AuthorizationService.getInstance();
         if (authManager.getCurrentUser() != null) {
             navigationItems.add(new NavigationItem(authManager.getCurrentUser()));
+            navigationItems.add(new NavigationItem(R.drawable.directions, "Directions"));
         } else {
             navigationItems.add(new NavigationItem(R.drawable.sign_in, "Sign in"));
             navigationItems.add(new NavigationItem(R.drawable.sign_up, "Sign up"));
