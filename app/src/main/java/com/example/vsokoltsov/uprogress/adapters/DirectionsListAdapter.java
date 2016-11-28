@@ -33,6 +33,7 @@ public class DirectionsListAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         return viewHolder;
     }
 
+
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         DirectionViewHolder directionViewHolder = (DirectionViewHolder) holder;
@@ -40,6 +41,7 @@ public class DirectionsListAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
         directionViewHolder.setDirection(direction);
         directionViewHolder.directionTitle.setText(direction.getTitle());
+        directionViewHolder.directionPercents.setText(String.format("%d", direction.getPercentsResult()));
 
 //        if (course.getImage() != null) {
 //            String fullURL = course.getImage().getUrl();

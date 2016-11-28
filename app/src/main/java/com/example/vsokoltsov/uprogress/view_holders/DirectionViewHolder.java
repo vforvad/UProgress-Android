@@ -17,7 +17,7 @@ public class DirectionViewHolder extends RecyclerView.ViewHolder  {
     CardView cv;
     DirectionsListAdapter adapter;
     public TextView directionTitle;
-    public TextView directionResultValue;
+    public TextView directionPercents;
     private Direction direction;
 
     public DirectionViewHolder(View itemView) {
@@ -28,7 +28,7 @@ public class DirectionViewHolder extends RecyclerView.ViewHolder  {
         super(itemView);
         this.adapter = adapter;
         directionTitle= (TextView) itemView.findViewById(R.id.directionTitle);
-
+        directionPercents = (TextView)itemView.findViewById(R.id.directionPercents);
     }
 
     public void setDirection(Direction direction) {

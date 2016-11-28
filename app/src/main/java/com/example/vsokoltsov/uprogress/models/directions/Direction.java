@@ -13,6 +13,8 @@ public class Direction {
     private int id;
     @JsonProperty("title")
     private String title;
+    @JsonProperty("percents_result")
+    private int percentsResult;
 
     public void setId(int id) {
         this.id = id;
@@ -28,5 +30,13 @@ public class Direction {
 
     public String getTitle() {
         return title;
+    }
+
+    public void setPercentsResult(int percentsResult) {
+        this.percentsResult = percentsResult;
+    }
+
+    public int getPercentsResult() {
+        return percentsResult;
     }
 }
