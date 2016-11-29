@@ -1,7 +1,11 @@
 package com.example.vsokoltsov.uprogress.views.directions;
 
+import android.app.PendingIntent;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.NotificationCompat;
+import android.support.v4.app.TaskStackBuilder;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -97,6 +101,18 @@ public class DirectionsListFragment extends Fragment implements DirectionItemCli
 
     @Override
     public void onItemClicked(Direction direction) {
+        Intent detailIntent = new Intent(getActivity(), DirectionDetailActivity.class);
+        detailIntent.putExtra("direction", direction);
+        PendingIntent pendingIntent =
+                TaskStackBuilder.create(getActivity())
+                        // add all of DetailsActivity's parents to the stack,
+                        // followed by DetailsActivity itself
+                        .addNextIntentWithParentStack(detailIntent)
+                        .getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
 
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(getActivity());
+        builder.setContentIntent(pendingIntent);
+        startActivity(detailIntent);
+        getActivity().overridePendingTransition(R.anim.pull_in_right, R.anim.push_out_left);
     }
 }

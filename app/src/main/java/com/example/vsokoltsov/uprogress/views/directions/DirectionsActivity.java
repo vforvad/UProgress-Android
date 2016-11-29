@@ -13,6 +13,7 @@ import com.example.vsokoltsov.uprogress.views.authorizations.AuthorizationBaseFr
 public class DirectionsActivity extends ApplicationBaseActivity {
     private android.support.v4.app.FragmentManager fragmentManager;
     private DirectionsListFragment directionsListFragment;
+    private static boolean replaceFragment = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,10 +21,13 @@ public class DirectionsActivity extends ApplicationBaseActivity {
         setContentView(R.layout.authorization_activity);
         super.setToolbar();
         super.setLeftNavigationBar();
-        fragmentManager = getSupportFragmentManager();
-        android.support.v4.app.FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        directionsListFragment= new DirectionsListFragment();
-        fragmentTransaction.replace(R.id.main_content, directionsListFragment);
-        fragmentTransaction.commit();
+//        if (!replaceFragment) {
+            fragmentManager = getSupportFragmentManager();
+            android.support.v4.app.FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            directionsListFragment= new DirectionsListFragment();
+            fragmentTransaction.replace(R.id.main_content, directionsListFragment);
+            fragmentTransaction.commit();
+            replaceFragment = true;
+//        }
     }
 }

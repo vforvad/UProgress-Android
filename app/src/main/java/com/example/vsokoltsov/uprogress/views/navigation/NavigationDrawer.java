@@ -274,6 +274,7 @@ public class NavigationDrawer extends Fragment {
             getActivity().overridePendingTransition(R.anim.pull_in_right, R.anim.push_out_left);
             return;
         }
+        mDrawerLayout.closeDrawer(rootView);
 // else if (navItem.getTitle().equals(users)) {
 //            Intent usersActivity = new Intent(getActivity(), MainActivity.class);
 //            startActivity(usersActivity);
