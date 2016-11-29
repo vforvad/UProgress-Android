@@ -13,7 +13,7 @@ import com.example.vsokoltsov.uprogress.models.directions.Direction;
  * Created by vsokoltsov on 27.11.16.
  */
 
-public class DirectionViewHolder extends RecyclerView.ViewHolder  {
+public class DirectionViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener  {
     CardView cv;
     DirectionsListAdapter adapter;
     public TextView directionTitle;
@@ -27,11 +27,19 @@ public class DirectionViewHolder extends RecyclerView.ViewHolder  {
     public DirectionViewHolder(View itemView, DirectionsListAdapter adapter) {
         super(itemView);
         this.adapter = adapter;
+        cv = (CardView) itemView.findViewById(R.id.directionItem);
         directionTitle= (TextView) itemView.findViewById(R.id.directionTitle);
         directionPercents = (TextView)itemView.findViewById(R.id.directionPercents);
+
+        cv.setOnClickListener(this);
     }
 
     public void setDirection(Direction direction) {
         this.direction = direction;
+    }
+
+    @Override
+    public void onClick(View v) {
+
     }
 }
