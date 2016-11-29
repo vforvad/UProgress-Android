@@ -7,6 +7,7 @@ import android.widget.TextView;
 
 import com.example.vsokoltsov.uprogress.R;
 import com.example.vsokoltsov.uprogress.adapters.DirectionsListAdapter;
+import com.example.vsokoltsov.uprogress.interfaces.DirectionItemClickListener;
 import com.example.vsokoltsov.uprogress.models.directions.Direction;
 
 /**
@@ -19,6 +20,7 @@ public class DirectionViewHolder extends RecyclerView.ViewHolder implements View
     public TextView directionTitle;
     public TextView directionPercents;
     private Direction direction;
+    private DirectionItemClickListener callbacks;
 
     public DirectionViewHolder(View itemView) {
         super(itemView);
@@ -27,6 +29,7 @@ public class DirectionViewHolder extends RecyclerView.ViewHolder implements View
     public DirectionViewHolder(View itemView, DirectionsListAdapter adapter) {
         super(itemView);
         this.adapter = adapter;
+        callbacks = (DirectionItemClickListener) adapter.fragment;
         cv = (CardView) itemView.findViewById(R.id.directionItem);
         directionTitle= (TextView) itemView.findViewById(R.id.directionTitle);
         directionPercents = (TextView)itemView.findViewById(R.id.directionPercents);
@@ -40,6 +43,6 @@ public class DirectionViewHolder extends RecyclerView.ViewHolder implements View
 
     @Override
     public void onClick(View v) {
-
+        callbacks.onItemClicked(this.adapter.directions.get(getAdapterPosition()));
     }
 }

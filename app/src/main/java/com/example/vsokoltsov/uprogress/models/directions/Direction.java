@@ -1,5 +1,8 @@
 package com.example.vsokoltsov.uprogress.models.directions;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -8,7 +11,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class Direction {
+public class Direction implements Parcelable {
     @JsonProperty("id")
     private int id;
     @JsonProperty("title")
@@ -39,4 +42,29 @@ public class Direction {
     public int getPercentsResult() {
         return percentsResult;
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(id);
+        dest.writeString(title);
+        dest.writeInt(percentsResult);
+    }
+
+    public static final Parcelable.Creator<Direction> CREATOR = new Parcelable.Creator<Direction>() {
+        public Direction createFromParcel(Parcel in) {
+            Direction direction = new Direction();
+            direction.id = in.readInt();
+            direction.percentsResult = in.readInt();
+            direction.title = in.readString();
+            return direction;
+        }
+        public Direction[] newArray(int size) {
+            return new Direction[size];
+        }
+    };
 }

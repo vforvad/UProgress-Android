@@ -4,10 +4,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Debug;
 import android.support.v7.app.AppCompatActivity;
-import android.view.View;
 
 import com.example.vsokoltsov.uprogress.R;
-import com.example.vsokoltsov.uprogress.interfaces.UserApi;
+import com.example.vsokoltsov.uprogress.api.UserApi;
 import com.example.vsokoltsov.uprogress.models.authorization.AuthorizationService;
 import com.example.vsokoltsov.uprogress.models.authorization.CurrentUser;
 import com.example.vsokoltsov.uprogress.utils.ApiRequester;
@@ -68,5 +67,4 @@ public class BaseActivity extends AppCompatActivity {
         startActivity(usersActivity);
         overridePendingTransition(R.anim.pull_in_right, R.anim.push_out_left);
     }
-
 }

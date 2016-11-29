@@ -6,7 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
 import com.example.vsokoltsov.uprogress.R;
-import com.example.vsokoltsov.uprogress.interfaces.UserApi;
+import com.example.vsokoltsov.uprogress.api.UserApi;
 import com.example.vsokoltsov.uprogress.messages.UserMessage;
 import com.example.vsokoltsov.uprogress.models.authorization.AuthorizationService;
 import com.example.vsokoltsov.uprogress.models.authorization.CurrentUser;

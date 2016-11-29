@@ -1,4 +1,4 @@
-package com.example.vsokoltsov.uprogress.interfaces;
+package com.example.vsokoltsov.uprogress.api;
 
 import com.example.vsokoltsov.uprogress.models.authorization.CurrentUser;
 import com.example.vsokoltsov.uprogress.models.directions.DirectionsList;

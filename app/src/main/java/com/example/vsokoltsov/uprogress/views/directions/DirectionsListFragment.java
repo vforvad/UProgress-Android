@@ -9,7 +9,8 @@ import android.view.ViewGroup;
 
 import com.example.vsokoltsov.uprogress.R;
 import com.example.vsokoltsov.uprogress.adapters.DirectionsListAdapter;
-import com.example.vsokoltsov.uprogress.interfaces.DirectionsApi;
+import com.example.vsokoltsov.uprogress.api.DirectionsApi;
+import com.example.vsokoltsov.uprogress.interfaces.DirectionItemClickListener;
 import com.example.vsokoltsov.uprogress.models.User;
 import com.example.vsokoltsov.uprogress.models.authorization.AuthorizationService;
 import com.example.vsokoltsov.uprogress.models.directions.Direction;
@@ -31,7 +32,7 @@ import rx.schedulers.Schedulers;
  * Created by vsokoltsov on 26.11.16.
  */
 
-public class DirectionsListFragment extends Fragment {
+public class DirectionsListFragment extends Fragment implements DirectionItemClickListener {
     private View fragmentView;
     private ApplicationBaseActivity activity;
     private List<Direction> courses = new ArrayList<Direction>();
@@ -60,7 +61,7 @@ public class DirectionsListFragment extends Fragment {
     }
 
     private void setAdapter() {
-        adapter = new DirectionsListAdapter(courses, getActivity());
+        adapter = new DirectionsListAdapter(courses, this);
     }
 
     private void loadDirectionsList() {
@@ -92,5 +93,10 @@ public class DirectionsListFragment extends Fragment {
     private void setDirectionsList(DirectionsList directions) {
         adapter.directions = directions.getDirections();
         adapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onItemClicked(Direction direction) {
+
     }
 }

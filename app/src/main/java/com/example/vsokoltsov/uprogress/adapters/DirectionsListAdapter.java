@@ -1,6 +1,7 @@
 package com.example.vsokoltsov.uprogress.adapters;
 
 import android.app.Activity;
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,10 +21,16 @@ import java.util.List;
 public class DirectionsListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     public List<Direction> directions = new ArrayList<Direction>();
     private Activity activity;
+    public Fragment fragment;
 
     public DirectionsListAdapter(List<Direction> directions, Activity activity) {
         this.directions = directions;
         this.activity = activity;
+    }
+
+    public DirectionsListAdapter(List<Direction> directions, Fragment fragment) {
+        this.directions = directions;
+        this.fragment = fragment;
     }
 
     @Override

@@ -12,7 +12,7 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.example.vsokoltsov.uprogress.R;
-import com.example.vsokoltsov.uprogress.interfaces.UserApi;
+import com.example.vsokoltsov.uprogress.api.UserApi;
 import com.example.vsokoltsov.uprogress.models.authorization.SignIn.SignInRequest;
 import com.example.vsokoltsov.uprogress.models.authorization.Token;
 import com.example.vsokoltsov.uprogress.services.ErrorResponse;
