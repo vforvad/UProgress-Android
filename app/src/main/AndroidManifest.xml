@@ -25,7 +25,9 @@
                 android:value="com.example.vsokoltsov.uprogress.views.directions.DirectionsActivity" />
         </activity>
 
-        <activity android:name=".views.BaseActivity">
+        <activity
+            android:name=".views.BaseActivity"
+            android:noHistory="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

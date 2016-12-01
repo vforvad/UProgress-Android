@@ -259,22 +259,19 @@ public class NavigationDrawer extends Fragment {
             authActivity.putExtra("action", "sign_in");
             startActivity(authActivity);
             getActivity().overridePendingTransition(R.anim.pull_in_right, R.anim.push_out_left);
-            return;
         }
         else if (navItem.getTitle().equals("Sign up")) {
             Intent regActivity = new Intent(getActivity(), AuthorizationActivity.class);
             regActivity.putExtra("action", "sign_up");
             startActivity(regActivity);
             getActivity().overridePendingTransition(R.anim.pull_in_right, R.anim.push_out_left);
-            return;
         }
         else if (navItem.getTitle().equals("Directions")) {
             Intent dirActivity = new Intent(getActivity(), DirectionsActivity.class);
             startActivity(dirActivity);
             getActivity().overridePendingTransition(R.anim.pull_in_right, R.anim.push_out_left);
-            return;
+            mDrawerLayout.closeDrawer(rootView);
         }
-        mDrawerLayout.closeDrawer(rootView);
 // else if (navItem.getTitle().equals(users)) {
 //            Intent usersActivity = new Intent(getActivity(), MainActivity.class);
 //            startActivity(usersActivity);
@@ -292,7 +289,6 @@ public class NavigationDrawer extends Fragment {
 //            getActivity().overridePendingTransition(R.anim.pull_in_right, R.anim.push_out_left);
 //            return;
 //        }
-        mDrawerLayout.closeDrawer(rootView);
     }
 
     private void setItemsActionsForTablet(int position) {
