@@ -16,7 +16,7 @@ import retrofit2.converter.jackson.JacksonConverterFactory;
  * Created by vsokoltsov on 11.03.16.
  */
 public class ApiRequester {
-    private static final String APP_HOST = "http://bde19145.ngrok.io";
+    private static final String APP_HOST = "http://154f5db6.ngrok.io";
     private static final String API_VERSION = "v1/";
     public static final String API_ADDRESS = APP_HOST + "/api/" + API_VERSION;
     public static String TOKEN_NAME = "uprogresstoken";
