@@ -15,6 +15,8 @@ import com.example.vsokoltsov.uprogress.adapters.DirectionsListAdapter;
 import com.example.vsokoltsov.uprogress.interfaces.DirectionItemClickListener;
 import com.example.vsokoltsov.uprogress.models.directions.Direction;
 
+import org.w3c.dom.Text;
+
 /**
  * Created by vsokoltsov on 27.11.16.
  */
@@ -27,6 +29,7 @@ public class DirectionViewHolder extends RecyclerView.ViewHolder implements View
     private Direction direction;
     private DirectionItemClickListener callbacks;
     private ImageView stepsIcon;
+    public TextView directionRation;
 
     static {
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
@@ -43,6 +46,7 @@ public class DirectionViewHolder extends RecyclerView.ViewHolder implements View
         cv = (CardView) itemView.findViewById(R.id.directionItem);
         directionTitle= (TextView) itemView.findViewById(R.id.directionTitle);
         directionPercents = (TextView)itemView.findViewById(R.id.directionPercents);
+        directionRation = (TextView) itemView.findViewById(R.id.directionRation);
         Drawable stepsIconImg = AppCompatResources.getDrawable(adapter.fragment.getActivity().getApplicationContext(), R.drawable.steps);
 //        Drawable stepsIconImg = adapter.fragment.getActivity().getApplicationContext().getResources().getDrawable( R.drawable.steps);
         stepsIcon = (ImageView) itemView.findViewById(R.id.stepsIcon);

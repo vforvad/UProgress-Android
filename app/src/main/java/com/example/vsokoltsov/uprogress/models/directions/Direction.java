@@ -87,4 +87,8 @@ public class Direction implements Parcelable {
     public int getFinishedStepsCount() {
         return finishedStepsCount;
     }
+
+    public String getFinishedStepsRation() {
+        return new StringBuilder().append(finishedStepsCount).append("/").append(stepsCount).toString();
+    }
 }

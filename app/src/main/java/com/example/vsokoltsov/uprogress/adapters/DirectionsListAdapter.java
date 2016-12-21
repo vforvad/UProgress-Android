@@ -49,6 +49,7 @@ public class DirectionsListAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         directionViewHolder.setDirection(direction);
         directionViewHolder.directionTitle.setText(direction.getTitle());
         directionViewHolder.directionPercents.setText(String.format("%d", direction.getPercentsResult()));
+        directionViewHolder.directionRation.setText(direction.getFinishedStepsRation());
 
 //        if (course.getImage() != null) {
 //            String fullURL = course.getImage().getUrl();
