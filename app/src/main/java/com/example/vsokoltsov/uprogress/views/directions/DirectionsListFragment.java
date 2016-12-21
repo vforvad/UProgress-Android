@@ -17,6 +17,7 @@ import com.example.vsokoltsov.uprogress.R;
 import com.example.vsokoltsov.uprogress.adapters.DirectionsListAdapter;
 import com.example.vsokoltsov.uprogress.api.DirectionsApi;
 import com.example.vsokoltsov.uprogress.interfaces.DirectionItemClickListener;
+import com.example.vsokoltsov.uprogress.interfaces.OnLoadMoreListener;
 import com.example.vsokoltsov.uprogress.models.User;
 import com.example.vsokoltsov.uprogress.models.authorization.AuthorizationService;
 import com.example.vsokoltsov.uprogress.models.directions.Direction;
@@ -49,6 +50,7 @@ public class DirectionsListFragment extends Fragment implements DirectionItemCli
     private AuthorizationService authManager = AuthorizationService.getInstance();
     private SwipeRefreshLayout swipeLayout;
     private Boolean showMainLoader = true;
+    private int pageNumber = 1;
 
     private android.support.v4.app.FragmentManager fragmentManager;
 
@@ -62,17 +64,25 @@ public class DirectionsListFragment extends Fragment implements DirectionItemCli
         swipeLayout = (SwipeRefreshLayout) fragmentView.findViewById(R.id.swipe_layout);
         swipeLayout.setOnRefreshListener(this);
         rv = (RecyclerView) fragmentView.findViewById(R.id.directionsList);
-        setAdapter();
-        rv.setAdapter(adapter);
         rv.setHasFixedSize(true);
         LinearLayoutManager llm = new LinearLayoutManager(getActivity());
         rv.setLayoutManager(llm);
+        setAdapter();
+        rv.setAdapter(adapter);
         loadDirectionsList();
         return fragmentView;
     }
 
     private void setAdapter() {
-        adapter = new DirectionsListAdapter(directions, this);
+
+        adapter = new DirectionsListAdapter(directions, this, rv, new OnLoadMoreListener() {
+            @Override
+            public void onLoadMore() {
+                pageNumber++;
+                loadDirectionsList();
+            }
+        });
+
     }
 
     private void loadDirectionsList() {
@@ -82,7 +92,7 @@ public class DirectionsListFragment extends Fragment implements DirectionItemCli
         User currentUser = authManager.getCurrentUser();
         Retrofit retrofit = api.getRestAdapter();
         DirectionsApi service = retrofit.create(DirectionsApi.class);
-        service.getDirections(currentUser.getNick())
+        service.getDirections(currentUser.getNick(), pageNumber)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<DirectionsList>() {
@@ -106,7 +116,15 @@ public class DirectionsListFragment extends Fragment implements DirectionItemCli
     }
 
     private void setDirectionsList(DirectionsList directions) {
-        adapter.directions = directions.getDirections();
+        if (!showMainLoader) {
+            adapter.directions = directions.getDirections();
+        }
+        else {
+            for(int i = 0; i < directions.getDirections().size(); i++) {
+                Direction d = (Direction) directions.getDirections().get(i);
+                adapter.directions.add(d);
+            }
+        }
         adapter.notifyDataSetChanged();
     }
 
@@ -129,6 +147,7 @@ public class DirectionsListFragment extends Fragment implements DirectionItemCli
 
     @Override
     public void onRefresh() {
+        pageNumber = 1;
         showMainLoader = false;
         loadDirectionsList();
     }

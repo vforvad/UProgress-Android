@@ -5,6 +5,7 @@ import com.example.vsokoltsov.uprogress.models.directions.DirectionsList;
 
 import retrofit2.http.GET;
 import retrofit2.http.Path;
+import retrofit2.http.Query;
 import rx.Observable;
 
 /**
@@ -13,5 +14,5 @@ import rx.Observable;
 
 public interface DirectionsApi {
     @GET("users/{user}/directions")
-    Observable<DirectionsList> getDirections(@Path("user") String userId );
+    Observable<DirectionsList> getDirections(@Path("user") String userId, @Query("page") int page);
 }

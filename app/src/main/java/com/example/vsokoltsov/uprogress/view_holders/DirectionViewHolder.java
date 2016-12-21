@@ -1,5 +1,6 @@
 package com.example.vsokoltsov.uprogress.view_holders;
 
+import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.content.res.AppCompatResources;
@@ -47,7 +48,8 @@ public class DirectionViewHolder extends RecyclerView.ViewHolder implements View
         directionTitle= (TextView) itemView.findViewById(R.id.directionTitle);
         directionPercents = (TextView)itemView.findViewById(R.id.directionPercents);
         directionRation = (TextView) itemView.findViewById(R.id.directionRation);
-        Drawable stepsIconImg = AppCompatResources.getDrawable(adapter.fragment.getActivity().getApplicationContext(), R.drawable.steps_icon);
+        Context context = adapter.fragment.getActivity().getApplicationContext();
+        Drawable stepsIconImg = AppCompatResources.getDrawable(context, R.drawable.steps_icon);
 //        Drawable stepsIconImg = adapter.fragment.getActivity().getApplicationContext().getResources().getDrawable( R.drawable.steps);
         stepsIcon = (ImageView) itemView.findViewById(R.id.stepsIcon);
         stepsIcon.setImageDrawable(stepsIconImg);
