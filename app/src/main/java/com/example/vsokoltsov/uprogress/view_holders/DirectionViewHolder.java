@@ -47,7 +47,7 @@ public class DirectionViewHolder extends RecyclerView.ViewHolder implements View
         directionTitle= (TextView) itemView.findViewById(R.id.directionTitle);
         directionPercents = (TextView)itemView.findViewById(R.id.directionPercents);
         directionRation = (TextView) itemView.findViewById(R.id.directionRation);
-        Drawable stepsIconImg = AppCompatResources.getDrawable(adapter.fragment.getActivity().getApplicationContext(), R.drawable.steps);
+        Drawable stepsIconImg = AppCompatResources.getDrawable(adapter.fragment.getActivity().getApplicationContext(), R.drawable.steps_icon);
 //        Drawable stepsIconImg = adapter.fragment.getActivity().getApplicationContext().getResources().getDrawable( R.drawable.steps);
         stepsIcon = (ImageView) itemView.findViewById(R.id.stepsIcon);
         stepsIcon.setImageDrawable(stepsIconImg);
