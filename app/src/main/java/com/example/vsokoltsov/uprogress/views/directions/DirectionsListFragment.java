@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.TaskStackBuilder;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -38,14 +39,16 @@ import rx.schedulers.Schedulers;
  * Created by vsokoltsov on 26.11.16.
  */
 
-public class DirectionsListFragment extends Fragment implements DirectionItemClickListener {
+public class DirectionsListFragment extends Fragment implements DirectionItemClickListener, SwipeRefreshLayout.OnRefreshListener  {
     private View fragmentView;
     private ApplicationBaseActivity activity;
-    private List<Direction> courses = new ArrayList<Direction>();
+    private List<Direction> directions = new ArrayList<Direction>();
     private RecyclerView rv;
     private DirectionsListAdapter adapter;
     private ApiRequester api = ApiRequester.getInstance();
     private AuthorizationService authManager = AuthorizationService.getInstance();
+    private SwipeRefreshLayout swipeLayout;
+    private Boolean showMainLoader = true;
 
     private android.support.v4.app.FragmentManager fragmentManager;
 
@@ -56,6 +59,8 @@ public class DirectionsListFragment extends Fragment implements DirectionItemCli
         activity = (ApplicationBaseActivity) getActivity();
 
         fragmentView = inflater.inflate(R.layout.directions_list_fragment, container, false);
+        swipeLayout = (SwipeRefreshLayout) fragmentView.findViewById(R.id.swipe_layout);
+        swipeLayout.setOnRefreshListener(this);
         rv = (RecyclerView) fragmentView.findViewById(R.id.directionsList);
         setAdapter();
         rv.setAdapter(adapter);
@@ -67,11 +72,13 @@ public class DirectionsListFragment extends Fragment implements DirectionItemCli
     }
 
     private void setAdapter() {
-        adapter = new DirectionsListAdapter(courses, this);
+        adapter = new DirectionsListAdapter(directions, this);
     }
 
     private void loadDirectionsList() {
-        activity.showProgress(R.string.loading);
+        if (showMainLoader) {
+            activity.showProgress(R.string.loading);
+        }
         User currentUser = authManager.getCurrentUser();
         Retrofit retrofit = api.getRestAdapter();
         DirectionsApi service = retrofit.create(DirectionsApi.class);
@@ -81,9 +88,9 @@ public class DirectionsListFragment extends Fragment implements DirectionItemCli
                 .subscribe(new Observer<DirectionsList>() {
                     @Override
                     public void onCompleted() {
-//                        swipeLayout.setRefreshing(false);
-//                        activity.dismissProgress();
+                        swipeLayout.setRefreshing(false);
                         activity.dismissProgress();
+                        showMainLoader = true;
                     }
 
                     @Override
@@ -118,5 +125,11 @@ public class DirectionsListFragment extends Fragment implements DirectionItemCli
         builder.setContentIntent(pendingIntent);
         startActivity(detailIntent);
         getActivity().overridePendingTransition(R.anim.pull_in_right, R.anim.push_out_left);
+    }
+
+    @Override
+    public void onRefresh() {
+        showMainLoader = false;
+        loadDirectionsList();
     }
 }
