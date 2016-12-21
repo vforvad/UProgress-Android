@@ -1,5 +1,6 @@
 package com.example.vsokoltsov.uprogress.views.directions;
 
+import android.app.Application;
 import android.app.PendingIntent;
 import android.content.Intent;
 import android.os.Bundle;
@@ -21,6 +22,7 @@ import com.example.vsokoltsov.uprogress.models.directions.Direction;
 import com.example.vsokoltsov.uprogress.models.directions.DirectionsList;
 import com.example.vsokoltsov.uprogress.utils.ApiRequester;
 import com.example.vsokoltsov.uprogress.views.ApplicationBaseActivity;
+import com.example.vsokoltsov.uprogress.views.BaseActivity;
 
 import org.solovyev.android.views.llm.LinearLayoutManager;
 
@@ -69,6 +71,7 @@ public class DirectionsListFragment extends Fragment implements DirectionItemCli
     }
 
     private void loadDirectionsList() {
+        activity.showProgress(R.string.loading);
         User currentUser = authManager.getCurrentUser();
         Retrofit retrofit = api.getRestAdapter();
         DirectionsApi service = retrofit.create(DirectionsApi.class);
@@ -80,6 +83,7 @@ public class DirectionsListFragment extends Fragment implements DirectionItemCli
                     public void onCompleted() {
 //                        swipeLayout.setRefreshing(false);
 //                        activity.dismissProgress();
+                        activity.dismissProgress();
                     }
 
                     @Override

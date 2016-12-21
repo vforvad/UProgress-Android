@@ -1,5 +1,6 @@
 package com.example.vsokoltsov.uprogress.views;
 
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -28,6 +29,7 @@ public class ApplicationBaseActivity extends AppCompatActivity {
     private Toolbar mActionBarToolbar;
     private NavigationDrawer mNavigationDrawerFragment;
     private DrawerLayout drawerLayout;
+    private ProgressDialog mProgressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +58,21 @@ public class ApplicationBaseActivity extends AppCompatActivity {
                         currentUserReceived(user);
                     }
                 });
+    }
+
+    public void showProgress(int msg) {
+        if (mProgressDialog != null && mProgressDialog.isShowing()) {
+            dismissProgress();
+        }
+
+        mProgressDialog = ProgressDialog.show(this, getResources().getString(R.string.app_name), getResources().getString(msg));
+    }
+
+    public void dismissProgress() {
+        if (mProgressDialog != null) {
+            mProgressDialog.dismiss();
+            mProgressDialog = null;
+        }
     }
 
     public void currentUserReceived(CurrentUser user) {

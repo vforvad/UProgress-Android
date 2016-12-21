@@ -1,5 +1,6 @@
 package com.example.vsokoltsov.uprogress.views;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Debug;
@@ -23,6 +24,7 @@ import rx.schedulers.Schedulers;
 
 public class BaseActivity extends AppCompatActivity {
     private ApiRequester api = ApiRequester.getInstance();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
