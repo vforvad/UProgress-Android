@@ -1,6 +1,5 @@
 package com.example.vsokoltsov.uprogress.views.directions;
 
-import android.app.Application;
 import android.app.PendingIntent;
 import android.content.Intent;
 import android.os.Bundle;
@@ -17,14 +16,12 @@ import com.example.vsokoltsov.uprogress.R;
 import com.example.vsokoltsov.uprogress.adapters.DirectionsListAdapter;
 import com.example.vsokoltsov.uprogress.api.DirectionsApi;
 import com.example.vsokoltsov.uprogress.interfaces.DirectionItemClickListener;
-import com.example.vsokoltsov.uprogress.interfaces.OnLoadMoreListener;
 import com.example.vsokoltsov.uprogress.models.User;
 import com.example.vsokoltsov.uprogress.models.authorization.AuthorizationService;
 import com.example.vsokoltsov.uprogress.models.directions.Direction;
 import com.example.vsokoltsov.uprogress.models.directions.DirectionsList;
 import com.example.vsokoltsov.uprogress.utils.ApiRequester;
 import com.example.vsokoltsov.uprogress.views.ApplicationBaseActivity;
-import com.example.vsokoltsov.uprogress.views.BaseActivity;
 
 import org.solovyev.android.views.llm.LinearLayoutManager;
 
@@ -32,7 +29,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Retrofit;
+import rx.Observable;
 import rx.Observer;
+import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
@@ -51,6 +50,11 @@ public class DirectionsListFragment extends Fragment implements DirectionItemCli
     private SwipeRefreshLayout swipeLayout;
     private Boolean showMainLoader = true;
     private int pageNumber = 1;
+    private LinearLayoutManager llm;
+    private boolean canLoad = true;
+    private static int firstVisibleInListview;
+
+
 
     private android.support.v4.app.FragmentManager fragmentManager;
 
@@ -65,27 +69,36 @@ public class DirectionsListFragment extends Fragment implements DirectionItemCli
         swipeLayout.setOnRefreshListener(this);
         rv = (RecyclerView) fragmentView.findViewById(R.id.directionsList);
         rv.setHasFixedSize(true);
-        LinearLayoutManager llm = new LinearLayoutManager(getActivity());
+        llm = new LinearLayoutManager(getActivity());
         rv.setLayoutManager(llm);
         setAdapter();
         rv.setAdapter(adapter);
+        rv.setOnScrollListener(new RecyclerView.OnScrollListener(){
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                if (canLoad) {
+                    LinearLayoutManager layoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
+                    int lastLayoutPosition = layoutManager.findLastCompletelyVisibleItemPosition();
+                    int itemsCount = layoutManager.getItemCount() - 2;
+                    if (lastLayoutPosition == itemsCount && dy > 0) {
+                        pageNumber++;
+                        loadDirectionsList();
+                        firstVisibleInListview = lastLayoutPosition;
+                    }
+                }
+
+            }
+        });
         loadDirectionsList();
         return fragmentView;
     }
 
     private void setAdapter() {
-
-        adapter = new DirectionsListAdapter(directions, this, rv, new OnLoadMoreListener() {
-            @Override
-            public void onLoadMore() {
-                pageNumber++;
-                loadDirectionsList();
-            }
-        });
-
+        adapter = new DirectionsListAdapter(directions, this);
     }
 
     private void loadDirectionsList() {
+        canLoad = false;
         if (showMainLoader) {
             activity.showProgress(R.string.loading);
         }
@@ -101,6 +114,9 @@ public class DirectionsListFragment extends Fragment implements DirectionItemCli
                         swipeLayout.setRefreshing(false);
                         activity.dismissProgress();
                         showMainLoader = true;
+                        canLoad = true;
+                        int firstVisibleItem = llm.findFirstVisibleItemPosition();
+                        firstVisibleInListview = firstVisibleItem;
                     }
 
                     @Override

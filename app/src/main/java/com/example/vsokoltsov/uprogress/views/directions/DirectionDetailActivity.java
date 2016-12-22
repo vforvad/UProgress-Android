@@ -11,6 +11,7 @@ import com.example.vsokoltsov.uprogress.models.directions.Direction;
 import com.example.vsokoltsov.uprogress.models.directions.DirectionsList;
 import com.example.vsokoltsov.uprogress.views.ApplicationBaseActivity;
 
+
 /**
  * Created by vsokoltsov on 29.11.16.
  */

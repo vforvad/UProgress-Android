@@ -27,7 +27,7 @@ public class DirectionsListAdapter extends RecyclerView.Adapter<RecyclerView.Vie
     private Activity activity;
     public Fragment fragment;
 
-    private final int VISIBLE_THRESHOLD = 5;
+    private final int VISIBLE_THRESHOLD = 6;
 
     private final int ITEM_VIEW_TYPE_BASIC = 0;
     private final int ITEM_VIEW_TYPE_FOOTER = 1;
@@ -66,7 +66,7 @@ public class DirectionsListAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                         }
                     }
                     if (!loading && (totalItemCount - visibleItemCount)
-                            <= (firstVisibleItem + VISIBLE_THRESHOLD) && (totalItemCount != visibleItemCount)) {
+                            <= (firstVisibleItem + VISIBLE_THRESHOLD)) {
                         // End has been reached
 
 //                        addDirection(null);
