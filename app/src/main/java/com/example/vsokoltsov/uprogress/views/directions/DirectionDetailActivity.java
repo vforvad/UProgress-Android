@@ -51,6 +51,17 @@ public class DirectionDetailActivity extends ApplicationBaseActivity {
         }
     }
 
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        return true;
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+    }
+
     private void getExtras() {
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
