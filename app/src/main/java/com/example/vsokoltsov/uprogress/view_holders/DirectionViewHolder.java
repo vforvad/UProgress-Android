@@ -44,7 +44,6 @@ public class DirectionViewHolder extends RecyclerView.ViewHolder implements View
         super(itemView);
         this.adapter = adapter;
         callbacks = (DirectionItemClickListener) adapter.fragment;
-        cv = (CardView) itemView.findViewById(R.id.directionItem);
         directionTitle= (TextView) itemView.findViewById(R.id.directionTitle);
         directionPercents = (TextView)itemView.findViewById(R.id.directionPercents);
         directionRation = (TextView) itemView.findViewById(R.id.directionRation);

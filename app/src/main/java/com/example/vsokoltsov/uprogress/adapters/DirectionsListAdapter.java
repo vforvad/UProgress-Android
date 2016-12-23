@@ -12,6 +12,7 @@ import com.example.vsokoltsov.uprogress.R;
 import com.example.vsokoltsov.uprogress.interfaces.OnLoadMoreListener;
 import com.example.vsokoltsov.uprogress.models.directions.Direction;
 import com.example.vsokoltsov.uprogress.view_holders.DirectionViewHolder;
+import com.example.vsokoltsov.uprogress.views.directions.DirectionCompletionItemView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,7 +23,7 @@ import static com.example.vsokoltsov.uprogress.R.string.loading;
  * Created by vsokoltsov on 27.11.16.
  */
 
-public class DirectionsListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class DirectionsListAdapter extends RecyclerView.Adapter<DirectionsListAdapter.DirectionViewHolder> {
     public List<Direction> directions = new ArrayList<Direction>();
     private Activity activity;
     public Fragment fragment;
@@ -88,37 +89,29 @@ public class DirectionsListAdapter extends RecyclerView.Adapter<RecyclerView.Vie
     }
 
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.direction_list_item, parent, false);
-        DirectionViewHolder viewHolder = new DirectionViewHolder(v, this);
-        return viewHolder;
+    public DirectionViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.direction_completion_view_item, parent, false);
+        return new DirectionViewHolder(v);
     }
-
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        DirectionViewHolder directionViewHolder = (DirectionViewHolder) holder;
-        Direction direction = directions.get(position);
-
-        directionViewHolder.setDirection(direction);
-        directionViewHolder.directionTitle.setText(direction.getTitle());
-        directionViewHolder.directionPercents.setText(String.format("%d", direction.getPercentsResult()));
-        directionViewHolder.directionRation.setText(direction.getFinishedStepsRation());
-
-//        if (course.getImage() != null) {
-//            String fullURL = course.getImage().getUrl();
-//            Picasso.with(this.activity.getApplicationContext())
-//                    .load(fullURL)
-//                    .placeholder(emptyUser)
-//                    .into(courseViewHolder.courseImage);
-//        }
-//        else {
-//            courseViewHolder.courseImage.setImageDrawable(emptyUser);
-//        }
+    public void onBindViewHolder(DirectionViewHolder holder, int position) {
+        holder.bind(directions.get(position));
     }
 
 
+    public class DirectionViewHolder extends RecyclerView.ViewHolder {
+        private DirectionCompletionItemView directionCompletionItemView;
 
+        public DirectionViewHolder(View itemView) {
+            super(itemView);
+            directionCompletionItemView = (DirectionCompletionItemView) itemView;
+        }
+
+        public void bind(Direction direction) {
+            directionCompletionItemView.bind(direction);
+        }
+    }
 
     @Override
     public int getItemCount() {
