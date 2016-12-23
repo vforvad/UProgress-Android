@@ -11,6 +11,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 
 import com.example.vsokoltsov.uprogress.R;
 import com.example.vsokoltsov.uprogress.adapters.DirectionsListAdapter;
@@ -53,6 +54,7 @@ public class DirectionsListFragment extends Fragment implements DirectionItemCli
     private LinearLayoutManager llm;
     private boolean canLoad = true;
     private static int firstVisibleInListview;
+    private ProgressBar progressBar;
 
 
 
@@ -67,6 +69,7 @@ public class DirectionsListFragment extends Fragment implements DirectionItemCli
         fragmentView = inflater.inflate(R.layout.directions_list_fragment, container, false);
         swipeLayout = (SwipeRefreshLayout) fragmentView.findViewById(R.id.swipe_layout);
         swipeLayout.setOnRefreshListener(this);
+        progressBar = (ProgressBar) fragmentView.findViewById(R.id.progressBar);
         rv = (RecyclerView) fragmentView.findViewById(R.id.directionsList);
         rv.setHasFixedSize(true);
         llm = new LinearLayoutManager(getActivity());
@@ -99,9 +102,10 @@ public class DirectionsListFragment extends Fragment implements DirectionItemCli
 
     private void loadDirectionsList() {
         canLoad = false;
-        if (showMainLoader) {
-            activity.showProgress(R.string.loading);
-        }
+//        if (showMainLoader) {
+//            activity.showProgress(R.string.loading);
+//        }
+        progressBar.setVisibility(View.VISIBLE);
         User currentUser = authManager.getCurrentUser();
         Retrofit retrofit = api.getRestAdapter();
         DirectionsApi service = retrofit.create(DirectionsApi.class);
@@ -112,7 +116,7 @@ public class DirectionsListFragment extends Fragment implements DirectionItemCli
                     @Override
                     public void onCompleted() {
                         swipeLayout.setRefreshing(false);
-                        activity.dismissProgress();
+                        progressBar.setVisibility(View.GONE);
                         showMainLoader = true;
                         canLoad = true;
                         int firstVisibleItem = llm.findFirstVisibleItemPosition();
