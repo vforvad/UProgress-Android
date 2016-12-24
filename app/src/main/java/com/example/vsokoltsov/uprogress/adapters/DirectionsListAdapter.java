@@ -11,13 +11,10 @@ import android.view.ViewGroup;
 import com.example.vsokoltsov.uprogress.R;
 import com.example.vsokoltsov.uprogress.interfaces.OnLoadMoreListener;
 import com.example.vsokoltsov.uprogress.models.directions.Direction;
-import com.example.vsokoltsov.uprogress.view_holders.DirectionViewHolder;
-import com.example.vsokoltsov.uprogress.views.directions.DirectionCompletionItemView;
+import com.example.vsokoltsov.uprogress.ui.directions.DirectionCompletionItemView;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import static com.example.vsokoltsov.uprogress.R.string.loading;
 
 /**
  * Created by vsokoltsov on 27.11.16.

@@ -1,4 +1,4 @@
-package com.example.vsokoltsov.uprogress.views.navigation;
+package com.example.vsokoltsov.uprogress.ui.navigation;
 
 import android.app.Activity;
 import android.content.Context;
@@ -10,7 +10,6 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -27,8 +26,8 @@ import com.example.vsokoltsov.uprogress.messages.UserMessage;
 import com.example.vsokoltsov.uprogress.models.NavigationItem;
 import com.example.vsokoltsov.uprogress.models.authorization.AuthorizationService;
 import com.example.vsokoltsov.uprogress.utils.ApiRequester;
-import com.example.vsokoltsov.uprogress.views.authorizations.AuthorizationActivity;
-import com.example.vsokoltsov.uprogress.views.directions.DirectionsActivity;
+import com.example.vsokoltsov.uprogress.ui.authorizations.AuthorizationActivity;
+import com.example.vsokoltsov.uprogress.ui.directions.DirectionsActivity;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;

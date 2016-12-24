@@ -1,19 +1,14 @@
-package com.example.vsokoltsov.uprogress.views.directions;
+package com.example.vsokoltsov.uprogress.ui.directions;
 
 import android.content.Context;
-import android.graphics.drawable.Drawable;
 import android.support.v7.app.AppCompatDelegate;
-import android.support.v7.content.res.AppCompatResources;
 import android.support.v7.widget.CardView;
 import android.util.AttributeSet;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.vsokoltsov.uprogress.R;
 import com.example.vsokoltsov.uprogress.models.directions.Direction;
-
-import org.w3c.dom.Text;
 
 /**
  * Created by vsokoltsov on 24.12.16.

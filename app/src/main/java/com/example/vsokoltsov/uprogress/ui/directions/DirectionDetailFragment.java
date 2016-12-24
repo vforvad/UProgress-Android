@@ -1,16 +1,13 @@
-package com.example.vsokoltsov.uprogress.views.directions;
+package com.example.vsokoltsov.uprogress.ui.directions;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.vsokoltsov.uprogress.R;
-import com.example.vsokoltsov.uprogress.views.ApplicationBaseActivity;
-
-import org.solovyev.android.views.llm.LinearLayoutManager;
+import com.example.vsokoltsov.uprogress.ui.ApplicationBaseActivity;
 
 /**
  * Created by vsokoltsov on 29.11.16.

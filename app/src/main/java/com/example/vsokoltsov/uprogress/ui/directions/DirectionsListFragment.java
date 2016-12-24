@@ -1,4 +1,4 @@
-package com.example.vsokoltsov.uprogress.views.directions;
+package com.example.vsokoltsov.uprogress.ui.directions;
 
 import android.app.PendingIntent;
 import android.content.Intent;
@@ -22,7 +22,7 @@ import com.example.vsokoltsov.uprogress.models.authorization.AuthorizationServic
 import com.example.vsokoltsov.uprogress.models.directions.Direction;
 import com.example.vsokoltsov.uprogress.models.directions.DirectionsList;
 import com.example.vsokoltsov.uprogress.utils.ApiRequester;
-import com.example.vsokoltsov.uprogress.views.ApplicationBaseActivity;
+import com.example.vsokoltsov.uprogress.ui.ApplicationBaseActivity;
 
 import org.solovyev.android.views.llm.LinearLayoutManager;
 
@@ -30,9 +30,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Retrofit;
-import rx.Observable;
 import rx.Observer;
-import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 

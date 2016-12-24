@@ -1,4 +1,4 @@
-package com.example.vsokoltsov.uprogress.views.authorizations;
+package com.example.vsokoltsov.uprogress.ui.authorizations;
 
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -16,7 +16,7 @@ import com.example.vsokoltsov.uprogress.models.authorization.Token;
 import com.example.vsokoltsov.uprogress.services.ErrorResponse;
 import com.example.vsokoltsov.uprogress.utils.ApiRequester;
 import com.example.vsokoltsov.uprogress.utils.RetrofitException;
-import com.example.vsokoltsov.uprogress.views.ApplicationBaseActivity;
+import com.example.vsokoltsov.uprogress.ui.ApplicationBaseActivity;
 
 import java.io.IOException;
 

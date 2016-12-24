@@ -1,15 +1,13 @@
-package com.example.vsokoltsov.uprogress.views.directions;
+package com.example.vsokoltsov.uprogress.ui.directions;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
-import android.support.v4.app.TaskStackBuilder;
 import android.view.MenuItem;
 
 import com.example.vsokoltsov.uprogress.R;
 import com.example.vsokoltsov.uprogress.models.directions.Direction;
-import com.example.vsokoltsov.uprogress.models.directions.DirectionsList;
-import com.example.vsokoltsov.uprogress.views.ApplicationBaseActivity;
+import com.example.vsokoltsov.uprogress.ui.ApplicationBaseActivity;
 
 
 /**

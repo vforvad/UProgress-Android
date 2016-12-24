@@ -1,4 +1,4 @@
-package com.example.vsokoltsov.uprogress.views;
+package com.example.vsokoltsov.uprogress.ui;
 
 import android.app.ProgressDialog;
 import android.os.Bundle;
@@ -12,7 +12,7 @@ import com.example.vsokoltsov.uprogress.messages.UserMessage;
 import com.example.vsokoltsov.uprogress.models.authorization.AuthorizationService;
 import com.example.vsokoltsov.uprogress.models.authorization.CurrentUser;
 import com.example.vsokoltsov.uprogress.utils.ApiRequester;
-import com.example.vsokoltsov.uprogress.views.navigation.NavigationDrawer;
+import com.example.vsokoltsov.uprogress.ui.navigation.NavigationDrawer;
 
 import org.greenrobot.eventbus.EventBus;
 

@@ -1,4 +1,4 @@
-package com.example.vsokoltsov.uprogress.views.authorizations;
+package com.example.vsokoltsov.uprogress.ui.authorizations;
 
 import android.content.res.Resources;
 import android.graphics.drawable.ColorDrawable;
@@ -13,12 +13,10 @@ import android.view.ViewGroup;
 import com.example.vsokoltsov.uprogress.R;
 import com.example.vsokoltsov.uprogress.adapters.AuthorizationViewPagerAdapter;
 import com.example.vsokoltsov.uprogress.utils.SlidingTabLayout;
-import com.example.vsokoltsov.uprogress.views.ApplicationBaseActivity;
+import com.example.vsokoltsov.uprogress.ui.ApplicationBaseActivity;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import static android.support.v7.appcompat.R.color.highlighted_text_material_light;
 
 /**
  * Created by vsokoltsov on 22.11.16.

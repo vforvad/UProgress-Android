@@ -13,20 +13,20 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".views.authorizations.AuthorizationActivity">
+        <activity android:name=".ui.authorizations.AuthorizationActivity">
         </activity>
-        <activity android:name=".views.directions.DirectionsActivity">
+        <activity android:name=".ui.directions.DirectionsActivity">
         </activity>
         <activity
-            android:name=".views.directions.DirectionDetailActivity"
-            android:parentActivityName=".views.directions.DirectionsActivity">
+            android:name=".ui.directions.DirectionDetailActivity"
+            android:parentActivityName=".ui.directions.DirectionsActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.example.vsokoltsov.uprogress.views.directions.DirectionsActivity" />
+                android:value="com.example.vsokoltsov.uprogress.ui.directions.DirectionsActivity" />
         </activity>
 
         <activity
-            android:name=".views.BaseActivity"
+            android:name=".ui.BaseActivity"
             android:noHistory="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

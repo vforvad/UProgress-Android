@@ -4,8 +4,8 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
-import com.example.vsokoltsov.uprogress.views.authorizations.SignInFragment;
-import com.example.vsokoltsov.uprogress.views.authorizations.SignUpFragment;
+import com.example.vsokoltsov.uprogress.ui.authorizations.SignInFragment;
+import com.example.vsokoltsov.uprogress.ui.authorizations.SignUpFragment;
 
 import java.util.List;
 

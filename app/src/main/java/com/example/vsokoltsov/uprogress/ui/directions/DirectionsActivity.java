@@ -1,10 +1,9 @@
-package com.example.vsokoltsov.uprogress.views.directions;
+package com.example.vsokoltsov.uprogress.ui.directions;
 
 import android.os.Bundle;
 
 import com.example.vsokoltsov.uprogress.R;
-import com.example.vsokoltsov.uprogress.views.ApplicationBaseActivity;
-import com.example.vsokoltsov.uprogress.views.authorizations.AuthorizationBaseFragment;
+import com.example.vsokoltsov.uprogress.ui.ApplicationBaseActivity;
 
 /**
  * Created by vsokoltsov on 26.11.16.

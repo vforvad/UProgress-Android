@@ -1,14 +1,13 @@
-package com.example.vsokoltsov.uprogress.views.authorizations;
+package com.example.vsokoltsov.uprogress.ui.authorizations;
 
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.widget.Toolbar;
 
 import com.example.vsokoltsov.uprogress.R;
-import com.example.vsokoltsov.uprogress.views.ApplicationBaseActivity;
-import com.example.vsokoltsov.uprogress.views.navigation.NavigationDrawer;
+import com.example.vsokoltsov.uprogress.ui.ApplicationBaseActivity;
+import com.example.vsokoltsov.uprogress.ui.navigation.NavigationDrawer;
 
 public class AuthorizationActivity extends ApplicationBaseActivity{
     private String action;

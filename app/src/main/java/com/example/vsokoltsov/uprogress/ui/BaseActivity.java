@@ -1,6 +1,5 @@
-package com.example.vsokoltsov.uprogress.views;
+package com.example.vsokoltsov.uprogress.ui;
 
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Debug;
@@ -11,7 +10,7 @@ import com.example.vsokoltsov.uprogress.api.UserApi;
 import com.example.vsokoltsov.uprogress.models.authorization.AuthorizationService;
 import com.example.vsokoltsov.uprogress.models.authorization.CurrentUser;
 import com.example.vsokoltsov.uprogress.utils.ApiRequester;
-import com.example.vsokoltsov.uprogress.views.authorizations.AuthorizationActivity;
+import com.example.vsokoltsov.uprogress.ui.authorizations.AuthorizationActivity;
 
 import retrofit2.Retrofit;
 import rx.Observer;
