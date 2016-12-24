@@ -13,12 +13,19 @@ import android.widget.EditText;
 
 import com.example.vsokoltsov.uprogress.R;
 import com.example.vsokoltsov.uprogress.api.UserApi;
+import com.example.vsokoltsov.uprogress.models.authorization.SignIn.SignInModelImpl;
 import com.example.vsokoltsov.uprogress.models.authorization.SignIn.SignInRequest;
+import com.example.vsokoltsov.uprogress.models.authorization.SignInModel;
 import com.example.vsokoltsov.uprogress.models.authorization.Token;
+import com.example.vsokoltsov.uprogress.presenters.SignInPresenter;
+import com.example.vsokoltsov.uprogress.presenters.SignInPresenterImpl;
 import com.example.vsokoltsov.uprogress.services.ErrorResponse;
 import com.example.vsokoltsov.uprogress.utils.ApiRequester;
 import com.example.vsokoltsov.uprogress.utils.RetrofitException;
 import com.example.vsokoltsov.uprogress.ui.ApplicationBaseActivity;
+import com.example.vsokoltsov.uprogress.view_holders.SignInViewHolder;
+import com.example.vsokoltsov.uprogress.views.SignInView;
+import com.example.vsokoltsov.uprogress.views.SignInViewImpl;
 
 import java.io.IOException;
 
@@ -36,6 +43,7 @@ public class SignInFragment extends Fragment implements Button.OnClickListener {
     private ApplicationBaseActivity activity;
     private EditText emailField;
     private EditText passwordField;
+    private SignInPresenter presenter;
 
     static
     {
@@ -49,9 +57,20 @@ public class SignInFragment extends Fragment implements Button.OnClickListener {
         activity = (ApplicationBaseActivity) getActivity();
 
         fragmentView = inflater.inflate(R.layout.sign_in_fragment, container, false);
-        setIconsForFields();
-        Button signInButton = (Button) fragmentView.findViewById(R.id.signInButton);
-        signInButton.setOnClickListener(this);
+        Button button = (Button) fragmentView.findViewById(R.id.signInButton);
+        button.setOnClickListener(this);
+        final SignInViewHolder viewHolder = new SignInViewHolder(
+                (EditText) fragmentView.findViewById(R.id.emailField),
+                (EditText) fragmentView.findViewById(R.id.passwordField),
+                button
+        );
+        final SignInModel model = new SignInModelImpl(viewHolder);
+        final SignInView view = new SignInViewImpl(viewHolder);
+        presenter = new SignInPresenterImpl(model, view);
+        presenter.onCreate(this);
+//        setIconsForFields();
+//        Button signInButton = (Button) fragmentView.findViewById(R.id.signInButton);
+//        signInButton.setOnClickListener(this);
         return fragmentView;
     }
 
@@ -69,51 +88,34 @@ public class SignInFragment extends Fragment implements Button.OnClickListener {
 
     @Override
     public void onClick(View v) {
-        SignInRequest user = new SignInRequest(emailField.getText().toString(),
-                passwordField.getText().toString());
-        Retrofit retrofit = ApiRequester.getInstance().getRestAdapter();
-        UserApi service = retrofit.create(UserApi.class);
-        service.signIn(user)
-                .subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<Token>() {
-                    @Override
-                    public void onCompleted() {
-//                        activity.dismissProgress();
-                        Log.d("tag", "request completed");
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        try {
-                            handleErrors(e);
-                        } catch (IOException e1) {
-                            e1.printStackTrace();
-                        }
-                    }
-
-                    @Override
-                    public void onNext(Token token) {
-                        successAuth(token);
-                    }
-                });
-//        activity.showProgress(R.string.sign_in_action);
-
+        presenter.onSignInSubmit();
     }
 
-    private void  successAuth(Token token) {
-        String str = token.getToken();
-        ApiRequester.getInstance().setToken(token.getToken());
-        activity.currentUserRequest();
-    }
+//    @Override
+//    public void onClick(View v) {
+//        SignInRequest user = new SignInRequest(emailField.getText().toString(),
+//                passwordField.getText().toString());
+//        Retrofit retrofit = ApiRequester.getInstance().getRestAdapter();
+//        UserApi service = retrofit.create(UserApi.class);
+//        service.signIn(user)
 
-    private void handleErrors(Throwable t) throws IOException {
-        RetrofitException error = (RetrofitException) t;
-        t.printStackTrace();
-        ErrorResponse errors = error.getErrorBodyAs(ErrorResponse.class);
-        emailField.setError(errors.getFullErrorMessage("email"));
-        passwordField.setError(errors.getFullErrorMessage("password"));
-
-//        activity.dismissProgress();
-    }
+////        activity.showProgress(R.string.sign_in_action);
+//
+//    }
+//
+//    private void  successAuth(Token token) {
+//        String str = token.getToken();
+//        ApiRequester.getInstance().setToken(token.getToken());
+//        activity.currentUserRequest();
+//    }
+//
+//    private void handleErrors(Throwable t) throws IOException {
+//        RetrofitException error = (RetrofitException) t;
+//        t.printStackTrace();
+//        ErrorResponse errors = error.getErrorBodyAs(ErrorResponse.class);
+//        emailField.setError(errors.getFullErrorMessage("email"));
+//        passwordField.setError(errors.getFullErrorMessage("password"));
+//
+////        activity.dismissProgress();
+//    }
 }

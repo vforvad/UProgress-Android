@@ -1,6 +1,5 @@
 package com.example.vsokoltsov.uprogress.models.authorization.SignUp;
 
-import com.example.vsokoltsov.uprogress.models.authorization.SignIn.SignInData;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
@@ -9,7 +8,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class SignUpRequest {
     @JsonProperty("user")
-    private SignInData data;
+    private SignUpData data;
 
     public SignUpRequest(String email, String password, String passwordConfirmation, String nick) {
         this.data = new SignUpData(email, password, passwordConfirmation, nick);
