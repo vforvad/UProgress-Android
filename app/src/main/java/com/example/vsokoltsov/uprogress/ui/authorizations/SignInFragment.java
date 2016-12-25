@@ -45,11 +45,6 @@ public class SignInFragment extends Fragment implements Button.OnClickListener {
     private EditText passwordField;
     private SignInPresenter presenter;
 
-    static
-    {
-        AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
-    }
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -64,6 +59,9 @@ public class SignInFragment extends Fragment implements Button.OnClickListener {
                 (EditText) fragmentView.findViewById(R.id.passwordField),
                 button
         );
+
+        viewHolder.setFields(getContext());
+
         final SignInModel model = new SignInModelImpl(viewHolder);
         final SignInView view = new SignInViewImpl(viewHolder);
         presenter = new SignInPresenterImpl(model, view);

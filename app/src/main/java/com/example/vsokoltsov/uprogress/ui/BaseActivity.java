@@ -22,12 +22,10 @@ import rx.schedulers.Schedulers;
  */
 
 public class BaseActivity extends AppCompatActivity {
-    private ApiRequester api = ApiRequester.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        api.setContext(getApplicationContext());
         setContentView(R.layout.authorization_activity);
         currentUserRequest();
     }

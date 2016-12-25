@@ -112,7 +112,7 @@ public class SignUpFragment extends Fragment implements Button.OnClickListener {
 
     private void  successAuth(Token token) {
         String str = token.getToken();
-        ApiRequester.getInstance().setToken(token.getToken());
+        Token.writeToken(token.getToken());
         activity.currentUserRequest();
     }
 }

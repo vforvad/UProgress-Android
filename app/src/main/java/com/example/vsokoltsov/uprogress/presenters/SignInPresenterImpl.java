@@ -30,7 +30,7 @@ public class SignInPresenterImpl implements SignInPresenter {
 
     @Override
     public void onCreate(Fragment fragment) {
-        
+
     }
 
     @Override
@@ -41,8 +41,10 @@ public class SignInPresenterImpl implements SignInPresenter {
                 .flatMap(new Func1<Token, Observable<CurrentUser>>() {
                     @Override
                     public Observable<CurrentUser> call(Token token) {
-
-                        return model.getCurrentUser();
+                        Token.writeToken(token.getToken());
+                        return model.getCurrentUser()
+                                .subscribeOn(Schedulers.newThread())
+                                .observeOn(AndroidSchedulers.mainThread());
                     }
                 })
                 .subscribe(new Observer<CurrentUser>() {
@@ -53,34 +55,13 @@ public class SignInPresenterImpl implements SignInPresenter {
 
                     @Override
                     public void onError(Throwable e) {
-
+                        e.printStackTrace();
                     }
 
                     @Override
                     public void onNext(CurrentUser currentUser) {
-
+                        // TODO Add redirect to user's profile
                     }
                 });
-//                .subscribe(new Observer<CurrentUser>() {
-//                    @Override
-//                    public void onCompleted() {
-//                        Log.d("tag", "request completed");
-//                    }
-//
-//                    @Override
-//                    public void onError(Throwable t) {
-//                        try {
-//                            view.failedResponse(t);
-//                        } catch (IOException e) {
-//                            e.printStackTrace();
-//                        }
-//                    }
-//
-//                    @Override
-//                    public void onNext(CurrentUser currentUser) {
-//
-//                    }
-//
-//                });
     }
 }
