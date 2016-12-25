@@ -1,16 +1,11 @@
 package com.example.vsokoltsov.uprogress.models.authorization.SignIn;
 
-import android.view.ViewTreeObserver;
-
 import com.example.vsokoltsov.uprogress.api.UserApi;
 import com.example.vsokoltsov.uprogress.models.authorization.CurrentUser;
-import com.example.vsokoltsov.uprogress.models.authorization.SignInModel;
+import com.example.vsokoltsov.uprogress.models.authorization.AuthenticationModel;
 import com.example.vsokoltsov.uprogress.models.authorization.Token;
 import com.example.vsokoltsov.uprogress.utils.ApiRequester;
 import com.example.vsokoltsov.uprogress.view_holders.SignInViewHolder;
-import com.example.vsokoltsov.uprogress.views.SignInView;
-import com.jakewharton.rxbinding.view.RxView;
-import com.jakewharton.rxbinding.view.ViewEvent;
 
 import retrofit2.Retrofit;
 import rx.Observable;
@@ -19,10 +14,10 @@ import rx.Observable;
  * Created by vsokoltsov on 24.12.16.
  */
 
-public class SignInModelImpl implements SignInModel {
+public class AuthenticationModelImpl implements AuthenticationModel {
     private final SignInViewHolder signInViewHolder;
 
-    public SignInModelImpl(SignInViewHolder signInViewHolder) {
+    public AuthenticationModelImpl(SignInViewHolder signInViewHolder) {
         this.signInViewHolder = signInViewHolder;
     }
 

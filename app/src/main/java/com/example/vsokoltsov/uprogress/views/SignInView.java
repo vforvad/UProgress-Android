@@ -1,5 +1,6 @@
 package com.example.vsokoltsov.uprogress.views;
 
+import com.example.vsokoltsov.uprogress.models.authorization.CurrentUser;
 import com.example.vsokoltsov.uprogress.models.authorization.Token;
 
 import java.io.IOException;
@@ -9,6 +10,6 @@ import java.io.IOException;
  */
 
 public interface SignInView {
-    void successResponse(Token token);
+    void successResponse(CurrentUser currentUser);
     void failedResponse(Throwable t) throws IOException;
 }

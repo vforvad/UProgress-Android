@@ -8,7 +8,7 @@ import rx.Observable;
  * Created by vsokoltsov on 24.12.16.
  */
 
-public interface SignInModel {
+public interface AuthenticationModel {
     Observable<Token> signInRequest();
     Observable<CurrentUser> getCurrentUser();
 }

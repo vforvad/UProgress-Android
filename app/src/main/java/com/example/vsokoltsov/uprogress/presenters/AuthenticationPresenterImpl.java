@@ -3,9 +3,11 @@ package com.example.vsokoltsov.uprogress.presenters;
 import android.support.v4.app.Fragment;
 
 import com.example.vsokoltsov.uprogress.models.authorization.CurrentUser;
-import com.example.vsokoltsov.uprogress.models.authorization.SignInModel;
+import com.example.vsokoltsov.uprogress.models.authorization.AuthenticationModel;
 import com.example.vsokoltsov.uprogress.models.authorization.Token;
 import com.example.vsokoltsov.uprogress.views.SignInView;
+
+import java.io.IOException;
 
 import rx.Observable;
 import rx.Observer;
@@ -18,12 +20,12 @@ import rx.schedulers.Schedulers;
  * Created by vsokoltsov on 24.12.16.
  */
 
-public class SignInPresenterImpl implements SignInPresenter {
-    private final SignInModel model;
+public class AuthenticationPresenterImpl implements AuthenticationPresenter {
+    private final AuthenticationModel model;
     private final SignInView view;
     private Subscription subscription;
 
-    public SignInPresenterImpl(SignInModel model, SignInView view) {
+    public AuthenticationPresenterImpl(AuthenticationModel model, SignInView view) {
         this.model = model;
         this.view = view;
     }
@@ -55,12 +57,17 @@ public class SignInPresenterImpl implements SignInPresenter {
 
                     @Override
                     public void onError(Throwable e) {
-                        e.printStackTrace();
+                        try {
+                            view.failedResponse(e);
+                        } catch (IOException e1) {
+                            e1.printStackTrace();
+                        }
                     }
 
                     @Override
                     public void onNext(CurrentUser currentUser) {
                         // TODO Add redirect to user's profile
+                        view.successResponse(currentUser);
                     }
                 });
     }

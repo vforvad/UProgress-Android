@@ -1,5 +1,6 @@
 package com.example.vsokoltsov.uprogress.views;
 
+import com.example.vsokoltsov.uprogress.models.authorization.CurrentUser;
 import com.example.vsokoltsov.uprogress.models.authorization.Token;
 import com.example.vsokoltsov.uprogress.services.ErrorResponse;
 import com.example.vsokoltsov.uprogress.utils.RetrofitException;
@@ -19,7 +20,7 @@ public class SignInViewImpl implements SignInView {
     }
 
     @Override
-    public void successResponse(Token token) {
+    public void successResponse(CurrentUser currentUser) {
 
     }
 
