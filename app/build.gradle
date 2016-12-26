@@ -29,6 +29,16 @@ android {
 //        vectorDrawables.useSupportLibrary = true
         generatedDensities = []
     }
+
+    sourceSets {
+        main {
+            res.srcDirs = [
+                    'src/main/res',
+                    'src/main/res/layout/directions',
+                    'src/main/res/layout/authorization'
+            ]
+        }
+    }
     aaptOptions {
         additionalParameters "--no-version-vectors"
     }
