@@ -12,7 +12,7 @@ import java.io.IOException;
  * Created by vsokoltsov on 26.12.16.
  */
 
-public class SignUpView implements AuthorizationView {
+public class SignUpView extends AuthView implements AuthorizationView {
     private final SignUpViewHolder viewHolder;
 
     public SignUpView(SignUpViewHolder viewHolder) {
@@ -22,7 +22,7 @@ public class SignUpView implements AuthorizationView {
 
     @Override
     public void successResponse(CurrentUser currentUser) {
-
+        super.setCurrentUser(currentUser);
     }
 
     @Override
