@@ -40,18 +40,11 @@ import rx.schedulers.Schedulers;
 
 public class SignUpFragment extends Fragment implements Button.OnClickListener {
     private View fragmentView;
-    private ApplicationBaseActivity activity;
-    private EditText emailField;
-    private EditText passwordField;
-    private EditText passwordConfirmationField;
-    private EditText nickField;
     private AuthenticationPresenter presenter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        activity = (ApplicationBaseActivity) getActivity();
 
         fragmentView = inflater.inflate(R.layout.sign_up_fragment, container, false);
         Button signUpButton = (Button) fragmentView.findViewById(R.id.signUpButton);
@@ -73,39 +66,8 @@ public class SignUpFragment extends Fragment implements Button.OnClickListener {
         return fragmentView;
     }
 
-    private void setIconsForFields() {
-        emailField = (EditText) fragmentView.findViewById(R.id.emailField);
-        passwordField = (EditText) fragmentView.findViewById(R.id.passwordField);
-        passwordConfirmationField = (EditText) fragmentView.findViewById(R.id.passwordConfirmationField);
-        nickField = (EditText) fragmentView.findViewById(R.id.nickField);
-
-        Drawable emailImg = getContext().getResources().getDrawable( R.drawable.email);
-        Drawable passwordImg= getContext().getResources().getDrawable( R.drawable.password);
-        Drawable nickImg = getContext().getResources().getDrawable( R.drawable.user_nick);
-
-        emailField.setCompoundDrawablesWithIntrinsicBounds( emailImg, null, null, null);
-        passwordField.setCompoundDrawablesWithIntrinsicBounds( passwordImg, null, null, null);
-        passwordConfirmationField.setCompoundDrawablesWithIntrinsicBounds( passwordImg, null, null, null);
-        nickField.setCompoundDrawablesWithIntrinsicBounds( nickImg, null, null, null);
-    }
-
     @Override
     public void onClick(View v) {
         presenter.onSignUpSubmit();
-    }
-
-    private void handleErrors(Throwable t) throws IOException {
-        RetrofitException error = (RetrofitException) t;
-        ErrorResponse errors = error.getErrorBodyAs(ErrorResponse.class);
-        emailField.setError(errors.getFullErrorMessage("email"));
-        passwordField.setError(errors.getFullErrorMessage("password"));
-        passwordConfirmationField.setError(errors.getFullErrorMessage("password_confirmation"));
-        nickField.setError(errors.getFullErrorMessage("nick"));
-    }
-
-    private void  successAuth(Token token) {
-        String str = token.getToken();
-        Token.writeToken(token.getToken());
-        activity.currentUserRequest();
     }
 }
