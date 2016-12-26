@@ -9,14 +9,14 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.example.vsokoltsov.uprogress.R;
-import com.example.vsokoltsov.uprogress.models.authorization.SignIn.AuthenticationModelImpl;
+import com.example.vsokoltsov.uprogress.models.authorization.AuthenticationModelImpl;
 import com.example.vsokoltsov.uprogress.models.authorization.AuthenticationModel;
 import com.example.vsokoltsov.uprogress.presenters.AuthenticationPresenter;
 import com.example.vsokoltsov.uprogress.presenters.AuthenticationPresenterImpl;
 import com.example.vsokoltsov.uprogress.ui.ApplicationBaseActivity;
 import com.example.vsokoltsov.uprogress.view_holders.SignInViewHolder;
+import com.example.vsokoltsov.uprogress.views.authorization.AuthorizationView;
 import com.example.vsokoltsov.uprogress.views.SignInView;
-import com.example.vsokoltsov.uprogress.views.SignInViewImpl;
 
 /**
  * Created by vsokoltsov on 22.11.16.
@@ -46,7 +46,7 @@ public class SignInFragment extends Fragment implements Button.OnClickListener {
         viewHolder.setFields(getContext());
 
         final AuthenticationModel model = new AuthenticationModelImpl(viewHolder);
-        final SignInView view = new SignInViewImpl(viewHolder);
+        final AuthorizationView view = new SignInView(viewHolder);
         presenter = new AuthenticationPresenterImpl(model, view);
         presenter.onCreate(this);
         return fragmentView;

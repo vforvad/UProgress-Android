@@ -10,5 +10,6 @@ import rx.Observable;
 
 public interface AuthenticationModel {
     Observable<Token> signInRequest();
+    Observable<Token> signUpRequest();
     Observable<CurrentUser> getCurrentUser();
 }

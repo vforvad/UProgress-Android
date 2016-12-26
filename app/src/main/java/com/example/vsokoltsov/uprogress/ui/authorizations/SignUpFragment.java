@@ -11,12 +11,21 @@ import android.widget.EditText;
 
 import com.example.vsokoltsov.uprogress.R;
 import com.example.vsokoltsov.uprogress.api.UserApi;
+import com.example.vsokoltsov.uprogress.models.authorization.AuthenticationModel;
+import com.example.vsokoltsov.uprogress.models.authorization.AuthenticationModelImpl;
 import com.example.vsokoltsov.uprogress.models.authorization.SignUp.SignUpRequest;
 import com.example.vsokoltsov.uprogress.models.authorization.Token;
+import com.example.vsokoltsov.uprogress.presenters.AuthenticationPresenter;
+import com.example.vsokoltsov.uprogress.presenters.AuthenticationPresenterImpl;
 import com.example.vsokoltsov.uprogress.services.ErrorResponse;
 import com.example.vsokoltsov.uprogress.utils.ApiRequester;
 import com.example.vsokoltsov.uprogress.utils.RetrofitException;
 import com.example.vsokoltsov.uprogress.ui.ApplicationBaseActivity;
+import com.example.vsokoltsov.uprogress.view_holders.SignInViewHolder;
+import com.example.vsokoltsov.uprogress.view_holders.SignUpViewHolder;
+import com.example.vsokoltsov.uprogress.views.SignInView;
+import com.example.vsokoltsov.uprogress.views.SignUpView;
+import com.example.vsokoltsov.uprogress.views.authorization.AuthorizationView;
 
 import java.io.IOException;
 
@@ -36,6 +45,7 @@ public class SignUpFragment extends Fragment implements Button.OnClickListener {
     private EditText passwordField;
     private EditText passwordConfirmationField;
     private EditText nickField;
+    private AuthenticationPresenter presenter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -44,9 +54,22 @@ public class SignUpFragment extends Fragment implements Button.OnClickListener {
         activity = (ApplicationBaseActivity) getActivity();
 
         fragmentView = inflater.inflate(R.layout.sign_up_fragment, container, false);
-        setIconsForFields();
         Button signUpButton = (Button) fragmentView.findViewById(R.id.signUpButton);
         signUpButton.setOnClickListener(this);
+
+        final SignUpViewHolder viewHolder = new SignUpViewHolder(
+                (EditText) fragmentView.findViewById(R.id.emailField),
+                (EditText) fragmentView.findViewById(R.id.passwordField),
+                (EditText) fragmentView.findViewById(R.id.passwordConfirmationField),
+                (EditText) fragmentView.findViewById(R.id.nickField),
+                signUpButton
+        );
+        // Set fields in viewHolder
+        viewHolder.setFields(getContext());
+
+        final AuthenticationModel model = new AuthenticationModelImpl(viewHolder);
+        final AuthorizationView view = new SignUpView(viewHolder);
+        presenter = new AuthenticationPresenterImpl(model, view);
         return fragmentView;
     }
 
@@ -68,37 +91,7 @@ public class SignUpFragment extends Fragment implements Button.OnClickListener {
 
     @Override
     public void onClick(View v) {
-        SignUpRequest user = new SignUpRequest(
-                emailField.getText().toString(),
-                passwordField.getText().toString(),
-                passwordConfirmationField.getText().toString(),
-                nickField.getText().toString()
-        );
-        Retrofit retrofit = ApiRequester.getInstance().getRestAdapter();
-        UserApi service = retrofit.create(UserApi.class);
-        service.signUp(user)
-                .subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<Token>() {
-                    @Override
-                    public void onCompleted() {
-//                        activity.dismissProgress();
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        try {
-                            handleErrors(e);
-                        } catch (IOException e1) {
-                            e1.printStackTrace();
-                        }
-                    }
-
-                    @Override
-                    public void onNext(Token token) {
-                        successAuth(token);
-                    }
-                });
+        presenter.onSignUpSubmit();
     }
 
     private void handleErrors(Throwable t) throws IOException {
