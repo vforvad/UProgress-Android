@@ -22,8 +22,6 @@ public class DirectionDetailActivity extends ApplicationBaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.direction_detail_activity);
-        super.setToolbar();
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getExtras();

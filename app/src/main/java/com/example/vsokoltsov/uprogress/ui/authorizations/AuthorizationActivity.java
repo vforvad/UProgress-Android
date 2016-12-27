@@ -13,9 +13,6 @@ public class AuthorizationActivity extends ApplicationBaseActivity{
     private String action;
     private android.support.v4.app.FragmentManager fragmentManager;
     public AuthorizationBaseFragment authorizationBaseFragment;
-    private Toolbar mActionBarToolbar;
-    private NavigationDrawer mNavigationDrawerFragment;
-    private DrawerLayout drawerLayout;
 
     static
     {
@@ -25,10 +22,11 @@ public class AuthorizationActivity extends ApplicationBaseActivity{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.authorization_activity);
-        super.setToolbar();
-        super.setLeftNavigationBar();
         defineCurrentTab();
+        setFragment();
+    }
+
+    private void setFragment() {
         Bundle arguments = new Bundle();
         if (action == null) {
             action = "sign_in";
@@ -40,18 +38,6 @@ public class AuthorizationActivity extends ApplicationBaseActivity{
         authorizationBaseFragment.setArguments(arguments);
         fragmentTransaction.replace(R.id.main_content, authorizationBaseFragment);
         fragmentTransaction.commit();
-    }
-
-    public void setToolbar() {
-        mActionBarToolbar = (Toolbar) findViewById(R.id.toolbar_actionbar);
-        setSupportActionBar(mActionBarToolbar);
-    }
-
-    public void setLeftNavigationBar() {
-        android.support.v4.app.FragmentManager fragmentManager = getSupportFragmentManager();
-        drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-        mNavigationDrawerFragment = (NavigationDrawer) fragmentManager.findFragmentById(R.id.navigation_drawer);
-        mNavigationDrawerFragment.setUp(R.id.navigation_drawer, drawerLayout);
     }
 
     private void defineCurrentTab() {

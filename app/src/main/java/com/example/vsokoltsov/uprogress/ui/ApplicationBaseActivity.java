@@ -34,6 +34,9 @@ public class ApplicationBaseActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.base_activity_layout);
+        setToolbar();
+        setLeftNavigationBar();
     }
 
     public void currentUserRequest() {
