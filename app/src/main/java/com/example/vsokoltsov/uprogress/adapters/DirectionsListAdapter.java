@@ -16,6 +16,9 @@ import com.example.vsokoltsov.uprogress.ui.directions.DirectionCompletionItemVie
 import java.util.ArrayList;
 import java.util.List;
 
+import rx.Observable;
+import rx.subjects.PublishSubject;
+
 /**
  * Created by vsokoltsov on 27.11.16.
  */
@@ -32,6 +35,8 @@ public class DirectionsListAdapter extends RecyclerView.Adapter<DirectionsListAd
 
     private int firstVisibleItem, visibleItemCount, totalItemCount, previousTotal = 0;
     private boolean loading = true;
+
+    private final PublishSubject<Direction> onClickSubject = PublishSubject.create();
 
     public DirectionsListAdapter(List<Direction> directions, Activity activity) {
         this.directions = directions;
@@ -93,7 +98,18 @@ public class DirectionsListAdapter extends RecyclerView.Adapter<DirectionsListAd
 
     @Override
     public void onBindViewHolder(DirectionViewHolder holder, int position) {
-        holder.bind(directions.get(position));
+        Direction direction = directions.get(position);
+        holder.bind(direction);
+        holder.directionCompletionItemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onClickSubject.onNext(direction);
+            }
+        });
+    }
+
+    public Observable<Direction> getPositionClicks(){
+        return onClickSubject.asObservable();
     }
 
 

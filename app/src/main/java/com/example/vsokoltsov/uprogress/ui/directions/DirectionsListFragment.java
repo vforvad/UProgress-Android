@@ -40,6 +40,7 @@ import com.example.vsokoltsov.uprogress.views.directions.DirectionsListViewImpl;
 
 import org.solovyev.android.views.llm.LinearLayoutManager;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -88,7 +89,10 @@ public class DirectionsListFragment extends Fragment implements SwipeRefreshLayo
         final DirectionsListView view = new DirectionsListViewImpl(viewHolder);
         presenter = new DirectionsListPresenterImpl(view, model, user);
         presenter.onCreate((ApplicationBaseActivity) getActivity());
+        setOnClickListener(viewHolder);
         presenter.loadDirections();
+
+
 //        progressBar = (ProgressBar) fragmentView.findViewById(R.id.progressBar);
 //        rv.setHasFixedSize(true);
 
@@ -195,4 +199,27 @@ public class DirectionsListFragment extends Fragment implements SwipeRefreshLayo
 //        showMainLoader = false;
 //        loadDirectionsList();
 //    }
+
+    private void setOnClickListener(DirectionListViewHolder viewHolder) {
+        viewHolder.adapter.getPositionClicks()
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<Direction>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(Direction direction) {
+
+
+                    }
+                });
+    }
 }
