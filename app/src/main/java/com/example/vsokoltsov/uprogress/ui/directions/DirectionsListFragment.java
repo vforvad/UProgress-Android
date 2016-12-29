@@ -90,6 +90,7 @@ public class DirectionsListFragment extends Fragment implements SwipeRefreshLayo
         presenter = new DirectionsListPresenterImpl(view, model, user);
         presenter.onCreate((ApplicationBaseActivity) getActivity());
         setOnClickListener(viewHolder);
+        setOnScrollListener();
         presenter.loadDirections();
 
 
@@ -103,14 +104,7 @@ public class DirectionsListFragment extends Fragment implements SwipeRefreshLayo
 //            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
 //                super.onScrolled(recyclerView, dx, dy);
 //                if (canLoad) {
-//                    LinearLayoutManager layoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
-//                    int lastLayoutPosition = layoutManager.findLastCompletelyVisibleItemPosition();
-//                    int itemsCount = layoutManager.getItemCount() - 2;
-//                    if (lastLayoutPosition == itemsCount && dy > 0) {
-//                        pageNumber++;
-//                        loadDirectionsList();
-//                        firstVisibleInListview = lastLayoutPosition;
-//                    }
+
 //                }
 //
 //            }
@@ -222,4 +216,15 @@ public class DirectionsListFragment extends Fragment implements SwipeRefreshLayo
                     }
                 });
     }
+
+    private void setOnScrollListener() {
+        rv.setOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                presenter.scrollDownListener(recyclerView, dx, dy);
+            }
+        });
+    }
+
 }

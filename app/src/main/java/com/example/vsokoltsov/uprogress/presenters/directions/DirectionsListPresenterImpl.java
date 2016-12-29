@@ -2,6 +2,7 @@ package com.example.vsokoltsov.uprogress.presenters.directions;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.RecyclerView;
 
 import com.example.vsokoltsov.uprogress.models.User;
 import com.example.vsokoltsov.uprogress.models.authorization.CurrentUser;
@@ -10,6 +11,8 @@ import com.example.vsokoltsov.uprogress.models.directions.DirectionModel;
 import com.example.vsokoltsov.uprogress.models.directions.DirectionsList;
 import com.example.vsokoltsov.uprogress.ui.ApplicationBaseActivity;
 import com.example.vsokoltsov.uprogress.views.directions.DirectionsListView;
+
+import org.solovyev.android.views.llm.LinearLayoutManager;
 
 import java.io.IOException;
 
@@ -31,6 +34,7 @@ public class DirectionsListPresenterImpl implements DirectionsListPresenter {
     private int pageNumber = 1;
     private ApplicationBaseActivity activity;
     private SwipeRefreshLayout layout;
+    private static int firstVisibleInListview;
 
     public DirectionsListPresenterImpl(DirectionsListView view, DirectionModel model, User user) {
         this.view = view;
@@ -77,6 +81,7 @@ public class DirectionsListPresenterImpl implements DirectionsListPresenter {
         layout = view.getRefreshLayout();
         pageNumber = 1;
         layout.setRefreshing(true);
+        activity.startProgressBar();
         model.getDirectionsList(user.getNick(), pageNumber)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -101,5 +106,16 @@ public class DirectionsListPresenterImpl implements DirectionsListPresenter {
                         view.refreshList(list);
                     }
                 });
+    }
+
+    @Override
+    public void scrollDownListener(RecyclerView recyclerView, int dx, int dy) {
+        LinearLayoutManager layoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
+        int lastLayoutPosition = layoutManager.findLastCompletelyVisibleItemPosition();
+        int itemsCount = layoutManager.getItemCount() - 2;
+        if (lastLayoutPosition == itemsCount && dy > 0) {
+            pageNumber++;
+            loadDirections();
+        }
     }
 }

@@ -71,6 +71,6 @@ public class ApplicationBaseActivity extends AppCompatActivity {
     }
 
     public void stopProgressBar() {
-        this.progressBar.setVisibility(View.GONE);
+        this.progressBar.setVisibility(View.INVISIBLE);
     }
 }
