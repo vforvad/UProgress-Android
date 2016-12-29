@@ -42,7 +42,7 @@ public class AuthorizationActivity extends ApplicationBaseActivity{
 
     private void defineCurrentTab() {
         Bundle extras = getIntent().getExtras();
-        if(extras != null) {
+        if (extras != null) {
             action = (String) extras.getString("action");
         }
     }

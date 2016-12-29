@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.View;
+import android.widget.ProgressBar;
 
 import com.example.vsokoltsov.uprogress.R;
 import com.example.vsokoltsov.uprogress.api.UserApi;
@@ -29,7 +31,7 @@ public class ApplicationBaseActivity extends AppCompatActivity {
     private Toolbar mActionBarToolbar;
     private NavigationDrawer mNavigationDrawerFragment;
     private DrawerLayout drawerLayout;
-    private ProgressDialog mProgressDialog;
+    private ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,46 +39,9 @@ public class ApplicationBaseActivity extends AppCompatActivity {
         setContentView(R.layout.base_activity_layout);
         setToolbar();
         setLeftNavigationBar();
+        setProgressBar();
     }
 
-    public void currentUserRequest() {
-        Retrofit retrofit = ApiRequester.getInstance().getRestAdapter();
-        UserApi service = retrofit.create(UserApi.class);
-        service.getCurrentUser()
-                .subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<CurrentUser>() {
-                    @Override
-                    public void onCompleted() {
-//                        dismissProgress();
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-
-                    }
-
-                    @Override
-                    public void onNext(CurrentUser user) {
-                        currentUserReceived(user);
-                    }
-                });
-    }
-
-    public void showProgress(int msg) {
-        if (mProgressDialog != null && mProgressDialog.isShowing()) {
-            dismissProgress();
-        }
-
-        mProgressDialog = ProgressDialog.show(this, getResources().getString(R.string.app_name), getResources().getString(msg));
-    }
-
-    public void dismissProgress() {
-        if (mProgressDialog != null) {
-            mProgressDialog.dismiss();
-            mProgressDialog = null;
-        }
-    }
 
     public void currentUserReceived(CurrentUser user) {
         AuthorizationService auth = AuthorizationService.getInstance();
@@ -94,5 +59,18 @@ public class ApplicationBaseActivity extends AppCompatActivity {
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mNavigationDrawerFragment = (NavigationDrawer) fragmentManager.findFragmentById(R.id.navigation_drawer);
         mNavigationDrawerFragment.setUp(R.id.navigation_drawer, drawerLayout);
+    }
+
+    public void setProgressBar() {
+        this.progressBar = (ProgressBar) findViewById(R.id.progressBar);
+    }
+
+
+    public void startProgressBar() {
+        this.progressBar.setVisibility(View.VISIBLE);
+    }
+
+    public void stopProgressBar() {
+        this.progressBar.setVisibility(View.GONE);
     }
 }

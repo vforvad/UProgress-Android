@@ -13,7 +13,7 @@ import java.io.IOException;
  */
 
 public class SignInView extends AuthView implements AuthorizationView {
-    private final SignInViewHolder viewHolder;
+    public final SignInViewHolder viewHolder;
 
     public SignInView(SignInViewHolder viewHolder) {
         this.viewHolder = viewHolder;

@@ -63,6 +63,7 @@ public class SignUpFragment extends Fragment implements Button.OnClickListener {
         final AuthenticationModel model = new AuthenticationModelImpl(viewHolder);
         final AuthorizationView view = new SignUpView(viewHolder);
         presenter = new AuthenticationPresenterImpl(model, view);
+        presenter.onCreate(this);
         return fragmentView;
     }
 
