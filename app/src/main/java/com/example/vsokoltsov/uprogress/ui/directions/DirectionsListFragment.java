@@ -52,7 +52,7 @@ import rx.schedulers.Schedulers;
  * Created by vsokoltsov on 26.11.16.
  */
 
-public class DirectionsListFragment extends Fragment {
+public class DirectionsListFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
     private View fragmentView;
     private ApplicationBaseActivity activity;
     private RecyclerView rv;
@@ -80,6 +80,7 @@ public class DirectionsListFragment extends Fragment {
         fragmentView = inflater.inflate(R.layout.directions_list_fragment, container, false);
         rv = (RecyclerView) fragmentView.findViewById(R.id.directionsList);
         swipeLayout = (SwipeRefreshLayout) fragmentView.findViewById(R.id.swipe_layout);
+        swipeLayout.setOnRefreshListener(this);
         llm = new LinearLayoutManager(getActivity());
         final DirectionListViewHolder viewHolder = new DirectionListViewHolder(swipeLayout, rv, llm, this);
 
@@ -88,7 +89,6 @@ public class DirectionsListFragment extends Fragment {
         presenter = new DirectionsListPresenterImpl(view, model, user);
         presenter.onCreate((ApplicationBaseActivity) getActivity());
         presenter.loadDirections();
-//        swipeLayout.setOnRefreshListener(this);
 //        progressBar = (ProgressBar) fragmentView.findViewById(R.id.progressBar);
 //        rv.setHasFixedSize(true);
 
@@ -115,57 +115,62 @@ public class DirectionsListFragment extends Fragment {
         return fragmentView;
     }
 
+    @Override
+    public void onRefresh() {
+        presenter.refreshList();
+    }
+
 //    private void setAdapter() {
 //        adapter = new DirectionsListAdapter(directions, this);
 //    }
 
-    private void loadDirectionsList() {
-        canLoad = false;
-//        if (showMainLoader) {
-//            activity.showProgress(R.string.loading);
+//    private void loadDirectionsList() {
+//        canLoad = false;
+////        if (showMainLoader) {
+////            activity.showProgress(R.string.loading);
+////        }
+//        progressBar.setVisibility(View.VISIBLE);
+//        User currentUser = authManager.getCurrentUser();
+//        Retrofit retrofit = api.getRestAdapter();
+//        DirectionsApi service = retrofit.create(DirectionsApi.class);
+//        service.getDirections(currentUser.getNick(), pageNumber)
+//                .subscribeOn(Schedulers.newThread())
+//                .observeOn(AndroidSchedulers.mainThread())
+//                .subscribe(new Observer<DirectionsList>() {
+//                    @Override
+//                    public void onCompleted() {
+//                        swipeLayout.setRefreshing(false);
+//                        progressBar.setVisibility(View.GONE);
+//                        showMainLoader = true;
+//                        canLoad = true;
+//                        int firstVisibleItem = llm.findFirstVisibleItemPosition();
+//                        firstVisibleInListview = firstVisibleItem;
+//                    }
+//
+//                    @Override
+//                    public void onError(Throwable e) {
+//
+//                    }
+//
+//                    @Override
+//                    public void onNext(DirectionsList directionsList) {
+//                        setDirectionsList(directionsList);
+//                    }
+//                });
+//    }
+//
+//    private void setDirectionsList(DirectionsList directions) {
+//        if (!showMainLoader) {
+//            adapter.directions = directions.getDirections();
 //        }
-        progressBar.setVisibility(View.VISIBLE);
-        User currentUser = authManager.getCurrentUser();
-        Retrofit retrofit = api.getRestAdapter();
-        DirectionsApi service = retrofit.create(DirectionsApi.class);
-        service.getDirections(currentUser.getNick(), pageNumber)
-                .subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<DirectionsList>() {
-                    @Override
-                    public void onCompleted() {
-                        swipeLayout.setRefreshing(false);
-                        progressBar.setVisibility(View.GONE);
-                        showMainLoader = true;
-                        canLoad = true;
-                        int firstVisibleItem = llm.findFirstVisibleItemPosition();
-                        firstVisibleInListview = firstVisibleItem;
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-
-                    }
-
-                    @Override
-                    public void onNext(DirectionsList directionsList) {
-                        setDirectionsList(directionsList);
-                    }
-                });
-    }
-
-    private void setDirectionsList(DirectionsList directions) {
-        if (!showMainLoader) {
-            adapter.directions = directions.getDirections();
-        }
-        else {
-            for(int i = 0; i < directions.getDirections().size(); i++) {
-                Direction d = (Direction) directions.getDirections().get(i);
-                adapter.directions.add(d);
-            }
-        }
-        adapter.notifyDataSetChanged();
-    }
+//        else {
+//            for(int i = 0; i < directions.getDirections().size(); i++) {
+//                Direction d = (Direction) directions.getDirections().get(i);
+//                adapter.directions.add(d);
+//            }
+//        }
+//        adapter.notifyDataSetChanged();
+//    }
 
 //    @Override
 //    public void onItemClicked(Direction direction) {

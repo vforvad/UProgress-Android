@@ -18,7 +18,7 @@ import java.util.List;
  */
 
 public class DirectionListViewHolder {
-    private final SwipeRefreshLayout swipeLayout;
+    public final SwipeRefreshLayout swipeLayout;
     private final RecyclerView rv;
     private final LinearLayoutManager llm;
     private final ApplicationBaseActivity activity;

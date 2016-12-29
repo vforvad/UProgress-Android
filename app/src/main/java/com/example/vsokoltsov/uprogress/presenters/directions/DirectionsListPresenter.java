@@ -11,4 +11,5 @@ import com.example.vsokoltsov.uprogress.ui.ApplicationBaseActivity;
 public interface DirectionsListPresenter {
     void onCreate(ApplicationBaseActivity activity);
     void loadDirections();
+    void refreshList();
 }

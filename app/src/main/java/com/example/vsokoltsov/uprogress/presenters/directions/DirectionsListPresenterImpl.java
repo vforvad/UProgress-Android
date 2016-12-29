@@ -1,6 +1,7 @@
 package com.example.vsokoltsov.uprogress.presenters.directions;
 
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 
 import com.example.vsokoltsov.uprogress.models.User;
 import com.example.vsokoltsov.uprogress.models.authorization.CurrentUser;
@@ -26,8 +27,10 @@ public class DirectionsListPresenterImpl implements DirectionsListPresenter {
     private final DirectionsListView view;
     private final DirectionModel model;
     private final User user;
+
     private int pageNumber = 1;
     private ApplicationBaseActivity activity;
+    private SwipeRefreshLayout layout;
 
     public DirectionsListPresenterImpl(DirectionsListView view, DirectionModel model, User user) {
         this.view = view;
@@ -65,6 +68,37 @@ public class DirectionsListPresenterImpl implements DirectionsListPresenter {
                     @Override
                     public void onNext(DirectionsList list) {
                         view.successResponse(list);
+                    }
+                });
+    }
+
+    @Override
+    public void refreshList() {
+        layout = view.getRefreshLayout();
+        pageNumber = 1;
+        layout.setRefreshing(true);
+        model.getDirectionsList(user.getNick(), pageNumber)
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<DirectionsList>() {
+                    @Override
+                    public void onCompleted() {
+                        layout.setRefreshing(false);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        try {
+                            view.failedResponse(e);
+                            layout.setRefreshing(false);
+                        } catch (IOException e1) {
+                            e1.printStackTrace();
+                        }
+                    }
+
+                    @Override
+                    public void onNext(DirectionsList list) {
+                        view.refreshList(list);
                     }
                 });
     }

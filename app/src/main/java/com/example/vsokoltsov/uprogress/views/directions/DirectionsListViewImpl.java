@@ -1,5 +1,7 @@
 package com.example.vsokoltsov.uprogress.views.directions;
 
+import android.support.v4.widget.SwipeRefreshLayout;
+
 import com.example.vsokoltsov.uprogress.adapters.DirectionsListAdapter;
 import com.example.vsokoltsov.uprogress.models.directions.Direction;
 import com.example.vsokoltsov.uprogress.models.directions.DirectionsList;
@@ -30,5 +32,17 @@ public class DirectionsListViewImpl implements DirectionsListView {
     @Override
     public void failedResponse(Throwable t) throws IOException {
 
+    }
+
+    @Override
+    public void refreshList(DirectionsList list) {
+        viewHolder.adapter.directions = list.getDirections();
+        viewHolder.adapter.notifyDataSetChanged();
+        viewHolder.swipeLayout.setRefreshing(false);
+    }
+
+    @Override
+    public SwipeRefreshLayout getRefreshLayout() {
+        return viewHolder.swipeLayout;
     }
 }
