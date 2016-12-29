@@ -11,6 +11,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ProgressBar;
 
 import com.example.vsokoltsov.uprogress.R;
@@ -18,11 +19,24 @@ import com.example.vsokoltsov.uprogress.adapters.DirectionsListAdapter;
 import com.example.vsokoltsov.uprogress.api.DirectionsApi;
 import com.example.vsokoltsov.uprogress.interfaces.DirectionItemClickListener;
 import com.example.vsokoltsov.uprogress.models.User;
+import com.example.vsokoltsov.uprogress.models.authorization.AuthenticationModel;
+import com.example.vsokoltsov.uprogress.models.authorization.AuthenticationModelImpl;
 import com.example.vsokoltsov.uprogress.models.authorization.AuthorizationService;
 import com.example.vsokoltsov.uprogress.models.directions.Direction;
+import com.example.vsokoltsov.uprogress.models.directions.DirectionModel;
+import com.example.vsokoltsov.uprogress.models.directions.DirectionModelImpl;
 import com.example.vsokoltsov.uprogress.models.directions.DirectionsList;
+import com.example.vsokoltsov.uprogress.presenters.AuthenticationPresenterImpl;
+import com.example.vsokoltsov.uprogress.presenters.directions.DirectionsListPresenter;
+import com.example.vsokoltsov.uprogress.presenters.directions.DirectionsListPresenterImpl;
 import com.example.vsokoltsov.uprogress.utils.ApiRequester;
 import com.example.vsokoltsov.uprogress.ui.ApplicationBaseActivity;
+import com.example.vsokoltsov.uprogress.view_holders.DirectionListViewHolder;
+import com.example.vsokoltsov.uprogress.view_holders.SignInViewHolder;
+import com.example.vsokoltsov.uprogress.views.SignInView;
+import com.example.vsokoltsov.uprogress.views.authorization.AuthorizationView;
+import com.example.vsokoltsov.uprogress.views.directions.DirectionsListView;
+import com.example.vsokoltsov.uprogress.views.directions.DirectionsListViewImpl;
 
 import org.solovyev.android.views.llm.LinearLayoutManager;
 
@@ -38,10 +52,9 @@ import rx.schedulers.Schedulers;
  * Created by vsokoltsov on 26.11.16.
  */
 
-public class DirectionsListFragment extends Fragment implements DirectionItemClickListener, SwipeRefreshLayout.OnRefreshListener  {
+public class DirectionsListFragment extends Fragment {
     private View fragmentView;
     private ApplicationBaseActivity activity;
-    private List<Direction> directions = new ArrayList<Direction>();
     private RecyclerView rv;
     private DirectionsListAdapter adapter;
     private ApiRequester api = ApiRequester.getInstance();
@@ -53,8 +66,7 @@ public class DirectionsListFragment extends Fragment implements DirectionItemCli
     private boolean canLoad = true;
     private static int firstVisibleInListview;
     private ProgressBar progressBar;
-
-
+    private DirectionsListPresenter presenter;
 
     private android.support.v4.app.FragmentManager fragmentManager;
 
@@ -62,41 +74,50 @@ public class DirectionsListFragment extends Fragment implements DirectionItemCli
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+        User user = AuthorizationService.getInstance().getCurrentUser();
         activity = (ApplicationBaseActivity) getActivity();
 
         fragmentView = inflater.inflate(R.layout.directions_list_fragment, container, false);
-        swipeLayout = (SwipeRefreshLayout) fragmentView.findViewById(R.id.swipe_layout);
-        swipeLayout.setOnRefreshListener(this);
-        progressBar = (ProgressBar) fragmentView.findViewById(R.id.progressBar);
         rv = (RecyclerView) fragmentView.findViewById(R.id.directionsList);
-        rv.setHasFixedSize(true);
+        swipeLayout = (SwipeRefreshLayout) fragmentView.findViewById(R.id.swipe_layout);
         llm = new LinearLayoutManager(getActivity());
-        rv.setLayoutManager(llm);
-        setAdapter();
-        rv.setAdapter(adapter);
-        rv.setOnScrollListener(new RecyclerView.OnScrollListener(){
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                super.onScrolled(recyclerView, dx, dy);
-                if (canLoad) {
-                    LinearLayoutManager layoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
-                    int lastLayoutPosition = layoutManager.findLastCompletelyVisibleItemPosition();
-                    int itemsCount = layoutManager.getItemCount() - 2;
-                    if (lastLayoutPosition == itemsCount && dy > 0) {
-                        pageNumber++;
-                        loadDirectionsList();
-                        firstVisibleInListview = lastLayoutPosition;
-                    }
-                }
+        final DirectionListViewHolder viewHolder = new DirectionListViewHolder(swipeLayout, rv, llm, this);
 
-            }
-        });
-        loadDirectionsList();
+        final DirectionModel model = new DirectionModelImpl(viewHolder);
+        final DirectionsListView view = new DirectionsListViewImpl(viewHolder);
+        presenter = new DirectionsListPresenterImpl(view, model, user);
+        presenter.onCreate((ApplicationBaseActivity) getActivity());
+        presenter.loadDirections();
+//        swipeLayout.setOnRefreshListener(this);
+//        progressBar = (ProgressBar) fragmentView.findViewById(R.id.progressBar);
+//        rv.setHasFixedSize(true);
+
+//        rv.setLayoutManager(llm);
+//        setAdapter();
+//        rv.setAdapter(adapter);
+//        rv.setOnScrollListener(new RecyclerView.OnScrollListener(){
+//            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+//                super.onScrolled(recyclerView, dx, dy);
+//                if (canLoad) {
+//                    LinearLayoutManager layoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
+//                    int lastLayoutPosition = layoutManager.findLastCompletelyVisibleItemPosition();
+//                    int itemsCount = layoutManager.getItemCount() - 2;
+//                    if (lastLayoutPosition == itemsCount && dy > 0) {
+//                        pageNumber++;
+//                        loadDirectionsList();
+//                        firstVisibleInListview = lastLayoutPosition;
+//                    }
+//                }
+//
+//            }
+//        });
+//        loadDirectionsList();
         return fragmentView;
     }
 
-    private void setAdapter() {
-        adapter = new DirectionsListAdapter(directions, this);
-    }
+//    private void setAdapter() {
+//        adapter = new DirectionsListAdapter(directions, this);
+//    }
 
     private void loadDirectionsList() {
         canLoad = false;
@@ -146,27 +167,27 @@ public class DirectionsListFragment extends Fragment implements DirectionItemCli
         adapter.notifyDataSetChanged();
     }
 
-    @Override
-    public void onItemClicked(Direction direction) {
-        Intent detailIntent = new Intent(getActivity(), DirectionDetailActivity.class);
-        detailIntent.putExtra("direction", direction);
-        PendingIntent pendingIntent =
-                TaskStackBuilder.create(getActivity())
-                        // add all of DetailsActivity's parents to the stack,
-                        // followed by DetailsActivity itself
-                        .addNextIntentWithParentStack(detailIntent)
-                        .getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
-
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(getActivity());
-        builder.setContentIntent(pendingIntent);
-        startActivity(detailIntent);
-        getActivity().overridePendingTransition(R.anim.pull_in_right, R.anim.push_out_left);
-    }
-
-    @Override
-    public void onRefresh() {
-        pageNumber = 1;
-        showMainLoader = false;
-        loadDirectionsList();
-    }
+//    @Override
+//    public void onItemClicked(Direction direction) {
+//        Intent detailIntent = new Intent(getActivity(), DirectionDetailActivity.class);
+//        detailIntent.putExtra("direction", direction);
+//        PendingIntent pendingIntent =
+//                TaskStackBuilder.create(getActivity())
+//                        // add all of DetailsActivity's parents to the stack,
+//                        // followed by DetailsActivity itself
+//                        .addNextIntentWithParentStack(detailIntent)
+//                        .getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
+//
+//        NotificationCompat.Builder builder = new NotificationCompat.Builder(getActivity());
+//        builder.setContentIntent(pendingIntent);
+//        startActivity(detailIntent);
+//        getActivity().overridePendingTransition(R.anim.pull_in_right, R.anim.push_out_left);
+//    }
+//
+//    @Override
+//    public void onRefresh() {
+//        pageNumber = 1;
+//        showMainLoader = false;
+//        loadDirectionsList();
+//    }
 }

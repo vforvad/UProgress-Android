@@ -22,14 +22,14 @@ import rx.schedulers.Schedulers;
  * Created by vsokoltsov on 29.12.16.
  */
 
-public class DirectionsListImpl implements DirectionsListPresenter {
+public class DirectionsListPresenterImpl implements DirectionsListPresenter {
     private final DirectionsListView view;
     private final DirectionModel model;
     private final User user;
     private int pageNumber = 1;
     private ApplicationBaseActivity activity;
 
-    public DirectionsListImpl(DirectionsListView view, DirectionModel model, User user) {
+    public DirectionsListPresenterImpl(DirectionsListView view, DirectionModel model, User user) {
         this.view = view;
         this.model = model;
         this.user = user;
