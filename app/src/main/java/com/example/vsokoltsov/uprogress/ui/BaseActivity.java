@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 
 import com.example.vsokoltsov.uprogress.R;
 import com.example.vsokoltsov.uprogress.api.UserApi;
+import com.example.vsokoltsov.uprogress.helpers.PreferencesHelper;
 import com.example.vsokoltsov.uprogress.models.authorization.AuthorizationService;
 import com.example.vsokoltsov.uprogress.models.authorization.CurrentUser;
 import com.example.vsokoltsov.uprogress.utils.ApiRequester;
@@ -31,7 +32,7 @@ public class BaseActivity extends AppCompatActivity {
     }
 
     private void currentUserRequest() {
-        Retrofit retrofit = ApiRequester.getInstance().getRestAdapter();
+        Retrofit retrofit = ApiRequester.getInstance().getRestAdapter(new PreferencesHelper(this));
         UserApi service = retrofit.create(UserApi.class);
         service.getCurrentUser()
                 .subscribeOn(Schedulers.io())

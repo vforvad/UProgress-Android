@@ -1,50 +1,31 @@
 package com.example.vsokoltsov.uprogress.ui.directions;
 
-import android.app.PendingIntent;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.NotificationCompat;
-import android.support.v4.app.TaskStackBuilder;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
 import android.widget.ProgressBar;
 
 import com.example.vsokoltsov.uprogress.R;
 import com.example.vsokoltsov.uprogress.adapters.DirectionsListAdapter;
-import com.example.vsokoltsov.uprogress.api.DirectionsApi;
-import com.example.vsokoltsov.uprogress.interfaces.DirectionItemClickListener;
 import com.example.vsokoltsov.uprogress.models.User;
-import com.example.vsokoltsov.uprogress.models.authorization.AuthenticationModel;
-import com.example.vsokoltsov.uprogress.models.authorization.AuthenticationModelImpl;
 import com.example.vsokoltsov.uprogress.models.authorization.AuthorizationService;
 import com.example.vsokoltsov.uprogress.models.directions.Direction;
 import com.example.vsokoltsov.uprogress.models.directions.DirectionModel;
 import com.example.vsokoltsov.uprogress.models.directions.DirectionModelImpl;
-import com.example.vsokoltsov.uprogress.models.directions.DirectionsList;
-import com.example.vsokoltsov.uprogress.presenters.AuthenticationPresenterImpl;
 import com.example.vsokoltsov.uprogress.presenters.directions.DirectionsListPresenter;
 import com.example.vsokoltsov.uprogress.presenters.directions.DirectionsListPresenterImpl;
 import com.example.vsokoltsov.uprogress.utils.ApiRequester;
 import com.example.vsokoltsov.uprogress.ui.ApplicationBaseActivity;
 import com.example.vsokoltsov.uprogress.view_holders.DirectionListViewHolder;
-import com.example.vsokoltsov.uprogress.view_holders.SignInViewHolder;
-import com.example.vsokoltsov.uprogress.views.SignInView;
-import com.example.vsokoltsov.uprogress.views.authorization.AuthorizationView;
 import com.example.vsokoltsov.uprogress.views.directions.DirectionsListView;
 import com.example.vsokoltsov.uprogress.views.directions.DirectionsListViewImpl;
 
 import org.solovyev.android.views.llm.LinearLayoutManager;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-
-import retrofit2.Retrofit;
 import rx.Observer;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;

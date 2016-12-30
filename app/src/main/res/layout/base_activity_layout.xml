@@ -15,6 +15,12 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
+
+            <FrameLayout
+                android:id="@+id/main_content"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+
             <ProgressBar
                 android:id="@+id/progressBar"
                 style="@android:style/Widget.Holo.TextView.SpinnerItem"
@@ -25,10 +31,6 @@
                 android:layout_gravity="center_vertical|center_horizontal"
                 android:layout_marginBottom="30dp" />
 
-            <FrameLayout
-                android:id="@+id/main_content"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
         </RelativeLayout>
 
     </LinearLayout>

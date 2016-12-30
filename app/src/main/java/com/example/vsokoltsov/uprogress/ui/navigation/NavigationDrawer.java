@@ -363,7 +363,7 @@ public class NavigationDrawer extends Fragment {
 
     public void signOut() {
         authManager.setCurrentUser(null);
-        Token.deleteToken();
+        ///Token.deleteToken();
         EventBus.getDefault().post(new UserMessage("signOut", authManager.getCurrentUser()));
     }
 

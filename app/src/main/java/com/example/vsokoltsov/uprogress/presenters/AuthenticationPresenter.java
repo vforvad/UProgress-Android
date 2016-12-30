@@ -8,7 +8,7 @@ import android.support.v4.app.Fragment;
  */
 
 public interface AuthenticationPresenter {
-    void onCreate(Fragment fragment);
+    //void onCreate(Fragment fragment);
     void onSignInSubmit();
     void onSignUpSubmit();
 }

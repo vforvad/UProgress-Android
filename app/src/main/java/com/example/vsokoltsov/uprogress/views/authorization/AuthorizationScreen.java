@@ -9,7 +9,9 @@ import java.io.IOException;
  * Created by vsokoltsov on 24.12.16.
  */
 
-public interface AuthorizationView {
+public interface AuthorizationScreen {
     void successResponse(CurrentUser currentUser);
-    void failedResponse(Throwable t) throws IOException;
+    void failedResponse(Throwable t);
+
+    void onSingUpDone();
 }

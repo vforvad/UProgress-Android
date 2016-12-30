@@ -17,8 +17,10 @@ public class Token {
     @JsonProperty("token")
     private String token;
 
-    public static String NAME = "uprogresstoken";
-    private static Context context = BaseApplication.getAppContext();
+
+    public Token(String token) {
+        this.token = token;
+    }
 
     public String getToken() {
         return token;
@@ -28,22 +30,5 @@ public class Token {
         this.token = token;
     }
 
-    public static void writeToken(String token) {
-        SharedPreferences sPref = context.getSharedPreferences(BaseApplication.NAME, Context.MODE_PRIVATE);
-        SharedPreferences.Editor ed = sPref.edit();
-        ed.putString(NAME, token);
-        ed.apply();
-    }
 
-    public static String readToken() {
-        SharedPreferences sPref = context.getSharedPreferences(BaseApplication.NAME, Context.MODE_PRIVATE);
-        String str = sPref.getString(NAME, null);
-        return sPref.getString(NAME, null);
-    }
-
-    public static void deleteToken() {
-        SharedPreferences.Editor editor = (SharedPreferences.Editor) context.getSharedPreferences(BaseApplication.NAME, Context.MODE_PRIVATE).edit();
-        editor.putString(NAME, null);
-        editor.commit();
-    }
 }

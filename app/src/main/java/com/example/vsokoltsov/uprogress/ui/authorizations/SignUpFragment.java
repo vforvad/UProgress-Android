@@ -1,6 +1,5 @@
 package com.example.vsokoltsov.uprogress.ui.authorizations;
 
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -10,29 +9,14 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.example.vsokoltsov.uprogress.R;
-import com.example.vsokoltsov.uprogress.api.UserApi;
+import com.example.vsokoltsov.uprogress.helpers.PreferencesHelper;
 import com.example.vsokoltsov.uprogress.models.authorization.AuthenticationModel;
 import com.example.vsokoltsov.uprogress.models.authorization.AuthenticationModelImpl;
-import com.example.vsokoltsov.uprogress.models.authorization.SignUp.SignUpRequest;
-import com.example.vsokoltsov.uprogress.models.authorization.Token;
 import com.example.vsokoltsov.uprogress.presenters.AuthenticationPresenter;
 import com.example.vsokoltsov.uprogress.presenters.AuthenticationPresenterImpl;
-import com.example.vsokoltsov.uprogress.services.ErrorResponse;
-import com.example.vsokoltsov.uprogress.utils.ApiRequester;
-import com.example.vsokoltsov.uprogress.utils.RetrofitException;
-import com.example.vsokoltsov.uprogress.ui.ApplicationBaseActivity;
-import com.example.vsokoltsov.uprogress.view_holders.SignInViewHolder;
 import com.example.vsokoltsov.uprogress.view_holders.SignUpViewHolder;
-import com.example.vsokoltsov.uprogress.views.SignInView;
 import com.example.vsokoltsov.uprogress.views.SignUpView;
-import com.example.vsokoltsov.uprogress.views.authorization.AuthorizationView;
-
-import java.io.IOException;
-
-import retrofit2.Retrofit;
-import rx.Observer;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
+import com.example.vsokoltsov.uprogress.views.authorization.AuthorizationScreen;
 
 /**
  * Created by vsokoltsov on 22.11.16.
@@ -61,9 +45,8 @@ public class SignUpFragment extends Fragment implements Button.OnClickListener {
         viewHolder.setFields(getContext());
 
         final AuthenticationModel model = new AuthenticationModelImpl(viewHolder);
-        final AuthorizationView view = new SignUpView(viewHolder);
-        presenter = new AuthenticationPresenterImpl(model, view);
-        presenter.onCreate(this);
+        final AuthorizationScreen view = new SignUpView(viewHolder);
+        presenter = new AuthenticationPresenterImpl(model, view, new PreferencesHelper(getContext()));
         return fragmentView;
     }
 

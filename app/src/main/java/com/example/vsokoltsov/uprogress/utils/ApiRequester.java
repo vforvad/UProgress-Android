@@ -1,4 +1,7 @@
 package com.example.vsokoltsov.uprogress.utils;
+import android.content.Context;
+
+import com.example.vsokoltsov.uprogress.helpers.PreferencesHelper;
 import com.example.vsokoltsov.uprogress.models.authorization.Token;
 
 import java.io.IOException;
@@ -31,23 +34,23 @@ public class ApiRequester {
     }
 
 
-    private OkHttpClient okHttpClient() {
+    private OkHttpClient okHttpClient(PreferencesHelper preferencesHelper) {
         return new OkHttpClient.Builder().addInterceptor(new Interceptor() {
             @Override
             public okhttp3.Response intercept(Chain chain) throws IOException {
                 String locale = Locale.getDefault().getLanguage();
-                String token = Token.readToken();
+                String token = preferencesHelper.readToken();
                 Request.Builder request = chain.request().newBuilder();
                 if (token != null) {
-                    request.addHeader(Token.NAME, token);
+                    request.addHeader(PreferencesHelper.TOKEN_PREF_NAME, token);
                 }
                 return chain.proceed(request.build());
             }
         }).build();
     }
 
-    public Retrofit getRestAdapter() {
-        OkHttpClient client = this.okHttpClient();
+    public Retrofit getRestAdapter(PreferencesHelper preferencesHelper) {
+        OkHttpClient client = this.okHttpClient(preferencesHelper);
 
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(ApiRequester.API_ADDRESS)

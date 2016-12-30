@@ -78,7 +78,7 @@ public class DirectionsListPresenterImpl implements DirectionsListPresenter {
 
     @Override
     public void refreshList() {
-        layout = view.getRefreshLayout();
+        layout = view.getRefreshLayout(); // should not be here
         pageNumber = 1;
         layout.setRefreshing(true);
         activity.startProgressBar();

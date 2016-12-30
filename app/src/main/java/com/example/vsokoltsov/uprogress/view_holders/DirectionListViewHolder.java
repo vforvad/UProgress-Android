@@ -21,7 +21,6 @@ public class DirectionListViewHolder {
     public final SwipeRefreshLayout swipeLayout;
     private final RecyclerView rv;
     private final LinearLayoutManager llm;
-    private final ApplicationBaseActivity activity;
 
     private List<Direction> directions = new ArrayList<Direction>();
     public DirectionsListAdapter adapter;
@@ -32,7 +31,6 @@ public class DirectionListViewHolder {
                                    Fragment fragment) {
         this.swipeLayout = swipeLayout;
         this.rv = rv;
-        this.activity = (ApplicationBaseActivity) fragment.getActivity();
         adapter = new DirectionsListAdapter(directions, fragment);
         this.llm = llm;
 
