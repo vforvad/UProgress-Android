@@ -37,7 +37,6 @@ public class SignInView extends AuthView implements AuthorizationScreen {
         }
         viewHolder.emailField.setError(errors.getFullErrorMessage("email"));
         viewHolder.passwordField.setError(errors.getFullErrorMessage("password"));
-        //stopProgressBar();
     }
 
     @Override

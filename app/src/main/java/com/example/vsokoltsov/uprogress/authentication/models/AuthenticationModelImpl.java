@@ -17,20 +17,11 @@ import rx.Observable;
 
 // TODO make this class singleton and move initialization into contructor
 public class AuthenticationModelImpl extends BaseModelImpl implements AuthenticationModel {
-    private SignInViewHolder signInViewHolder;
-    private SignUpViewHolder signUpViewHolder;
     private AuthenticationApi service;
     private CurrentUserApi currentUserService;
 
-    public AuthenticationModelImpl(SignInViewHolder signInViewHolder) {
+    public AuthenticationModelImpl() {
         super();
-        this.signInViewHolder = signInViewHolder;
-        setService();
-    }
-
-    public AuthenticationModelImpl(SignUpViewHolder signUpViewHolder) {
-        super();
-        this.signUpViewHolder = signUpViewHolder;
         setService();
     }
 

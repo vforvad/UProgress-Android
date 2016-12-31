@@ -45,12 +45,7 @@ public class AuthenticationPresenterImpl implements AuthenticationPresenter {
     }*/
 
     @Override
-    public void onSignInSubmit() {
-        SignInViewHolder viewHolder = ((SignInView) screen).viewHolder;
-        SignInRequest request = new SignInRequest(
-                viewHolder.emailField.getText().toString(),
-                viewHolder.passwordField.getText().toString()
-        );
+    public void onSignInSubmit(SignInRequest request) {
         screen.startLoader();
         model.signInRequest(request)
                 .flatMap(new Func1<Token, Observable<CurrentUser>>() {
@@ -83,14 +78,7 @@ public class AuthenticationPresenterImpl implements AuthenticationPresenter {
     }
 
     @Override
-    public void onSignUpSubmit() {
-        SignUpViewHolder viewHolder = ((SignUpView) screen).viewHolder;
-        SignUpRequest request = new SignUpRequest(
-                viewHolder.emailField.getText().toString(),
-                viewHolder.passwordField.getText().toString(),
-                viewHolder.passwordConfirmationField.getText().toString(),
-                viewHolder.nickField.getText().toString()
-        );
+    public void onSignUpSubmit(SignUpRequest request) {
         screen.startLoader();
         model.signUpRequest(request)
                 .flatMap(new Func1<Token, Observable<CurrentUser>>() {
