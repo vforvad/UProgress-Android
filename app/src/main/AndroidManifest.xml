@@ -13,21 +13,21 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-        android:name=".BaseApplication">
-        <activity android:name=".ui.authorizations.AuthorizationActivity">
+        android:name=".common.BaseApplication">
+        <activity android:name=".authentication.ui.AuthorizationActivity">
         </activity>
-        <activity android:name=".ui.directions.DirectionsActivity">
+        <activity android:name=".directions_list.ui.DirectionsActivity">
         </activity>
         <activity
-            android:name=".ui.directions.DirectionDetailActivity"
-            android:parentActivityName=".ui.directions.DirectionsActivity">
+            android:name=".directions_list.ui.DirectionDetailActivity"
+            android:parentActivityName=".directions_list.ui.DirectionsActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.example.vsokoltsov.uprogress.ui.directions.DirectionsActivity" />
+                android:value="com.example.vsokoltsov.uprogress.directions_list.ui.DirectionsActivity" />
         </activity>
 
         <activity
-            android:name=".ui.BaseActivity"
+            android:name=".launch.LaunchActivity"
             android:noHistory="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

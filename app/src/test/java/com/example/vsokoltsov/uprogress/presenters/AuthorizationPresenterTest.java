@@ -1,10 +1,11 @@
 package com.example.vsokoltsov.uprogress.presenters;
 
-import com.example.vsokoltsov.uprogress.helpers.PreferencesHelper;
-import com.example.vsokoltsov.uprogress.models.authorization.AuthenticationModel;
-import com.example.vsokoltsov.uprogress.models.authorization.CurrentUser;
-import com.example.vsokoltsov.uprogress.models.authorization.Token;
-import com.example.vsokoltsov.uprogress.views.authorization.AuthorizationScreen;
+import com.example.vsokoltsov.uprogress.authentication.presenters.AuthenticationPresenterImpl;
+import com.example.vsokoltsov.uprogress.common.helpers.PreferencesHelper;
+import com.example.vsokoltsov.uprogress.authentication.models.AuthenticationModel;
+import com.example.vsokoltsov.uprogress.authentication.models.CurrentUser;
+import com.example.vsokoltsov.uprogress.authentication.models.Token;
+import com.example.vsokoltsov.uprogress.authentication.views.AuthorizationScreen;
 
 import org.junit.Before;
 import org.junit.Rule;
@@ -17,9 +18,7 @@ import rx.Observable;
 import rx.plugins.RxJavaSchedulersTestRule;
 
 import static org.mockito.Matchers.any;
-import static org.mockito.Mockito.atLeast;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
