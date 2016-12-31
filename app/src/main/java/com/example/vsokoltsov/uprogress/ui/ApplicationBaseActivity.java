@@ -15,6 +15,7 @@ import com.example.vsokoltsov.uprogress.models.authorization.AuthorizationServic
 import com.example.vsokoltsov.uprogress.models.authorization.CurrentUser;
 import com.example.vsokoltsov.uprogress.utils.ApiRequester;
 import com.example.vsokoltsov.uprogress.ui.navigation.NavigationDrawer;
+import com.example.vsokoltsov.uprogress.utils.ContextManager;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -40,6 +41,7 @@ public class ApplicationBaseActivity extends AppCompatActivity {
         setToolbar();
         setLeftNavigationBar();
         setProgressBar();
+        ContextManager.getInstance().setContext(this);
     }
 
 
