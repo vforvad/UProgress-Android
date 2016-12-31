@@ -5,8 +5,14 @@ import android.support.v4.app.Fragment;
 import com.example.vsokoltsov.uprogress.helpers.PreferencesHelper;
 import com.example.vsokoltsov.uprogress.models.authorization.CurrentUser;
 import com.example.vsokoltsov.uprogress.models.authorization.AuthenticationModel;
+import com.example.vsokoltsov.uprogress.models.authorization.SignIn.SignInRequest;
+import com.example.vsokoltsov.uprogress.models.authorization.SignUp.SignUpRequest;
 import com.example.vsokoltsov.uprogress.models.authorization.Token;
 import com.example.vsokoltsov.uprogress.ui.ApplicationBaseActivity;
+import com.example.vsokoltsov.uprogress.view_holders.SignInViewHolder;
+import com.example.vsokoltsov.uprogress.view_holders.SignUpViewHolder;
+import com.example.vsokoltsov.uprogress.views.SignInView;
+import com.example.vsokoltsov.uprogress.views.SignUpView;
 import com.example.vsokoltsov.uprogress.views.authorization.AuthorizationScreen;
 
 import rx.Observable;
@@ -43,8 +49,12 @@ public class AuthenticationPresenterImpl implements AuthenticationPresenter {
 
     @Override
     public void onSignInSubmit() {
-//        activity.startProgressBar();
-        model.signInRequest()
+        SignInViewHolder viewHolder = ((SignInView) screen).viewHolder;
+        SignInRequest request = new SignInRequest(
+                viewHolder.emailField.getText().toString(),
+                viewHolder.passwordField.getText().toString()
+        );
+        model.signInRequest(request)
                 .flatMap(new Func1<Token, Observable<CurrentUser>>() {
                     @Override
                     public Observable<CurrentUser> call(Token token) {
@@ -80,8 +90,14 @@ public class AuthenticationPresenterImpl implements AuthenticationPresenter {
 
     @Override
     public void onSignUpSubmit() {
-//        activity.startProgressBar();
-        model.signUpRequest()
+        SignUpViewHolder viewHolder = ((SignUpView) screen).viewHolder;
+        SignUpRequest request = new SignUpRequest(
+                viewHolder.emailField.getText().toString(),
+                viewHolder.passwordField.getText().toString(),
+                viewHolder.passwordConfirmationField.getText().toString(),
+                viewHolder.nickField.getText().toString()
+        );
+        model.signUpRequest(request)
                 .flatMap(new Func1<Token, Observable<CurrentUser>>() {
                     @Override
                     public Observable<CurrentUser> call(Token token) {

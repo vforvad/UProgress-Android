@@ -1,6 +1,7 @@
 package com.example.vsokoltsov.uprogress.models.authorization;
 
 import com.example.vsokoltsov.uprogress.models.authorization.SignIn.SignInRequest;
+import com.example.vsokoltsov.uprogress.models.authorization.SignUp.SignUpRequest;
 
 import rx.Observable;
 
@@ -9,7 +10,7 @@ import rx.Observable;
  */
 
 public interface AuthenticationModel {
-    Observable<Token> signInRequest();
-    Observable<Token> signUpRequest();
+    Observable<Token> signInRequest(SignInRequest request);
+    Observable<Token> signUpRequest(SignUpRequest request);
     Observable<CurrentUser> getCurrentUser();
 }

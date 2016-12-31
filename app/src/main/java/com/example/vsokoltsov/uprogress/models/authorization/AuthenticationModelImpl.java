@@ -40,11 +40,7 @@ public class AuthenticationModelImpl extends BaseModelImpl implements Authentica
     }
 
     @Override
-    public Observable<Token> signInRequest() {
-        SignInRequest request = new SignInRequest(
-                signInViewHolder.emailField.getText().toString(),
-                signInViewHolder.passwordField.getText().toString()
-        );
+    public Observable<Token> signInRequest(SignInRequest request) {
         return service.signIn(request);
     }
 
@@ -52,13 +48,7 @@ public class AuthenticationModelImpl extends BaseModelImpl implements Authentica
     //TODO: Move this to the presenter and have the view pass the text of the email field and
     // password as parameters and let the presenter do the requests
     @Override
-    public Observable<Token> signUpRequest() {
-        SignUpRequest request = new SignUpRequest(
-                signUpViewHolder.emailField.getText().toString(),
-                signUpViewHolder.passwordField.getText().toString(),
-                signUpViewHolder.passwordConfirmationField.getText().toString(),
-                signUpViewHolder.nickField.getText().toString()
-        );
+    public Observable<Token> signUpRequest(SignUpRequest request) {
         return service.signUp(request);
     }
 
