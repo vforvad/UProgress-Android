@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.example.vsokoltsov.uprogress.api.UserApi;
 import com.example.vsokoltsov.uprogress.helpers.PreferencesHelper;
+import com.example.vsokoltsov.uprogress.models.BaseModelImpl;
 import com.example.vsokoltsov.uprogress.models.authorization.CurrentUser;
 import com.example.vsokoltsov.uprogress.models.authorization.AuthenticationModel;
 import com.example.vsokoltsov.uprogress.models.authorization.SignIn.SignInRequest;
@@ -21,16 +22,21 @@ import rx.Observable;
  */
 
 // TODO make this class singleton and move initialization into contructor
-public class AuthenticationModelImpl implements AuthenticationModel {
+public class AuthenticationModelImpl extends BaseModelImpl implements AuthenticationModel {
     private SignInViewHolder signInViewHolder;
     private SignUpViewHolder signUpViewHolder;
+    private UserApi service;
 
     public AuthenticationModelImpl(SignInViewHolder signInViewHolder) {
+        super();
         this.signInViewHolder = signInViewHolder;
+        setService();
     }
 
     public AuthenticationModelImpl(SignUpViewHolder signUpViewHolder) {
+        super();
         this.signUpViewHolder = signUpViewHolder;
+        setService();
     }
 
     @Override
@@ -39,10 +45,6 @@ public class AuthenticationModelImpl implements AuthenticationModel {
                 signInViewHolder.emailField.getText().toString(),
                 signInViewHolder.passwordField.getText().toString()
         );
-        Context context = signUpViewHolder.emailField.getContext(); //TODO:get the context with a better mecanism than this
-        PreferencesHelper helper = new PreferencesHelper(context);
-        Retrofit retrofit = ApiRequester.getInstance().getRestAdapter(helper);
-        UserApi service = retrofit.create(UserApi.class);
         return service.signIn(request);
     }
 
@@ -57,19 +59,15 @@ public class AuthenticationModelImpl implements AuthenticationModel {
                 signUpViewHolder.passwordConfirmationField.getText().toString(),
                 signUpViewHolder.nickField.getText().toString()
         );
-        Context context = signUpViewHolder.emailField.getContext(); //TODO:get the context with a better mecanism than this
-        PreferencesHelper helper = new PreferencesHelper(context);
-        Retrofit retrofit = ApiRequester.getInstance().getRestAdapter(helper);
-        UserApi service = retrofit.create(UserApi.class);
         return service.signUp(request);
     }
 
     @Override
     public Observable<CurrentUser> getCurrentUser() {
-        Context context = signUpViewHolder.emailField.getContext(); //TODO:get the context with a better mecanism than this
-        PreferencesHelper helper = new PreferencesHelper(context);
-        Retrofit retrofit = ApiRequester.getInstance().getRestAdapter(helper);
-        UserApi service = retrofit.create(UserApi.class);
         return service.getCurrentUser();
+    }
+
+    private void setService() {
+        service = retrofit.create(UserApi.class);
     }
 }

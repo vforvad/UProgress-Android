@@ -34,7 +34,8 @@ public class ApiRequester {
     }
 
 
-    private OkHttpClient okHttpClient(PreferencesHelper preferencesHelper) {
+    private OkHttpClient okHttpClient() {
+        PreferencesHelper preferencesHelper = new PreferencesHelper();
         return new OkHttpClient.Builder().addInterceptor(new Interceptor() {
             @Override
             public okhttp3.Response intercept(Chain chain) throws IOException {
@@ -49,9 +50,8 @@ public class ApiRequester {
         }).build();
     }
 
-    public Retrofit getRestAdapter(PreferencesHelper preferencesHelper) {
-        OkHttpClient client = this.okHttpClient(preferencesHelper);
-
+    public Retrofit getRestAdapter() {
+        OkHttpClient client = this.okHttpClient();
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(ApiRequester.API_ADDRESS)
                 .addConverterFactory(JacksonConverterFactory.create())
