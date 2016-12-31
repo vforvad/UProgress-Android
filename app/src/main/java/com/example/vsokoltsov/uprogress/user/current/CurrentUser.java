@@ -1,6 +1,6 @@
-package com.example.vsokoltsov.uprogress.authentication.models;
+package com.example.vsokoltsov.uprogress.user.current;
 
-import com.example.vsokoltsov.uprogress.authentication.models.User;
+import com.example.vsokoltsov.uprogress.user.User;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 

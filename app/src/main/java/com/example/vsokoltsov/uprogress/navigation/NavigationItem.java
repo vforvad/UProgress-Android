@@ -2,7 +2,7 @@ package com.example.vsokoltsov.uprogress.navigation;
 
 import android.graphics.Bitmap;
 
-import com.example.vsokoltsov.uprogress.authentication.models.User;
+import com.example.vsokoltsov.uprogress.user.User;
 
 /**
  * Created by vsokoltsov on 23.11.16.

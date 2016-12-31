@@ -1,6 +1,6 @@
 package com.example.vsokoltsov.uprogress.authentication.views;
 
-import com.example.vsokoltsov.uprogress.authentication.models.CurrentUser;
+import com.example.vsokoltsov.uprogress.user.current.CurrentUser;
 import com.example.vsokoltsov.uprogress.common.services.ErrorResponse;
 import com.example.vsokoltsov.uprogress.common.ApplicationBaseActivity;
 import com.example.vsokoltsov.uprogress.common.utils.RetrofitException;

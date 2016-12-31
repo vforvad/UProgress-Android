@@ -3,7 +3,7 @@ package com.example.vsokoltsov.uprogress.directions_list.presenters;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
 
-import com.example.vsokoltsov.uprogress.authentication.models.User;
+import com.example.vsokoltsov.uprogress.user.User;
 import com.example.vsokoltsov.uprogress.directions_list.models.DirectionModel;
 import com.example.vsokoltsov.uprogress.directions_list.models.DirectionsList;
 import com.example.vsokoltsov.uprogress.common.ApplicationBaseActivity;

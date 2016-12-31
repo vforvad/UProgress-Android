@@ -2,6 +2,7 @@ package com.example.vsokoltsov.uprogress.authentication.models;
 
 import com.example.vsokoltsov.uprogress.authentication.models.SignIn.SignInRequest;
 import com.example.vsokoltsov.uprogress.authentication.models.SignUp.SignUpRequest;
+import com.example.vsokoltsov.uprogress.user.current.CurrentUser;
 
 import rx.Observable;
 

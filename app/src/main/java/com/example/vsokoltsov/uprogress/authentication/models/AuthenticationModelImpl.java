@@ -6,6 +6,7 @@ import com.example.vsokoltsov.uprogress.authentication.models.SignIn.SignInReque
 import com.example.vsokoltsov.uprogress.authentication.models.SignUp.SignUpRequest;
 import com.example.vsokoltsov.uprogress.authentication.view_holders.SignInViewHolder;
 import com.example.vsokoltsov.uprogress.authentication.view_holders.SignUpViewHolder;
+import com.example.vsokoltsov.uprogress.user.current.CurrentUser;
 
 import rx.Observable;
 

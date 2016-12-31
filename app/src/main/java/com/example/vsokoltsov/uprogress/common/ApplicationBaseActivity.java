@@ -10,7 +10,7 @@ import android.widget.ProgressBar;
 import com.example.vsokoltsov.uprogress.R;
 import com.example.vsokoltsov.uprogress.authentication.messages.UserMessage;
 import com.example.vsokoltsov.uprogress.authentication.models.AuthorizationService;
-import com.example.vsokoltsov.uprogress.authentication.models.CurrentUser;
+import com.example.vsokoltsov.uprogress.user.current.CurrentUser;
 import com.example.vsokoltsov.uprogress.navigation.NavigationDrawer;
 import com.example.vsokoltsov.uprogress.common.utils.ContextManager;
 

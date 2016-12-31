@@ -11,7 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.vsokoltsov.uprogress.R;
-import com.example.vsokoltsov.uprogress.authentication.models.User;
+import com.example.vsokoltsov.uprogress.user.User;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;

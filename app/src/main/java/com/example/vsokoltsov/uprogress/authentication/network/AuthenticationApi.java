@@ -1,6 +1,6 @@
 package com.example.vsokoltsov.uprogress.authentication.network;
 
-import com.example.vsokoltsov.uprogress.authentication.models.CurrentUser;
+import com.example.vsokoltsov.uprogress.user.current.CurrentUser;
 import com.example.vsokoltsov.uprogress.authentication.models.SignIn.SignInRequest;
 import com.example.vsokoltsov.uprogress.authentication.models.SignUp.SignUpRequest;
 import com.example.vsokoltsov.uprogress.authentication.models.Token;

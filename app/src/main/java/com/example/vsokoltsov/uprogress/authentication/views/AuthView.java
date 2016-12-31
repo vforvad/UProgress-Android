@@ -2,7 +2,7 @@ package com.example.vsokoltsov.uprogress.authentication.views;
 
 import com.example.vsokoltsov.uprogress.authentication.messages.UserMessage;
 import com.example.vsokoltsov.uprogress.authentication.models.AuthorizationService;
-import com.example.vsokoltsov.uprogress.authentication.models.CurrentUser;
+import com.example.vsokoltsov.uprogress.user.current.CurrentUser;
 
 import org.greenrobot.eventbus.EventBus;
 

@@ -1,7 +1,7 @@
 package com.example.vsokoltsov.uprogress.authentication.presenters;
 
 import com.example.vsokoltsov.uprogress.common.helpers.PreferencesHelper;
-import com.example.vsokoltsov.uprogress.authentication.models.CurrentUser;
+import com.example.vsokoltsov.uprogress.user.current.CurrentUser;
 import com.example.vsokoltsov.uprogress.authentication.models.AuthenticationModel;
 import com.example.vsokoltsov.uprogress.authentication.models.SignIn.SignInRequest;
 import com.example.vsokoltsov.uprogress.authentication.models.SignUp.SignUpRequest;

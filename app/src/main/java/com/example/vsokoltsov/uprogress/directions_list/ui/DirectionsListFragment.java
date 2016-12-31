@@ -11,7 +11,7 @@ import android.widget.ProgressBar;
 
 import com.example.vsokoltsov.uprogress.R;
 import com.example.vsokoltsov.uprogress.directions_list.DirectionsListAdapter;
-import com.example.vsokoltsov.uprogress.authentication.models.User;
+import com.example.vsokoltsov.uprogress.user.User;
 import com.example.vsokoltsov.uprogress.authentication.models.AuthorizationService;
 import com.example.vsokoltsov.uprogress.directions_list.models.Direction;
 import com.example.vsokoltsov.uprogress.directions_list.models.DirectionModel;

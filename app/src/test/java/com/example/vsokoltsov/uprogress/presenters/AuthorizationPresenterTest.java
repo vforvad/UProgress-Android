@@ -3,7 +3,7 @@ package com.example.vsokoltsov.uprogress.presenters;
 import com.example.vsokoltsov.uprogress.authentication.presenters.AuthenticationPresenterImpl;
 import com.example.vsokoltsov.uprogress.common.helpers.PreferencesHelper;
 import com.example.vsokoltsov.uprogress.authentication.models.AuthenticationModel;
-import com.example.vsokoltsov.uprogress.authentication.models.CurrentUser;
+import com.example.vsokoltsov.uprogress.user.current.CurrentUser;
 import com.example.vsokoltsov.uprogress.authentication.models.Token;
 import com.example.vsokoltsov.uprogress.authentication.views.AuthorizationScreen;
 
