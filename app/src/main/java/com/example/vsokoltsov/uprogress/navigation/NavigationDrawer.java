@@ -88,8 +88,6 @@ public class NavigationDrawer extends Fragment {
                 navigationItemActions(position);
             }
         });
-//        mDrawerListView = (ListView) inflater.inflate(
-//                R.layout.fragment_navigation, container, false);
         setupElementsList();
         adapter.notifyDataSetChanged();
         mDrawerListView.setItemChecked(mCurrentSelectedPosition, true);
@@ -100,11 +98,6 @@ public class NavigationDrawer extends Fragment {
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
-//        try {
-//            mCallbacks = (NavigationDrawerCallbacks) activity;
-//        } catch (ClassCastException e) {
-//            throw new ClassCastException("Activity must implement NavigationDrawerCallbacks.");
-//        }
     }
 
     @Override
@@ -140,27 +133,11 @@ public class NavigationDrawer extends Fragment {
         return mDrawerLayout != null && mDrawerLayout.isDrawerOpen(mFragmentContainerView);
     }
 
-    public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-//        public void onFragmentInteraction(Uri uri);
-    }
-
-    //    @Override
-    public void onListItemClick(ListView l, View v, int position, long id) {
-        /** Invokes the implementation of the method onListFragmentItemClick in the hosting activity */
-        selectItem(position);
-    }
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (mDrawerToggle != null && mDrawerToggle.onOptionsItemSelected(item)) {
             return true;
         }
-
-//        if (item.getItemId() == R.id.sign_in) {
-//            return true;
-//        }
-
         return super.onOptionsItemSelected(item);
     }
 
@@ -214,12 +191,6 @@ public class NavigationDrawer extends Fragment {
             }
         };
 
-        // If the user hasn't 'learned' about the drawer, open it to introduce them to the drawer,
-        // per the navigation drawer design guidelines.
-//        if (!mUserLearnedDrawer && !mFromSavedInstanceState) {
-//            mDrawerLayout.openDrawer(mFragmentContainerView);
-//        }
-
         // Defer code dependent on restoration of previous instance state.
         mDrawerLayout.post(new Runnable() {
             @Override
@@ -234,23 +205,13 @@ public class NavigationDrawer extends Fragment {
 
     //NAvigation item actions
     private void navigationItemActions(int position) {
-//        Boolean isTablet = getResources().getBoolean(R.bool.isTablet);
-//        if (isTablet) {
-//            setItemsActionsForTablet(position);
-//        }
-//        else {
-            setItemsActionsForPhone(position);
-//        }
+        setItemsActionsForPhone(position);
     }
 
     private void setItemsActionsForPhone(int position) {
         NavigationItem navItem = navigationItems.get(position);
         String signIn = "Sign in";
-//        String signUp = resources.getString(R.string.nav_sign_up);
-//        String users = resources.getString(R.string.nav_users);
-//        String messages = resources.getString(R.string.nav_chats);
-//        String courses = resources.getString(R.string.nav_course);
-//
+
         if (navItem.getTitle().equals(signIn)) {
             Intent authActivity = new Intent(getActivity(), AuthorizationActivity.class);
             authActivity.putExtra("action", "sign_in");
@@ -269,23 +230,6 @@ public class NavigationDrawer extends Fragment {
             getActivity().overridePendingTransition(R.anim.pull_in_right, R.anim.push_out_left);
             mDrawerLayout.closeDrawer(rootView);
         }
-// else if (navItem.getTitle().equals(users)) {
-//            Intent usersActivity = new Intent(getActivity(), MainActivity.class);
-//            startActivity(usersActivity);
-//            getActivity().overridePendingTransition(R.anim.pull_in_right, R.anim.push_out_left);
-//            return;
-//        } else if (navItem.getTitle().equals(messages)) {
-//            Intent chatsActivity = new Intent(getActivity(), ChatActivity.class);
-//            startActivity(chatsActivity);
-//            getActivity().overridePendingTransition(R.anim.pull_in_right, R.anim.push_out_left);
-//            return;
-//        }
-//        else if (navItem.getTitle().equals(courses)) {
-//            Intent coursesActivity = new Intent(getActivity(), CoursesListActivity.class);
-//            startActivity(coursesActivity);
-//            getActivity().overridePendingTransition(R.anim.pull_in_right, R.anim.push_out_left);
-//            return;
-//        }
     }
 
     private void setItemsActionsForTablet(int position) {
