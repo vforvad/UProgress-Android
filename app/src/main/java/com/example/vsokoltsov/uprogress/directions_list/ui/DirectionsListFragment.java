@@ -11,6 +11,7 @@ import android.widget.ProgressBar;
 
 import com.example.vsokoltsov.uprogress.R;
 import com.example.vsokoltsov.uprogress.directions_list.DirectionsListAdapter;
+import com.example.vsokoltsov.uprogress.directions_list.models.DirectionsList;
 import com.example.vsokoltsov.uprogress.user.User;
 import com.example.vsokoltsov.uprogress.authentication.models.AuthorizationService;
 import com.example.vsokoltsov.uprogress.directions_list.models.Direction;
@@ -20,11 +21,13 @@ import com.example.vsokoltsov.uprogress.directions_list.presenters.DirectionsLis
 import com.example.vsokoltsov.uprogress.directions_list.presenters.DirectionsListPresenterImpl;
 import com.example.vsokoltsov.uprogress.common.utils.ApiRequester;
 import com.example.vsokoltsov.uprogress.common.ApplicationBaseActivity;
-import com.example.vsokoltsov.uprogress.directions_list.DirectionListViewHolder;
 import com.example.vsokoltsov.uprogress.directions_list.views.DirectionsListView;
-import com.example.vsokoltsov.uprogress.directions_list.views.DirectionsListViewImpl;
 
 import org.solovyev.android.views.llm.LinearLayoutManager;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import rx.Observer;
 import rx.android.schedulers.AndroidSchedulers;
@@ -34,23 +37,18 @@ import rx.schedulers.Schedulers;
  * Created by vsokoltsov on 26.11.16.
  */
 
-public class DirectionsListFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
+public class DirectionsListFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener, DirectionsListView {
     private View fragmentView;
     private ApplicationBaseActivity activity;
+    private List<Direction> directions = new ArrayList<Direction>();
     private RecyclerView rv;
     private DirectionsListAdapter adapter;
-    private ApiRequester api = ApiRequester.getInstance();
     private AuthorizationService authManager = AuthorizationService.getInstance();
     private SwipeRefreshLayout swipeLayout;
-    private Boolean showMainLoader = true;
-    private int pageNumber = 1;
     private LinearLayoutManager llm;
     private boolean canLoad = true;
-    private static int firstVisibleInListview;
-    private ProgressBar progressBar;
     private DirectionsListPresenter presenter;
 
-    private android.support.v4.app.FragmentManager fragmentManager;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -61,16 +59,18 @@ public class DirectionsListFragment extends Fragment implements SwipeRefreshLayo
 
         fragmentView = inflater.inflate(R.layout.directions_list_fragment, container, false);
         rv = (RecyclerView) fragmentView.findViewById(R.id.directionsList);
+        adapter = new DirectionsListAdapter(directions, this);
+        llm = new LinearLayoutManager(getActivity());
+        rv.setAdapter(adapter);
+        rv.setLayoutManager(llm);
         swipeLayout = (SwipeRefreshLayout) fragmentView.findViewById(R.id.swipe_layout);
         swipeLayout.setOnRefreshListener(this);
-        llm = new LinearLayoutManager(getActivity());
-        final DirectionListViewHolder viewHolder = new DirectionListViewHolder(swipeLayout, rv, llm, this);
 
-        final DirectionModel model = new DirectionModelImpl(viewHolder);
-        final DirectionsListView view = new DirectionsListViewImpl(viewHolder);
-        presenter = new DirectionsListPresenterImpl(view, model, user);
-        presenter.onCreate((ApplicationBaseActivity) getActivity());
-        setOnClickListener(viewHolder);
+
+
+        final DirectionModel model = new DirectionModelImpl();
+        presenter = new DirectionsListPresenterImpl(this, model, user);
+        setOnClickListener();
         setOnScrollListener();
         presenter.loadDirections();
 
@@ -175,8 +175,8 @@ public class DirectionsListFragment extends Fragment implements SwipeRefreshLayo
 //        loadDirectionsList();
 //    }
 
-    private void setOnClickListener(DirectionListViewHolder viewHolder) {
-        viewHolder.adapter.getPositionClicks()
+    private void setOnClickListener() {
+        adapter.getPositionClicks()
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<Direction>() {
@@ -203,9 +203,53 @@ public class DirectionsListFragment extends Fragment implements SwipeRefreshLayo
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
-                presenter.scrollDownListener(recyclerView, dx, dy);
+                LinearLayoutManager layoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
+                int lastLayoutPosition = layoutManager.findLastCompletelyVisibleItemPosition();
+                int itemsCount = layoutManager.getItemCount() - 2;
+                if (lastLayoutPosition == itemsCount && dy > 0) {
+                    presenter.loadMoreDirections();
+                }
             }
         });
     }
 
+    @Override
+    public void successResponse(DirectionsList list) {
+        for(int i = 0; i < list.getDirections().size(); i++) {
+            Direction d = (Direction) list.getDirections().get(i);
+            adapter.directions.add(d);
+        }
+        adapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void failedResponse(Throwable t){
+
+    }
+
+    @Override
+    public void refreshList(DirectionsList list) {
+        adapter.directions = list.getDirections();
+        adapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void startRefreshing() {
+        swipeLayout.setRefreshing(true);
+    }
+
+    @Override
+    public void stopRefreshing() {
+        swipeLayout.setRefreshing(false);
+    }
+
+    @Override
+    public void startLoader() {
+        activity.startProgressBar();
+    }
+
+    @Override
+    public void stopLoader() {
+        activity.stopProgressBar();
+    }
 }

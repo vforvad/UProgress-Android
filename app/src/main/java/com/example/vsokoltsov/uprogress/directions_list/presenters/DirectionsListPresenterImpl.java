@@ -26,10 +26,7 @@ public class DirectionsListPresenterImpl implements DirectionsListPresenter {
     private final DirectionModel model;
     private final User user;
 
-    private int pageNumber = 1;
-    private ApplicationBaseActivity activity;
-    private SwipeRefreshLayout layout;
-    private static int firstVisibleInListview;
+    public int pageNumber = 1;
 
     public DirectionsListPresenterImpl(DirectionsListView view, DirectionModel model, User user) {
         this.view = view;
@@ -38,30 +35,25 @@ public class DirectionsListPresenterImpl implements DirectionsListPresenter {
     }
 
     @Override
-    public void onCreate(ApplicationBaseActivity activity) {
-        this.activity = activity;
-    }
-
-    @Override
     public void loadDirections() {
-        activity.startProgressBar();
+        view.startLoader();
         model.getDirectionsList(user.getNick(), pageNumber)
-                .subscribeOn(Schedulers.newThread())
+                .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<DirectionsList>() {
                     @Override
                     public void onCompleted() {
-                        activity.stopProgressBar();
+                        view.stopLoader();
                     }
 
                     @Override
                     public void onError(Throwable e) {
                         try {
                             view.failedResponse(e);
-                            activity.stopProgressBar();
                         } catch (IOException e1) {
                             e1.printStackTrace();
                         }
+                        view.stopLoader();
                     }
 
                     @Override
@@ -73,24 +65,22 @@ public class DirectionsListPresenterImpl implements DirectionsListPresenter {
 
     @Override
     public void refreshList() {
-        layout = view.getRefreshLayout(); // should not be here
         pageNumber = 1;
-        layout.setRefreshing(true);
-        activity.startProgressBar();
+        view.startRefreshing();
         model.getDirectionsList(user.getNick(), pageNumber)
-                .subscribeOn(Schedulers.newThread())
+                .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<DirectionsList>() {
                     @Override
                     public void onCompleted() {
-                        layout.setRefreshing(false);
+                        view.stopRefreshing();
                     }
 
                     @Override
                     public void onError(Throwable e) {
                         try {
                             view.failedResponse(e);
-                            layout.setRefreshing(false);
+                            view.stopRefreshing();
                         } catch (IOException e1) {
                             e1.printStackTrace();
                         }
@@ -104,13 +94,8 @@ public class DirectionsListPresenterImpl implements DirectionsListPresenter {
     }
 
     @Override
-    public void scrollDownListener(RecyclerView recyclerView, int dx, int dy) {
-        LinearLayoutManager layoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
-        int lastLayoutPosition = layoutManager.findLastCompletelyVisibleItemPosition();
-        int itemsCount = layoutManager.getItemCount() - 2;
-        if (lastLayoutPosition == itemsCount && dy > 0) {
-            pageNumber++;
-            loadDirections();
-        }
+    public void loadMoreDirections() {
+        pageNumber++;
+        loadDirections();
     }
 }

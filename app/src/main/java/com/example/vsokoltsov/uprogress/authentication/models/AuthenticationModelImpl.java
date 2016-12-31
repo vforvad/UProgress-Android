@@ -4,8 +4,6 @@ import com.example.vsokoltsov.uprogress.authentication.network.AuthenticationApi
 import com.example.vsokoltsov.uprogress.common.BaseModelImpl;
 import com.example.vsokoltsov.uprogress.authentication.models.SignIn.SignInRequest;
 import com.example.vsokoltsov.uprogress.authentication.models.SignUp.SignUpRequest;
-import com.example.vsokoltsov.uprogress.authentication.view_holders.SignInViewHolder;
-import com.example.vsokoltsov.uprogress.authentication.view_holders.SignUpViewHolder;
 import com.example.vsokoltsov.uprogress.user.current.CurrentUser;
 import com.example.vsokoltsov.uprogress.user.current.network.CurrentUserApi;
 

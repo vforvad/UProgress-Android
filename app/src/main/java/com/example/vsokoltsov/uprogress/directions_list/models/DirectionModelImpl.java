@@ -15,19 +15,15 @@ import rx.Observable;
  */
 
 public class DirectionModelImpl implements DirectionModel {
-    private final DirectionListViewHolder viewHolder;
+    DirectionsApi service;
 
-    public DirectionModelImpl(DirectionListViewHolder viewHolder) {
-        this.viewHolder = viewHolder;
+    public DirectionModelImpl() {
+        Retrofit retrofit = ApiRequester.getInstance().getRestAdapter();
+        service = retrofit.create(DirectionsApi.class);
     }
 
     @Override
     public Observable<DirectionsList> getDirectionsList(String userId, int pageNumber) {
-        Context context = viewHolder.swipeLayout.getContext(); //TODO:get the context with a better mecanism than this
-        PreferencesHelper helper = new PreferencesHelper(context);
-        //TODO: Put retrofit and rest adapter creation in one place
-        Retrofit retrofit = ApiRequester.getInstance().getRestAdapter();
-        DirectionsApi service = retrofit.create(DirectionsApi.class);
         return service.getDirections(userId, pageNumber);
     }
 }

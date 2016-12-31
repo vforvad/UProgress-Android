@@ -9,8 +9,7 @@ import com.example.vsokoltsov.uprogress.common.ApplicationBaseActivity;
  */
 
 public interface DirectionsListPresenter {
-    void onCreate(ApplicationBaseActivity activity);
     void loadDirections();
     void refreshList();
-    void scrollDownListener(RecyclerView recyclerView, int dx, int dy);
+    void loadMoreDirections();
 }
