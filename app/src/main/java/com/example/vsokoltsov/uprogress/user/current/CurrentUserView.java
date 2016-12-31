@@ -7,4 +7,5 @@ package com.example.vsokoltsov.uprogress.user.current;
 public interface CurrentUserView {
     void currentUserReceived(CurrentUser currentUser);
     void currentUserFailedToReceive(Throwable t);
+    void completedCurrentUserRequest();
 }

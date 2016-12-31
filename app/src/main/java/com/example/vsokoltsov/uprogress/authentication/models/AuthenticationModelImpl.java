@@ -7,6 +7,7 @@ import com.example.vsokoltsov.uprogress.authentication.models.SignUp.SignUpReque
 import com.example.vsokoltsov.uprogress.authentication.view_holders.SignInViewHolder;
 import com.example.vsokoltsov.uprogress.authentication.view_holders.SignUpViewHolder;
 import com.example.vsokoltsov.uprogress.user.current.CurrentUser;
+import com.example.vsokoltsov.uprogress.user.current.network.CurrentUserApi;
 
 import rx.Observable;
 
@@ -19,6 +20,7 @@ public class AuthenticationModelImpl extends BaseModelImpl implements Authentica
     private SignInViewHolder signInViewHolder;
     private SignUpViewHolder signUpViewHolder;
     private AuthenticationApi service;
+    private CurrentUserApi currentUserService;
 
     public AuthenticationModelImpl(SignInViewHolder signInViewHolder) {
         super();
@@ -47,10 +49,11 @@ public class AuthenticationModelImpl extends BaseModelImpl implements Authentica
 
     @Override
     public Observable<CurrentUser> getCurrentUser() {
-        return service.getCurrentUser();
+        return currentUserService.getCurrentUser();
     }
 
     private void setService() {
         service = retrofit.create(AuthenticationApi.class);
+        currentUserService = retrofit.create(CurrentUserApi.class);
     }
 }

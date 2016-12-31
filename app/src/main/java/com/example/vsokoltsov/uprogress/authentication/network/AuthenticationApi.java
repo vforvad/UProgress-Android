@@ -4,6 +4,7 @@ import com.example.vsokoltsov.uprogress.user.current.CurrentUser;
 import com.example.vsokoltsov.uprogress.authentication.models.SignIn.SignInRequest;
 import com.example.vsokoltsov.uprogress.authentication.models.SignUp.SignUpRequest;
 import com.example.vsokoltsov.uprogress.authentication.models.Token;
+import com.example.vsokoltsov.uprogress.user.current.network.CurrentUserApi;
 
 import retrofit2.http.Body;
 import retrofit2.http.GET;
@@ -14,13 +15,10 @@ import rx.Observable;
  * Created by vsokoltsov on 23.11.16.
  */
 
-public interface AuthenticationApi {
+public interface AuthenticationApi{
     @POST("sessions")
     Observable<Token> signIn(@Body SignInRequest user);
 
     @POST("registrations")
     Observable<Token> signUp(@Body SignUpRequest user);
-
-    @GET("sessions/current")
-    Observable<CurrentUser> getCurrentUser();
 }

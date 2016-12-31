@@ -11,6 +11,9 @@ import com.example.vsokoltsov.uprogress.authentication.models.AuthorizationServi
 import com.example.vsokoltsov.uprogress.user.current.CurrentUser;
 import com.example.vsokoltsov.uprogress.common.utils.ApiRequester;
 import com.example.vsokoltsov.uprogress.authentication.ui.AuthorizationActivity;
+import com.example.vsokoltsov.uprogress.user.current.CurrentUserManager;
+import com.example.vsokoltsov.uprogress.user.current.CurrentUserModel;
+import com.example.vsokoltsov.uprogress.user.current.CurrentUserView;
 
 import retrofit2.Retrofit;
 import rx.Observer;
@@ -21,47 +24,32 @@ import rx.schedulers.Schedulers;
  * Created by vsokoltsov on 22.11.16.
  */
 
-public class LaunchActivity extends AppCompatActivity {
+public class LaunchActivity extends AppCompatActivity implements CurrentUserView{
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.authorization_activity);
-        currentUserRequest();
+        CurrentUserModel currentUserManager = new CurrentUserManager();
+        LaunchPresenter presenter = new LaunchPresenter(this, currentUserManager);
+        presenter.getCurrentUser();
+//        currentUserRequest();
     }
 
-    private void currentUserRequest() {
-        Retrofit retrofit = ApiRequester.getInstance().getRestAdapter();
-        AuthenticationApi service = retrofit.create(AuthenticationApi.class);
-        service.getCurrentUser()
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<CurrentUser>() {
-                    @Override
-                    public void onCompleted() {
-                        transitionToUsersList();
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        e.printStackTrace();
-                        transitionToUsersList();
-                    }
-
-                    @Override
-                    public void onNext(CurrentUser user) {
-                        currentUserReceived(user);
-                    }
-                });
-    }
-
-    private void currentUserReceived(CurrentUser user) {
+    @Override
+    public void currentUserReceived(CurrentUser currentUser) {
         AuthorizationService auth = AuthorizationService.getInstance();
-        Debug.waitForDebugger();
-        auth.setCurrentUser(user.getUser());
+        auth.setCurrentUser(currentUser.getUser());
     }
 
-    private void transitionToUsersList() {
+    @Override
+    public void currentUserFailedToReceive(Throwable t) {
+
+    }
+
+    @Override
+    public void completedCurrentUserRequest() {
         Intent usersActivity = new Intent(this, AuthorizationActivity.class);
         startActivity(usersActivity);
         overridePendingTransition(R.anim.pull_in_right, R.anim.push_out_left);
