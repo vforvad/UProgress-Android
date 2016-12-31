@@ -1,5 +1,6 @@
 package com.example.vsokoltsov.uprogress.presenters;
 
+import com.example.vsokoltsov.uprogress.authentication.models.SignIn.SignInRequest;
 import com.example.vsokoltsov.uprogress.authentication.presenters.AuthenticationPresenterImpl;
 import com.example.vsokoltsov.uprogress.common.helpers.PreferencesHelper;
 import com.example.vsokoltsov.uprogress.authentication.models.AuthenticationModel;
@@ -38,6 +39,9 @@ public class AuthorizationPresenterTest {
     AuthenticationPresenterImpl presenter;
 
     @Mock
+    SignInRequest request;
+
+    @Mock
     AuthenticationModel model;
 
     @Mock
@@ -55,10 +59,10 @@ public class AuthorizationPresenterTest {
     public void onSignInSubmitGetsCurrentUser() throws Exception {
         //Given
         String testToken = "Test";
-        when(model.signInRequest()).thenReturn(Observable.just(new Token(testToken)));
+        when(model.signInRequest(request)).thenReturn(Observable.just(new Token(testToken)));
 
         //When
-        presenter.onSignInSubmit();
+        presenter.onSignInSubmit(request);
 
         //Then
         verify(preferencesHelper, times(1)).writeToken(testToken);
@@ -69,11 +73,11 @@ public class AuthorizationPresenterTest {
     public void onTokenAndUserRequestSuccessCallsScreenSuccess() throws Exception {
         //Given
         String testToken = "Test";
-        when(model.signInRequest()).thenReturn(Observable.just(new Token(testToken)));
+        when(model.signInRequest(request)).thenReturn(Observable.just(new Token(testToken)));
         when(model.getCurrentUser()).thenReturn(Observable.just(mock(CurrentUser.class)));
 
         //When
-        presenter.onSignInSubmit();
+        presenter.onSignInSubmit(request);
 
         //Then
         verify(screen, times(1)).successResponse(any(CurrentUser.class));
