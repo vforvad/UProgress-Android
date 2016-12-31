@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 import com.example.vsokoltsov.uprogress.BaseApplication;
+import com.example.vsokoltsov.uprogress.utils.ContextManager;
 
 /**
  * Created by vsokoltsov on 31.12.16.
@@ -12,12 +13,17 @@ import com.example.vsokoltsov.uprogress.BaseApplication;
 public class PreferencesHelper {
 
     private Context context;
+    private ContextManager contextManager = ContextManager.getInstance();
 
     public static String TOKEN_PREF_NAME = "uprogresstoken";
 
     public PreferencesHelper(Context context) {
         this.context = context;
     }
+    public PreferencesHelper() {
+        this.context = contextManager.getContext();
+    }
+
 
     public void writeToken(String token) {
         SharedPreferences sPref = context.getSharedPreferences(BaseApplication.NAME, Context.MODE_PRIVATE);
