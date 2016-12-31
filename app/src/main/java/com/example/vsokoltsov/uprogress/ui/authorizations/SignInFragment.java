@@ -25,7 +25,7 @@ import com.example.vsokoltsov.uprogress.views.SignInView;
 
 public class SignInFragment extends Fragment implements Button.OnClickListener {
     private View fragmentView;
-    private ApplicationBaseActivity activity;
+    public ApplicationBaseActivity activity;
     private EditText emailField;
     private EditText passwordField;
     private AuthenticationPresenter presenter;
@@ -47,7 +47,7 @@ public class SignInFragment extends Fragment implements Button.OnClickListener {
         viewHolder.setFields(getContext());
 
         final AuthenticationModel model = new AuthenticationModelImpl(viewHolder);
-        final AuthorizationScreen view = new SignInView(viewHolder);
+        final AuthorizationScreen view = new SignInView(viewHolder, activity);
         presenter = new AuthenticationPresenterImpl(model, view, new PreferencesHelper(getContext()));
         return fragmentView;
     }

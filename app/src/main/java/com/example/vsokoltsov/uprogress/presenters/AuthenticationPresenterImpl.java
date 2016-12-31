@@ -54,6 +54,7 @@ public class AuthenticationPresenterImpl implements AuthenticationPresenter {
                 viewHolder.emailField.getText().toString(),
                 viewHolder.passwordField.getText().toString()
         );
+        screen.startLoader();
         model.signInRequest(request)
                 .flatMap(new Func1<Token, Observable<CurrentUser>>() {
                     @Override
@@ -67,17 +68,13 @@ public class AuthenticationPresenterImpl implements AuthenticationPresenter {
                 .subscribe(new Observer<CurrentUser>() {
                     @Override
                     public void onCompleted() {
-//                        activity.stopProgressBar();
+                        screen.stopLoader();
                     }
 
                     @Override
                     public void onError(Throwable e) {
-//                        try {
-////                            view.failedResponse(e);
-////                            activity.stopProgressBar();
-//                        } catch (IOException e1) {
-//                            e1.printStackTrace();
-//                        }
+                        screen.failedResponse(e);
+                        screen.stopLoader();
                     }
 
                     @Override
@@ -97,6 +94,7 @@ public class AuthenticationPresenterImpl implements AuthenticationPresenter {
                 viewHolder.passwordConfirmationField.getText().toString(),
                 viewHolder.nickField.getText().toString()
         );
+        screen.startLoader();
         model.signUpRequest(request)
                 .flatMap(new Func1<Token, Observable<CurrentUser>>() {
                     @Override
@@ -110,13 +108,13 @@ public class AuthenticationPresenterImpl implements AuthenticationPresenter {
                 .subscribe(new Observer<CurrentUser>() {
                     @Override
                     public void onCompleted() {
-                       screen.onSingUpDone();
+                       screen.stopLoader();
                     }
 
                     @Override
                     public void onError(Throwable e) {
                         screen.failedResponse(e);
-////
+                        screen.stopLoader();
                     }
 
                     @Override

@@ -17,8 +17,4 @@ abstract class AuthView {
         auth.setCurrentUser(currentUser.getUser());
         EventBus.getDefault().post(new UserMessage("currentUser", currentUser.getUser()));
     }
-
-    void startLoader() {
-
-    }
 }

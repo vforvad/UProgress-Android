@@ -32,7 +32,7 @@ public class BaseActivity extends AppCompatActivity {
     }
 
     private void currentUserRequest() {
-        Retrofit retrofit = ApiRequester.getInstance().getRestAdapter(new PreferencesHelper(this));
+        Retrofit retrofit = ApiRequester.getInstance().getRestAdapter();
         UserApi service = retrofit.create(UserApi.class);
         service.getCurrentUser()
                 .subscribeOn(Schedulers.io())

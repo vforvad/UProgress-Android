@@ -1,7 +1,10 @@
 package com.example.vsokoltsov.uprogress.views;
 
+import android.support.v4.app.Fragment;
+
 import com.example.vsokoltsov.uprogress.models.authorization.CurrentUser;
 import com.example.vsokoltsov.uprogress.services.ErrorResponse;
+import com.example.vsokoltsov.uprogress.ui.ApplicationBaseActivity;
 import com.example.vsokoltsov.uprogress.utils.RetrofitException;
 import com.example.vsokoltsov.uprogress.view_holders.SignUpViewHolder;
 import com.example.vsokoltsov.uprogress.views.authorization.AuthorizationScreen;
@@ -14,9 +17,11 @@ import java.io.IOException;
 
 public class SignUpView extends AuthView implements AuthorizationScreen {
     public final SignUpViewHolder viewHolder;
+    public ApplicationBaseActivity activity;
 
-    public SignUpView(SignUpViewHolder viewHolder) {
+    public SignUpView(SignUpViewHolder viewHolder, ApplicationBaseActivity activity) {
         this.viewHolder = viewHolder;
+        this.activity = activity;
     }
 
 
@@ -41,7 +46,12 @@ public class SignUpView extends AuthView implements AuthorizationScreen {
     }
 
     @Override
-    public void onSingUpDone() {
+    public void startLoader() {
+        activity.startProgressBar();
+    }
 
+    @Override
+    public void stopLoader() {
+        activity.stopProgressBar();
     }
 }

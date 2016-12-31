@@ -28,7 +28,7 @@ public class DirectionModelImpl implements DirectionModel {
         Context context = viewHolder.swipeLayout.getContext(); //TODO:get the context with a better mecanism than this
         PreferencesHelper helper = new PreferencesHelper(context);
         //TODO: Put retrofit and rest adapter creation in one place
-        Retrofit retrofit = ApiRequester.getInstance().getRestAdapter(helper);
+        Retrofit retrofit = ApiRequester.getInstance().getRestAdapter();
         DirectionsApi service = retrofit.create(DirectionsApi.class);
         return service.getDirections(userId, pageNumber);
     }
