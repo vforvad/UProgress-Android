@@ -20,9 +20,7 @@ import com.example.vsokoltsov.uprogress.authentication.models.AuthenticationMode
 import com.example.vsokoltsov.uprogress.authentication.presenters.AuthenticationPresenter;
 import com.example.vsokoltsov.uprogress.authentication.presenters.AuthenticationPresenterImpl;
 import com.example.vsokoltsov.uprogress.common.ApplicationBaseActivity;
-import com.example.vsokoltsov.uprogress.authentication.view_holders.SignInViewHolder;
 import com.example.vsokoltsov.uprogress.authentication.views.AuthorizationScreen;
-import com.example.vsokoltsov.uprogress.authentication.views.SignInView;
 import com.example.vsokoltsov.uprogress.common.services.ErrorResponse;
 import com.example.vsokoltsov.uprogress.common.utils.RetrofitException;
 import com.example.vsokoltsov.uprogress.user.current.CurrentUser;
@@ -51,7 +49,6 @@ public class SignInFragment extends Fragment implements Button.OnClickListener, 
         fragmentView = inflater.inflate(R.layout.sign_in_fragment, container, false);
         setFields();
         setButton();
-
 
         final AuthenticationModel model = new AuthenticationModelImpl();
         presenter = new AuthenticationPresenterImpl(model, this, new PreferencesHelper(getContext()));

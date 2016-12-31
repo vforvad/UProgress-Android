@@ -20,8 +20,6 @@ import com.example.vsokoltsov.uprogress.authentication.models.AuthenticationMode
 import com.example.vsokoltsov.uprogress.authentication.presenters.AuthenticationPresenter;
 import com.example.vsokoltsov.uprogress.authentication.presenters.AuthenticationPresenterImpl;
 import com.example.vsokoltsov.uprogress.common.ApplicationBaseActivity;
-import com.example.vsokoltsov.uprogress.authentication.view_holders.SignUpViewHolder;
-import com.example.vsokoltsov.uprogress.authentication.views.SignUpView;
 import com.example.vsokoltsov.uprogress.authentication.views.AuthorizationScreen;
 import com.example.vsokoltsov.uprogress.common.services.ErrorResponse;
 import com.example.vsokoltsov.uprogress.common.utils.RetrofitException;

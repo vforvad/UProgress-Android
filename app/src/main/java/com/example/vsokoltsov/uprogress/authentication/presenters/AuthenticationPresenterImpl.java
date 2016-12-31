@@ -6,10 +6,6 @@ import com.example.vsokoltsov.uprogress.authentication.models.AuthenticationMode
 import com.example.vsokoltsov.uprogress.authentication.models.SignIn.SignInRequest;
 import com.example.vsokoltsov.uprogress.authentication.models.SignUp.SignUpRequest;
 import com.example.vsokoltsov.uprogress.authentication.models.Token;
-import com.example.vsokoltsov.uprogress.authentication.view_holders.SignInViewHolder;
-import com.example.vsokoltsov.uprogress.authentication.view_holders.SignUpViewHolder;
-import com.example.vsokoltsov.uprogress.authentication.views.SignInView;
-import com.example.vsokoltsov.uprogress.authentication.views.SignUpView;
 import com.example.vsokoltsov.uprogress.authentication.views.AuthorizationScreen;
 
 import rx.Observable;
