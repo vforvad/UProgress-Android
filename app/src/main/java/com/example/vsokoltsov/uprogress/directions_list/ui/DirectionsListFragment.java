@@ -68,12 +68,7 @@ public class DirectionsListFragment extends Fragment implements SwipeRefreshLayo
         rv = (RecyclerView) fragmentView.findViewById(R.id.directionsList);
         llm = new LinearLayoutManager(getActivity());
         rv.setLayoutManager(llm);
-        adapter = new DirectionsListAdapter(directions, rv, new OnLoadMoreListener() {
-            @Override
-            public void onLoadMore() {
-                presenter.loadMoreDirections();
-            }
-        });
+        adapter = new DirectionsListAdapter(directions, rv, this);
         rv.setAdapter(adapter);
 
         swipeLayout = (SwipeRefreshLayout) fragmentView.findViewById(R.id.swipe_layout);
@@ -160,8 +155,18 @@ public class DirectionsListFragment extends Fragment implements SwipeRefreshLayo
     }
 
     @Override
+    public void startFooterLoader() {
+        adapter.addDirection(null);
+    }
+
+    @Override
     public void stopFooterLoader() {
         adapter.removeItem(null);
+    }
+
+    @Override
+    public void onLoadMore() {
+        presenter.loadMoreDirections();
     }
 
     @Override

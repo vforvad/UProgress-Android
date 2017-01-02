@@ -93,6 +93,7 @@ public class DirectionsListPresenterImpl implements DirectionsListPresenter {
     @Override
     public void loadMoreDirections() {
         pageNumber++;
+        view.startFooterLoader();
         directionsList()
                 .subscribe(new Observer<DirectionsList>() {
                     @Override

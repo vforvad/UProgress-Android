@@ -14,6 +14,7 @@ import com.example.vsokoltsov.uprogress.R;
 import com.example.vsokoltsov.uprogress.common.interfaces.OnLoadMoreListener;
 import com.example.vsokoltsov.uprogress.directions_list.models.Direction;
 import com.example.vsokoltsov.uprogress.directions_list.ui.DirectionCompletionItemView;
+import com.example.vsokoltsov.uprogress.directions_list.views.DirectionsListView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -51,7 +52,7 @@ public class DirectionsListAdapter extends RecyclerView.Adapter<RecyclerView.Vie
     }
 
     public DirectionsListAdapter(List<Direction> directions, RecyclerView recyclerView,
-                     final OnLoadMoreListener onLoadMoreListener){
+                     final DirectionsListView view){
         this.directions = directions;
 
         if (recyclerView.getLayoutManager() instanceof LinearLayoutManager) {
@@ -63,21 +64,13 @@ public class DirectionsListAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                     visibleItemCount = linearLayoutManager.getChildCount();
                     firstVisibleItem = linearLayoutManager.findFirstVisibleItemPosition();
 
-                    if (loading) {
-                        if (totalItemCount > previousTotal) {
-                            loading = false;
-                            previousTotal = totalItemCount;
-                        }
-                    }
                     int firstNumber = totalItemCount - visibleItemCount - 1;
-                    if (!loading && (firstNumber <= (firstVisibleItem))) {
+                    if (firstNumber <= firstVisibleItem) {
                         // End has been reached
 
-                        addDirection(null);
-                        if (onLoadMoreListener != null) {
-                            onLoadMoreListener.onLoadMore();
+                        if (view != null) {
+                            view.onLoadMore();
                         }
-                        loading = true;
                     }
                 }
             });

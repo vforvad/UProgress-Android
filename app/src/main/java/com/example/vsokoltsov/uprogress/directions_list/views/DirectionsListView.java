@@ -17,5 +17,7 @@ public interface DirectionsListView extends BaseView {
     void refreshList(DirectionsList list);
     void startRefreshing();
     void stopRefreshing();
+    void startFooterLoader();
     void stopFooterLoader();
+    void onLoadMore();
 }
