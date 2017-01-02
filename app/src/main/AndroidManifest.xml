@@ -19,7 +19,7 @@
         <activity android:name=".directions_list.ui.DirectionsActivity">
         </activity>
         <activity
-            android:name=".directions_list.ui.DirectionDetailActivity"
+            android:name=".direction_detail.DirectionDetailActivity"
             android:parentActivityName=".directions_list.ui.DirectionsActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"

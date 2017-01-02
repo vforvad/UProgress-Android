@@ -1,4 +1,4 @@
-package com.example.vsokoltsov.uprogress.directions_list.ui;
+package com.example.vsokoltsov.uprogress.direction_detail;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;

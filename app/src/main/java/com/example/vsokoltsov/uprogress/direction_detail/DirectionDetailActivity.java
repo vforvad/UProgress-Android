@@ -1,4 +1,4 @@
-package com.example.vsokoltsov.uprogress.directions_list.ui;
+package com.example.vsokoltsov.uprogress.direction_detail;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -8,6 +8,7 @@ import android.view.MenuItem;
 import com.example.vsokoltsov.uprogress.R;
 import com.example.vsokoltsov.uprogress.directions_list.models.Direction;
 import com.example.vsokoltsov.uprogress.common.ApplicationBaseActivity;
+import com.example.vsokoltsov.uprogress.directions_list.ui.DirectionsActivity;
 
 
 /**
