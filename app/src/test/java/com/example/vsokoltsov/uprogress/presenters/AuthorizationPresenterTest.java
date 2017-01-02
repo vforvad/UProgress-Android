@@ -1,6 +1,7 @@
 package com.example.vsokoltsov.uprogress.presenters;
 
 import com.example.vsokoltsov.uprogress.authentication.models.SignIn.SignInRequest;
+import com.example.vsokoltsov.uprogress.authentication.models.SignUp.SignUpRequest;
 import com.example.vsokoltsov.uprogress.authentication.presenters.AuthenticationPresenterImpl;
 import com.example.vsokoltsov.uprogress.common.helpers.PreferencesHelper;
 import com.example.vsokoltsov.uprogress.authentication.models.AuthenticationModel;
@@ -42,6 +43,9 @@ public class AuthorizationPresenterTest {
     SignInRequest request;
 
     @Mock
+    SignUpRequest signUpRequest;
+
+    @Mock
     AuthenticationModel model;
 
     @Mock
@@ -81,5 +85,52 @@ public class AuthorizationPresenterTest {
 
         //Then
         verify(screen, times(1)).successResponse(any(CurrentUser.class));
+    }
+
+    @Test
+    public void onFailureSignIn() throws Exception {
+        Throwable t = new Throwable();
+        when(model.signInRequest(request)).thenReturn(Observable.error(t));
+
+        presenter.onSignInSubmit(request);
+
+        verify(screen, times(1)).failedResponse(t);
+    }
+
+    @Test
+    public void onSignUpSubmitGetsCurrentUser() throws Exception {
+        String testToken = "Test";
+        when(model.signUpRequest(signUpRequest)).thenReturn(Observable.just(new Token(testToken)));
+
+        //When
+        presenter.onSignUpSubmit(signUpRequest);
+
+        //Then
+        verify(preferencesHelper, times(1)).writeToken(testToken);
+        verify(model, times(1)).getCurrentUser();
+    }
+
+    @Test
+    public void onSuccessSignUpCallCurrentUser() throws Exception {
+        //Given
+        String testToken = "Test";
+        when(model.signUpRequest(signUpRequest)).thenReturn(Observable.just(new Token(testToken)));
+        when(model.getCurrentUser()).thenReturn(Observable.just(mock(CurrentUser.class)));
+
+        //When
+        presenter.onSignUpSubmit(signUpRequest);
+
+        //Then
+        verify(screen, times(1)).successResponse(any(CurrentUser.class));
+    }
+
+    @Test
+    public void onFailureSignUp() throws Exception {
+        Throwable t = new Throwable();
+        when(model.signUpRequest(signUpRequest)).thenReturn(Observable.error(t));
+
+        presenter.onSignUpSubmit(signUpRequest);
+
+        verify(screen, times(1)).failedResponse(t);
     }
 }
