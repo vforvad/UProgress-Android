@@ -1,9 +1,13 @@
 package com.example.vsokoltsov.uprogress.directions_list.ui;
 
 import android.content.DialogInterface;
+import android.content.res.ColorStateList;
 import android.content.res.Resources;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
@@ -33,8 +37,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.annotation.Resource;
-
 import rx.Observer;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -54,6 +56,7 @@ public class DirectionsListFragment extends Fragment implements SwipeRefreshLayo
     private boolean canLoad = true;
     private DirectionsListPresenter presenter;
     private User user;
+    private FloatingActionButton floatingActionButton;
 
 
     @Override
@@ -70,6 +73,9 @@ public class DirectionsListFragment extends Fragment implements SwipeRefreshLayo
     }
 
     private void setElements() {
+        floatingActionButton = (FloatingActionButton) fragmentView.findViewById(R.id.addDirection);
+        floatingActionButton.setImageDrawable(getResources().getDrawable(R.drawable.ic_add_white));
+        floatingActionButton.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.price_green)));
         rv = (RecyclerView) fragmentView.findViewById(R.id.directionsList);
         llm = new LinearLayoutManager(getActivity());
         rv.setLayoutManager(llm);
