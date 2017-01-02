@@ -73,9 +73,7 @@ public class DirectionsListFragment extends Fragment implements SwipeRefreshLayo
     }
 
     private void setElements() {
-        floatingActionButton = (FloatingActionButton) fragmentView.findViewById(R.id.addDirection);
-        floatingActionButton.setImageDrawable(getResources().getDrawable(R.drawable.ic_add_white));
-        floatingActionButton.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.price_green)));
+        setButton();
         rv = (RecyclerView) fragmentView.findViewById(R.id.directionsList);
         llm = new LinearLayoutManager(getActivity());
         rv.setLayoutManager(llm);
@@ -84,6 +82,12 @@ public class DirectionsListFragment extends Fragment implements SwipeRefreshLayo
 
         swipeLayout = (SwipeRefreshLayout) fragmentView.findViewById(R.id.swipe_layout);
         swipeLayout.setOnRefreshListener(this);
+    }
+
+    public void setButton() {
+        floatingActionButton = (FloatingActionButton) fragmentView.findViewById(R.id.addDirection);
+        floatingActionButton.setImageDrawable(getResources().getDrawable(R.drawable.ic_add_white));
+        floatingActionButton.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.price_green)));
     }
 
     private void setComponents() {
@@ -192,7 +196,7 @@ public class DirectionsListFragment extends Fragment implements SwipeRefreshLayo
 
     @Override
     public void failedResponse(Throwable t){
-
+        t.printStackTrace();
     }
 
     @Override
