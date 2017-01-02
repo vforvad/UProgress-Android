@@ -5,4 +5,5 @@ package com.example.vsokoltsov.uprogress.direction_detail.presenter;
  */
 
 public interface DirectionDetailPresenter {
+    void loadDirection(String userNick, String directionId);
 }

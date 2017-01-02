@@ -17,6 +17,7 @@ public class DirectionsActivity extends ApplicationBaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        super.setLeftNavigationBar();
 //        if (!replaceFragment) {
         fragmentManager = getSupportFragmentManager();
         android.support.v4.app.FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();

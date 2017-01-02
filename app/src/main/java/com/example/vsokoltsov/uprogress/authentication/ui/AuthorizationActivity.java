@@ -19,6 +19,7 @@ public class AuthorizationActivity extends ApplicationBaseActivity{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        super.setLeftNavigationBar();
         defineCurrentTab();
         setFragment();
     }

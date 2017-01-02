@@ -2,6 +2,7 @@ package com.example.vsokoltsov.uprogress.navigation;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -329,5 +330,11 @@ public class NavigationDrawer extends Fragment {
                 break;
             default: break;
         }
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        mDrawerToggle.onConfigurationChanged(newConfig);
     }
 }

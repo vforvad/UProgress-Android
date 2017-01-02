@@ -1,6 +1,7 @@
 package com.example.vsokoltsov.uprogress.directions_list.ui;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
@@ -17,7 +18,9 @@ import android.view.ViewGroup;
 import android.widget.ProgressBar;
 
 import com.example.vsokoltsov.uprogress.R;
+import com.example.vsokoltsov.uprogress.authentication.ui.AuthorizationActivity;
 import com.example.vsokoltsov.uprogress.common.interfaces.OnLoadMoreListener;
+import com.example.vsokoltsov.uprogress.direction_detail.ui.DirectionDetailActivity;
 import com.example.vsokoltsov.uprogress.directions_list.DirectionsListAdapter;
 import com.example.vsokoltsov.uprogress.directions_list.models.DirectionsList;
 import com.example.vsokoltsov.uprogress.user.User;
@@ -118,7 +121,11 @@ public class DirectionsListFragment extends Fragment implements SwipeRefreshLayo
 
                     @Override
                     public void onNext(Direction direction) {
-
+                        Intent directionDetailActivity = new Intent(getActivity(), DirectionDetailActivity.class);
+                        directionDetailActivity.putExtra("user", user.getNick());
+                        directionDetailActivity.putExtra("direction", direction.getId());
+                        startActivity(directionDetailActivity);
+                        getActivity().overridePendingTransition(R.anim.pull_in_right, R.anim.push_out_left);
 
                     }
                 });

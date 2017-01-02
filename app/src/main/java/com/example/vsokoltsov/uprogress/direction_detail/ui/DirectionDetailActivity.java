@@ -23,15 +23,11 @@ public class DirectionDetailActivity extends ApplicationBaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getExtras();
-        Bundle arguments = new Bundle();
-        arguments.putParcelable("direction", direction);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
         fragmentManager = getSupportFragmentManager();
         android.support.v4.app.FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         directionDetailFragment= new DirectionDetailFragment();
-        directionDetailFragment.setArguments(arguments);
         fragmentTransaction.replace(R.id.main_content, directionDetailFragment);
         fragmentTransaction.commit();
     }

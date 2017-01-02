@@ -31,16 +31,8 @@ public class ApplicationBaseActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.base_activity_layout);
         setToolbar();
-        setLeftNavigationBar();
         setProgressBar();
         ContextManager.getInstance().setContext(this);
-    }
-
-
-    public void currentUserReceived(CurrentUser user) {
-        AuthorizationService auth = AuthorizationService.getInstance();
-        auth.setCurrentUser(user.getUser());
-        EventBus.getDefault().post(new UserMessage("currentUser", user.getUser()));
     }
 
     public void setToolbar() {
