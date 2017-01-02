@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,20 +27,19 @@ import rx.subjects.PublishSubject;
  * Created by vsokoltsov on 27.11.16.
  */
 
-public class DirectionsListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class DirectionsListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements View.OnCreateContextMenuListener {
     public List<Direction> directions = new ArrayList<Direction>();
     private Activity activity;
     public Fragment fragment;
-
-    private final int VISIBLE_THRESHOLD = 2;
+    public DirectionsListView view;
 
     private final int ITEM_VIEW_TYPE_BASIC = 0;
     private final int ITEM_VIEW_TYPE_FOOTER = 1;
 
     private int firstVisibleItem, visibleItemCount, totalItemCount, previousTotal = 0;
-    private boolean loading = true;
 
     private final PublishSubject<Direction> onClickSubject = PublishSubject.create();
+    private final PublishSubject<Direction> onLongClickSubject = PublishSubject.create();
 
     public DirectionsListAdapter(List<Direction> directions, Activity activity) {
         this.directions = directions;
@@ -54,6 +54,7 @@ public class DirectionsListAdapter extends RecyclerView.Adapter<RecyclerView.Vie
     public DirectionsListAdapter(List<Direction> directions, RecyclerView recyclerView,
                      final DirectionsListView view){
         this.directions = directions;
+        this.view = view;
 
         if (recyclerView.getLayoutManager() instanceof LinearLayoutManager) {
             final LinearLayoutManager linearLayoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
@@ -109,7 +110,9 @@ public class DirectionsListAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
     private RecyclerView.ViewHolder onCreateBasicView(ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.direction_completion_view_item, parent, false);
-        return new DirectionViewHolder(v);
+        DirectionViewHolder viewHolder = new DirectionViewHolder(v);
+        viewHolder.directionCompletionItemView.setOnCreateContextMenuListener(this);
+        return viewHolder;
     }
 
     private RecyclerView.ViewHolder onCreateFooterView(ViewGroup parent, int viewType) {
@@ -127,6 +130,14 @@ public class DirectionsListAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                 onClickSubject.onNext(direction);
             }
         });
+
+        ((DirectionViewHolder) holder).directionCompletionItemView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                onLongClickSubject.onNext(direction);
+                return true;
+            }
+        });
     }
 
     private void onBindFooterView(RecyclerView.ViewHolder genericHolder, int position) {
@@ -135,6 +146,15 @@ public class DirectionsListAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
     public Observable<Direction> getPositionClicks(){
         return onClickSubject.asObservable();
+    }
+
+    public Observable<Direction> getLongClick() {
+        return onLongClickSubject.asObservable();
+    }
+
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+
     }
 
     public class FooterViewHolder extends RecyclerView.ViewHolder {
@@ -158,6 +178,7 @@ public class DirectionsListAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         public void bind(Direction direction) {
             directionCompletionItemView.bind(direction);
         }
+
     }
 
     @Override
@@ -170,27 +191,9 @@ public class DirectionsListAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         return directions.get(position) != null ? ITEM_VIEW_TYPE_BASIC : ITEM_VIEW_TYPE_FOOTER ;
     }
 
-    public void resetItems(@NonNull List<Direction> newDataSet) {
-        loading = true;
-        firstVisibleItem = 0;
-        visibleItemCount = 0;
-        totalItemCount = 0;
-        previousTotal = 0;
-
-        directions.clear();
-        addItems(newDataSet);
-    }
-
     public void addItems(@NonNull List<Direction> newDataSetItems) {
         directions.addAll(newDataSetItems);
         notifyDataSetChanged();
-    }
-
-    public void addItem(Direction item) {
-        if (!directions.contains(item)) {
-            directions.add(item);
-            notifyItemInserted(directions.size() - 1);
-        }
     }
 
     public void removeItem(Direction item) {

@@ -1,8 +1,11 @@
 package com.example.vsokoltsov.uprogress.directions_list.ui;
 
+import android.content.DialogInterface;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,6 +32,8 @@ import org.solovyev.android.views.llm.LinearLayoutManager;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.annotation.Resource;
 
 import rx.Observer;
 import rx.android.schedulers.AndroidSchedulers;
@@ -107,6 +112,26 @@ public class DirectionsListFragment extends Fragment implements SwipeRefreshLayo
 
                     }
                 });
+
+        adapter.getLongClick()
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<Direction>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(Direction direction) {
+                        selectedItemAction(direction);
+                    }
+                });
     }
 
     private void setOnScrollListener() {
@@ -124,10 +149,36 @@ public class DirectionsListFragment extends Fragment implements SwipeRefreshLayo
         });
     }
 
+    private void selectedItemAction(Direction direction) {
+        Resources resource = getResources();
+        final CharSequence[] items = {
+                resource.getString(R.string.directions_list_menu_edit),
+                resource.getString(R.string.directions_list_menu_delete)
+        };
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+
+        builder.setTitle(getResources().getString(R.string.directions_list_menu_title));
+        builder.setItems(items, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int item) {
+                switch(item) {
+                    case 0:
+                        break;
+                    case 1:
+                        break;
+                    default:
+                        break;
+                }
+            }
+        });
+        builder.show();
+    }
+
     @Override
     public void successResponse(DirectionsList list) {
         for(int i = 0; i < list.getDirections().size(); i++) {
-            Direction d = (Direction) list.getDirections().get(i);
+            Direction d = list.getDirections().get(i);
             adapter.directions.add(d);
         }
         adapter.notifyDataSetChanged();

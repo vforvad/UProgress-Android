@@ -7,4 +7,7 @@
     <string name="password_confirmation">Подтверждение пароля</string>
     <string name="nick">Ник</string>
     <string name="loading">Загрузка...</string>
+    <string name="directions_list_menu_title">Действия</string>
+    <string name="directions_list_menu_edit">Редактировать</string>
+    <string name="directions_list_menu_delete">Удалить</string>
 </resources>

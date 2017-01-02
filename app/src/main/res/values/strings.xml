@@ -9,4 +9,7 @@
     <string name="sign_in">Sign in</string>
     <string name="sign_up">Sign up</string>
     <string name="loading">Loading...</string>
+    <string name="directions_list_menu_title">Actions</string>
+    <string name="directions_list_menu_edit">Edit</string>
+    <string name="directions_list_menu_delete">Delete</string>
 </resources>
