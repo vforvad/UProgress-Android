@@ -1,4 +1,4 @@
-package com.example.vsokoltsov.uprogress.direction_detail;
+package com.example.vsokoltsov.uprogress.direction_detail.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
