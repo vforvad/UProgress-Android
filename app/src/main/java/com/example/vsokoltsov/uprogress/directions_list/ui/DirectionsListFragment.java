@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.ProgressBar;
 
 import com.example.vsokoltsov.uprogress.R;
+import com.example.vsokoltsov.uprogress.common.interfaces.OnLoadMoreListener;
 import com.example.vsokoltsov.uprogress.directions_list.DirectionsListAdapter;
 import com.example.vsokoltsov.uprogress.directions_list.models.DirectionsList;
 import com.example.vsokoltsov.uprogress.user.User;
@@ -65,10 +66,16 @@ public class DirectionsListFragment extends Fragment implements SwipeRefreshLayo
 
     private void setElements() {
         rv = (RecyclerView) fragmentView.findViewById(R.id.directionsList);
-        adapter = new DirectionsListAdapter(directions, this);
         llm = new LinearLayoutManager(getActivity());
-        rv.setAdapter(adapter);
         rv.setLayoutManager(llm);
+        adapter = new DirectionsListAdapter(directions, rv, new OnLoadMoreListener() {
+            @Override
+            public void onLoadMore() {
+                presenter.loadMoreDirections();
+            }
+        });
+        rv.setAdapter(adapter);
+
         swipeLayout = (SwipeRefreshLayout) fragmentView.findViewById(R.id.swipe_layout);
         swipeLayout.setOnRefreshListener(this);
     }
@@ -77,7 +84,6 @@ public class DirectionsListFragment extends Fragment implements SwipeRefreshLayo
         final DirectionModel model = new DirectionModelImpl();
         presenter = new DirectionsListPresenterImpl(this, model, user);
         setOnClickListener();
-        setOnScrollListener();
     }
 
     @Override
@@ -151,6 +157,11 @@ public class DirectionsListFragment extends Fragment implements SwipeRefreshLayo
     @Override
     public void stopRefreshing() {
         swipeLayout.setRefreshing(false);
+    }
+
+    @Override
+    public void stopFooterLoader() {
+        adapter.removeItem(null);
     }
 
     @Override

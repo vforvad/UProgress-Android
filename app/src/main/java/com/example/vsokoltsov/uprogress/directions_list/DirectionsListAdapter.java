@@ -1,12 +1,14 @@
 package com.example.vsokoltsov.uprogress.directions_list;
 
 import android.app.Activity;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 
 import com.example.vsokoltsov.uprogress.R;
 import com.example.vsokoltsov.uprogress.common.interfaces.OnLoadMoreListener;
@@ -23,12 +25,12 @@ import rx.subjects.PublishSubject;
  * Created by vsokoltsov on 27.11.16.
  */
 
-public class DirectionsListAdapter extends RecyclerView.Adapter<DirectionsListAdapter.DirectionViewHolder> {
+public class DirectionsListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     public List<Direction> directions = new ArrayList<Direction>();
     private Activity activity;
     public Fragment fragment;
 
-    private final int VISIBLE_THRESHOLD = 6;
+    private final int VISIBLE_THRESHOLD = 2;
 
     private final int ITEM_VIEW_TYPE_BASIC = 0;
     private final int ITEM_VIEW_TYPE_FOOTER = 1;
@@ -48,10 +50,9 @@ public class DirectionsListAdapter extends RecyclerView.Adapter<DirectionsListAd
         this.fragment = fragment;
     }
 
-    public DirectionsListAdapter(List<Direction> directions, Fragment fragment, RecyclerView recyclerView,
+    public DirectionsListAdapter(List<Direction> directions, RecyclerView recyclerView,
                      final OnLoadMoreListener onLoadMoreListener){
         this.directions = directions;
-        this.fragment= fragment;
 
         if (recyclerView.getLayoutManager() instanceof LinearLayoutManager) {
             final LinearLayoutManager linearLayoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
@@ -68,11 +69,11 @@ public class DirectionsListAdapter extends RecyclerView.Adapter<DirectionsListAd
                             previousTotal = totalItemCount;
                         }
                     }
-                    if (!loading && (totalItemCount - visibleItemCount)
-                            <= (firstVisibleItem + VISIBLE_THRESHOLD)) {
+                    int firstNumber = totalItemCount - visibleItemCount - 1;
+                    if (!loading && (firstNumber <= (firstVisibleItem))) {
                         // End has been reached
 
-//                        addDirection(null);
+                        addDirection(null);
                         if (onLoadMoreListener != null) {
                             onLoadMoreListener.onLoadMore();
                         }
@@ -91,16 +92,43 @@ public class DirectionsListAdapter extends RecyclerView.Adapter<DirectionsListAd
     }
 
     @Override
-    public DirectionViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        if (viewType == ITEM_VIEW_TYPE_BASIC) {
+            return onCreateBasicView(parent, viewType);
+        }
+        else if (viewType == ITEM_VIEW_TYPE_FOOTER) {
+            return onCreateFooterView(parent, viewType);
+        }
+        else {
+            throw new IllegalStateException("Invalid type, this type ot items " + viewType + " can't be handled");
+        }
+    }
+
+    @Override
+    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+        if (getItemViewType(position) == ITEM_VIEW_TYPE_BASIC) {
+            onBindBasicView(holder, position);
+        } else {
+            onBindFooterView(holder, position);
+        }
+    }
+
+
+    private RecyclerView.ViewHolder onCreateBasicView(ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.direction_completion_view_item, parent, false);
         return new DirectionViewHolder(v);
     }
 
-    @Override
-    public void onBindViewHolder(DirectionViewHolder holder, int position) {
+    private RecyclerView.ViewHolder onCreateFooterView(ViewGroup parent, int viewType) {
+        View v = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.progress_bar, parent, false);
+        return new FooterViewHolder(v);
+    }
+
+    private void onBindBasicView(RecyclerView.ViewHolder holder, int position) {
         Direction direction = directions.get(position);
-        holder.bind(direction);
-        holder.directionCompletionItemView.setOnClickListener(new View.OnClickListener() {
+        ((DirectionViewHolder) holder).bind(direction);
+        ((DirectionViewHolder) holder).directionCompletionItemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 onClickSubject.onNext(direction);
@@ -108,8 +136,21 @@ public class DirectionsListAdapter extends RecyclerView.Adapter<DirectionsListAd
         });
     }
 
+    private void onBindFooterView(RecyclerView.ViewHolder genericHolder, int position) {
+        ((FooterViewHolder) genericHolder).progressBar.setIndeterminate(true);
+    }
+
     public Observable<Direction> getPositionClicks(){
         return onClickSubject.asObservable();
+    }
+
+    public class FooterViewHolder extends RecyclerView.ViewHolder {
+        private ProgressBar progressBar;
+
+        public FooterViewHolder(View itemView) {
+            super(itemView);
+            progressBar = (ProgressBar) itemView.findViewById(R.id.progressBar);
+        }
     }
 
 
@@ -129,5 +170,41 @@ public class DirectionsListAdapter extends RecyclerView.Adapter<DirectionsListAd
     @Override
     public int getItemCount() {
         return directions.size();
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        return directions.get(position) != null ? ITEM_VIEW_TYPE_BASIC : ITEM_VIEW_TYPE_FOOTER ;
+    }
+
+    public void resetItems(@NonNull List<Direction> newDataSet) {
+        loading = true;
+        firstVisibleItem = 0;
+        visibleItemCount = 0;
+        totalItemCount = 0;
+        previousTotal = 0;
+
+        directions.clear();
+        addItems(newDataSet);
+    }
+
+    public void addItems(@NonNull List<Direction> newDataSetItems) {
+        directions.addAll(newDataSetItems);
+        notifyDataSetChanged();
+    }
+
+    public void addItem(Direction item) {
+        if (!directions.contains(item)) {
+            directions.add(item);
+            notifyItemInserted(directions.size() - 1);
+        }
+    }
+
+    public void removeItem(Direction item) {
+        int indexOfItem = directions.indexOf(item);
+        if (indexOfItem != -1) {
+            this.directions.remove(indexOfItem);
+            notifyItemRemoved(indexOfItem);
+        }
     }
 }

@@ -13,6 +13,7 @@ import org.solovyev.android.views.llm.LinearLayoutManager;
 
 import java.io.IOException;
 
+import rx.Observable;
 import rx.Observer;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -37,9 +38,7 @@ public class DirectionsListPresenterImpl implements DirectionsListPresenter {
     @Override
     public void loadDirections() {
         view.startLoader();
-        model.getDirectionsList(user.getNick(), pageNumber)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
+        directionsList()
                 .subscribe(new Observer<DirectionsList>() {
                     @Override
                     public void onCompleted() {
@@ -67,9 +66,7 @@ public class DirectionsListPresenterImpl implements DirectionsListPresenter {
     public void refreshList() {
         pageNumber = 1;
         view.startRefreshing();
-        model.getDirectionsList(user.getNick(), pageNumber)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
+        directionsList()
                 .subscribe(new Observer<DirectionsList>() {
                     @Override
                     public void onCompleted() {
@@ -96,6 +93,34 @@ public class DirectionsListPresenterImpl implements DirectionsListPresenter {
     @Override
     public void loadMoreDirections() {
         pageNumber++;
-        loadDirections();
+        directionsList()
+                .subscribe(new Observer<DirectionsList>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        try {
+                            view.stopFooterLoader();
+                            view.failedResponse(e);
+                        } catch (IOException e1) {
+                            e1.printStackTrace();
+                        }
+                    }
+
+                    @Override
+                    public void onNext(DirectionsList list) {
+                        view.stopFooterLoader();
+                        view.successResponse(list);
+                    }
+                });
+    }
+
+    private Observable<DirectionsList> directionsList() {
+        return model.getDirectionsList(user.getNick(), pageNumber)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
     }
 }
