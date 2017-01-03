@@ -3,9 +3,12 @@ package com.example.vsokoltsov.uprogress.directions_list.models;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.example.vsokoltsov.uprogress.direction_detail.model.steps.Step;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonRootName;
+
+import java.util.List;
 
 /**
  * Created by vsokoltsov on 27.11.16.
@@ -26,6 +29,8 @@ public class Direction implements Parcelable {
     private int stepsCount;
     @JsonProperty("finished_steps_count")
     private int finishedStepsCount;
+    @JsonProperty("steps")
+    private List<Step> steps;
 
     public Direction() {
 
@@ -106,5 +111,13 @@ public class Direction implements Parcelable {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public List<Step> getSteps() {
+        return steps;
+    }
+
+    public void setSteps(List<Step> steps) {
+        this.steps = steps;
     }
 }
