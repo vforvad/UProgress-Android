@@ -13,6 +13,8 @@ public class Step {
     private String title;
     @JsonProperty("description")
     private String description;
+    @JsonProperty("is_done")
+    private Boolean isDone;
 
     public String getTitle() {
         return title;
@@ -28,5 +30,13 @@ public class Step {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public Boolean getChecked() {
+        return isDone;
+    }
+
+    public void setChecked(Boolean checked) {
+        this.isDone = checked;
     }
 }

@@ -42,5 +42,6 @@ public class StepsItem extends CardView {
 
     public void bind(Step step) {
         stepsTitle.setText(step.getTitle());
+        checkBox.setChecked(step.getChecked());
     }
 }
