@@ -10,10 +10,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.vsokoltsov.uprogress.R;
 import com.example.vsokoltsov.uprogress.common.ApplicationBaseActivity;
 import com.example.vsokoltsov.uprogress.common.adapters.BaseListAdapterInterface;
+import com.example.vsokoltsov.uprogress.common.helpers.MessagesHelper;
 import com.example.vsokoltsov.uprogress.direction_detail.adapters.StepsListAdapter;
 import com.example.vsokoltsov.uprogress.direction_detail.model.DirectionDetailModel;
 import com.example.vsokoltsov.uprogress.direction_detail.model.DirectionDetailModelImpl;
@@ -49,6 +51,7 @@ public class DirectionDetailFragment extends Fragment implements DirectionDetail
     private DirectionDetailPresenter presenter;
     String directionId;
     String userNick;
+    MessagesHelper messagesHelper;
 
     private RecyclerView rv;
     private StepsListAdapter adapter;
@@ -62,6 +65,7 @@ public class DirectionDetailFragment extends Fragment implements DirectionDetail
         // Inflate the layout for this fragment
         activity = (ApplicationBaseActivity) getActivity();
         fragmentView = inflater.inflate(R.layout.direction_detail_fragment, container, false);
+        messagesHelper = new MessagesHelper(getResources());
         getExtras();
         setComponents();
         setElements();
@@ -129,6 +133,9 @@ public class DirectionDetailFragment extends Fragment implements DirectionDetail
     @Override
     public void successStepUpdate(Step step) {
         adapter.updateElement(step);
+
+        Toast.makeText(getContext(), messagesHelper.messageForStepUpdate(step),
+                Toast.LENGTH_LONG).show();
     }
 
     @Override
