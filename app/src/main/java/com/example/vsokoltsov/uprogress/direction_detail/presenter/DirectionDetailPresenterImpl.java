@@ -2,6 +2,8 @@ package com.example.vsokoltsov.uprogress.direction_detail.presenter;
 
 import com.example.vsokoltsov.uprogress.direction_detail.model.DirectionDetail;
 import com.example.vsokoltsov.uprogress.direction_detail.model.DirectionDetailModel;
+import com.example.vsokoltsov.uprogress.direction_detail.model.steps.StepRequest;
+import com.example.vsokoltsov.uprogress.direction_detail.model.steps.StepResponse;
 import com.example.vsokoltsov.uprogress.direction_detail.view.DirectionDetailView;
 import com.example.vsokoltsov.uprogress.directions_list.models.Direction;
 import com.example.vsokoltsov.uprogress.directions_list.models.DirectionsList;
@@ -49,5 +51,30 @@ public class DirectionDetailPresenterImpl implements DirectionDetailPresenter {
                         screen.successResponse(directionDetail.getDirection());
                     }
                 });
+    }
+
+    @Override
+    public void updateStep(String userNick, String directionId, String stepId, StepRequest request) {
+        model.updateStep(userNick, directionId, stepId, request)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<StepResponse>() {
+                    @Override
+                    public void onCompleted() {
+                        screen.stopLoader();
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        e.printStackTrace();
+                        screen.failureResponse(e);
+                        screen.stopLoader();
+                    }
+
+                    @Override
+                    public void onNext(StepResponse step) {
+                        
+                    }
+                });;
     }
 }

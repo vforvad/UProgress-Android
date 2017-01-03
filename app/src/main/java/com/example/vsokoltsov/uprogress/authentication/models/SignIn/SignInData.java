@@ -1,6 +1,7 @@
 package com.example.vsokoltsov.uprogress.authentication.models.SignIn;
 
 import com.example.vsokoltsov.uprogress.authentication.models.Authorization;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * Created by vsokoltsov on 24.11.16.

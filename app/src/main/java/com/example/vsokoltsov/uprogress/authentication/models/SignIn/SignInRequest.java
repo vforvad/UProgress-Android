@@ -13,5 +13,4 @@ public class SignInRequest {
     public SignInRequest(String email, String password) {
         this.data = new SignInData(email, password);
     }
-
 }

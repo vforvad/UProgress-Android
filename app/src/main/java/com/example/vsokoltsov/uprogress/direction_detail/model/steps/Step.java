@@ -9,6 +9,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Step {
+    @JsonProperty("id")
+    private int id;
     @JsonProperty("title")
     private String title;
     @JsonProperty("description")
@@ -38,5 +40,13 @@ public class Step {
 
     public void setChecked(Boolean checked) {
         this.isDone = checked;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 }

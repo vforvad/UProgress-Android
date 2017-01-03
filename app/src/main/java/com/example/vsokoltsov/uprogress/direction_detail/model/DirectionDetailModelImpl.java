@@ -1,6 +1,9 @@
 package com.example.vsokoltsov.uprogress.direction_detail.model;
 
 import com.example.vsokoltsov.uprogress.common.utils.ApiRequester;
+import com.example.vsokoltsov.uprogress.direction_detail.model.steps.StepRequest;
+import com.example.vsokoltsov.uprogress.direction_detail.model.steps.StepResponse;
+import com.example.vsokoltsov.uprogress.direction_detail.network.StepsApi;
 import com.example.vsokoltsov.uprogress.directions_list.models.Direction;
 import com.example.vsokoltsov.uprogress.directions_list.network.DirectionsApi;
 
@@ -13,15 +16,23 @@ import rx.Observer;
  */
 
 public class DirectionDetailModelImpl implements DirectionDetailModel {
-    DirectionsApi service;
+    DirectionsApi directionsService;
+    StepsApi stepService;
 
     public DirectionDetailModelImpl () {
         Retrofit retrofit = ApiRequester.getInstance().getRestAdapter();
-        service = retrofit.create(DirectionsApi.class);
+        directionsService = retrofit.create(DirectionsApi.class);
+        stepService = retrofit.create(StepsApi.class);
     }
 
     @Override
     public Observable<DirectionDetail> loadDirection(String userNick, String directionId) {
-        return service.getDirection(userNick, directionId);
+        return directionsService.getDirection(userNick, directionId);
+    }
+
+    @Override
+    public Observable<StepResponse> updateStep(String userNick,
+                                               String directionId, String stepId, StepRequest request) {
+        return stepService.updateStep(userNick, directionId, stepId, request);
     }
 }

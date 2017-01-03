@@ -15,7 +15,6 @@ import java.util.List;
  */
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-@JsonRootName("direction")
 public class Direction implements Parcelable {
     @JsonProperty("id")
     private int id;
