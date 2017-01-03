@@ -30,15 +30,7 @@ import rx.subjects.PublishSubject;
  */
 
 public class DirectionsListAdapter extends BaseListAdapter {
-    public List<Direction> directions = new ArrayList<Direction>();
-    private Activity activity;
     public Fragment fragment;
-    public BaseListAdapterInterface view;
-
-    private final int ITEM_VIEW_TYPE_BASIC = 0;
-    private final int ITEM_VIEW_TYPE_FOOTER = 1;
-
-    private int firstVisibleItem, visibleItemCount, totalItemCount, previousTotal = 0;
 
     private final PublishSubject<Direction> onClickSubject = PublishSubject.create();
     private final PublishSubject<Direction> onLongClickSubject = PublishSubject.create();
@@ -46,29 +38,6 @@ public class DirectionsListAdapter extends BaseListAdapter {
     public DirectionsListAdapter(List<Direction> directions, RecyclerView recyclerView,
                      final BaseListAdapterInterface view){
         super(directions, recyclerView, view);
-        this.directions = directions;
-        this.view = view;
-
-        if (recyclerView.getLayoutManager() instanceof LinearLayoutManager) {
-            final LinearLayoutManager linearLayoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
-            recyclerView.setOnScrollListener(new RecyclerView.OnScrollListener() {
-                @Override
-                public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                    totalItemCount = linearLayoutManager.getItemCount();
-                    visibleItemCount = linearLayoutManager.getChildCount();
-                    firstVisibleItem = linearLayoutManager.findFirstVisibleItemPosition();
-
-                    int firstNumber = totalItemCount - visibleItemCount - 1;
-                    if (firstNumber > 0 && (firstNumber <= firstVisibleItem)) {
-                        // End has been reached
-
-                        if (view != null) {
-                            view.loadMore();
-                        }
-                    }
-                }
-            });
-        }
     }
 
     @Override

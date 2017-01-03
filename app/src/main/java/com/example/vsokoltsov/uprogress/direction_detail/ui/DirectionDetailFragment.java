@@ -80,7 +80,6 @@ public class DirectionDetailFragment extends Fragment implements DirectionDetail
         directionDetailTitle = (TextView) fragmentView.findViewById(R.id.directionDetailTitle);
         directionDetailDescription = (TextView) fragmentView.findViewById(R.id.directionDetailDescription);
         directionDetailRate = (TextView) fragmentView.findViewById(R.id.directionDetailRate);
-        checkbox = (CheckBox) fragmentView.findViewById(R.id.checkBox);
 
         rv = (RecyclerView) fragmentView.findViewById(R.id.stepsList);
         llm = new LinearLayoutManager(getActivity());
