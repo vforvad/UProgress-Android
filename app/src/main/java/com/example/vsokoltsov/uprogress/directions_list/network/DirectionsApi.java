@@ -1,5 +1,6 @@
 package com.example.vsokoltsov.uprogress.directions_list.network;
 
+import com.example.vsokoltsov.uprogress.direction_detail.model.DirectionDetail;
 import com.example.vsokoltsov.uprogress.directions_list.models.Direction;
 import com.example.vsokoltsov.uprogress.directions_list.models.DirectionsList;
 
@@ -16,5 +17,5 @@ public interface DirectionsApi {
     @GET("users/{user}/directions")
     Observable<DirectionsList> getDirections(@Path("user") String userId, @Query("page") int page);
     @GET("users/{user}/directions/{direction}")
-    Observable<Direction> getDirection(@Path("user") String userNick, @Query("direction") String direction);
+    Observable<DirectionDetail> getDirection(@Path("user") String userNick, @Path("direction") String direction);
 }

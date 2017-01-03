@@ -123,7 +123,7 @@ public class DirectionsListFragment extends Fragment implements SwipeRefreshLayo
                     public void onNext(Direction direction) {
                         Intent directionDetailActivity = new Intent(getActivity(), DirectionDetailActivity.class);
                         directionDetailActivity.putExtra("user", user.getNick());
-                        directionDetailActivity.putExtra("direction", direction.getId());
+                        directionDetailActivity.putExtra("direction", Integer.toString(direction.getId()));
                         startActivity(directionDetailActivity);
                         getActivity().overridePendingTransition(R.anim.pull_in_right, R.anim.push_out_left);
 

@@ -5,4 +5,5 @@ package com.example.vsokoltsov.uprogress.common.adapters;
  */
 
 public interface BaseListAdapterInterface {
+    void loadMore();
 }

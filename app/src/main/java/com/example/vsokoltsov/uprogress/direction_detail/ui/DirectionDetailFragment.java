@@ -10,6 +10,10 @@ import android.widget.TextView;
 
 import com.example.vsokoltsov.uprogress.R;
 import com.example.vsokoltsov.uprogress.common.ApplicationBaseActivity;
+import com.example.vsokoltsov.uprogress.direction_detail.model.DirectionDetailModel;
+import com.example.vsokoltsov.uprogress.direction_detail.model.DirectionDetailModelImpl;
+import com.example.vsokoltsov.uprogress.direction_detail.presenter.DirectionDetailPresenter;
+import com.example.vsokoltsov.uprogress.direction_detail.presenter.DirectionDetailPresenterImpl;
 import com.example.vsokoltsov.uprogress.direction_detail.view.DirectionDetailView;
 import com.example.vsokoltsov.uprogress.directions_list.models.Direction;
 
@@ -26,21 +30,41 @@ public class DirectionDetailFragment extends Fragment implements DirectionDetail
     private TextView directionDetailRate;
     private TextView directionDetailDescription;
     private CheckBox checkbox;
+    private DirectionDetailPresenter presenter;
+    String directionId;
+    String userNick;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         activity = (ApplicationBaseActivity) getActivity();
-
         fragmentView = inflater.inflate(R.layout.direction_detail_fragment, container, false);
+        getExtras();
+        setComponents();
+        setElements();
+        presenter.loadDirection(userNick, directionId);
+        return fragmentView;
+    }
+
+    private void setComponents() {
+        DirectionDetailModel model = new DirectionDetailModelImpl();
+        presenter = new DirectionDetailPresenterImpl(model, this);
+    }
+
+    private void getExtras() {
+        Bundle extras = getActivity().getIntent().getExtras();
+        if (extras != null) {
+            userNick = extras.getString("user");
+            directionId = extras.getString("direction");
+        }
+    }
+
+    private void setElements() {
         directionDetailTitle = (TextView) fragmentView.findViewById(R.id.directionDetailTitle);
         directionDetailDescription = (TextView) fragmentView.findViewById(R.id.directionDetailDescription);
         directionDetailRate = (TextView) fragmentView.findViewById(R.id.directionDetailRate);
         checkbox = (CheckBox) fragmentView.findViewById(R.id.checkBox);
-//        checkbox.setBackgroundResource(R.drawable.checkbox_checked);
-//        checkbox.setButtonDrawable(R.drawable.checkbox_unchecked);
-        return fragmentView;
     }
 
     @Override
@@ -55,11 +79,11 @@ public class DirectionDetailFragment extends Fragment implements DirectionDetail
 
     @Override
     public void startLoader() {
-
+        activity.startProgressBar();
     }
 
     @Override
     public void stopLoader() {
-
+        activity.stopProgressBar();
     }
 }

@@ -5,12 +5,14 @@ import android.os.Parcelable;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonRootName;
 
 /**
  * Created by vsokoltsov on 27.11.16.
  */
 
 @JsonIgnoreProperties(ignoreUnknown = true)
+@JsonRootName("direction")
 public class Direction implements Parcelable {
     @JsonProperty("id")
     private int id;
@@ -22,6 +24,10 @@ public class Direction implements Parcelable {
     private int stepsCount;
     @JsonProperty("finished_steps_count")
     private int finishedStepsCount;
+
+    public Direction() {
+
+    }
 
     public void setId(int id) {
         this.id = id;
