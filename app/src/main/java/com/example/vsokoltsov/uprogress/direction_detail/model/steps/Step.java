@@ -35,6 +35,9 @@ public class Step {
     }
 
     public Boolean getChecked() {
+        if (isDone == null) {
+            return false;
+        }
         return isDone;
     }
 

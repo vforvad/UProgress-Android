@@ -18,6 +18,7 @@ import com.example.vsokoltsov.uprogress.direction_detail.adapters.StepsListAdapt
 import com.example.vsokoltsov.uprogress.direction_detail.model.DirectionDetailModel;
 import com.example.vsokoltsov.uprogress.direction_detail.model.DirectionDetailModelImpl;
 import com.example.vsokoltsov.uprogress.direction_detail.model.steps.Step;
+import com.example.vsokoltsov.uprogress.direction_detail.model.steps.StepRequest;
 import com.example.vsokoltsov.uprogress.direction_detail.presenter.DirectionDetailPresenter;
 import com.example.vsokoltsov.uprogress.direction_detail.presenter.DirectionDetailPresenterImpl;
 import com.example.vsokoltsov.uprogress.direction_detail.view.DirectionDetailListAdapter;
@@ -126,6 +127,16 @@ public class DirectionDetailFragment extends Fragment implements DirectionDetail
     }
 
     @Override
+    public void successStepUpdate(Step step) {
+        adapter.updateElement(step);
+    }
+
+    @Override
+    public void failureStepUpdate(Throwable t) {
+
+    }
+
+    @Override
     public void loadMore() {
 
     }
@@ -137,6 +148,12 @@ public class DirectionDetailFragment extends Fragment implements DirectionDetail
 
     @Override
     public void onCheckboxChanged(Step step, boolean value) {
-
+        String stepId = Integer.toString(step.getId());
+        StepRequest request = new StepRequest(
+          step.getTitle(),
+          step.getDescription(),
+          value
+        );
+        presenter.updateStep(userNick, directionId, stepId, request);
     }
 }

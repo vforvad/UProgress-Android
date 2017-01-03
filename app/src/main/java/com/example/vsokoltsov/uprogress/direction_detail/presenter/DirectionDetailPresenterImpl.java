@@ -55,6 +55,7 @@ public class DirectionDetailPresenterImpl implements DirectionDetailPresenter {
 
     @Override
     public void updateStep(String userNick, String directionId, String stepId, StepRequest request) {
+        screen.startLoader();
         model.updateStep(userNick, directionId, stepId, request)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -67,13 +68,13 @@ public class DirectionDetailPresenterImpl implements DirectionDetailPresenter {
                     @Override
                     public void onError(Throwable e) {
                         e.printStackTrace();
-                        screen.failureResponse(e);
+                        screen.failureStepUpdate(e);
                         screen.stopLoader();
                     }
 
                     @Override
                     public void onNext(StepResponse step) {
-                        
+                        screen.successStepUpdate(step.getStep());
                     }
                 });;
     }

@@ -55,6 +55,18 @@ public class StepsListAdapter extends BaseListAdapter {
         });
     }
 
+    public void updateElement(Step step) {
+        int position = 0;
+        for(Object item: items) {
+            Step s = (Step) item;
+            if (s.getId() == step.getId()) {
+                position = items.indexOf(item);
+            }
+        }
+        items.set(position, step);
+        notifyItemChanged(position);
+    }
+
     public class StepViewHolder extends RecyclerView.ViewHolder {
         private StepsItem stepsItem;
 

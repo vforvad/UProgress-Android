@@ -1,5 +1,6 @@
 package com.example.vsokoltsov.uprogress.direction_detail.view;
 
+import com.example.vsokoltsov.uprogress.direction_detail.model.steps.Step;
 import com.example.vsokoltsov.uprogress.directions_list.models.Direction;
 
 /**
@@ -11,4 +12,7 @@ public interface DirectionDetailView {
     void failureResponse(Throwable t);
     void startLoader();
     void stopLoader();
+    void successStepUpdate(Step step);
+    void failureStepUpdate(Throwable t);
+
 }
