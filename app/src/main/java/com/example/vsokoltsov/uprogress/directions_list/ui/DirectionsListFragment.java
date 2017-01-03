@@ -19,6 +19,7 @@ import android.widget.ProgressBar;
 
 import com.example.vsokoltsov.uprogress.R;
 import com.example.vsokoltsov.uprogress.authentication.ui.AuthorizationActivity;
+import com.example.vsokoltsov.uprogress.common.adapters.BaseListAdapterInterface;
 import com.example.vsokoltsov.uprogress.common.interfaces.OnLoadMoreListener;
 import com.example.vsokoltsov.uprogress.direction_detail.ui.DirectionDetailActivity;
 import com.example.vsokoltsov.uprogress.directions_list.DirectionsListAdapter;
@@ -48,7 +49,8 @@ import rx.schedulers.Schedulers;
  * Created by vsokoltsov on 26.11.16.
  */
 
-public class DirectionsListFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener, DirectionsListView {
+public class DirectionsListFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener,
+        DirectionsListView, BaseListAdapterInterface {
     private View fragmentView;
     private ApplicationBaseActivity activity;
     private List<Direction> directions = new ArrayList<Direction>();
@@ -151,21 +153,6 @@ public class DirectionsListFragment extends Fragment implements SwipeRefreshLayo
                 });
     }
 
-    private void setOnScrollListener() {
-        rv.setOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                super.onScrolled(recyclerView, dx, dy);
-                LinearLayoutManager layoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
-                int lastLayoutPosition = layoutManager.findLastCompletelyVisibleItemPosition();
-                int itemsCount = layoutManager.getItemCount() - 2;
-                if (lastLayoutPosition == itemsCount && dy > 0) {
-                    presenter.loadMoreDirections();
-                }
-            }
-        });
-    }
-
     private void selectedItemAction(Direction direction) {
         Resources resource = getResources();
         final CharSequence[] items = {
@@ -196,7 +183,7 @@ public class DirectionsListFragment extends Fragment implements SwipeRefreshLayo
     public void successResponse(DirectionsList list) {
         for(int i = 0; i < list.getDirections().size(); i++) {
             Direction d = list.getDirections().get(i);
-            adapter.directions.add(d);
+            adapter.items.add(d);
         }
         adapter.notifyDataSetChanged();
     }
@@ -208,7 +195,7 @@ public class DirectionsListFragment extends Fragment implements SwipeRefreshLayo
 
     @Override
     public void refreshList(DirectionsList list) {
-        adapter.directions = list.getDirections();
+        adapter.items = list.getDirections();
         adapter.notifyDataSetChanged();
     }
 
@@ -232,10 +219,6 @@ public class DirectionsListFragment extends Fragment implements SwipeRefreshLayo
         adapter.removeItem(null);
     }
 
-    @Override
-    public void onLoadMore() {
-        presenter.loadMoreDirections();
-    }
 
     @Override
     public void startLoader() {
@@ -245,5 +228,10 @@ public class DirectionsListFragment extends Fragment implements SwipeRefreshLayo
     @Override
     public void stopLoader() {
         activity.stopProgressBar();
+    }
+
+    @Override
+    public void loadMore() {
+        presenter.loadMoreDirections();
     }
 }

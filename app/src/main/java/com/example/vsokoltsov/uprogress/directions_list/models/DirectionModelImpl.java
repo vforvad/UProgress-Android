@@ -1,11 +1,7 @@
 package com.example.vsokoltsov.uprogress.directions_list.models;
 
-import android.content.Context;
-
 import com.example.vsokoltsov.uprogress.directions_list.network.DirectionsApi;
-import com.example.vsokoltsov.uprogress.common.helpers.PreferencesHelper;
 import com.example.vsokoltsov.uprogress.common.utils.ApiRequester;
-import com.example.vsokoltsov.uprogress.directions_list.DirectionListViewHolder;
 
 import retrofit2.Retrofit;
 import rx.Observable;
