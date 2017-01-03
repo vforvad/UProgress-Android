@@ -1,4 +1,4 @@
-package com.example.vsokoltsov.uprogress.directions_list;
+package com.example.vsokoltsov.uprogress.directions_list.adapters;
 
 import android.app.Activity;
 import android.support.annotation.NonNull;

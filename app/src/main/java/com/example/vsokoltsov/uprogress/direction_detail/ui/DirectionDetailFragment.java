@@ -1,5 +1,6 @@
 package com.example.vsokoltsov.uprogress.direction_detail.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -19,21 +20,25 @@ import com.example.vsokoltsov.uprogress.direction_detail.model.DirectionDetailMo
 import com.example.vsokoltsov.uprogress.direction_detail.model.steps.Step;
 import com.example.vsokoltsov.uprogress.direction_detail.presenter.DirectionDetailPresenter;
 import com.example.vsokoltsov.uprogress.direction_detail.presenter.DirectionDetailPresenterImpl;
+import com.example.vsokoltsov.uprogress.direction_detail.view.DirectionDetailListAdapter;
 import com.example.vsokoltsov.uprogress.direction_detail.view.DirectionDetailView;
-import com.example.vsokoltsov.uprogress.directions_list.DirectionsListAdapter;
 import com.example.vsokoltsov.uprogress.directions_list.models.Direction;
 
 import org.solovyev.android.views.llm.LinearLayoutManager;
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import rx.Observer;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 /**
  * Created by vsokoltsov on 29.11.16.
  */
 
-public class DirectionDetailFragment extends Fragment implements DirectionDetailView, BaseListAdapterInterface, SwipeRefreshLayout.OnRefreshListener {
+public class DirectionDetailFragment extends Fragment implements DirectionDetailView, DirectionDetailListAdapter,
+        SwipeRefreshLayout.OnRefreshListener {
     private View fragmentView;
     private ApplicationBaseActivity activity;
     private TextView directionDetailTitle;
@@ -59,6 +64,7 @@ public class DirectionDetailFragment extends Fragment implements DirectionDetail
         getExtras();
         setComponents();
         setElements();
+        setOnCheckedListeners();
         presenter.loadDirection(userNick, directionId);
         return fragmentView;
     }
@@ -89,6 +95,10 @@ public class DirectionDetailFragment extends Fragment implements DirectionDetail
 
         swipeLayout = (SwipeRefreshLayout) fragmentView.findViewById(R.id.swipe_layout);
         swipeLayout.setOnRefreshListener(this);
+    }
+
+    private void setOnCheckedListeners() {
+
     }
 
     @Override
@@ -122,6 +132,11 @@ public class DirectionDetailFragment extends Fragment implements DirectionDetail
 
     @Override
     public void onRefresh() {
+
+    }
+
+    @Override
+    public void onCheckboxChanged(Step step, boolean value) {
 
     }
 }

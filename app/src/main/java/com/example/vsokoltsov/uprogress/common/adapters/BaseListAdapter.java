@@ -8,11 +8,7 @@ import android.view.ViewGroup;
 import android.widget.ProgressBar;
 
 import com.example.vsokoltsov.uprogress.R;
-import com.example.vsokoltsov.uprogress.directions_list.DirectionsListAdapter;
-import com.example.vsokoltsov.uprogress.directions_list.models.Direction;
-import com.example.vsokoltsov.uprogress.directions_list.views.DirectionsListView;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**

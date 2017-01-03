@@ -4,25 +4,20 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.content.res.Resources;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ProgressBar;
 
 import com.example.vsokoltsov.uprogress.R;
-import com.example.vsokoltsov.uprogress.authentication.ui.AuthorizationActivity;
 import com.example.vsokoltsov.uprogress.common.adapters.BaseListAdapterInterface;
-import com.example.vsokoltsov.uprogress.common.interfaces.OnLoadMoreListener;
 import com.example.vsokoltsov.uprogress.direction_detail.ui.DirectionDetailActivity;
-import com.example.vsokoltsov.uprogress.directions_list.DirectionsListAdapter;
+import com.example.vsokoltsov.uprogress.directions_list.adapters.DirectionsListAdapter;
 import com.example.vsokoltsov.uprogress.directions_list.models.DirectionsList;
 import com.example.vsokoltsov.uprogress.user.User;
 import com.example.vsokoltsov.uprogress.authentication.models.AuthorizationService;
@@ -31,13 +26,11 @@ import com.example.vsokoltsov.uprogress.directions_list.models.DirectionModel;
 import com.example.vsokoltsov.uprogress.directions_list.models.DirectionModelImpl;
 import com.example.vsokoltsov.uprogress.directions_list.presenters.DirectionsListPresenter;
 import com.example.vsokoltsov.uprogress.directions_list.presenters.DirectionsListPresenterImpl;
-import com.example.vsokoltsov.uprogress.common.utils.ApiRequester;
 import com.example.vsokoltsov.uprogress.common.ApplicationBaseActivity;
 import com.example.vsokoltsov.uprogress.directions_list.views.DirectionsListView;
 
 import org.solovyev.android.views.llm.LinearLayoutManager;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
