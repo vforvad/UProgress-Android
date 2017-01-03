@@ -5,6 +5,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
 import android.widget.TextView;
 
 import com.example.vsokoltsov.uprogress.R;
@@ -24,6 +25,7 @@ public class DirectionDetailFragment extends Fragment implements DirectionDetail
     private TextView directionDetailTitle;
     private TextView directionDetailRate;
     private TextView directionDetailDescription;
+    private CheckBox checkbox;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -35,6 +37,9 @@ public class DirectionDetailFragment extends Fragment implements DirectionDetail
         directionDetailTitle = (TextView) fragmentView.findViewById(R.id.directionDetailTitle);
         directionDetailDescription = (TextView) fragmentView.findViewById(R.id.directionDetailDescription);
         directionDetailRate = (TextView) fragmentView.findViewById(R.id.directionDetailRate);
+        checkbox = (CheckBox) fragmentView.findViewById(R.id.checkBox);
+//        checkbox.setBackgroundResource(R.drawable.checkbox_checked);
+//        checkbox.setButtonDrawable(R.drawable.checkbox_unchecked);
         return fragmentView;
     }
 

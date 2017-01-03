@@ -66,7 +66,7 @@ public class DirectionsListAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                     firstVisibleItem = linearLayoutManager.findFirstVisibleItemPosition();
 
                     int firstNumber = totalItemCount - visibleItemCount - 1;
-                    if (firstNumber <= firstVisibleItem) {
+                    if (firstNumber > 0 && (firstNumber <= firstVisibleItem)) {
                         // End has been reached
 
                         if (view != null) {
