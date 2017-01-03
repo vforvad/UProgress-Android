@@ -93,10 +93,12 @@ public class DirectionDetailFragment extends Fragment implements DirectionDetail
         directionDetailRate = (TextView) fragmentView.findViewById(R.id.directionDetailRate);
 
         rv = (RecyclerView) fragmentView.findViewById(R.id.stepsList);
+        rv.setHasFixedSize(true);
         llm = new LinearLayoutManager(getActivity());
         rv.setLayoutManager(llm);
         adapter = new StepsListAdapter(steps, rv, this);
         rv.setAdapter(adapter);
+//        rv.setNestedScrollingEnabled(false);
 
         swipeLayout = (SwipeRefreshLayout) fragmentView.findViewById(R.id.swipe_layout);
         swipeLayout.setOnRefreshListener(this);
@@ -140,7 +142,8 @@ public class DirectionDetailFragment extends Fragment implements DirectionDetail
 
     @Override
     public void failureStepUpdate(Throwable t) {
-
+        Toast.makeText(getContext(), getResources().getString(R.string.steps_failed_update_message),
+                Toast.LENGTH_LONG).show();
     }
 
     @Override
