@@ -80,28 +80,23 @@ public class DirectionsListAdapter extends BaseListAdapter {
 
     @Override
     public void onBindBaseViewHolder(RecyclerView.ViewHolder holder, int position) {
-        try {
-            Direction direction = (Direction) items.get(position);
+        Direction direction = (Direction) items.get(position);
 
-            ((DirectionViewHolder) holder).bind(direction);
-            ((DirectionViewHolder) holder).directionCompletionItemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    onClickSubject.onNext(direction);
-                }
-            });
+        ((DirectionViewHolder) holder).bind(direction);
+        ((DirectionViewHolder) holder).directionCompletionItemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onClickSubject.onNext(direction);
+            }
+        });
 
-            ((DirectionViewHolder) holder).directionCompletionItemView.setOnLongClickListener(new View.OnLongClickListener() {
-                @Override
-                public boolean onLongClick(View v) {
-                    onLongClickSubject.onNext(direction);
-                    return true;
-                }
-            });
-        }
-        catch(IndexOutOfBoundsException e) {
-            e.printStackTrace();
-        }
+        ((DirectionViewHolder) holder).directionCompletionItemView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                onLongClickSubject.onNext(direction);
+                return true;
+            }
+        });
     }
 
     public Observable<Direction> getPositionClicks(){

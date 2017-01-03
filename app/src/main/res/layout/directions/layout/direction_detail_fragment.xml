@@ -2,27 +2,36 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <TextView
-        android:id="@+id/directionDetailRate"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        />
-    <TextView
-        android:id="@+id/directionDetailTitle"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        />
-    <TextView
-        android:id="@+id/directionDetailDescription"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        />
-    <CheckBox
-        android:id="@+id/checkBox"
+    <android.support.v4.widget.SwipeRefreshLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:button="@drawable/checkbox"
-        android:scaleY="1.5"
-        android:scaleX="1.5"
-        android:layout_marginLeft="20dp"/>
+        android:id="@+id/swipe_layout">
+        <TextView
+            android:id="@+id/directionDetailRate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            />
+        <TextView
+            android:id="@+id/directionDetailTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            />
+        <TextView
+            android:id="@+id/directionDetailDescription"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            />
+        <CheckBox
+            android:id="@+id/checkBox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:button="@drawable/checkbox"
+            android:scaleY="1.5"
+            android:scaleX="1.5"
+            android:layout_marginLeft="20dp"/>
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/stepsList"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </android.support.v4.widget.SwipeRefreshLayout>
 </LinearLayout>

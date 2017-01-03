@@ -58,7 +58,6 @@ public class DirectionsListFragment extends Fragment implements SwipeRefreshLayo
     private DirectionsListAdapter adapter;
     private SwipeRefreshLayout swipeLayout;
     private LinearLayoutManager llm;
-    private boolean canLoad = true;
     private DirectionsListPresenter presenter;
     private User user;
     private FloatingActionButton floatingActionButton;
