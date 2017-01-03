@@ -69,7 +69,9 @@ public class DirectionDetailFragment extends Fragment implements DirectionDetail
 
     @Override
     public void successResponse(Direction direction) {
-
+        directionDetailTitle.setText(direction.getTitle());
+        directionDetailDescription.setText(direction.getDescription());
+        directionDetailRate.setText(Integer.toString(direction.getPercentsResult()));
     }
 
     @Override

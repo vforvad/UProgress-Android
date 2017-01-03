@@ -18,6 +18,8 @@ public class Direction implements Parcelable {
     private int id;
     @JsonProperty("title")
     private String title;
+    @JsonProperty("description")
+    private String description;
     @JsonProperty("percents_result")
     private int percentsResult;
     @JsonProperty("steps_count")
@@ -96,5 +98,13 @@ public class Direction implements Parcelable {
 
     public String getFinishedStepsRation() {
         return new StringBuilder().append(finishedStepsCount).append("/").append(stepsCount).toString();
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 }

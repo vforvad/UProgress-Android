@@ -1,5 +1,6 @@
 package com.example.vsokoltsov.uprogress.direction_detail.presenter;
 
+import com.example.vsokoltsov.uprogress.direction_detail.model.DirectionDetail;
 import com.example.vsokoltsov.uprogress.direction_detail.model.DirectionDetailModel;
 import com.example.vsokoltsov.uprogress.direction_detail.view.DirectionDetailView;
 import com.example.vsokoltsov.uprogress.directions_list.models.Direction;
@@ -30,7 +31,7 @@ public class DirectionDetailPresenterImpl implements DirectionDetailPresenter {
         model.loadDirection(userNick, directionId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<Direction>() {
+                .subscribe(new Observer<DirectionDetail>() {
                     @Override
                     public void onCompleted() {
                         screen.stopLoader();
@@ -39,12 +40,13 @@ public class DirectionDetailPresenterImpl implements DirectionDetailPresenter {
                     @Override
                     public void onError(Throwable e) {
                         e.printStackTrace();
+                        screen.failureResponse(e);
                         screen.stopLoader();
                     }
 
                     @Override
-                    public void onNext(Direction direction) {
-
+                    public void onNext(DirectionDetail directionDetail) {
+                        screen.successResponse(directionDetail.getDirection());
                     }
                 });
     }
