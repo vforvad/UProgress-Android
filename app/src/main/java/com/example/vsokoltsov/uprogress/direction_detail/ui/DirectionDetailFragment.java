@@ -161,7 +161,7 @@ public class DirectionDetailFragment extends Fragment implements DirectionDetail
 
     @Override
     public void onRefresh() {
-        presenter.loadDirection(userNick, directionId);
+        presenter.reloadDirection(userNick, directionId);
     }
 
     @Override

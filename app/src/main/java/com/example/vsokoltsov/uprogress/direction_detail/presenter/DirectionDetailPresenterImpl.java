@@ -11,6 +11,7 @@ import com.example.vsokoltsov.uprogress.directions_list.models.DirectionsList;
 
 import java.io.IOException;
 
+import rx.Observable;
 import rx.Observer;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -23,8 +24,6 @@ public class DirectionDetailPresenterImpl implements DirectionDetailPresenter {
     DirectionDetailModel model;
     DirectionDetailView screen;
 
-    public int pageNumber = 2;
-
     public DirectionDetailPresenterImpl(DirectionDetailModel model, DirectionDetailView screen) {
         this.model = model;
         this.screen = screen;
@@ -33,9 +32,8 @@ public class DirectionDetailPresenterImpl implements DirectionDetailPresenter {
     @Override
     public void loadDirection(String userNick, String directionId) {
         screen.startLoader();
-        model.loadDirection(userNick, directionId)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
+
+        getDirection(userNick, directionId)
                 .subscribe(new Observer<DirectionDetail>() {
                     @Override
                     public void onCompleted() {
@@ -80,5 +78,35 @@ public class DirectionDetailPresenterImpl implements DirectionDetailPresenter {
                         screen.successStepUpdate(step.getStep());
                     }
                 });;
+    }
+
+    @Override
+    public void reloadDirection(String userNick, String directionId) {
+        screen.onStartRefresh();
+        getDirection(userNick, directionId)
+                .subscribe(new Observer<DirectionDetail>() {
+                    @Override
+                    public void onCompleted() {
+                        screen.onStopRefresh();
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        e.printStackTrace();
+                        screen.failureResponse(e);
+                        screen.onStopRefresh();
+                    }
+
+                    @Override
+                    public void onNext(DirectionDetail directionDetail) {
+                        screen.successResponse(directionDetail.getDirection());
+                    }
+                });
+    }
+
+    private Observable<DirectionDetail> getDirection(String userNick, String directionId) {
+        return model.loadDirection(userNick, directionId)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
     }
 }
