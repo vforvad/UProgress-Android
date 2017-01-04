@@ -5,7 +5,11 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
@@ -162,6 +166,15 @@ public class DirectionDetailFragment extends Fragment implements DirectionDetail
     @Override
     public void onRefresh() {
         presenter.reloadDirection(userNick, directionId);
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.direction_detail, menu);
+        MenuItem searchItem = menu.findItem(R.id.search);
+        ((SearchView) searchItem.getActionView()).onActionViewExpanded();
+        searchItem.setIcon(R.drawable.search);
     }
 
     @Override
