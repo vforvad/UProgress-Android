@@ -17,13 +17,19 @@
         <activity android:name=".authentication.ui.AuthorizationActivity">
         </activity>
         <activity android:name=".directions_list.ui.DirectionsActivity">
+            <meta-data
+                android:name="android.app.searchable"
+                android:resource="@xml/searchable" />
         </activity>
         <activity
             android:name=".direction_detail.ui.DirectionDetailActivity"
             android:parentActivityName=".directions_list.ui.DirectionsActivity">
             <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.example.vsokoltsov.uprogress.directions_list.ui.DirectionsActivity" />
+                android:name="android.app.searchable"
+                android:resource="@xml/searchable" />
+            <intent-filter>
+                <action android:name="android.intent.action.SEARCH" />
+            </intent-filter>
         </activity>
 
         <activity

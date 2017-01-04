@@ -5,20 +5,24 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ProgressBar;
 
 import com.example.vsokoltsov.uprogress.R;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by vsokoltsov on 03.01.17.
  */
 
-public abstract class BaseListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public abstract class BaseListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements Filterable {
     public BaseListAdapterInterface baseListAdapterInterface;
     private RecyclerView recyclerView;
     public List items;
+    public List orig;
 
     private final int ITEM_VIEW_TYPE_BASIC = 0;
     private final int ITEM_VIEW_TYPE_FOOTER = 1;
@@ -122,5 +126,34 @@ public abstract class BaseListAdapter extends RecyclerView.Adapter<RecyclerView.
             this.items.remove(indexOfItem);
             notifyItemRemoved(indexOfItem);
         }
+    }
+
+    @Override
+    public Filter getFilter() {
+        return new Filter() {
+            @Override
+            protected FilterResults performFiltering(CharSequence constraint) {
+                final FilterResults oReturn = new FilterResults();
+                final List results = new ArrayList();
+                if (orig == null)
+                    orig = items;
+                if (constraint != null) {
+                    if (orig != null & orig.size() > 0) {
+                        for (final Object obj : orig) {
+                            if (baseListAdapterInterface.getSearchAttribute(obj).toLowerCase().contains(constraint.toString().toLowerCase()))
+                                results.add(obj);
+                        }
+                    }
+                    oReturn.values = results;
+                }
+                return oReturn;
+            }
+
+            @Override
+            protected void publishResults(CharSequence constraint, FilterResults results) {
+                items = (ArrayList) results.values;
+                notifyDataSetChanged();
+            }
+        };
     }
 }

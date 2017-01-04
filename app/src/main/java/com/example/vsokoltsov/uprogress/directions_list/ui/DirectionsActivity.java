@@ -1,12 +1,20 @@
 package com.example.vsokoltsov.uprogress.directions_list.ui;
 
+import android.app.SearchManager;
+import android.app.SearchableInfo;
+import android.content.Context;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.ListView;
+import android.widget.SearchView;
 
 import com.example.vsokoltsov.uprogress.R;
 import com.example.vsokoltsov.uprogress.common.ApplicationBaseActivity;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by vsokoltsov on 26.11.16.
@@ -35,9 +43,7 @@ public class DirectionsActivity extends ApplicationBaseActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         super.onCreateOptionsMenu(menu);
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.direction_detail, menu);
-        MenuItem searchItem = menu.findItem(R.id.search);
-        searchItem.setIcon(R.drawable.search);
+        directionsListFragment.onCreateOptionsMenu(menu, inflater);
         return true;
     }
 }

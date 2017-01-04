@@ -1,5 +1,7 @@
 package com.example.vsokoltsov.uprogress.directions_list.ui;
 
+import android.app.SearchManager;
+import android.app.SearchableInfo;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.ColorStateList;
@@ -7,12 +9,18 @@ import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.SearchView;
 
 import com.example.vsokoltsov.uprogress.R;
 import com.example.vsokoltsov.uprogress.common.adapters.BaseListAdapterInterface;
@@ -43,7 +51,7 @@ import rx.schedulers.Schedulers;
  */
 
 public class DirectionsListFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener,
-        DirectionsListView, BaseListAdapterInterface {
+        DirectionsListView, BaseListAdapterInterface, android.support.v7.widget.SearchView.OnQueryTextListener, SearchView.OnQueryTextListener {
     private View fragmentView;
     private ApplicationBaseActivity activity;
     private List<Direction> directions = new ArrayList<Direction>();
@@ -54,6 +62,10 @@ public class DirectionsListFragment extends Fragment implements SwipeRefreshLayo
     private DirectionsListPresenter presenter;
     private User user;
     private FloatingActionButton floatingActionButton;
+
+    static {
+        AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
+    }
 
 
     @Override
@@ -172,6 +184,17 @@ public class DirectionsListFragment extends Fragment implements SwipeRefreshLayo
     }
 
     @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.direction_detail, menu);
+        MenuItem searchItem = menu.findItem(R.id.search);
+        SearchView searchView = (SearchView) searchItem.getActionView();
+        searchView.setIconified(true);
+        searchItem.setIcon(R.drawable.search);
+        searchView.setOnQueryTextListener(this);
+    }
+
+    @Override
     public void successResponse(DirectionsList list) {
         for(int i = 0; i < list.getDirections().size(); i++) {
             Direction d = list.getDirections().get(i);
@@ -225,5 +248,21 @@ public class DirectionsListFragment extends Fragment implements SwipeRefreshLayo
     @Override
     public void loadMore() {
         presenter.loadMoreDirections();
+    }
+
+    @Override
+    public String getSearchAttribute(Object obj) {
+        return ((Direction) obj).getTitle();
+    }
+
+    @Override
+    public boolean onQueryTextSubmit(String query) {
+        return false;
+    }
+
+    @Override
+    public boolean onQueryTextChange(String newText) {
+        adapter.getFilter().filter(newText);
+        return true;
     }
 }

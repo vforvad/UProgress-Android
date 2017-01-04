@@ -3,32 +3,27 @@ package com.example.vsokoltsov.uprogress.direction_detail.ui;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.SearchView;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CheckBox;
-import android.widget.ScrollView;
+import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.vsokoltsov.uprogress.R;
 import com.example.vsokoltsov.uprogress.common.ApplicationBaseActivity;
-import com.example.vsokoltsov.uprogress.common.BaseScrollView;
-import com.example.vsokoltsov.uprogress.common.ScrollViewInt;
-import com.example.vsokoltsov.uprogress.common.adapters.BaseListAdapterInterface;
 import com.example.vsokoltsov.uprogress.common.helpers.MessagesHelper;
 import com.example.vsokoltsov.uprogress.direction_detail.adapters.StepsListAdapter;
 import com.example.vsokoltsov.uprogress.direction_detail.model.DirectionDetailModel;
 import com.example.vsokoltsov.uprogress.direction_detail.model.DirectionDetailModelImpl;
 import com.example.vsokoltsov.uprogress.direction_detail.model.steps.Step;
 import com.example.vsokoltsov.uprogress.direction_detail.model.steps.StepRequest;
-import com.example.vsokoltsov.uprogress.direction_detail.model.steps.StepsList;
 import com.example.vsokoltsov.uprogress.direction_detail.presenter.DirectionDetailPresenter;
 import com.example.vsokoltsov.uprogress.direction_detail.presenter.DirectionDetailPresenterImpl;
 import com.example.vsokoltsov.uprogress.direction_detail.view.DirectionDetailListAdapter;
@@ -40,16 +35,12 @@ import org.solovyev.android.views.llm.LinearLayoutManager;
 import java.util.ArrayList;
 import java.util.List;
 
-import rx.Observer;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
-
 /**
  * Created by vsokoltsov on 29.11.16.
  */
 
 public class DirectionDetailFragment extends Fragment implements DirectionDetailView, DirectionDetailListAdapter,
-        SwipeRefreshLayout.OnRefreshListener {
+        SwipeRefreshLayout.OnRefreshListener, SearchView.OnQueryTextListener {
     private View fragmentView;
     private ApplicationBaseActivity activity;
     private TextView directionDetailTitle;
@@ -173,8 +164,8 @@ public class DirectionDetailFragment extends Fragment implements DirectionDetail
         super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.direction_detail, menu);
         MenuItem searchItem = menu.findItem(R.id.search);
-        ((SearchView) searchItem.getActionView()).onActionViewExpanded();
-        searchItem.setIcon(R.drawable.search);
+        final SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
+        searchView.setOnQueryTextListener(this);
     }
 
     @Override
@@ -191,5 +182,21 @@ public class DirectionDetailFragment extends Fragment implements DirectionDetail
     @Override
     public void loadMore() {
 
+    }
+
+    @Override
+    public String getSearchAttribute(Object obj) {
+        return ((Step) obj).getTitle();
+    }
+
+    @Override
+    public boolean onQueryTextSubmit(String query) {
+        return false;
+    }
+
+    @Override
+    public boolean onQueryTextChange(String newText) {
+        adapter.getFilter().filter(newText);
+        return true;
     }
 }

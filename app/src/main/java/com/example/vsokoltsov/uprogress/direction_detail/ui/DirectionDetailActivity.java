@@ -63,9 +63,7 @@ public class DirectionDetailActivity extends ApplicationBaseActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         super.onCreateOptionsMenu(menu);
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.direction_detail, menu);
-        MenuItem searchItem = menu.findItem(R.id.search);
-        searchItem.setIcon(R.drawable.search);
+        directionDetailFragment.onCreateOptionsMenu(menu, inflater);
         return true;
     }
 }
