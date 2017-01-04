@@ -150,31 +150,18 @@ public class DirectionDetailFragment extends Fragment implements DirectionDetail
     }
 
     @Override
-    public void startFooterLoader() {
-        adapter.addDirection(null);
+    public void onStartRefresh() {
+        swipeLayout.setRefreshing(true);
     }
 
     @Override
-    public void stopFooterLoader() {
-        adapter.removeItem(null);
-    }
-
-    @Override
-    public void onLoadedMore(List<Step> steps) {
-        for(int i = 0; i < steps.size(); i++) {
-            adapter.items.add(steps.get(i));
-        }
-        adapter.notifyDataSetChanged();
-    }
-
-    @Override
-    public void loadMore() {
-        presenter.loadMoreSteps(userNick, directionId);
+    public void onStopRefresh() {
+        swipeLayout.setRefreshing(false);
     }
 
     @Override
     public void onRefresh() {
-
+        presenter.loadDirection(userNick, directionId);
     }
 
     @Override
@@ -186,5 +173,10 @@ public class DirectionDetailFragment extends Fragment implements DirectionDetail
           value
         );
         presenter.updateStep(userNick, directionId, stepId, request);
+    }
+
+    @Override
+    public void loadMore() {
+
     }
 }

@@ -14,6 +14,4 @@ public interface DirectionDetailPresenter {
             String stepId,
             StepRequest request
     );
-    void loadMoreSteps(String userNick,
-                       String directionId);
 }

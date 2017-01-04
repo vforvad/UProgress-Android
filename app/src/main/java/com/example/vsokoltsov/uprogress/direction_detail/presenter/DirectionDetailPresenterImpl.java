@@ -81,30 +81,4 @@ public class DirectionDetailPresenterImpl implements DirectionDetailPresenter {
                     }
                 });;
     }
-
-    @Override
-    public void loadMoreSteps(String userNick, String directionId) {
-        screen.startFooterLoader();
-        model.loadSteps(userNick, directionId, pageNumber)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<StepsList>() {
-                    @Override
-                    public void onCompleted() {
-                            screen.stopFooterLoader();
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        e.printStackTrace();
-                        screen.failureStepUpdate(e);
-                        screen.stopFooterLoader();
-                    }
-
-                    @Override
-                    public void onNext(StepsList stepsList) {
-                        screen.onLoadedMore(stepsList.getSteps());
-                    }
-                });
-    }
 }

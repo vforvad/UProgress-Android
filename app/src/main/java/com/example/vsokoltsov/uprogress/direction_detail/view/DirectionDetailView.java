@@ -17,7 +17,6 @@ public interface DirectionDetailView {
     void stopLoader();
     void successStepUpdate(Step step);
     void failureStepUpdate(Throwable t);
-    void startFooterLoader();
-    void stopFooterLoader();
-    void onLoadedMore(List<Step> steps);
+    void onStartRefresh();
+    void onStopRefresh();
 }
