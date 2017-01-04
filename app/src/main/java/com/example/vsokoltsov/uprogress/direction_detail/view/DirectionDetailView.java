@@ -1,7 +1,10 @@
 package com.example.vsokoltsov.uprogress.direction_detail.view;
 
 import com.example.vsokoltsov.uprogress.direction_detail.model.steps.Step;
+import com.example.vsokoltsov.uprogress.direction_detail.model.steps.StepsList;
 import com.example.vsokoltsov.uprogress.directions_list.models.Direction;
+
+import java.util.List;
 
 /**
  * Created by vsokoltsov on 03.01.17.
@@ -14,5 +17,7 @@ public interface DirectionDetailView {
     void stopLoader();
     void successStepUpdate(Step step);
     void failureStepUpdate(Throwable t);
-
+    void startFooterLoader();
+    void stopFooterLoader();
+    void onLoadedMore(List<Step> steps);
 }

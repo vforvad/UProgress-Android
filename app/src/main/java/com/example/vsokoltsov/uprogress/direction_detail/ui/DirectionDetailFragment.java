@@ -9,11 +9,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.vsokoltsov.uprogress.R;
 import com.example.vsokoltsov.uprogress.common.ApplicationBaseActivity;
+import com.example.vsokoltsov.uprogress.common.BaseScrollView;
+import com.example.vsokoltsov.uprogress.common.ScrollViewInt;
 import com.example.vsokoltsov.uprogress.common.adapters.BaseListAdapterInterface;
 import com.example.vsokoltsov.uprogress.common.helpers.MessagesHelper;
 import com.example.vsokoltsov.uprogress.direction_detail.adapters.StepsListAdapter;
@@ -21,6 +24,7 @@ import com.example.vsokoltsov.uprogress.direction_detail.model.DirectionDetailMo
 import com.example.vsokoltsov.uprogress.direction_detail.model.DirectionDetailModelImpl;
 import com.example.vsokoltsov.uprogress.direction_detail.model.steps.Step;
 import com.example.vsokoltsov.uprogress.direction_detail.model.steps.StepRequest;
+import com.example.vsokoltsov.uprogress.direction_detail.model.steps.StepsList;
 import com.example.vsokoltsov.uprogress.direction_detail.presenter.DirectionDetailPresenter;
 import com.example.vsokoltsov.uprogress.direction_detail.presenter.DirectionDetailPresenterImpl;
 import com.example.vsokoltsov.uprogress.direction_detail.view.DirectionDetailListAdapter;
@@ -47,7 +51,6 @@ public class DirectionDetailFragment extends Fragment implements DirectionDetail
     private TextView directionDetailTitle;
     private TextView directionDetailRate;
     private TextView directionDetailDescription;
-    private CheckBox checkbox;
     private DirectionDetailPresenter presenter;
     String directionId;
     String userNick;
@@ -147,8 +150,26 @@ public class DirectionDetailFragment extends Fragment implements DirectionDetail
     }
 
     @Override
-    public void loadMore() {
+    public void startFooterLoader() {
+        adapter.addDirection(null);
+    }
 
+    @Override
+    public void stopFooterLoader() {
+        adapter.removeItem(null);
+    }
+
+    @Override
+    public void onLoadedMore(List<Step> steps) {
+        for(int i = 0; i < steps.size(); i++) {
+            adapter.items.add(steps.get(i));
+        }
+        adapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void loadMore() {
+        presenter.loadMoreSteps(userNick, directionId);
     }
 
     @Override

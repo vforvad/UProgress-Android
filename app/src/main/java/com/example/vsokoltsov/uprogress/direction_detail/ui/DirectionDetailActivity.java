@@ -27,7 +27,7 @@ public class DirectionDetailActivity extends ApplicationBaseActivity {
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         fragmentManager = getSupportFragmentManager();
         android.support.v4.app.FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        directionDetailFragment= new DirectionDetailFragment();
+        directionDetailFragment = new DirectionDetailFragment();
         fragmentTransaction.replace(R.id.main_content, directionDetailFragment);
         fragmentTransaction.commit();
     }

@@ -3,6 +3,7 @@ package com.example.vsokoltsov.uprogress.direction_detail.model;
 import com.example.vsokoltsov.uprogress.common.utils.ApiRequester;
 import com.example.vsokoltsov.uprogress.direction_detail.model.steps.StepRequest;
 import com.example.vsokoltsov.uprogress.direction_detail.model.steps.StepResponse;
+import com.example.vsokoltsov.uprogress.direction_detail.model.steps.StepsList;
 import com.example.vsokoltsov.uprogress.direction_detail.network.StepsApi;
 import com.example.vsokoltsov.uprogress.directions_list.models.Direction;
 import com.example.vsokoltsov.uprogress.directions_list.network.DirectionsApi;
@@ -34,5 +35,10 @@ public class DirectionDetailModelImpl implements DirectionDetailModel {
     public Observable<StepResponse> updateStep(String userNick,
                                                String directionId, String stepId, StepRequest request) {
         return stepService.updateStep(userNick, directionId, stepId, request);
+    }
+
+    @Override
+    public Observable<StepsList> loadSteps(String userNick, String directionId, int pageNumber) {
+        return stepService.getSteps(userNick, directionId, pageNumber);
     }
 }

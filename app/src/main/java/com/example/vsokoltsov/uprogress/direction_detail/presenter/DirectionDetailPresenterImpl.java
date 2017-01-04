@@ -4,6 +4,7 @@ import com.example.vsokoltsov.uprogress.direction_detail.model.DirectionDetail;
 import com.example.vsokoltsov.uprogress.direction_detail.model.DirectionDetailModel;
 import com.example.vsokoltsov.uprogress.direction_detail.model.steps.StepRequest;
 import com.example.vsokoltsov.uprogress.direction_detail.model.steps.StepResponse;
+import com.example.vsokoltsov.uprogress.direction_detail.model.steps.StepsList;
 import com.example.vsokoltsov.uprogress.direction_detail.view.DirectionDetailView;
 import com.example.vsokoltsov.uprogress.directions_list.models.Direction;
 import com.example.vsokoltsov.uprogress.directions_list.models.DirectionsList;
@@ -21,6 +22,8 @@ import rx.schedulers.Schedulers;
 public class DirectionDetailPresenterImpl implements DirectionDetailPresenter {
     DirectionDetailModel model;
     DirectionDetailView screen;
+
+    public int pageNumber = 2;
 
     public DirectionDetailPresenterImpl(DirectionDetailModel model, DirectionDetailView screen) {
         this.model = model;
@@ -77,5 +80,31 @@ public class DirectionDetailPresenterImpl implements DirectionDetailPresenter {
                         screen.successStepUpdate(step.getStep());
                     }
                 });;
+    }
+
+    @Override
+    public void loadMoreSteps(String userNick, String directionId) {
+        screen.startFooterLoader();
+        model.loadSteps(userNick, directionId, pageNumber)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<StepsList>() {
+                    @Override
+                    public void onCompleted() {
+                            screen.stopFooterLoader();
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        e.printStackTrace();
+                        screen.failureStepUpdate(e);
+                        screen.stopFooterLoader();
+                    }
+
+                    @Override
+                    public void onNext(StepsList stepsList) {
+                        screen.onLoadedMore(stepsList.getSteps());
+                    }
+                });
     }
 }

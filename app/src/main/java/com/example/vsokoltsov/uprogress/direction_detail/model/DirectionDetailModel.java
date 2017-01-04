@@ -2,6 +2,7 @@ package com.example.vsokoltsov.uprogress.direction_detail.model;
 
 import com.example.vsokoltsov.uprogress.direction_detail.model.steps.StepRequest;
 import com.example.vsokoltsov.uprogress.direction_detail.model.steps.StepResponse;
+import com.example.vsokoltsov.uprogress.direction_detail.model.steps.StepsList;
 import com.example.vsokoltsov.uprogress.directions_list.models.Direction;
 
 import rx.Observable;
@@ -18,5 +19,10 @@ public interface DirectionDetailModel {
             String directionId,
             String stepId,
             StepRequest request
+    );
+    Observable<StepsList> loadSteps(
+            String userNick,
+            String directionId,
+            int pageNumber
     );
 }
