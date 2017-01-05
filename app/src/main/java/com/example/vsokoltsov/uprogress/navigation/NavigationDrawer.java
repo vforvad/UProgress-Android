@@ -25,6 +25,7 @@ import com.example.vsokoltsov.uprogress.authentication.messages.UserMessage;
 import com.example.vsokoltsov.uprogress.authentication.models.AuthorizationService;
 import com.example.vsokoltsov.uprogress.authentication.ui.AuthorizationActivity;
 import com.example.vsokoltsov.uprogress.directions_list.ui.DirectionsActivity;
+import com.example.vsokoltsov.uprogress.statistics.StatisticsActivity;
 import com.example.vsokoltsov.uprogress.user.ui.UserActivity;
 
 import org.greenrobot.eventbus.EventBus;
@@ -239,6 +240,12 @@ public class NavigationDrawer extends Fragment {
             getActivity().overridePendingTransition(R.anim.pull_in_right, R.anim.push_out_left);
             mDrawerLayout.closeDrawer(rootView);
         }
+        else if(navItem.getTitle().equals("Statistics")) {
+            Intent statisticsActivity = new Intent(getActivity(), StatisticsActivity.class);
+            startActivity(statisticsActivity);
+            getActivity().overridePendingTransition(R.anim.pull_in_right, R.anim.push_out_left);
+            mDrawerLayout.closeDrawer(rootView);
+        }
     }
 
     private void setItemsActionsForTablet(int position) {
@@ -281,6 +288,7 @@ public class NavigationDrawer extends Fragment {
         if (authManager.getCurrentUser() != null) {
             navigationItems.add(new NavigationItem(authManager.getCurrentUser()));
             navigationItems.add(new NavigationItem(R.drawable.directions, "Directions"));
+            navigationItems.add(new NavigationItem(R.drawable.statistics_icon, "Statistics"));
         } else {
             navigationItems.add(new NavigationItem(R.drawable.sign_in, "Sign in"));
             navigationItems.add(new NavigationItem(R.drawable.sign_up, "Sign up"));

@@ -18,6 +18,8 @@
         </activity>
         <activity android:name=".user.ui.UserActivity">
         </activity>
+        <activity android:name=".statistics.StatisticsActivity">
+        </activity>
         <activity android:name=".directions_list.ui.DirectionsActivity">
             <meta-data
                 android:name="android.app.searchable"
