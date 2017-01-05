@@ -10,9 +10,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.EditText;
 
 import com.example.vsokoltsov.uprogress.R;
+import com.example.vsokoltsov.uprogress.direction_detail.model.steps.StepRequest;
 
 /**
  * Created by vsokoltsov on 05.01.17.
@@ -20,7 +22,10 @@ import com.example.vsokoltsov.uprogress.R;
 
 public class AddStepForm extends DialogFragment {
     PopupInterface popupInterface;
+    View rootView;
+    EditText stepTitle;
     EditText stepDescription;
+    Button submitStep;
 
     public void setPopupInterface(PopupInterface popupInterface) {
         this.popupInterface = popupInterface;
@@ -29,13 +34,34 @@ public class AddStepForm extends DialogFragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.add_step_popup, container, false);
+        rootView = inflater.inflate(R.layout.add_step_popup, container, false);
+        setElements();
+        setMaxHeightToStepDescription();
+        return rootView;
+    }
+
+    private void setElements() {
+        stepTitle = (EditText) rootView.findViewById(R.id.stepTitle);
+        stepDescription = (EditText) rootView.findViewById(R.id.stepDescription);
+        submitStep = (Button)  rootView.findViewById(R.id.submitStep);
+        submitStep.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                StepRequest request = new StepRequest(
+                        stepTitle.getText().toString(),
+                        stepDescription.getText().toString(),
+                        false);
+                popupInterface.successPopupOperation(request);
+            }
+        });
+
+    }
+
+    private void setMaxHeightToStepDescription() {
         DisplayMetrics dm = new DisplayMetrics();
         getDialog().getWindow().getWindowManager().getDefaultDisplay().getMetrics(dm);
         int height = dm.heightPixels;
-        stepDescription = (EditText) rootView.findViewById(R.id.stepDescription);
         stepDescription.setMaxHeight((int)(height * 0.6));
-        return rootView;
     }
 
     @Override

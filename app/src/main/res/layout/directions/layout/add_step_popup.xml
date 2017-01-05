@@ -22,6 +22,7 @@
             android:layout_height="wrap_content"
             android:inputType="textMultiLine" />
         <Button
+            android:id="@+id/submitStep"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Save"/>

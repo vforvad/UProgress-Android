@@ -286,7 +286,7 @@ public class DirectionDetailFragment extends Fragment implements DirectionDetail
 
     @Override
     public void successPopupOperation(Object obj) {
-
+        StepRequest request = (StepRequest) obj;
     }
 
     @Override
