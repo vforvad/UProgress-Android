@@ -22,6 +22,8 @@ import com.example.vsokoltsov.uprogress.R;
 import com.example.vsokoltsov.uprogress.common.ApplicationBaseActivity;
 import com.example.vsokoltsov.uprogress.common.SwipeableRecyclerViewTouchListener;
 import com.example.vsokoltsov.uprogress.common.helpers.MessagesHelper;
+import com.example.vsokoltsov.uprogress.common.services.ErrorResponse;
+import com.example.vsokoltsov.uprogress.common.utils.RetrofitException;
 import com.example.vsokoltsov.uprogress.direction_detail.adapters.StepsListAdapter;
 import com.example.vsokoltsov.uprogress.direction_detail.model.DirectionDetailModel;
 import com.example.vsokoltsov.uprogress.direction_detail.model.DirectionDetailModelImpl;
@@ -39,6 +41,7 @@ import com.example.vsokoltsov.uprogress.directions_list.models.Direction;
 
 import org.solovyev.android.views.llm.LinearLayoutManager;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -244,7 +247,15 @@ public class DirectionDetailFragment extends Fragment implements DirectionDetail
 
     @Override
     public void failedStepCreate(Throwable t) {
-
+        RetrofitException error = (RetrofitException) t;
+        ErrorResponse errors = null;
+        try {
+            errors = error.getErrorBodyAs(ErrorResponse.class);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        formDialog.stepTitle.setError(errors.getFullErrorMessage("title"));
+        formDialog.stepDescription.setError(errors.getFullErrorMessage("description"));
     }
 
     @Override

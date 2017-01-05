@@ -23,8 +23,8 @@ import com.example.vsokoltsov.uprogress.direction_detail.model.steps.StepRequest
 public class AddStepForm extends DialogFragment {
     PopupInterface popupInterface;
     View rootView;
-    EditText stepTitle;
-    EditText stepDescription;
+    public EditText stepTitle;
+    public EditText stepDescription;
     Button submitStep;
 
     public void setPopupInterface(PopupInterface popupInterface) {
