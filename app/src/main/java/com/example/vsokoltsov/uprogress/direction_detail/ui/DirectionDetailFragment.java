@@ -3,6 +3,7 @@ package com.example.vsokoltsov.uprogress.direction_detail.ui;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
@@ -26,6 +27,8 @@ import com.example.vsokoltsov.uprogress.direction_detail.model.DirectionDetailMo
 import com.example.vsokoltsov.uprogress.direction_detail.model.DirectionDetailModelImpl;
 import com.example.vsokoltsov.uprogress.direction_detail.model.steps.Step;
 import com.example.vsokoltsov.uprogress.direction_detail.model.steps.StepRequest;
+import com.example.vsokoltsov.uprogress.direction_detail.popup.DirectionDetailPopup;
+import com.example.vsokoltsov.uprogress.direction_detail.popup.StepDialogFragment;
 import com.example.vsokoltsov.uprogress.direction_detail.presenter.DirectionDetailPresenter;
 import com.example.vsokoltsov.uprogress.direction_detail.presenter.DirectionDetailPresenterImpl;
 import com.example.vsokoltsov.uprogress.direction_detail.view.DirectionDetailListAdapter;
@@ -96,7 +99,11 @@ public class DirectionDetailFragment extends Fragment implements DirectionDetail
 
                     @Override
                     public void onNext(Step step) {
-                        ((DirectionDetailActivity) getActivity()).showPopup();
+                        StepDialogFragment fragment = new StepDialogFragment();
+                        fragment.setCancelable(true);
+                        fragment.show(getActivity().getFragmentManager(), "dialog");
+//                        Intent intent = new Intent(getActivity(), DirectionDetailPopup.class);
+//                        getActivity().startActivity(intent);
                     }
                 });
     }
@@ -143,7 +150,7 @@ public class DirectionDetailFragment extends Fragment implements DirectionDetail
 
                             @Override
                             public boolean canSwipeRight(int position) {
-                                return true;
+                                return false;
                             }
 
                             @Override

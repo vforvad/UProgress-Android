@@ -1,6 +1,5 @@
 package com.example.vsokoltsov.uprogress.direction_detail.ui;
 
-import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
@@ -9,7 +8,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 
 import com.example.vsokoltsov.uprogress.R;
-import com.example.vsokoltsov.uprogress.common.Popup;
+import com.example.vsokoltsov.uprogress.direction_detail.popup.DirectionDetailPopup;
 import com.example.vsokoltsov.uprogress.directions_list.models.Direction;
 import com.example.vsokoltsov.uprogress.common.ApplicationBaseActivity;
 import com.example.vsokoltsov.uprogress.directions_list.ui.DirectionsActivity;
@@ -65,13 +64,5 @@ public class DirectionDetailActivity extends ApplicationBaseActivity {
         MenuInflater inflater = getMenuInflater();
         directionDetailFragment.onCreateOptionsMenu(menu, inflater);
         return true;
-    }
-
-    public void showPopup() {
-        startActivity(new Intent(this, Popup.class));
-//        finish();
-//        Dialog dialog = new Dialog(this);
-//        dialog.setContentView(R.layout.popup_window);
-//        dialog.show();
     }
 }

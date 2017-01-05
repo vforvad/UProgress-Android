@@ -1,4 +1,4 @@
-package com.example.vsokoltsov.uprogress.common;
+package com.example.vsokoltsov.uprogress.direction_detail.popup;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -13,13 +13,12 @@ import com.example.vsokoltsov.uprogress.common.utils.ContextManager;
  * Created by vsokoltsov on 05.01.17.
  */
 
-public class Popup extends Activity {
+public class DirectionDetailPopup extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.popup_window);
-
         DisplayMetrics dm = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(dm);
         int width = dm.widthPixels;

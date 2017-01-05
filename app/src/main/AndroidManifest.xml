@@ -44,7 +44,7 @@
         </activity>
 
         <activity
-            android:name=".common.Popup"
+            android:name=".direction_detail.popup.DirectionDetailPopup"
             android:theme="@style/AppTheme.PopupTheme">
         </activity>
     </application>
