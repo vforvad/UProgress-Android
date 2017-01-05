@@ -12,6 +12,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.PopupWindow;
 import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -35,6 +36,10 @@ import org.solovyev.android.views.llm.LinearLayoutManager;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import rx.Observer;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 /**
  * Created by vsokoltsov on 29.11.16.
@@ -68,9 +73,32 @@ public class DirectionDetailFragment extends Fragment implements DirectionDetail
         getExtras();
         setComponents();
         setElements();
+        setOnClickListeners();
         setOnCheckedListeners();
         presenter.loadDirection(userNick, directionId);
         return fragmentView;
+    }
+
+    private void setOnClickListeners() {
+        adapter.getLongClick()
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<Step>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(Step step) {
+
+                    }
+                });
     }
 
     private void setComponents() {
@@ -115,30 +143,22 @@ public class DirectionDetailFragment extends Fragment implements DirectionDetail
 
                             @Override
                             public boolean canSwipeRight(int position) {
-                                return false;
+                                return true;
                             }
 
                             @Override
                             public void onDismissedBySwipeLeft(RecyclerView recyclerView, int[] reverseSortedPositions) {
-//                                int index = reverseSortedPositions[0];
-//                                Step step = (Step) adapter.items.get(index);
-//                                presenter.deleteStep(userNick, directionId, Integer.toString(step.getId()), reverseSortedPositions);
                                 for (int position : reverseSortedPositions) {
                                     Step step = (Step) adapter.items.get(position);
                                     presenter.deleteStep(userNick, directionId, Integer.toString(step.getId()), reverseSortedPositions);
                                     adapter.items.remove(position);
                                     adapter.notifyItemRemoved(position);
                                 }
-//                                adapter.notifyDataSetChanged();
                             }
 
                             @Override
                             public void onDismissedBySwipeRight(RecyclerView recyclerView, int[] reverseSortedPositions) {
-                                for (int position : reverseSortedPositions) {
-                                    adapter.items.remove(position);
-                                    adapter.notifyItemRemoved(position);
-                                }
-                                adapter.notifyDataSetChanged();
+
                             }
                         });
 

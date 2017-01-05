@@ -33,6 +33,12 @@ public class StepsListAdapter extends BaseListAdapter {
         this.view = view;
     }
 
+    private final PublishSubject<Step> onLongClickSubject = PublishSubject.create();
+
+    public Observable<Step> getLongClick() {
+        return onLongClickSubject.asObservable();
+    }
+
     @Override
     public RecyclerView.ViewHolder onCreateBaseViewHolder(ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.steps_list_item, parent, false);
@@ -51,6 +57,14 @@ public class StepsListAdapter extends BaseListAdapter {
             public void onClick(View v) {
                 boolean isChecked = checkBox.isChecked();
                 view.onCheckboxChanged(step, isChecked);
+            }
+        });
+
+        viewHolder.stepsItem.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                onLongClickSubject.onNext(step);
+                return true;
             }
         });
     }
