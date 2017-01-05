@@ -37,10 +37,14 @@ public class DirectionDetailActivity extends ApplicationBaseActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        int itemId = item.getItemId();
         switch (item.getItemId()) {
             case android.R.id.home:
                 NavUtils.navigateUpTo(this, new Intent(this, DirectionsActivity.class));
                 overridePendingTransition(R.anim.pull_in_left, R.anim.push_out_right);
+                return true;
+            case R.id.addItem:
+                directionDetailFragment.createStep();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

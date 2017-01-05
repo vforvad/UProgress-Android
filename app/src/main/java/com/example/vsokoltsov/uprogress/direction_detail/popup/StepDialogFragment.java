@@ -20,7 +20,6 @@ import com.example.vsokoltsov.uprogress.direction_detail.model.steps.Step;
  */
 
 public class StepDialogFragment extends DialogFragment {
-    PopupInterface popupInterface;
     private Step step;
     private TextView stepTitle;
     private TextView stepDescription;
@@ -62,9 +61,5 @@ public class StepDialogFragment extends DialogFragment {
 
     public void setStep(Step step) {
         this.step = step;
-    }
-
-    public void setPopupInterface(PopupInterface popupInterface) {
-        this.popupInterface = popupInterface;
     }
 }

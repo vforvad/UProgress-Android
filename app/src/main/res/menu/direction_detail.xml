@@ -9,7 +9,7 @@
         android:title="Search!">
     </item>
     <item
-        android:id="@+id/addStep"
+        android:id="@+id/addItem"
         app:showAsAction="always"
         android:icon="@drawable/ic_add_white"
         android:title="Add step">

@@ -27,6 +27,7 @@ import com.example.vsokoltsov.uprogress.direction_detail.model.DirectionDetailMo
 import com.example.vsokoltsov.uprogress.direction_detail.model.DirectionDetailModelImpl;
 import com.example.vsokoltsov.uprogress.direction_detail.model.steps.Step;
 import com.example.vsokoltsov.uprogress.direction_detail.model.steps.StepRequest;
+import com.example.vsokoltsov.uprogress.direction_detail.popup.AddStepForm;
 import com.example.vsokoltsov.uprogress.direction_detail.popup.DirectionDetailPopup;
 import com.example.vsokoltsov.uprogress.direction_detail.popup.PopupInterface;
 import com.example.vsokoltsov.uprogress.direction_detail.popup.StepDialogFragment;
@@ -102,7 +103,6 @@ public class DirectionDetailFragment extends Fragment implements DirectionDetail
                     public void onNext(Step step) {
                         StepDialogFragment fragment = new StepDialogFragment();
                         fragment.setStep(step);
-                        fragment.setPopupInterface(DirectionDetailFragment.this);
                         fragment.show(getActivity().getFragmentManager(), "dialog");
                     }
                 });
@@ -292,5 +292,11 @@ public class DirectionDetailFragment extends Fragment implements DirectionDetail
     @Override
     public void failedPopupOperation(Throwable t) {
 
+    }
+
+    public void createStep() {
+        AddStepForm fragment = new AddStepForm();
+        fragment.setPopupInterface(this);
+        fragment.show(getActivity().getFragmentManager(), "dialog");
     }
 }
