@@ -1,7 +1,5 @@
 package com.example.vsokoltsov.uprogress.directions_list.ui;
 
-import android.app.SearchManager;
-import android.app.SearchableInfo;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.ColorStateList;
@@ -9,7 +7,6 @@ import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
-import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatDelegate;
@@ -23,12 +20,11 @@ import android.view.ViewGroup;
 import android.widget.SearchView;
 
 import com.example.vsokoltsov.uprogress.R;
-import com.example.vsokoltsov.uprogress.common.SwipeableRecyclerViewTouchListener;
 import com.example.vsokoltsov.uprogress.common.adapters.BaseListAdapterInterface;
 import com.example.vsokoltsov.uprogress.direction_detail.ui.DirectionDetailActivity;
 import com.example.vsokoltsov.uprogress.directions_list.adapters.DirectionsListAdapter;
 import com.example.vsokoltsov.uprogress.directions_list.models.DirectionsList;
-import com.example.vsokoltsov.uprogress.user.User;
+import com.example.vsokoltsov.uprogress.user.current.User;
 import com.example.vsokoltsov.uprogress.authentication.models.AuthorizationService;
 import com.example.vsokoltsov.uprogress.directions_list.models.Direction;
 import com.example.vsokoltsov.uprogress.directions_list.models.DirectionModel;

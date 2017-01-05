@@ -25,6 +25,7 @@ import com.example.vsokoltsov.uprogress.authentication.messages.UserMessage;
 import com.example.vsokoltsov.uprogress.authentication.models.AuthorizationService;
 import com.example.vsokoltsov.uprogress.authentication.ui.AuthorizationActivity;
 import com.example.vsokoltsov.uprogress.directions_list.ui.DirectionsActivity;
+import com.example.vsokoltsov.uprogress.user.ui.UserActivity;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -212,6 +213,13 @@ public class NavigationDrawer extends Fragment {
     private void setItemsActionsForPhone(int position) {
         NavigationItem navItem = navigationItems.get(position);
         String signIn = "Sign in";
+
+        if (navItem.getUser() != null) {
+            Intent userActivity = new Intent(getActivity(), UserActivity.class);
+            startActivity(userActivity);
+            getActivity().overridePendingTransition(R.anim.pull_in_right, R.anim.push_out_left);
+            return;
+        }
 
         if (navItem.getTitle().equals(signIn)) {
             Intent authActivity = new Intent(getActivity(), AuthorizationActivity.class);

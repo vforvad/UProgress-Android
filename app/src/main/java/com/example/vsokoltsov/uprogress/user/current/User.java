@@ -1,4 +1,4 @@
-package com.example.vsokoltsov.uprogress.user;
+package com.example.vsokoltsov.uprogress.user.current;
 
 import com.example.vsokoltsov.uprogress.authentication.models.Attachment;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;

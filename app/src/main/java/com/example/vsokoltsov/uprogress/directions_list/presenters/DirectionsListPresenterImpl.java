@@ -1,15 +1,9 @@
 package com.example.vsokoltsov.uprogress.directions_list.presenters;
 
-import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.RecyclerView;
-
-import com.example.vsokoltsov.uprogress.user.User;
+import com.example.vsokoltsov.uprogress.user.current.User;
 import com.example.vsokoltsov.uprogress.directions_list.models.DirectionModel;
 import com.example.vsokoltsov.uprogress.directions_list.models.DirectionsList;
-import com.example.vsokoltsov.uprogress.common.ApplicationBaseActivity;
 import com.example.vsokoltsov.uprogress.directions_list.views.DirectionsListView;
-
-import org.solovyev.android.views.llm.LinearLayoutManager;
 
 import java.io.IOException;
 

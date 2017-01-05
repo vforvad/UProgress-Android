@@ -1,6 +1,6 @@
 package com.example.vsokoltsov.uprogress.authentication.models;
 
-import com.example.vsokoltsov.uprogress.user.User;
+import com.example.vsokoltsov.uprogress.user.current.User;
 
 /**
  * Created by vsokoltsov on 23.11.16.
