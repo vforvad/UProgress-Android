@@ -7,6 +7,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
+import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -60,6 +61,7 @@ public class DirectionDetailFragment extends Fragment implements DirectionDetail
     private TextView directionDetailTitle;
     private TextView directionDetailRate;
     private TextView directionDetailDescription;
+    private TextView directionUpdatedAt;
     private DirectionDetailPresenter presenter;
     String directionId;
     String userNick;
@@ -129,6 +131,7 @@ public class DirectionDetailFragment extends Fragment implements DirectionDetail
         directionDetailTitle = (TextView) fragmentView.findViewById(R.id.directionDetailTitle);
         directionDetailDescription = (TextView) fragmentView.findViewById(R.id.directionDetailDescription);
         directionDetailRate = (TextView) fragmentView.findViewById(R.id.directionDetailRate);
+        directionUpdatedAt = (TextView) fragmentView.findViewById(R.id.directionUpdatedAt);
 
         rv = (RecyclerView) fragmentView.findViewById(R.id.stepsList);
         rv.setHasFixedSize(true);
@@ -185,6 +188,12 @@ public class DirectionDetailFragment extends Fragment implements DirectionDetail
         directionDetailTitle.setText(direction.getTitle());
         directionDetailDescription.setText(direction.getDescription());
         directionDetailRate.setText(Integer.toString(direction.getPercentsResult()));
+
+        if (direction.getUpdatedAt() != null) {
+            long now = System.currentTimeMillis();
+            String date = (String) DateUtils.getRelativeTimeSpanString(direction.getUpdatedAt().getTime(), now, DateUtils.DAY_IN_MILLIS);
+            directionUpdatedAt.setText(date);
+        }
         adapter.items = direction.getSteps();
         adapter.notifyDataSetChanged();
     }

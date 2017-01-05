@@ -8,7 +8,12 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonRootName;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * Created by vsokoltsov on 27.11.16.
@@ -30,6 +35,8 @@ public class Direction implements Parcelable {
     private int finishedStepsCount;
     @JsonProperty("steps")
     private List<Step> steps;
+    @JsonProperty("updated_at")
+    private Date updatedAt;
 
     public Direction() {
 
@@ -118,5 +125,20 @@ public class Direction implements Parcelable {
 
     public void setSteps(List<Step> steps) {
         this.steps = steps;
+    }
+
+    public void setUpdatedAt(String updatedAt) {
+        DateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.ENGLISH);
+        Date date = null;
+        try {
+            date = format.parse(updatedAt);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        this.updatedAt = date;
+    }
+
+    public Date getUpdatedAt() {
+        return updatedAt;
     }
 }
