@@ -16,6 +16,7 @@
         android:name=".common.BaseApplication">
         <activity android:name=".authentication.ui.AuthorizationActivity">
         </activity>
+
         <activity android:name=".directions_list.ui.DirectionsActivity">
             <meta-data
                 android:name="android.app.searchable"
@@ -40,6 +41,11 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".common.Popup"
+            android:theme="@style/Base.Theme.AppCompat.Dialog">
         </activity>
     </application>
 </manifest>

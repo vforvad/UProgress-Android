@@ -96,7 +96,7 @@ public class DirectionDetailFragment extends Fragment implements DirectionDetail
 
                     @Override
                     public void onNext(Step step) {
-
+                        ((DirectionDetailActivity) getActivity()).showPopup();
                     }
                 });
     }
