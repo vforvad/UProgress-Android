@@ -100,7 +100,6 @@ public class DirectionDetailFragment extends Fragment implements DirectionDetail
                     @Override
                     public void onNext(Step step) {
                         StepDialogFragment fragment = new StepDialogFragment();
-                        fragment.setCancelable(true);
                         fragment.show(getActivity().getFragmentManager(), "dialog");
 //                        Intent intent = new Intent(getActivity(), DirectionDetailPopup.class);
 //                        getActivity().startActivity(intent);

@@ -30,7 +30,6 @@ public class StepDialogFragment extends DialogFragment {
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         Dialog dialog = super.onCreateDialog(savedInstanceState);
         dialog.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
-//        dialog.setCancelable(true);
         return dialog;
     }
 }
