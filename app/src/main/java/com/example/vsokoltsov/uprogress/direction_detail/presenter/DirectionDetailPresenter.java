@@ -16,4 +16,5 @@ public interface DirectionDetailPresenter {
     );
 
     void reloadDirection(String userNick, String directionId);
+    void deleteStep(String userNick, String directionId, String stepId, int[] positions);
 }

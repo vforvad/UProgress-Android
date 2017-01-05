@@ -23,6 +23,7 @@ import android.view.ViewGroup;
 import android.widget.SearchView;
 
 import com.example.vsokoltsov.uprogress.R;
+import com.example.vsokoltsov.uprogress.common.SwipeableRecyclerViewTouchListener;
 import com.example.vsokoltsov.uprogress.common.adapters.BaseListAdapterInterface;
 import com.example.vsokoltsov.uprogress.direction_detail.ui.DirectionDetailActivity;
 import com.example.vsokoltsov.uprogress.directions_list.adapters.DirectionsListAdapter;

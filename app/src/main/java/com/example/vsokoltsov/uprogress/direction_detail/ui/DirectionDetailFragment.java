@@ -18,6 +18,7 @@ import android.widget.Toast;
 
 import com.example.vsokoltsov.uprogress.R;
 import com.example.vsokoltsov.uprogress.common.ApplicationBaseActivity;
+import com.example.vsokoltsov.uprogress.common.SwipeableRecyclerViewTouchListener;
 import com.example.vsokoltsov.uprogress.common.helpers.MessagesHelper;
 import com.example.vsokoltsov.uprogress.direction_detail.adapters.StepsListAdapter;
 import com.example.vsokoltsov.uprogress.direction_detail.model.DirectionDetailModel;
@@ -96,10 +97,52 @@ public class DirectionDetailFragment extends Fragment implements DirectionDetail
         rv.setLayoutManager(llm);
         adapter = new StepsListAdapter(steps, rv, this);
         rv.setAdapter(adapter);
-//        rv.setNestedScrollingEnabled(false);
 
         swipeLayout = (SwipeRefreshLayout) fragmentView.findViewById(R.id.swipe_layout);
         swipeLayout.setOnRefreshListener(this);
+        setSwipeListener();
+    }
+
+    private void setSwipeListener() {
+        SwipeableRecyclerViewTouchListener swipeTouchListener =
+                new SwipeableRecyclerViewTouchListener(rv,
+                        new SwipeableRecyclerViewTouchListener.SwipeListener() {
+
+                            @Override
+                            public boolean canSwipeLeft(int position) {
+                                return true;
+                            }
+
+                            @Override
+                            public boolean canSwipeRight(int position) {
+                                return false;
+                            }
+
+                            @Override
+                            public void onDismissedBySwipeLeft(RecyclerView recyclerView, int[] reverseSortedPositions) {
+//                                int index = reverseSortedPositions[0];
+//                                Step step = (Step) adapter.items.get(index);
+//                                presenter.deleteStep(userNick, directionId, Integer.toString(step.getId()), reverseSortedPositions);
+                                for (int position : reverseSortedPositions) {
+                                    Step step = (Step) adapter.items.get(position);
+                                    presenter.deleteStep(userNick, directionId, Integer.toString(step.getId()), reverseSortedPositions);
+                                    adapter.items.remove(position);
+                                    adapter.notifyItemRemoved(position);
+                                }
+//                                adapter.notifyDataSetChanged();
+                            }
+
+                            @Override
+                            public void onDismissedBySwipeRight(RecyclerView recyclerView, int[] reverseSortedPositions) {
+                                for (int position : reverseSortedPositions) {
+                                    adapter.items.remove(position);
+                                    adapter.notifyItemRemoved(position);
+                                }
+                                adapter.notifyDataSetChanged();
+                            }
+                        });
+
+        rv.addOnItemTouchListener(swipeTouchListener);
     }
 
     private void setOnCheckedListeners() {
@@ -152,6 +195,20 @@ public class DirectionDetailFragment extends Fragment implements DirectionDetail
     @Override
     public void onStopRefresh() {
         swipeLayout.setRefreshing(false);
+    }
+
+    @Override
+    public void successDelete(Step step, int[] positions) {
+//        for (int position : positions) {
+//            adapter.items.remove(position);
+//            adapter.notifyItemRemoved(position);
+//        }
+        adapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void failedDelete(Throwable t) {
+
     }
 
     @Override

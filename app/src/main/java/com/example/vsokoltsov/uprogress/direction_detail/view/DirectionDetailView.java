@@ -19,4 +19,6 @@ public interface DirectionDetailView {
     void failureStepUpdate(Throwable t);
     void onStartRefresh();
     void onStopRefresh();
+    void successDelete(Step step, int[] positions);
+    void failedDelete(Throwable t);
 }

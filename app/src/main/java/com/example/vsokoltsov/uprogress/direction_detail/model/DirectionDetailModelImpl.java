@@ -41,4 +41,9 @@ public class DirectionDetailModelImpl implements DirectionDetailModel {
     public Observable<StepsList> loadSteps(String userNick, String directionId, int pageNumber) {
         return stepService.getSteps(userNick, directionId, pageNumber);
     }
+
+    @Override
+    public Observable<StepResponse> deleteStep(String userNick, String directionId, String stepId) {
+        return stepService.deleteSteps(userNick, directionId, stepId);
+    }
 }

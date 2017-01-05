@@ -6,6 +6,7 @@ import com.example.vsokoltsov.uprogress.direction_detail.model.steps.StepRespons
 import com.example.vsokoltsov.uprogress.direction_detail.model.steps.StepsList;
 
 import retrofit2.http.Body;
+import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.PUT;
 import retrofit2.http.Path;
@@ -29,5 +30,11 @@ public interface StepsApi {
             @Path("user") String userNick,
             @Path("direction") String direction,
             @Query("page") int page
+    );
+    @DELETE("users/{user}/directions/{direction}/steps/{step}")
+    Observable<StepResponse> deleteSteps(
+            @Path("user") String userNick,
+            @Path("direction") String direction,
+            @Path("step") String stepId
     );
 }

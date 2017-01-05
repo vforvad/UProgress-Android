@@ -25,4 +25,9 @@ public interface DirectionDetailModel {
             String directionId,
             int pageNumber
     );
+    Observable<StepResponse> deleteStep(
+            String userNick,
+            String directionId,
+            String stepId
+    );
 }
