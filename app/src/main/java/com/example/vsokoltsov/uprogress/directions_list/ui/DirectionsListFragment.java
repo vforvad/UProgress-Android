@@ -185,6 +185,8 @@ public class DirectionsListFragment extends Fragment implements SwipeRefreshLayo
         super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.direction_detail, menu);
         MenuItem searchItem = menu.findItem(R.id.search);
+        MenuItem addItem = menu.findItem(R.id.addItem);
+        addItem.setVisible(false);
         SearchView searchView = (SearchView) searchItem.getActionView();
         searchView.setIconified(true);
         searchItem.setIcon(R.drawable.search);
