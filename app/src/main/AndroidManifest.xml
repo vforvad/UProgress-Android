@@ -45,7 +45,7 @@
 
         <activity
             android:name=".common.Popup"
-            android:theme="@style/Base.Theme.AppCompat.Dialog">
+            android:theme="@style/AppTheme.PopupTheme">
         </activity>
     </application>
 </manifest>
