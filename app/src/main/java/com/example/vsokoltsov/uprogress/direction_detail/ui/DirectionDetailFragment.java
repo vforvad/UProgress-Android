@@ -61,6 +61,7 @@ public class DirectionDetailFragment extends Fragment implements DirectionDetail
     String directionId;
     String userNick;
     MessagesHelper messagesHelper;
+    AddStepForm formDialog;
 
     private RecyclerView rv;
     private StepsListAdapter adapter;
@@ -226,15 +227,23 @@ public class DirectionDetailFragment extends Fragment implements DirectionDetail
 
     @Override
     public void successDelete(Step step, int[] positions) {
-//        for (int position : positions) {
-//            adapter.items.remove(position);
-//            adapter.notifyItemRemoved(position);
-//        }
         adapter.notifyDataSetChanged();
     }
 
     @Override
     public void failedDelete(Throwable t) {
+
+    }
+
+    @Override
+    public void successStepCreate(Step step) {
+        formDialog.dismiss();
+        adapter.items.add(step);
+        adapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void failedStepCreate(Throwable t) {
 
     }
 
@@ -287,6 +296,7 @@ public class DirectionDetailFragment extends Fragment implements DirectionDetail
     @Override
     public void successPopupOperation(Object obj) {
         StepRequest request = (StepRequest) obj;
+        presenter.createStep(userNick, directionId, request);
     }
 
     @Override
@@ -295,8 +305,8 @@ public class DirectionDetailFragment extends Fragment implements DirectionDetail
     }
 
     public void createStep() {
-        AddStepForm fragment = new AddStepForm();
-        fragment.setPopupInterface(this);
-        fragment.show(getActivity().getFragmentManager(), "dialog");
+        formDialog = new AddStepForm();
+        formDialog.setPopupInterface(this);
+        formDialog.show(getActivity().getFragmentManager(), "dialog");
     }
 }

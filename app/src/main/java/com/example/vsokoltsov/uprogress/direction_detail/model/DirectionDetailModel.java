@@ -30,4 +30,9 @@ public interface DirectionDetailModel {
             String directionId,
             String stepId
     );
+    Observable<StepResponse> createStep(
+            String userNick,
+            String directionId,
+            StepRequest request
+    );
 }

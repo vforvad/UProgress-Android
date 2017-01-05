@@ -131,6 +131,32 @@ public class DirectionDetailPresenterImpl implements DirectionDetailPresenter {
 
     }
 
+    @Override
+    public void createStep(String userNick, String directionId, StepRequest request) {
+        screen.startLoader();
+        model.createStep(userNick, directionId, request)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<StepResponse>() {
+                    @Override
+                    public void onCompleted() {
+                        screen.stopLoader();
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        e.printStackTrace();
+                        screen.failedStepCreate(e);
+                        screen.stopLoader();
+                    }
+
+                    @Override
+                    public void onNext(StepResponse stepResponse) {
+                        screen.successStepCreate(stepResponse.getStep());
+                    }
+                });
+    }
+
     private Observable<DirectionDetail> getDirection(String userNick, String directionId) {
         return model.loadDirection(userNick, directionId)
                 .subscribeOn(Schedulers.io())
