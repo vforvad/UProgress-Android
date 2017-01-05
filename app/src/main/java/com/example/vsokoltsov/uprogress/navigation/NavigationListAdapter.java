@@ -2,7 +2,9 @@ package com.example.vsokoltsov.uprogress.navigation;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
+import android.support.v7.app.AppCompatDelegate;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,6 +28,10 @@ public class NavigationListAdapter extends BaseAdapter {
     private LayoutInflater inflater;
     private List<NavigationItem> navigationList;
     private NavigationItem navigation;
+
+    static {
+        AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
+    }
 
     public NavigationListAdapter(Activity activity, List<NavigationItem> navigationList) {
         this.activity = activity;
@@ -71,7 +77,8 @@ public class NavigationListAdapter extends BaseAdapter {
         User user = navigation.getUser();
         final CircleImageView avatarView = (CircleImageView) contentView.findViewById(R.id.circleView);
         setUserNameInHeader(user, contentView);
-        Drawable emptyUserImg = activity.getResources().getDrawable(R.drawable.empty_user);
+        Resources res = activity.getResources();
+        Drawable emptyUserImg = res.getDrawable(R.drawable.empty_user);
         avatarView.setImageDrawable(emptyUserImg);
 //        Drawable background = (Drawable) activity.getResources().getDrawable(R.drawable.backgroundploy);
 //        int width = background.getIntrinsicWidth();

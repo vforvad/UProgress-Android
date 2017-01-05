@@ -8,4 +8,5 @@ public interface CurrentUserView {
     void currentUserReceived(CurrentUser currentUser);
     void currentUserFailedToReceive(Throwable t);
     void completedCurrentUserRequest();
+    void redirectToProfile();
 }

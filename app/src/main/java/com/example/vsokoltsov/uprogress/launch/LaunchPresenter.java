@@ -28,7 +28,7 @@ public class LaunchPresenter {
                 .subscribe(new Observer<CurrentUser>() {
                     @Override
                     public void onCompleted() {
-                        view.completedCurrentUserRequest();
+                        view.redirectToProfile();
                     }
 
                     @Override

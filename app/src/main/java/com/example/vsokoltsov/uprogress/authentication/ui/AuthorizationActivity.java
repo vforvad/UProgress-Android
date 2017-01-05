@@ -1,10 +1,12 @@
 package com.example.vsokoltsov.uprogress.authentication.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatDelegate;
 
 import com.example.vsokoltsov.uprogress.R;
 import com.example.vsokoltsov.uprogress.common.ApplicationBaseActivity;
+import com.example.vsokoltsov.uprogress.user.ui.UserActivity;
 
 public class AuthorizationActivity extends ApplicationBaseActivity{
     private String action;
@@ -43,5 +45,11 @@ public class AuthorizationActivity extends ApplicationBaseActivity{
         if (extras != null) {
             action = (String) extras.getString("action");
         }
+    }
+
+    public void redirectToProfile() {
+        Intent userActivity = new Intent(this, UserActivity.class);
+        startActivity(userActivity);
+        overridePendingTransition(R.anim.pull_in_right, R.anim.push_out_left);
     }
 }

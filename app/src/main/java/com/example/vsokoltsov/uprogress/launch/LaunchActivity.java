@@ -15,6 +15,7 @@ import com.example.vsokoltsov.uprogress.authentication.ui.AuthorizationActivity;
 import com.example.vsokoltsov.uprogress.user.current.CurrentUserManager;
 import com.example.vsokoltsov.uprogress.user.current.CurrentUserModel;
 import com.example.vsokoltsov.uprogress.user.current.CurrentUserView;
+import com.example.vsokoltsov.uprogress.user.ui.UserActivity;
 
 import retrofit2.Retrofit;
 import rx.Observer;
@@ -53,6 +54,13 @@ public class LaunchActivity extends AppCompatActivity implements CurrentUserView
     public void completedCurrentUserRequest() {
         Intent usersActivity = new Intent(this, AuthorizationActivity.class);
         startActivity(usersActivity);
+        overridePendingTransition(R.anim.pull_in_right, R.anim.push_out_left);
+    }
+
+    @Override
+    public void redirectToProfile() {
+        Intent profileActivity = new Intent(this, UserActivity.class);
+        startActivity(profileActivity);
         overridePendingTransition(R.anim.pull_in_right, R.anim.push_out_left);
     }
 }

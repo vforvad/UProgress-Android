@@ -84,6 +84,7 @@ public class SignInFragment extends Fragment implements Button.OnClickListener, 
     public void successResponse(CurrentUser currentUser) {
         auth.setCurrentUser(currentUser.getUser());
         EventBus.getDefault().post(new UserMessage("currentUser", currentUser.getUser()));
+        ((AuthorizationActivity) activity).redirectToProfile();
     }
 
     @Override
