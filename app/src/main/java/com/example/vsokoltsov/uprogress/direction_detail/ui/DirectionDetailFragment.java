@@ -28,6 +28,7 @@ import com.example.vsokoltsov.uprogress.direction_detail.model.DirectionDetailMo
 import com.example.vsokoltsov.uprogress.direction_detail.model.steps.Step;
 import com.example.vsokoltsov.uprogress.direction_detail.model.steps.StepRequest;
 import com.example.vsokoltsov.uprogress.direction_detail.popup.DirectionDetailPopup;
+import com.example.vsokoltsov.uprogress.direction_detail.popup.PopupInterface;
 import com.example.vsokoltsov.uprogress.direction_detail.popup.StepDialogFragment;
 import com.example.vsokoltsov.uprogress.direction_detail.presenter.DirectionDetailPresenter;
 import com.example.vsokoltsov.uprogress.direction_detail.presenter.DirectionDetailPresenterImpl;
@@ -49,7 +50,7 @@ import rx.schedulers.Schedulers;
  */
 
 public class DirectionDetailFragment extends Fragment implements DirectionDetailView, DirectionDetailListAdapter,
-        SwipeRefreshLayout.OnRefreshListener, SearchView.OnQueryTextListener {
+        SwipeRefreshLayout.OnRefreshListener, SearchView.OnQueryTextListener, PopupInterface {
     private View fragmentView;
     private ApplicationBaseActivity activity;
     private TextView directionDetailTitle;
@@ -100,9 +101,9 @@ public class DirectionDetailFragment extends Fragment implements DirectionDetail
                     @Override
                     public void onNext(Step step) {
                         StepDialogFragment fragment = new StepDialogFragment();
+                        fragment.setStep(step);
+                        fragment.setPopupInterface(DirectionDetailFragment.this);
                         fragment.show(getActivity().getFragmentManager(), "dialog");
-//                        Intent intent = new Intent(getActivity(), DirectionDetailPopup.class);
-//                        getActivity().startActivity(intent);
                     }
                 });
     }
@@ -281,5 +282,15 @@ public class DirectionDetailFragment extends Fragment implements DirectionDetail
     public boolean onQueryTextChange(String newText) {
         adapter.getFilter().filter(newText);
         return true;
+    }
+
+    @Override
+    public void successPopupOperation(Object obj) {
+
+    }
+
+    @Override
+    public void failedPopupOperation(Throwable t) {
+
     }
 }
