@@ -61,7 +61,7 @@ public class AddStepForm extends DialogFragment {
         DisplayMetrics dm = new DisplayMetrics();
         getDialog().getWindow().getWindowManager().getDefaultDisplay().getMetrics(dm);
         int height = dm.heightPixels;
-        stepDescription.setMaxHeight((int)(height * 0.6));
+        stepDescription.setMaxHeight((int)(height * 0.2));
     }
 
     @Override

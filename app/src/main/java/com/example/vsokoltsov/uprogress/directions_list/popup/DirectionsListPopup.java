@@ -63,7 +63,7 @@ public class DirectionsListPopup extends DialogFragment {
         DisplayMetrics dm = new DisplayMetrics();
         getDialog().getWindow().getWindowManager().getDefaultDisplay().getMetrics(dm);
         int height = dm.heightPixels;
-        directionDescription.setMaxHeight((int)(height * 0.6));
+        directionDescription.setMaxHeight((int)(height * 0.2));
     }
 
     @Override
