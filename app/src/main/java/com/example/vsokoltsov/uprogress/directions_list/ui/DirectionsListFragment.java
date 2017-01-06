@@ -21,9 +21,12 @@ import android.widget.SearchView;
 
 import com.example.vsokoltsov.uprogress.R;
 import com.example.vsokoltsov.uprogress.common.adapters.BaseListAdapterInterface;
+import com.example.vsokoltsov.uprogress.direction_detail.popup.AddStepForm;
+import com.example.vsokoltsov.uprogress.direction_detail.popup.PopupInterface;
 import com.example.vsokoltsov.uprogress.direction_detail.ui.DirectionDetailActivity;
 import com.example.vsokoltsov.uprogress.directions_list.adapters.DirectionsListAdapter;
 import com.example.vsokoltsov.uprogress.directions_list.models.DirectionsList;
+import com.example.vsokoltsov.uprogress.directions_list.popup.DirectionsListPopup;
 import com.example.vsokoltsov.uprogress.user.current.User;
 import com.example.vsokoltsov.uprogress.authentication.models.AuthorizationService;
 import com.example.vsokoltsov.uprogress.directions_list.models.Direction;
@@ -48,7 +51,9 @@ import rx.schedulers.Schedulers;
  */
 
 public class DirectionsListFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener,
-        DirectionsListView, BaseListAdapterInterface, android.support.v7.widget.SearchView.OnQueryTextListener, SearchView.OnQueryTextListener {
+        DirectionsListView, BaseListAdapterInterface,
+        android.support.v7.widget.SearchView.OnQueryTextListener,
+        SearchView.OnQueryTextListener, PopupInterface {
     private View fragmentView;
     private ApplicationBaseActivity activity;
     private List<Direction> directions = new ArrayList<Direction>();
@@ -59,6 +64,7 @@ public class DirectionsListFragment extends Fragment implements SwipeRefreshLayo
     private DirectionsListPresenter presenter;
     private User user;
     private FloatingActionButton floatingActionButton;
+    private DirectionsListPopup formFragment;
 
     static {
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
@@ -94,6 +100,14 @@ public class DirectionsListFragment extends Fragment implements SwipeRefreshLayo
         floatingActionButton = (FloatingActionButton) fragmentView.findViewById(R.id.addDirection);
         floatingActionButton.setImageDrawable(getResources().getDrawable(R.drawable.ic_add_white));
         floatingActionButton.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.price_green)));
+        floatingActionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                formFragment = new DirectionsListPopup();
+                formFragment.setPopupInterface(DirectionsListFragment.this);
+                formFragment.show(getFragmentManager(), "dialog");
+            }
+        });
     }
 
     private void setComponents() {
@@ -263,5 +277,18 @@ public class DirectionsListFragment extends Fragment implements SwipeRefreshLayo
     public boolean onQueryTextChange(String newText) {
         adapter.getFilter().filter(newText);
         return true;
+    }
+
+    @Override
+    public void successPopupOperation(Object obj) {
+        Direction direction = (Direction) obj;
+        formFragment.dismiss();
+        adapter.items.add(0, direction);
+        adapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void failedPopupOperation(Throwable t) {
+
     }
 }
