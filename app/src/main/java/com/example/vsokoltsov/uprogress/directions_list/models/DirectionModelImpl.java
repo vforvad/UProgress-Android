@@ -22,4 +22,9 @@ public class DirectionModelImpl implements DirectionModel {
     public Observable<DirectionsList> getDirectionsList(String userId, int pageNumber) {
         return service.getDirections(userId, pageNumber);
     }
+
+    @Override
+    public Observable<DirectionResponse> createDirection(String userId, DirectionRequest directionRequest) {
+        return service.createDirection(userId, directionRequest);
+    }
 }

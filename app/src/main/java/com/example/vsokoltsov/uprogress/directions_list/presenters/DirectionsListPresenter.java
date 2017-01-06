@@ -3,6 +3,7 @@ package com.example.vsokoltsov.uprogress.directions_list.presenters;
 import android.support.v7.widget.RecyclerView;
 
 import com.example.vsokoltsov.uprogress.common.ApplicationBaseActivity;
+import com.example.vsokoltsov.uprogress.directions_list.models.DirectionRequest;
 
 /**
  * Created by vsokoltsov on 29.12.16.
@@ -12,4 +13,5 @@ public interface DirectionsListPresenter {
     void loadDirections();
     void refreshList();
     void loadMoreDirections();
+    void createDirection(String userId, DirectionRequest directionRequest);
 }

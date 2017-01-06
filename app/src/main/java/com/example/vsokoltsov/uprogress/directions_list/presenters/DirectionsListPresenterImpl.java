@@ -1,5 +1,7 @@
 package com.example.vsokoltsov.uprogress.directions_list.presenters;
 
+import com.example.vsokoltsov.uprogress.directions_list.models.DirectionRequest;
+import com.example.vsokoltsov.uprogress.directions_list.models.DirectionResponse;
 import com.example.vsokoltsov.uprogress.user.current.User;
 import com.example.vsokoltsov.uprogress.directions_list.models.DirectionModel;
 import com.example.vsokoltsov.uprogress.directions_list.models.DirectionsList;
@@ -111,6 +113,32 @@ public class DirectionsListPresenterImpl implements DirectionsListPresenter {
                         view.successResponse(list);
                     }
                 });
+    }
+
+    @Override
+    public void createDirection(String userId, DirectionRequest directionRequest) {
+        view.startLoader();
+        model.createDirection(userId, directionRequest)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<DirectionResponse>() {
+                    @Override
+                    public void onCompleted() {
+                        view.stopLoader();
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        view.failedDirectionCreation(e);
+                        view.stopLoader();
+                    }
+
+                    @Override
+                    public void onNext(DirectionResponse response) {
+                        view.successDirectionCreation(response.getDirection());
+                    }
+                });
+
     }
 
     private Observable<DirectionsList> directionsList() {

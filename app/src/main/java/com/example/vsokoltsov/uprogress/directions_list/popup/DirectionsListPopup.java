@@ -24,8 +24,8 @@ import com.example.vsokoltsov.uprogress.directions_list.models.DirectionRequest;
 public class DirectionsListPopup extends DialogFragment {
     PopupInterface popupInterface;
     View rootView;
-    EditText directionTitle;
-    EditText directionDescription;
+    public EditText directionTitle;
+    public EditText directionDescription;
     Button submitDirection;
 
     public void setPopupInterface(PopupInterface popupInterface) {

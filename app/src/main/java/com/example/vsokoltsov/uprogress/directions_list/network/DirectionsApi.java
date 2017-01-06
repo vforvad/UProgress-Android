@@ -2,9 +2,13 @@ package com.example.vsokoltsov.uprogress.directions_list.network;
 
 import com.example.vsokoltsov.uprogress.direction_detail.model.DirectionDetail;
 import com.example.vsokoltsov.uprogress.directions_list.models.Direction;
+import com.example.vsokoltsov.uprogress.directions_list.models.DirectionRequest;
+import com.example.vsokoltsov.uprogress.directions_list.models.DirectionResponse;
 import com.example.vsokoltsov.uprogress.directions_list.models.DirectionsList;
 
+import retrofit2.http.Body;
 import retrofit2.http.GET;
+import retrofit2.http.POST;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 import rx.Observable;
@@ -18,4 +22,6 @@ public interface DirectionsApi {
     Observable<DirectionsList> getDirections(@Path("user") String userId, @Query("page") int page);
     @GET("users/{user}/directions/{direction}")
     Observable<DirectionDetail> getDirection(@Path("user") String userNick, @Path("direction") String direction);
+    @POST("users/{user}/directions")
+    Observable<DirectionResponse> createDirection(@Path("user") String userNick, @Body DirectionRequest directionRequest);
 }

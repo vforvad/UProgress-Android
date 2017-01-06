@@ -3,6 +3,7 @@ package com.example.vsokoltsov.uprogress.directions_list.views;
 import android.support.v4.widget.SwipeRefreshLayout;
 
 import com.example.vsokoltsov.uprogress.common.BaseView;
+import com.example.vsokoltsov.uprogress.directions_list.models.Direction;
 import com.example.vsokoltsov.uprogress.directions_list.models.DirectionsList;
 
 import java.io.IOException;
@@ -19,4 +20,6 @@ public interface DirectionsListView extends BaseView {
     void stopRefreshing();
     void startFooterLoader();
     void stopFooterLoader();
+    void successDirectionCreation(Direction direction);
+    void failedDirectionCreation(Throwable t);
 }

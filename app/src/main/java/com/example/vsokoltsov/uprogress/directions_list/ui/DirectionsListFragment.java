@@ -21,10 +21,13 @@ import android.widget.SearchView;
 
 import com.example.vsokoltsov.uprogress.R;
 import com.example.vsokoltsov.uprogress.common.adapters.BaseListAdapterInterface;
+import com.example.vsokoltsov.uprogress.common.services.ErrorResponse;
+import com.example.vsokoltsov.uprogress.common.utils.RetrofitException;
 import com.example.vsokoltsov.uprogress.direction_detail.popup.AddStepForm;
 import com.example.vsokoltsov.uprogress.direction_detail.popup.PopupInterface;
 import com.example.vsokoltsov.uprogress.direction_detail.ui.DirectionDetailActivity;
 import com.example.vsokoltsov.uprogress.directions_list.adapters.DirectionsListAdapter;
+import com.example.vsokoltsov.uprogress.directions_list.models.DirectionRequest;
 import com.example.vsokoltsov.uprogress.directions_list.models.DirectionsList;
 import com.example.vsokoltsov.uprogress.directions_list.popup.DirectionsListPopup;
 import com.example.vsokoltsov.uprogress.user.current.User;
@@ -39,6 +42,7 @@ import com.example.vsokoltsov.uprogress.directions_list.views.DirectionsListView
 
 import org.solovyev.android.views.llm.LinearLayoutManager;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -247,6 +251,26 @@ public class DirectionsListFragment extends Fragment implements SwipeRefreshLayo
         adapter.removeItem(null);
     }
 
+    @Override
+    public void successDirectionCreation(Direction direction) {
+        formFragment.dismiss();
+        adapter.items.add(0, direction);
+        adapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void failedDirectionCreation(Throwable t) {
+        RetrofitException error = (RetrofitException) t;
+        ErrorResponse errors = null;
+        try {
+            errors = error.getErrorBodyAs(ErrorResponse.class);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        formFragment.directionTitle.setError(errors.getFullErrorMessage("title"));
+        formFragment.directionDescription.setError(errors.getFullErrorMessage("description"));
+    }
+
 
     @Override
     public void startLoader() {
@@ -281,10 +305,8 @@ public class DirectionsListFragment extends Fragment implements SwipeRefreshLayo
 
     @Override
     public void successPopupOperation(Object obj) {
-        Direction direction = (Direction) obj;
-        formFragment.dismiss();
-        adapter.items.add(0, direction);
-        adapter.notifyDataSetChanged();
+        DirectionRequest request = (DirectionRequest) obj;
+        presenter.createDirection(user.getNick(), request);
     }
 
     @Override

@@ -8,4 +8,5 @@ import rx.Observable;
 
 public interface DirectionModel {
     Observable<DirectionsList> getDirectionsList(String userId, int pageNumber);
+    Observable<DirectionResponse> createDirection(String userId, DirectionRequest directionRequest);
 }
