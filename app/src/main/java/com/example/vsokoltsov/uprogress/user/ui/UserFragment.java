@@ -29,13 +29,12 @@ public class UserFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         fragmentView = inflater.inflate(R.layout.user_fragment, container, false);
         user = AuthorizationService.getInstance().getCurrentUser();
-        userAvatar = (ImageView) fragmentView.findViewById(R.id.userAvatar);
-        Drawable emptyUser = getActivity().getResources().getDrawable(R.drawable.empty_user);
-        ScreenSizeHelper helper = new ScreenSizeHelper(getActivity().getWindow());
-        Picasso.with(getContext())
-                .load(user.getImage().getUrl())
-                .resize(helper.getScreenWidth(), helper.getScreenWidth() / 2)
-                .into(userAvatar);
+//        userAvatar = (ImageView) fragmentView.findViewById(R.id.userAvatar);
+//        ScreenSizeHelper helper = new ScreenSizeHelper(getActivity().getWindow());
+//        Picasso.with(getContext())
+//                .load(user.getImage().getUrl())
+//                .resize(helper.getScreenWidth(), helper.getScreenWidth() / 2)
+//                .into(userAvatar);
         return fragmentView;
     }
 }
