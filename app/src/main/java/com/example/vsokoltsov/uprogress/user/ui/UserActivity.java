@@ -15,9 +15,11 @@ import com.example.vsokoltsov.uprogress.authentication.models.AuthorizationServi
 import com.example.vsokoltsov.uprogress.common.ApplicationBaseActivity;
 import com.example.vsokoltsov.uprogress.common.ScreenSizeHelper;
 import com.example.vsokoltsov.uprogress.common.adapters.TestListAdapter;
+import com.example.vsokoltsov.uprogress.common.helpers.ImageHelper;
 import com.example.vsokoltsov.uprogress.directions_list.adapters.DirectionsListAdapter;
 import com.example.vsokoltsov.uprogress.directions_list.ui.DirectionsListFragment;
 import com.example.vsokoltsov.uprogress.user.current.User;
+import com.jakewharton.picasso.OkHttp3Downloader;
 import com.squareup.picasso.MemoryPolicy;
 import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
@@ -51,11 +53,10 @@ public class UserActivity extends ApplicationBaseActivity {
         FloatingActionButton floatingActionButton = (FloatingActionButton) findViewById(R.id.addDirection);
         floatingActionButton.setImageDrawable(getResources().getDrawable(R.drawable.ic_add_white));
         ScreenSizeHelper helper = new ScreenSizeHelper(getWindow());
+
         Drawable emptyUser = ContextCompat.getDrawable(this, R.drawable.empty_user);
-        Picasso.with(this)
-                .load(user.getImage().getUrl())
-                .placeholder(emptyUser)
-                .into(userAvatar);
+
+        ImageHelper.getInstance(this).load(user.getImage().getUrl(), userAvatar, emptyUser);
         RecyclerView rv = (RecyclerView) findViewById(R.id.recyclerView);
         LinearLayoutManager llm = new LinearLayoutManager(this);
         rv.setLayoutManager(llm);
