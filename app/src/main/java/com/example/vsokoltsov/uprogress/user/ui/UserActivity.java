@@ -3,6 +3,7 @@ package com.example.vsokoltsov.uprogress.user.ui;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
+import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -48,8 +49,10 @@ public class UserActivity extends ApplicationBaseActivity {
             list.add("New item number " + i);
         }
         userAvatar = (ImageView) findViewById(R.id.userAvatar);
+        CollapsingToolbarLayout layout = (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
 
         user = AuthorizationService.getInstance().getCurrentUser();
+        layout.setTitle(user.getCorrectName());
         FloatingActionButton floatingActionButton = (FloatingActionButton) findViewById(R.id.addDirection);
         floatingActionButton.setImageDrawable(getResources().getDrawable(R.drawable.ic_add_white));
         ScreenSizeHelper helper = new ScreenSizeHelper(getWindow());
