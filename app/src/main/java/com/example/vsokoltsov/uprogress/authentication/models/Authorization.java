@@ -2,14 +2,20 @@ package com.example.vsokoltsov.uprogress.authentication.models;
 
 import android.os.Build;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 /**
  * Created by vsokoltsov on 23.11.16.
  */
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Authorization {
     private String provider;
     private String platform;
+    @JsonProperty("app_name")
     private String appName;
+    @JsonProperty("app_version")
     private String appVersion;
 
     public String getProvider() {
