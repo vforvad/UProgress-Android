@@ -1,6 +1,7 @@
 package com.example.vsokoltsov.uprogress.user.ui;
 
 import android.os.Bundle;
+import android.view.View;
 
 import com.example.vsokoltsov.uprogress.R;
 import com.example.vsokoltsov.uprogress.common.ApplicationBaseActivity;
@@ -16,8 +17,9 @@ public class UserActivity extends ApplicationBaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+        super.onCreate(savedInstanceState, R.layout.user_activity_layout);
         super.setLeftNavigationBar();
+        setTitle(null);
         fragmentManager = getSupportFragmentManager();
         android.support.v4.app.FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         userFragment = new UserFragment();

@@ -1,6 +1,7 @@
 package com.example.vsokoltsov.uprogress.common;
 
 import android.os.Bundle;
+import android.os.PersistableBundle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -35,6 +36,14 @@ public class ApplicationBaseActivity extends AppCompatActivity {
         ContextManager.getInstance().setContext(this);
     }
 
+    public void onCreate(Bundle savedInstanceState, int layoutId) {
+        super.onCreate(savedInstanceState);
+        setContentView(layoutId);
+        setToolbar();
+        setProgressBar();
+        ContextManager.getInstance().setContext(this);
+    }
+
     public void setToolbar() {
         mActionBarToolbar = (Toolbar) findViewById(R.id.toolbar_actionbar);
         setSupportActionBar(mActionBarToolbar);
@@ -58,5 +67,9 @@ public class ApplicationBaseActivity extends AppCompatActivity {
 
     public void stopProgressBar() {
         this.progressBar.setVisibility(View.INVISIBLE);
+    }
+
+    public Toolbar getToolBar() {
+        return mActionBarToolbar;
     }
 }
