@@ -7,7 +7,15 @@ android:
     - tools # see https://github.com/travis-ci/travis-ci/issues/6040#issuecomment-219367943)
     - extra-android-m2repository
     - platform-tools
-    - build-tools-24.0.2
-    - android-24
+    - build-tools-23.0.3
+    - android-23
+
+    licenses:
+        - android-sdk-preview-license-52d11cd2
+        - android-sdk-license-c81a61d9
+        - android-sdk-license-.+
+        - google-gdk-license-.+
+before_install:
+  - "chmod +x gradlew"
 script:
-   - ./gradlew build connectedCheck
+   - ./gradlew build connectedCheck --stacktrace
