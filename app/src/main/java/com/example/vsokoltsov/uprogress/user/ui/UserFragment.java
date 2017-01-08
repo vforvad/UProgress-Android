@@ -1,5 +1,6 @@
 package com.example.vsokoltsov.uprogress.user.ui;
 
+import android.app.Activity;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -38,6 +39,7 @@ import java.util.List;
 public class UserFragment extends Fragment {
     private View fragmentView;
     private User user;
+    private ApplicationBaseActivity activity;
     private ImageView userAvatar;
     private List<String> list = new ArrayList<String>();
     private NavigationDrawer navigationDrawer;
@@ -48,6 +50,7 @@ public class UserFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         fragmentView = inflater.inflate(R.layout.user_fragment, container, false);
+        activity = (ApplicationBaseActivity) getActivity();
         loadList();
         loadUserImage();
         setElements();
@@ -95,9 +98,6 @@ public class UserFragment extends Fragment {
     }
 
     private void setNavigationDrawer() {
-        FragmentManager fragmentManager = (FragmentManager) getActivity().getSupportFragmentManager();
-        drawerLayout = (DrawerLayout) getActivity().findViewById(R.id.drawer_layout);
-        navigationDrawer = (NavigationDrawer) fragmentManager.findFragmentById(R.id.navigation_drawer);
-        navigationDrawer.setUp(R.id.navigation_drawer, drawerLayout);
+        activity.setLeftNavigationBar();
     }
 }

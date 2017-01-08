@@ -56,13 +56,6 @@ public class ApplicationBaseActivity extends AppCompatActivity {
         mNavigationDrawerFragment.setUp(R.id.navigation_drawer, drawerLayout);
     }
 
-    public void setLeftNavigationBar(int drawerLayoutId, int navigationDrawerId) {
-        android.support.v4.app.FragmentManager fragmentManager = getSupportFragmentManager();
-        drawerLayout = (DrawerLayout) findViewById(drawerLayoutId);
-        mNavigationDrawerFragment = (NavigationDrawer) fragmentManager.findFragmentById(navigationDrawerId);
-        mNavigationDrawerFragment.setUp(navigationDrawerId, drawerLayout);
-    }
-
     public void setProgressBar() {
         this.progressBar = (ProgressBar) findViewById(R.id.progressBar);
     }
