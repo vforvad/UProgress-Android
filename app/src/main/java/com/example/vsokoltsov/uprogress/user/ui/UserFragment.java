@@ -1,13 +1,10 @@
 package com.example.vsokoltsov.uprogress.user.ui;
 
-import android.app.Activity;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.RecyclerView;
@@ -20,12 +17,11 @@ import android.widget.ImageView;
 import com.example.vsokoltsov.uprogress.R;
 import com.example.vsokoltsov.uprogress.authentication.models.AuthorizationService;
 import com.example.vsokoltsov.uprogress.common.ApplicationBaseActivity;
-import com.example.vsokoltsov.uprogress.common.ScreenSizeHelper;
-import com.example.vsokoltsov.uprogress.common.adapters.TestListAdapter;
+import com.example.vsokoltsov.uprogress.user.adapters.UserInfoListAdapter;
 import com.example.vsokoltsov.uprogress.common.helpers.ImageHelper;
 import com.example.vsokoltsov.uprogress.navigation.NavigationDrawer;
 import com.example.vsokoltsov.uprogress.user.current.User;
-import com.squareup.picasso.Picasso;
+import com.example.vsokoltsov.uprogress.user.current.UserItem;
 
 import org.solovyev.android.views.llm.LinearLayoutManager;
 
@@ -41,7 +37,7 @@ public class UserFragment extends Fragment {
     private User user;
     private ApplicationBaseActivity activity;
     private ImageView userAvatar;
-    private List<String> list = new ArrayList<String>();
+    private List<UserItem> list = new ArrayList<UserItem>();
     private NavigationDrawer navigationDrawer;
     private DrawerLayout drawerLayout;
     private Toolbar toolbar;
@@ -80,15 +76,16 @@ public class UserFragment extends Fragment {
     }
 
     private void loadList() {
-        for(int i = 0; i < 30; i++) {
-            list.add("New item number " + i);
-        }
+        list.add(new UserItem("Email", user.getEmail()));
+        list.add(new UserItem("Nick", user.getNick()));
+        list.add(new UserItem("Location", user.getLocation()));
+        list.add(new UserItem("Description", user.getDescription()));
 
         RecyclerView rv = (RecyclerView) fragmentView.findViewById(R.id.recyclerView);
         LinearLayoutManager llm = new LinearLayoutManager(getContext());
         rv.setLayoutManager(llm);
 
-        TestListAdapter adapter = new TestListAdapter(list, getActivity());
+        UserInfoListAdapter adapter = new UserInfoListAdapter(list);
         rv.setAdapter(adapter);
     }
 
