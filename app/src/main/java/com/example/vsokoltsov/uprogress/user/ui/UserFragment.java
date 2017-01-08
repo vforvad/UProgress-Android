@@ -51,18 +51,18 @@ public class UserFragment extends Fragment {
     }
 
     private void setElements() {
-        CollapsingToolbarLayout layout = (CollapsingToolbarLayout) fragmentView.findViewById(R.id.collapsing_toolbar);
-        layout.setTitle(user.getCorrectName());
-        FloatingActionButton floatingActionButton = (FloatingActionButton) fragmentView.findViewById(R.id.addDirection);
-        floatingActionButton.setImageDrawable(getResources().getDrawable(R.drawable.ic_add_white));
+//        CollapsingToolbarLayout layout = (CollapsingToolbarLayout) fragmentView.findViewById(R.id.collapsing_toolbar);
+//        layout.setTitle(user.getCorrectName());
+//        FloatingActionButton floatingActionButton = (FloatingActionButton) fragmentView.findViewById(R.id.addDirection);
+//        floatingActionButton.setImageDrawable(getResources().getDrawable(R.drawable.ic_add_white));
 
     }
 
     private void loadUserImage() {
-        userAvatar = (ImageView) fragmentView.findViewById(R.id.userAvatar);
-        user = AuthorizationService.getInstance().getCurrentUser();
-        Drawable emptyUser = ContextCompat.getDrawable(getContext(), R.drawable.empty_user);
-        ImageHelper.getInstance(getContext()).load(user.getImage().getUrl(), userAvatar, emptyUser);
+//        userAvatar = (ImageView) fragmentView.findViewById(R.id.userAvatar);
+//        user = AuthorizationService.getInstance().getCurrentUser();
+//        Drawable emptyUser = ContextCompat.getDrawable(getContext(), R.drawable.empty_user);
+//        ImageHelper.getInstance(getContext()).load(user.getImage().getUrl(), userAvatar, emptyUser);
     }
 
     private void loadList() {
@@ -70,13 +70,11 @@ public class UserFragment extends Fragment {
             list.add("New item number " + i);
         }
 
-        user = AuthorizationService.getInstance().getCurrentUser();
         RecyclerView rv = (RecyclerView) fragmentView.findViewById(R.id.recyclerView);
         LinearLayoutManager llm = new LinearLayoutManager(getContext());
         rv.setLayoutManager(llm);
 
         TestListAdapter adapter = new TestListAdapter(list, getActivity());
         rv.setAdapter(adapter);
-        adapter.notifyDataSetChanged();
     }
 }

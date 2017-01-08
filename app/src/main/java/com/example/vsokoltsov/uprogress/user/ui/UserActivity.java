@@ -45,7 +45,7 @@ public class UserActivity extends ApplicationBaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState, R.layout.user_activity_layout);
         user = AuthorizationService.getInstance().getCurrentUser();
-        super.setLeftNavigationBar();
+//        super.setLeftNavigationBar();
         loadUserImage();
         setElements();
 //        super.setLeftNavigationBar();
@@ -79,17 +79,17 @@ public class UserActivity extends ApplicationBaseActivity {
     }
 
     private void setElements() {
-        CollapsingToolbarLayout layout = (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
-        layout.setTitle(user.getCorrectName());
-        FloatingActionButton floatingActionButton = (FloatingActionButton) findViewById(R.id.addDirection);
-        floatingActionButton.setImageDrawable(getResources().getDrawable(R.drawable.ic_add_white));
+//        CollapsingToolbarLayout layout = (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
+//        layout.setTitle(user.getCorrectName());
+//        FloatingActionButton floatingActionButton = (FloatingActionButton) findViewById(R.id.addDirection);
+//        floatingActionButton.setImageDrawable(getResources().getDrawable(R.drawable.ic_add_white));
 
     }
 
     private void loadUserImage() {
-        userAvatar = (ImageView) findViewById(R.id.userAvatar);
-        user = AuthorizationService.getInstance().getCurrentUser();
-        Drawable emptyUser = ContextCompat.getDrawable(this, R.drawable.empty_user);
-        ImageHelper.getInstance(this).load(user.getImage().getUrl(), userAvatar, emptyUser);
+//        userAvatar = (ImageView) findViewById(R.id.userAvatar);
+//        user = AuthorizationService.getInstance().getCurrentUser();
+//        Drawable emptyUser = ContextCompat.getDrawable(this, R.drawable.empty_user);
+//        ImageHelper.getInstance(this).load(user.getImage().getUrl(), userAvatar, emptyUser);
     }
 }
