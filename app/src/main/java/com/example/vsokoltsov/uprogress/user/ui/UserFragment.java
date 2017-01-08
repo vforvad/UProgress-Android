@@ -6,8 +6,11 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,9 +18,11 @@ import android.widget.ImageView;
 
 import com.example.vsokoltsov.uprogress.R;
 import com.example.vsokoltsov.uprogress.authentication.models.AuthorizationService;
+import com.example.vsokoltsov.uprogress.common.ApplicationBaseActivity;
 import com.example.vsokoltsov.uprogress.common.ScreenSizeHelper;
 import com.example.vsokoltsov.uprogress.common.adapters.TestListAdapter;
 import com.example.vsokoltsov.uprogress.common.helpers.ImageHelper;
+import com.example.vsokoltsov.uprogress.navigation.NavigationDrawer;
 import com.example.vsokoltsov.uprogress.user.current.User;
 import com.squareup.picasso.Picasso;
 
@@ -35,6 +40,9 @@ public class UserFragment extends Fragment {
     private User user;
     private ImageView userAvatar;
     private List<String> list = new ArrayList<String>();
+    private NavigationDrawer navigationDrawer;
+    private DrawerLayout drawerLayout;
+    private Toolbar toolbar;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -43,6 +51,8 @@ public class UserFragment extends Fragment {
         loadList();
         loadUserImage();
         setElements();
+        setToolbar();
+        setNavigationDrawer();
         return fragmentView;
     }
 
@@ -77,5 +87,17 @@ public class UserFragment extends Fragment {
 
         TestListAdapter adapter = new TestListAdapter(list, getActivity());
         rv.setAdapter(adapter);
+    }
+
+    private void setToolbar() {
+        toolbar = (Toolbar) fragmentView.findViewById(R.id.toolbar_actionbar);
+        ((ApplicationBaseActivity) getActivity()).setToolbar(toolbar);
+    }
+
+    private void setNavigationDrawer() {
+        FragmentManager fragmentManager = (FragmentManager) getActivity().getSupportFragmentManager();
+        drawerLayout = (DrawerLayout) getActivity().findViewById(R.id.drawer_layout);
+        navigationDrawer = (NavigationDrawer) fragmentManager.findFragmentById(R.id.navigation_drawer);
+        navigationDrawer.setUp(R.id.navigation_drawer, drawerLayout);
     }
 }
