@@ -46,6 +46,9 @@ public class LaunchPresenterTest {
     @Mock
     CurrentUserModel model;
 
+    @Mock
+    CurrentUser currentUser;
+
     @Before
     public void setUp() throws Exception {
         presenter = new LaunchPresenter(screen, model);
@@ -73,10 +76,10 @@ public class LaunchPresenterTest {
 
     @Test
     public void callTransitionToList() {
-        when(model.getCurrentUser()).thenReturn(Observable.just(mock(CurrentUser.class)));
+        when(model.getCurrentUser()).thenReturn(Observable.just(currentUser));
 
         presenter.getCurrentUser();
 
-        verify(screen, times(1)).completedCurrentUserRequest();
+        verify(screen, times(1)).currentUserReceived(currentUser);
     }
 }
