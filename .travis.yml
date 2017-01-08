@@ -1,5 +1,7 @@
 language: android
 sudo: required
+jdk:
+  - oraclejdk8
 android:
   components:
     - tools # to get the new `repository-11.xml`
@@ -11,5 +13,3 @@ android:
 
 script:
    - gradle build connectedCheck
-jdk:
-  - oraclejdk8
