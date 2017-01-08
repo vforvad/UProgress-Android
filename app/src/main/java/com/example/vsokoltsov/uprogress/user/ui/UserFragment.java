@@ -39,9 +39,9 @@ public class UserFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         fragmentView = inflater.inflate(R.layout.user_fragment, container, false);
-        loadUserImage();
-        setElements();
         loadList();
+//        loadUserImage();
+//        setElements();
         return fragmentView;
     }
 
@@ -70,13 +70,13 @@ public class UserFragment extends Fragment {
             list.add("New item number " + i);
         }
 
-//        user = AuthorizationService.getInstance().getCurrentUser();
-//        RecyclerView rv = (RecyclerView) fragmentView.findViewById(R.id.userA);
-//        LinearLayoutManager llm = new LinearLayoutManager(getContext());
-//        rv.setLayoutManager(llm);
-//
-//        TestListAdapter adapter = new TestListAdapter(list, getActivity());
-//        rv.setAdapter(adapter);
-//        adapter.notifyDataSetChanged();
+        user = AuthorizationService.getInstance().getCurrentUser();
+        RecyclerView rv = (RecyclerView) fragmentView.findViewById(R.id.recyclerView);
+        LinearLayoutManager llm = new LinearLayoutManager(getContext());
+        rv.setLayoutManager(llm);
+
+        TestListAdapter adapter = new TestListAdapter(list, getActivity());
+        rv.setAdapter(adapter);
+        adapter.notifyDataSetChanged();
     }
 }
