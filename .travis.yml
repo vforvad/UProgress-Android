@@ -11,10 +11,10 @@ android:
     - android-23
 
   licenses:
-    - android-sdk-preview-license-52d11cd2
-    - android-sdk-license-c81a61d9
-    - android-sdk-license-.+
-    - android-sdk-license-.24.0.1
+    - 'android-sdk-preview-license-.+'
+    - 'android-sdk-license-.+'
+    - 'google-gdk-license-.+'
+
 before_install:
   - "chmod +x gradlew"
 script:
