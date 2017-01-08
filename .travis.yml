@@ -10,6 +10,6 @@ android:
     - extra-android-m2repository
 
 script:
-   - ./gradlew build connectedCheck
+   - gradle build connectedCheck
 jdk:
   - oraclejdk8
