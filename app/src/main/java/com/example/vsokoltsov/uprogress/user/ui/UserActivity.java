@@ -45,32 +45,31 @@ public class UserActivity extends ApplicationBaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState, R.layout.user_activity_layout);
         super.setLeftNavigationBar();
-
-        loadUserImage();
-        setElements();
-        createFragment();
-    }
-
-    private void setElements() {
+        for(int i = 0; i < 30; i++) {
+            list.add("New item number " + i);
+        }
+        userAvatar = (ImageView) findViewById(R.id.userAvatar);
         CollapsingToolbarLayout layout = (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
+
+        user = AuthorizationService.getInstance().getCurrentUser();
         layout.setTitle(user.getCorrectName());
         FloatingActionButton floatingActionButton = (FloatingActionButton) findViewById(R.id.addDirection);
         floatingActionButton.setImageDrawable(getResources().getDrawable(R.drawable.ic_add_white));
+        ScreenSizeHelper helper = new ScreenSizeHelper(getWindow());
 
-    }
-
-    private void loadUserImage() {
-        userAvatar = (ImageView) findViewById(R.id.userAvatar);
-        user = AuthorizationService.getInstance().getCurrentUser();
         Drawable emptyUser = ContextCompat.getDrawable(this, R.drawable.empty_user);
-        ImageHelper.getInstance(this).load(user.getImage().getUrl(), userAvatar, emptyUser);
-    }
 
-    private void createFragment() {
-        fragmentManager = getSupportFragmentManager();
-        android.support.v4.app.FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        userFragment = new UserFragment();
-        fragmentTransaction.replace(R.id.main_content, userFragment);
-        fragmentTransaction.commit();
+        ImageHelper.getInstance(this).load(user.getImage().getUrl(), userAvatar, emptyUser);
+        RecyclerView rv = (RecyclerView) findViewById(R.id.recyclerView);
+        LinearLayoutManager llm = new LinearLayoutManager(this);
+        rv.setLayoutManager(llm);
+
+        TestListAdapter adapter = new TestListAdapter(list, this);
+        rv.setAdapter(adapter);
+//        fragmentManager = getSupportFragmentManager();
+//        android.support.v4.app.FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+//        userFragment = new UserFragment();
+//        fragmentTransaction.replace(R.id.main_content, userFragment);
+//        fragmentTransaction.commit();
     }
 }
