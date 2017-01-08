@@ -3,12 +3,14 @@ jdk:
   - oraclejdk8
 android:
   components:
-    - tools # to get the new `repository-11.xml`
-    - tools # see https://github.com/travis-ci/travis-ci/issues/6040#issuecomment-219367943)
-    - extra-android-m2repository
+    - tools
     - platform-tools
-    - build-tools-23.0.3
-    - android-23
+    - build-tools-24.0.3
+    - android-24
+    - extra-android-m2repository
+    - extra-google-m2repository
+    - extra-android-support
+    - extra-google-google_play_services
 
   licenses:
     - 'android-sdk-preview-license-.+'
@@ -18,4 +20,4 @@ android:
 before_install:
   - "chmod +x gradlew"
 script:
-   - ./gradlew build connectedCheck --stacktrace
+   - ./gradlew test
