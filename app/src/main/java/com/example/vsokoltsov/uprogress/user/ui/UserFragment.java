@@ -28,7 +28,6 @@ public class UserFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         fragmentView = inflater.inflate(R.layout.user_fragment, container, false);
-        user = AuthorizationService.getInstance().getCurrentUser();
 //        userAvatar = (ImageView) fragmentView.findViewById(R.id.userAvatar);
 //        ScreenSizeHelper helper = new ScreenSizeHelper(getActivity().getWindow());
 //        Picasso.with(getContext())
@@ -36,5 +35,9 @@ public class UserFragment extends Fragment {
 //                .resize(helper.getScreenWidth(), helper.getScreenWidth() / 2)
 //                .into(userAvatar);
         return fragmentView;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }
