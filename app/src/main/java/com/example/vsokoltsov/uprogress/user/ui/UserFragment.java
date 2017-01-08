@@ -7,7 +7,6 @@ import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,6 +20,8 @@ import com.example.vsokoltsov.uprogress.common.adapters.TestListAdapter;
 import com.example.vsokoltsov.uprogress.common.helpers.ImageHelper;
 import com.example.vsokoltsov.uprogress.user.current.User;
 import com.squareup.picasso.Picasso;
+
+import org.solovyev.android.views.llm.LinearLayoutManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,8 +41,8 @@ public class UserFragment extends Fragment {
                              Bundle savedInstanceState) {
         fragmentView = inflater.inflate(R.layout.user_fragment, container, false);
         loadList();
-//        loadUserImage();
-//        setElements();
+        loadUserImage();
+        setElements();
         return fragmentView;
     }
 
@@ -51,18 +52,18 @@ public class UserFragment extends Fragment {
     }
 
     private void setElements() {
-//        CollapsingToolbarLayout layout = (CollapsingToolbarLayout) fragmentView.findViewById(R.id.collapsing_toolbar);
-//        layout.setTitle(user.getCorrectName());
-//        FloatingActionButton floatingActionButton = (FloatingActionButton) fragmentView.findViewById(R.id.addDirection);
-//        floatingActionButton.setImageDrawable(getResources().getDrawable(R.drawable.ic_add_white));
+        CollapsingToolbarLayout layout = (CollapsingToolbarLayout) fragmentView.findViewById(R.id.collapsing_toolbar);
+        layout.setTitle(user.getCorrectName());
+        FloatingActionButton floatingActionButton = (FloatingActionButton) fragmentView.findViewById(R.id.addDirection);
+        floatingActionButton.setImageDrawable(getResources().getDrawable(R.drawable.ic_add_white));
 
     }
 
     private void loadUserImage() {
-//        userAvatar = (ImageView) fragmentView.findViewById(R.id.userAvatar);
-//        user = AuthorizationService.getInstance().getCurrentUser();
-//        Drawable emptyUser = ContextCompat.getDrawable(getContext(), R.drawable.empty_user);
-//        ImageHelper.getInstance(getContext()).load(user.getImage().getUrl(), userAvatar, emptyUser);
+        userAvatar = (ImageView) fragmentView.findViewById(R.id.userAvatar);
+        user = AuthorizationService.getInstance().getCurrentUser();
+        Drawable emptyUser = ContextCompat.getDrawable(getContext(), R.drawable.empty_user);
+        ImageHelper.getInstance(getContext()).load(user.getImage().getUrl(), userAvatar, emptyUser);
     }
 
     private void loadList() {
