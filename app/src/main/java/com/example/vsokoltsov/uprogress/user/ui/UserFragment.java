@@ -19,6 +19,8 @@ import android.widget.ProgressBar;
 import com.example.vsokoltsov.uprogress.R;
 import com.example.vsokoltsov.uprogress.authentication.models.AuthorizationService;
 import com.example.vsokoltsov.uprogress.common.ApplicationBaseActivity;
+import com.example.vsokoltsov.uprogress.common.services.ErrorResponse;
+import com.example.vsokoltsov.uprogress.common.utils.RetrofitException;
 import com.example.vsokoltsov.uprogress.direction_detail.popup.PopupInterface;
 import com.example.vsokoltsov.uprogress.user.adapters.UserInfoListAdapter;
 import com.example.vsokoltsov.uprogress.common.helpers.ImageHelper;
@@ -35,6 +37,7 @@ import com.example.vsokoltsov.uprogress.user.views.UserProfileView;
 
 import org.solovyev.android.views.llm.LinearLayoutManager;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -148,7 +151,16 @@ public class UserFragment extends Fragment implements PopupInterface, UserProfil
 
     @Override
     public void failedUpdate(Throwable t) {
-
+        RetrofitException error = (RetrofitException) t;
+        ErrorResponse errors = null;
+        try {
+            errors = error.getErrorBodyAs(ErrorResponse.class);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        popup.firstNameField.setError(errors.getFullErrorMessage("first_name"));
+        popup.secondNameField.setError(errors.getFullErrorMessage("last_name"));
+        popup.emailField.setError(errors.getFullErrorMessage("email"));
     }
 
     @Override
