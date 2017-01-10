@@ -9,7 +9,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class UserResponse {
-    @JsonProperty("user")
+    @JsonProperty("current_user")
     private User user;
 
     public User getUser() {

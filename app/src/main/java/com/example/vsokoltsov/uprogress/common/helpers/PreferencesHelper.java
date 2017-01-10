@@ -44,4 +44,9 @@ public class PreferencesHelper {
         editor.commit();
     }
 
+    public boolean isTokenExists() {
+        String token = readToken();
+        return token.length() > 0;
+    }
+
 }

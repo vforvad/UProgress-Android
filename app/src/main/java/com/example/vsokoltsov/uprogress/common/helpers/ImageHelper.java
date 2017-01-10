@@ -7,6 +7,7 @@ import android.support.v4.content.ContextCompat;
 import android.widget.ImageView;
 
 import com.example.vsokoltsov.uprogress.R;
+import com.example.vsokoltsov.uprogress.user.current.User;
 import com.jakewharton.picasso.OkHttp3Downloader;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
@@ -16,46 +17,58 @@ import com.squareup.picasso.Target;
  */
 public class ImageHelper {
     private static Context context_;
+    static Drawable error;
+    static Picasso picasso;
     private static ImageHelper ourInstance = new ImageHelper();
-    okhttp3.OkHttpClient okHttp3Client = new okhttp3.OkHttpClient();
-    OkHttp3Downloader okHttp3Downloader = new OkHttp3Downloader(okHttp3Client);
+
 
     public static ImageHelper getInstance(Context context) {
         context_ = context;
+        error = ContextCompat.getDrawable(context_, R.drawable.error);
+        setPicasoInstance();
         return ourInstance;
     }
 
     private ImageHelper() {
     }
 
-    public void load(String url, ImageView destination, Drawable emptyImage) {
-        Target target = new Target() {
-            @Override
-            public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
-                // loading of the bitmap was a success
-                // TODO do some action with the bitmap
-            }
-
-            @Override
-            public void onBitmapFailed(Drawable errorDrawable) {
-                // loading of the bitmap failed
-                // TODO do some action/warning/error message
-            }
-
-            @Override
-            public void onPrepareLoad(Drawable placeHolderDrawable) {
-
-            }
-        };
-        Drawable error = ContextCompat.getDrawable(context_, R.drawable.error);
-        Picasso picasso = new Picasso.Builder(context_)
-                .downloader(okHttp3Downloader)
-                .build();
+    public void load(String url, ImageView destination, int emptyImage) {
         picasso
                 .load(url)
                 .fit()
                 .error(error)
                 .placeholder(emptyImage)
                 .into(destination);
+    }
+
+    public void setEmptyImage(ImageView destination, int emptyImage) {
+        Drawable drawable = ContextCompat.getDrawable(context_, emptyImage);
+        picasso
+                .load(emptyImage)
+                .fit()
+                .error(drawable)
+                .into(destination);
+
+    }
+
+    public void setUserImage(User user, ImageView destination, int emptyImage) {
+        if (user.getImage() != null) {
+            load(user.getImage().getUrl(), destination, emptyImage);
+        }
+        else {
+            setEmptyImage(destination, emptyImage);
+        }
+    }
+
+    private static void setPicasoInstance() {
+        picasso = new Picasso.Builder(context_)
+                .downloader(getOkHttpLoader())
+                .build();
+    }
+
+    private static OkHttp3Downloader getOkHttpLoader() {
+        okhttp3.OkHttpClient okHttp3Client = new okhttp3.OkHttpClient();
+        OkHttp3Downloader okHttp3Downloader = new OkHttp3Downloader(okHttp3Client);
+        return okHttp3Downloader;
     }
 }

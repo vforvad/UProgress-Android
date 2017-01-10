@@ -11,9 +11,11 @@ import android.widget.TextView;
 import com.example.vsokoltsov.uprogress.R;
 import com.example.vsokoltsov.uprogress.direction_detail.model.steps.Step;
 import com.example.vsokoltsov.uprogress.direction_detail.ui.StepsItem;
+import com.example.vsokoltsov.uprogress.user.current.User;
 import com.example.vsokoltsov.uprogress.user.current.UserItem;
 import com.example.vsokoltsov.uprogress.user.ui.UserInfoItem;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -34,6 +36,7 @@ public class UserInfoListAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
     public UserInfoListAdapter(List<UserItem> items){
         this.items = items;
+
     }
 
     @Override
@@ -73,5 +76,14 @@ public class UserInfoListAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             userItem.bind(info);
         }
 
+    }
+
+    public void setList(User user) {
+        List<UserItem> list = new ArrayList<UserItem>();
+        list.add(new UserItem("Email", user.getEmail()));
+        list.add(new UserItem("Nick", user.getNick()));
+        list.add(new UserItem("Location", user.getLocation()));
+        list.add(new UserItem("Description", user.getDescription()));
+        items = list;
     }
 }

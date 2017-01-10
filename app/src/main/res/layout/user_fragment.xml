@@ -51,12 +51,28 @@
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         android:layout_gravity="fill_vertical"
         android:clipToPadding="false">
-
-        <android.support.v7.widget.RecyclerView
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/recyclerView"
-            android:padding="10dp"/>
+            android:layout_height="match_parent">
+
+            <android.support.v7.widget.RecyclerView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/recyclerView"
+                android:padding="10dp"/>
+
+            <ProgressBar
+                android:id="@+id/progressBar"
+                style="@android:style/Widget.Holo.TextView.SpinnerItem"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:indeterminate="true"
+                android:layout_gravity="center_vertical|center_horizontal"
+                android:layout_marginBottom="30dp"
+                android:visibility="gone" />
+
+        </RelativeLayout>
 
     </android.support.v4.widget.NestedScrollView>
 

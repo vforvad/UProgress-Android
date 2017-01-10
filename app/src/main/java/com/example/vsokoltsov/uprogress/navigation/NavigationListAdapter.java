@@ -91,7 +91,7 @@ public class NavigationListAdapter extends BaseAdapter {
         if (navigation.getUser().getImage() != null) {
             Drawable emptyUser = ContextCompat.getDrawable(context, R.drawable.empty_user);
             String fullUrl = navigation.getUser().getImage().getUrl();
-            ImageHelper.getInstance(context).load(fullUrl, avatarView, emptyUser);
+            ImageHelper.getInstance(context).setUserImage(user, avatarView, R.drawable.empty_user);
         }
     }
 

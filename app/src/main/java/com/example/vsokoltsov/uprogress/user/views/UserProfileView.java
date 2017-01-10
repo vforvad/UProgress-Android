@@ -9,4 +9,6 @@ import com.example.vsokoltsov.uprogress.user.current.User;
 public interface UserProfileView {
     void successUpdate(User user);
     void failedUpdate(Throwable t);
+    void startLoader();
+    void stopLoader();
 }

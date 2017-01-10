@@ -16,12 +16,13 @@ import android.widget.EditText;
 import com.example.vsokoltsov.uprogress.R;
 import com.example.vsokoltsov.uprogress.direction_detail.popup.PopupInterface;
 import com.example.vsokoltsov.uprogress.user.current.User;
+import com.example.vsokoltsov.uprogress.user.current.UserRequest;
 
 /**
  * Created by vsokoltsov on 10.01.17.
  */
 
-public class UserFormPopup extends DialogFragment {
+public class UserFormPopup extends DialogFragment implements View.OnClickListener {
     PopupInterface popupInterface;
     View rootView;
     private User user;
@@ -72,6 +73,9 @@ public class UserFormPopup extends DialogFragment {
         emailField = (EditText) rootView.findViewById(R.id.emailField);
         locationField = (EditText) rootView.findViewById(R.id.locationField);
         descriptionField = (EditText) rootView.findViewById(R.id.descriptionField);
+        submitForm = (Button) rootView.findViewById(R.id.submitForm);
+
+        submitForm.setOnClickListener(this);
     }
 
     private void setValues() {
@@ -80,5 +84,17 @@ public class UserFormPopup extends DialogFragment {
         emailField.setText(user.getEmail());
         locationField.setText(user.getLocation());
         descriptionField.setText(user.getDescription());
+    }
+
+    @Override
+    public void onClick(View v) {
+        UserRequest request = new UserRequest(
+                firstNameField.getText().toString(),
+                secondNameField.getText().toString(),
+                emailField.getText().toString(),
+                locationField.getText().toString(),
+                descriptionField.getText().toString()
+        );
+        popupInterface.successPopupOperation(request);
     }
 }
