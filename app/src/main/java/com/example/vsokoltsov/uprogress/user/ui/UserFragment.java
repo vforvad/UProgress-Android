@@ -18,11 +18,15 @@ import android.widget.ImageView;
 import com.example.vsokoltsov.uprogress.R;
 import com.example.vsokoltsov.uprogress.authentication.models.AuthorizationService;
 import com.example.vsokoltsov.uprogress.common.ApplicationBaseActivity;
+import com.example.vsokoltsov.uprogress.direction_detail.popup.PopupInterface;
+import com.example.vsokoltsov.uprogress.directions_list.popup.DirectionsListPopup;
+import com.example.vsokoltsov.uprogress.directions_list.ui.DirectionsListFragment;
 import com.example.vsokoltsov.uprogress.user.adapters.UserInfoListAdapter;
 import com.example.vsokoltsov.uprogress.common.helpers.ImageHelper;
 import com.example.vsokoltsov.uprogress.navigation.NavigationDrawer;
 import com.example.vsokoltsov.uprogress.user.current.User;
 import com.example.vsokoltsov.uprogress.user.current.UserItem;
+import com.example.vsokoltsov.uprogress.user.popup.UserFormPopup;
 
 import org.solovyev.android.views.llm.LinearLayoutManager;
 
@@ -33,7 +37,7 @@ import java.util.List;
  * Created by vsokoltsov on 06.01.17.
  */
 
-public class UserFragment extends Fragment {
+public class UserFragment extends Fragment implements PopupInterface {
     private View fragmentView;
     private User user;
     private ApplicationBaseActivity activity;
@@ -42,6 +46,7 @@ public class UserFragment extends Fragment {
     private NavigationDrawer navigationDrawer;
     private DrawerLayout drawerLayout;
     private Toolbar toolbar;
+    private UserFormPopup popup;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -67,6 +72,15 @@ public class UserFragment extends Fragment {
         FloatingActionButton floatingActionButton = (FloatingActionButton) fragmentView.findViewById(R.id.addDirection);
         floatingActionButton.setImageDrawable(getResources().getDrawable(R.drawable.edit_icon));
         floatingActionButton.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.price_green)));
+        floatingActionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                popup = new UserFormPopup();
+                popup.setPopupInterface(UserFragment.this);
+                popup.setUser(user);
+                popup.show(getActivity().getFragmentManager(), "form");
+            }
+        });
 
     }
 
@@ -98,5 +112,15 @@ public class UserFragment extends Fragment {
 
     private void setNavigationDrawer() {
         activity.setLeftNavigationBar();
+    }
+
+    @Override
+    public void successPopupOperation(Object obj) {
+
+    }
+
+    @Override
+    public void failedPopupOperation(Throwable t) {
+
     }
 }

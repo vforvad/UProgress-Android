@@ -16,7 +16,8 @@
         android:name=".common.BaseApplication">
         <activity android:name=".authentication.ui.AuthorizationActivity">
         </activity>
-        <activity android:name=".user.ui.UserActivity">
+        <activity android:name=".user.ui.UserActivity"
+            android:windowSoftInputMode="adjustNothing">
         </activity>
         <activity android:name=".statistics.StatisticsActivity">
         </activity>
