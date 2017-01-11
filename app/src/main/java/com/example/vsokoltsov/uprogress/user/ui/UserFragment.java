@@ -83,7 +83,7 @@ public class UserFragment extends Fragment implements PopupInterface, UserProfil
 
     private void setElements() {
         layout = (CollapsingToolbarLayout) fragmentView.findViewById(R.id.collapsing_toolbar);
-        layout.setTitle(user.getCorrectName());
+//        layout.setTitle(user.getCorrectName());
         FloatingActionButton floatingActionButton = (FloatingActionButton) fragmentView.findViewById(R.id.addDirection);
         floatingActionButton.setImageDrawable(getResources().getDrawable(R.drawable.edit_icon));
         floatingActionButton.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.price_green)));

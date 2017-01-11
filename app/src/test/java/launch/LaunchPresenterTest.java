@@ -1,4 +1,4 @@
-package com.example.vsokoltsov.uprogress.presenters;
+package launch;
 
 import com.example.vsokoltsov.uprogress.authentication.presenters.AuthenticationPresenterImpl;
 import com.example.vsokoltsov.uprogress.common.helpers.PreferencesHelper;
