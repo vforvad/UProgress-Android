@@ -2,6 +2,8 @@ package directions_list;
 
 import com.example.vsokoltsov.uprogress.directions_list.models.Direction;
 import com.example.vsokoltsov.uprogress.directions_list.models.DirectionModel;
+import com.example.vsokoltsov.uprogress.directions_list.models.DirectionRequest;
+import com.example.vsokoltsov.uprogress.directions_list.models.DirectionResponse;
 import com.example.vsokoltsov.uprogress.directions_list.models.DirectionsList;
 import com.example.vsokoltsov.uprogress.directions_list.presenters.DirectionsListPresenter;
 import com.example.vsokoltsov.uprogress.directions_list.presenters.DirectionsListPresenterImpl;
@@ -28,6 +30,8 @@ import static org.mockito.Mockito.when;
  */
 
 public class DirectionsListPresenterTest {
+    String userId = "1";
+    int pageNumber = 1;
     @Rule
     public MockitoRule rule = MockitoJUnit.rule();
 
@@ -55,18 +59,55 @@ public class DirectionsListPresenterTest {
     @Before
     public void setUp() throws Exception {
         presenter = new DirectionsListPresenterImpl(view, model, user);
+        when(user.getNick()).thenReturn(userId);
     }
 
     @Test
     public void getDirectionsList() {
-        String userId = "1";
-        int pageNumber = 1;
-
-        when(user.getNick()).thenReturn(userId);
         when(model.getDirectionsList(userId, pageNumber)).thenReturn(Observable.just(list));
 
         presenter.loadDirections();
 
+        verify(view, times(1)).startLoader();
         verify(view, times(1)).successResponse(list);
+        verify(view, times(1)).stopLoader();
+    }
+
+    @Test
+    public void refreshDirectionsListTest() {
+        when(model.getDirectionsList(userId, pageNumber)).thenReturn(Observable.just(list));
+
+        presenter.refreshList();
+
+        verify(view ,times(1)).startRefreshing();
+        verify(view ,times(1)).refreshList(list);
+        verify(view ,times(1)).stopRefreshing();
+    }
+
+    @Test
+    public void loadMoreDirectionsTest() {
+        pageNumber++;
+        when(model.getDirectionsList(userId, pageNumber)).thenReturn(Observable.just(list));
+
+        presenter.loadMoreDirections();
+
+        verify(view ,times(1)).startFooterLoader();
+        verify(view ,times(1)).successResponse(list);
+        verify(view ,times(1)).stopFooterLoader();
+    }
+
+    @Mock DirectionResponse response;
+    @Mock DirectionRequest request;
+
+    @Test
+    public void createDirectionTest() {
+        when(response.getDirection()).thenReturn(direction);
+        when(model.createDirection(userId, request)).thenReturn(Observable.just(response));
+
+        presenter.createDirection(userId, request);
+
+        verify(view ,times(1)).startLoader();
+        verify(view ,times(1)).successDirectionCreation(direction);
+        verify(view ,times(1)).stopLoader();
     }
 }
