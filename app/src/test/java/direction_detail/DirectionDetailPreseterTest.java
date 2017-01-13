@@ -184,8 +184,14 @@ public class DirectionDetailPreseterTest {
         verify(view, times(1)).stopLoader();
     }
 
-//    @Test
-//    public void failedCreateStepTest() {
-//
-//    }
+    @Test
+    public void failedCreateStepTest() {
+        when(model.createStep(userId, directionId, stepRequest)).thenReturn(Observable.error(t));
+
+        presenter.createStep(userId, directionId, stepRequest);
+
+        verify(view, times(1)).startLoader();
+        verify(view, times(1)).failedStepCreate(t);
+        verify(view, times(1)).stopLoader();
+    }
 }
