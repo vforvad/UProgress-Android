@@ -182,5 +182,11 @@ public class UserFragment extends Fragment implements PopupInterface, UserProfil
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.user_profile, menu);
+        MenuItem setPhotoItem = menu.findItem(R.id.setPhoto);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        return super.onOptionsItemSelected(item);
     }
 }

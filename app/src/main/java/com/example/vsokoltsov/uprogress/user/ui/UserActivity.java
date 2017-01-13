@@ -1,8 +1,14 @@
 package com.example.vsokoltsov.uprogress.user.ui;
 
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.PersistableBundle;
+import android.provider.MediaStore;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.widget.ImageView;
 
 import com.example.vsokoltsov.uprogress.R;
@@ -23,6 +29,7 @@ public class UserActivity extends ApplicationBaseActivity {
     private User user;
     private ImageView userAvatar;
     private List<String> list = new ArrayList<String>();
+    private Uri fileUri;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,5 +49,42 @@ public class UserActivity extends ApplicationBaseActivity {
         MenuInflater inflater = getMenuInflater();
         userFragment.onCreateOptionsMenu(menu, inflater);
         return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch(item.getItemId()) {
+            case R.id.setPhoto:
+                Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                startActivityForResult(intent, 100);
+                break;
+            default: break;
+        }
+        return true;
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        Uri selectedImageUri;
+        Bitmap selectedBitmap;
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK) {
+            Bundle extras = data.getExtras();
+            selectedBitmap = extras.getParcelable("data");
+            selectedImageUri = data.getData();
+        }
+        else {
+
+        }
     }
 }
