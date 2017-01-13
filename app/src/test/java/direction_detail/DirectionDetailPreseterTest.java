@@ -122,18 +122,18 @@ public class DirectionDetailPreseterTest {
         verify(view, times(1)).stopLoader();
     }
 
-//    @Test
-//    public void successReloadDirectionTest() {
-//        when(detail.getDirection()).thenReturn(direction);
-//        when(model.loadDirection(userId, directionId)).thenReturn(Observable.just(detail));
-//
-//        presenter.reloadDirection(userId, directionId);
-//
-//        verify(view, times(1)).onStartRefresh();
-//        verify(view, times(1)).successResponse(direction);
-//        verify(view, times(1)).onStopRefresh();
-//    }
-//
+    @Test
+    public void successReloadDirectionTest() {
+        when(detail.getDirection()).thenReturn(direction);
+        when(model.loadDirection(userId, directionId)).thenReturn(Observable.just(detail));
+
+        presenter.reloadDirection(userId, directionId);
+
+        verify(view, times(1)).onStartRefresh();
+        verify(view, times(1)).successResponse(direction);
+        verify(view, times(1)).onStopRefresh();
+    }
+
 //    @Test
 //    public void failedReloadDirectionTest() {
 //        when(detail.getDirection()).thenReturn(direction);
