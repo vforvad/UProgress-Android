@@ -1,6 +1,8 @@
 package com.example.vsokoltsov.uprogress.user.ui;
 
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.widget.ImageView;
 
 import com.example.vsokoltsov.uprogress.R;
@@ -32,5 +34,13 @@ public class UserActivity extends ApplicationBaseActivity {
         userFragment.setUser(user);
         fragmentTransaction.replace(R.id.main_content, userFragment);
         fragmentTransaction.commit();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        super.onCreateOptionsMenu(menu);
+        MenuInflater inflater = getMenuInflater();
+        userFragment.onCreateOptionsMenu(menu, inflater);
+        return true;
     }
 }
