@@ -89,27 +89,27 @@ public class DirectionDetailPreseterTest {
         verify(view, times(1)).stopLoader();
     }
 
-//    @Mock
-//    Step step;
-//
-//    @Mock
-//    StepRequest stepRequest;
-//
-//    @Mock
-//    StepResponse stepResponse;
-//
-//    @Test
-//    public void successUpdateStepTest() {
-//        when(stepResponse.getStep()).thenReturn(step);
-//        when(model.updateStep(userId, directionId, stepId, stepRequest)).thenReturn(Observable.just(stepResponse));
-//
-//        presenter.updateStep(userId, directionId, stepId, stepRequest);
-//
-//        verify(view, times(1)).startLoader();
-//        verify(view, times(1)).successStepUpdate(step);
-//        verify(view, times(1)).stopLoader();
-//    }
-//
+    @Mock
+    Step step;
+
+    @Mock
+    StepRequest stepRequest;
+
+    @Mock
+    StepResponse stepResponse;
+
+    @Test
+    public void successUpdateStepTest() {
+        when(stepResponse.getStep()).thenReturn(step);
+        when(model.updateStep(userId, directionId, stepId, stepRequest)).thenReturn(Observable.just(stepResponse));
+
+        presenter.updateStep(userId, directionId, stepId, stepRequest);
+
+        verify(view, times(1)).startLoader();
+        verify(view, times(1)).successStepUpdate(step);
+        verify(view, times(1)).stopLoader();
+    }
+
 //    @Test
 //    public void failedUpdateStepTest() {
 //        when(stepResponse.getStep()).thenReturn(step);
