@@ -1,11 +1,15 @@
 package direction_detail;
 
 import com.example.vsokoltsov.uprogress.authentication.presenters.AuthenticationPresenterImpl;
+import com.example.vsokoltsov.uprogress.direction_detail.model.DirectionDetail;
 import com.example.vsokoltsov.uprogress.direction_detail.model.DirectionDetailModel;
 import com.example.vsokoltsov.uprogress.direction_detail.model.DirectionDetailModelImpl;
 import com.example.vsokoltsov.uprogress.direction_detail.presenter.DirectionDetailPresenter;
 import com.example.vsokoltsov.uprogress.direction_detail.presenter.DirectionDetailPresenterImpl;
 import com.example.vsokoltsov.uprogress.direction_detail.view.DirectionDetailView;
+import com.example.vsokoltsov.uprogress.directions_list.models.Direction;
+import com.example.vsokoltsov.uprogress.directions_list.models.DirectionRequest;
+import com.example.vsokoltsov.uprogress.directions_list.models.DirectionResponse;
 
 import org.junit.Before;
 import org.junit.Rule;
@@ -14,13 +18,21 @@ import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnit;
 import org.mockito.junit.MockitoRule;
 
+import rx.Observable;
 import rx.plugins.RxJavaSchedulersTestRule;
+
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 /**
  * Created by vsokoltsov on 13.01.17.
  */
 
 public class DirectionDetailPreseterTest {
+    String userId = "1";
+    String directionId = "1";
+
     @Rule
     public MockitoRule rule = MockitoJUnit.rule();
 
@@ -28,53 +40,74 @@ public class DirectionDetailPreseterTest {
     public RxJavaSchedulersTestRule rxJavaSchedulersTestRule = new RxJavaSchedulersTestRule();
 
     DirectionDetailPresenterImpl presenter;
-    DirectionDetailModel model;
 
-    @Mock DirectionDetailView view;
+    @Mock
+    DirectionDetailModel model;
+    @Mock
+    DirectionDetailView view;
+    @Mock
+    DirectionDetail detail;
+    @Mock
+    DirectionResponse response;
+    @Mock
+    DirectionRequest request;
+    @Mock
+    Direction direction;
 
     @Before
     public void setUp() throws Exception {
-        model = new DirectionDetailModelImpl();
         presenter = new DirectionDetailPresenterImpl(model, view);
     }
 
     @Test
-    public void loadDirectionTest() {
+    public void successLoadDirectionTest() {
+        when(detail.getDirection()).thenReturn(direction);
+        when(model.loadDirection(userId, directionId)).thenReturn(Observable.just(detail));
 
+        presenter.loadDirection(userId, directionId);
+
+        verify(view, times(1)).startLoader();
+        verify(view, times(1)).successResponse(direction);
+        verify(view, times(1)).stopLoader();
     }
 
-    @Test
-    public void successUpdateStepTest() {
-
-    }
-
-    @Test
-    public void failedUpdateStepTest() {
-
-    }
-
-    @Test
-    public void reloadDirectionTest() {
-
-    }
-
-    @Test
-    public void successDeleteStepTest() {
-
-    }
-
-    @Test
-    public void failedDeleteStepTest() {
-
-    }
-
-    @Test
-    public void successCreateStepTest() {
-
-    }
-
-    @Test
-    public void failedCreateStepTest() {
-
-    }
+//    @Test
+//    public void failedLoadDirectionTest() {
+//
+//    }
+//
+//    @Test
+//    public void successUpdateStepTest() {
+//
+//    }
+//
+//    @Test
+//    public void failedUpdateStepTest() {
+//
+//    }
+//
+//    @Test
+//    public void reloadDirectionTest() {
+//
+//    }
+//
+//    @Test
+//    public void successDeleteStepTest() {
+//
+//    }
+//
+//    @Test
+//    public void failedDeleteStepTest() {
+//
+//    }
+//
+//    @Test
+//    public void successCreateStepTest() {
+//
+//    }
+//
+//    @Test
+//    public void failedCreateStepTest() {
+//
+//    }
 }
