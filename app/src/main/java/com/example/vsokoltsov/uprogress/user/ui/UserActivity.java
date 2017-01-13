@@ -48,19 +48,13 @@ public class UserActivity extends ApplicationBaseActivity {
         super.onCreateOptionsMenu(menu);
         MenuInflater inflater = getMenuInflater();
         userFragment.onCreateOptionsMenu(menu, inflater);
-        return true;
+        return super.onCreateOptionsMenu(menu);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch(item.getItemId()) {
-            case R.id.setPhoto:
-                Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                startActivityForResult(intent, 100);
-                break;
-            default: break;
-        }
-        return true;
+//        userFragment.onOptionsItemSelected(item);
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
@@ -75,16 +69,6 @@ public class UserActivity extends ApplicationBaseActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        Uri selectedImageUri;
-        Bitmap selectedBitmap;
-        super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == RESULT_OK) {
-            Bundle extras = data.getExtras();
-            selectedBitmap = extras.getParcelable("data");
-            selectedImageUri = data.getData();
-        }
-        else {
-
-        }
+        userFragment.onActivityResult(requestCode, resultCode, data);
     }
 }

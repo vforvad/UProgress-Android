@@ -1,7 +1,10 @@
 package com.example.vsokoltsov.uprogress.user.ui;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.ColorStateList;
+import android.content.res.Resources;
+import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -10,6 +13,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
@@ -187,6 +191,53 @@ public class UserFragment extends Fragment implements PopupInterface, UserProfil
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        switch(item.getItemId()) {
+            case R.id.setPhoto:
+                showAlertWindow();
+                break;
+            default: break;
+        }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        Bitmap selectedBitmap;
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == getActivity().RESULT_OK) {
+            Bundle extras = data.getExtras();
+            selectedBitmap = extras.getParcelable("data");
+        }
+        else {
+
+        }
+    }
+
+    private void showAlertWindow() {
+        Resources resource = getResources();
+        final CharSequence[] items = {
+                "Upload from device",
+                "Take a photo"
+        };
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+
+        builder.setTitle(getResources().getString(R.string.directions_list_menu_title));
+        builder.setItems(items, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int item) {
+                switch(item) {
+                    case 0:
+                        break;
+                    case 1:
+                        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                        startActivityForResult(intent, 100);
+                        break;
+                    default:
+                        break;
+                }
+            }
+        });
+        builder.show();
     }
 }

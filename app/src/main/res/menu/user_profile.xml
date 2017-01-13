@@ -7,5 +7,13 @@
         app:showAsAction="always"
         android:icon="@drawable/photo_camera"
         android:title="Set image">
+        <menu>
+            <item
+                android:icon="@drawable/photo"
+                android:title="Take a photo" />
+            <item
+                android:icon="@drawable/upload"
+                android:title="Upload from collection" />
+        </menu>
     </item>
 </menu>
