@@ -146,19 +146,19 @@ public class DirectionDetailPreseterTest {
         verify(view, times(1)).onStopRefresh();
     }
 
-//    @Test
-//    public void successDeleteStepTest() {
-//        int[] positions =  new int[1];
-//        when(stepResponse.getStep()).thenReturn(step);
-//        when(model.deleteStep(userId, directionId, stepId)).thenReturn(Observable.just(stepResponse));
-//
-//        presenter.deleteStep(userId, directionId, stepId, positions);
-//
-//        verify(view, times(1)).startLoader();
-//        verify(view, times(1)).successDelete(step, positions);
-//        verify(view, times(1)).stopLoader();
-//    }
-//
+    @Test
+    public void successDeleteStepTest() {
+        int[] positions =  new int[1];
+        when(stepResponse.getStep()).thenReturn(step);
+        when(model.deleteStep(userId, directionId, stepId)).thenReturn(Observable.just(stepResponse));
+
+        presenter.deleteStep(userId, directionId, stepId, positions);
+
+        verify(view, times(1)).startLoader();
+        verify(view, times(1)).successDelete(step, positions);
+        verify(view, times(1)).stopLoader();
+    }
+
 //    @Test
 //    public void failedDeleteStepTest() {
 //        int[] positions =  new int[1];
