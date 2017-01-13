@@ -110,18 +110,18 @@ public class DirectionDetailPreseterTest {
         verify(view, times(1)).stopLoader();
     }
 
-//    @Test
-//    public void failedUpdateStepTest() {
-//        when(stepResponse.getStep()).thenReturn(step);
-//        when(model.updateStep(userId, directionId, stepId, stepRequest)).thenReturn(Observable.error(t));
-//
-//        presenter.updateStep(userId, directionId, stepId, stepRequest);
-//
-//        verify(view, times(1)).startLoader();
-//        verify(view, times(1)).failureStepUpdate(t);
-//        verify(view, times(1)).stopLoader();
-//    }
-//
+    @Test
+    public void failedUpdateStepTest() {
+        when(stepResponse.getStep()).thenReturn(step);
+        when(model.updateStep(userId, directionId, stepId, stepRequest)).thenReturn(Observable.error(t));
+
+        presenter.updateStep(userId, directionId, stepId, stepRequest);
+
+        verify(view, times(1)).startLoader();
+        verify(view, times(1)).failureStepUpdate(t);
+        verify(view, times(1)).stopLoader();
+    }
+
 //    @Test
 //    public void successReloadDirectionTest() {
 //        when(detail.getDirection()).thenReturn(direction);
