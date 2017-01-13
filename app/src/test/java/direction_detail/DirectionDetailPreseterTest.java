@@ -134,18 +134,18 @@ public class DirectionDetailPreseterTest {
         verify(view, times(1)).onStopRefresh();
     }
 
-//    @Test
-//    public void failedReloadDirectionTest() {
-//        when(detail.getDirection()).thenReturn(direction);
-//        when(model.loadDirection(userId, directionId)).thenReturn(Observable.error(t));
-//
-//        presenter.reloadDirection(userId, directionId);
-//
-//        verify(view, times(1)).onStartRefresh();
-//        verify(view, times(1)).failureResponse(t);
-//        verify(view, times(1)).onStopRefresh();
-//    }
-//
+    @Test
+    public void failedReloadDirectionTest() {
+        when(detail.getDirection()).thenReturn(direction);
+        when(model.loadDirection(userId, directionId)).thenReturn(Observable.error(t));
+
+        presenter.reloadDirection(userId, directionId);
+
+        verify(view, times(1)).onStartRefresh();
+        verify(view, times(1)).failureResponse(t);
+        verify(view, times(1)).onStopRefresh();
+    }
+
 //    @Test
 //    public void successDeleteStepTest() {
 //        int[] positions =  new int[1];
