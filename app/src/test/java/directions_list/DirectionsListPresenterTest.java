@@ -100,7 +100,7 @@ public class DirectionsListPresenterTest {
     @Mock DirectionRequest request;
 
     @Test
-    public void createDirectionTest() {
+    public void successCreateDirectionTest() {
         when(response.getDirection()).thenReturn(direction);
         when(model.createDirection(userId, request)).thenReturn(Observable.just(response));
 
@@ -108,6 +108,17 @@ public class DirectionsListPresenterTest {
 
         verify(view ,times(1)).startLoader();
         verify(view ,times(1)).successDirectionCreation(direction);
+        verify(view ,times(1)).stopLoader();
+    }
+
+    @Test
+    public void failedCreateDirectionTest() {
+        Throwable t = new Throwable();
+        when(model.createDirection(userId, request)).thenReturn(Observable.error(t));
+
+        presenter.createDirection(userId, request);
+        verify(view ,times(1)).startLoader();
+        verify(view ,times(1)).failedDirectionCreation(t);
         verify(view ,times(1)).stopLoader();
     }
 }
