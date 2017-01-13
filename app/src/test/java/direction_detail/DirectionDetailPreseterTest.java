@@ -44,6 +44,8 @@ public class DirectionDetailPreseterTest {
     public RxJavaSchedulersTestRule rxJavaSchedulersTestRule = new RxJavaSchedulersTestRule();
 
     DirectionDetailPresenterImpl presenter;
+
+    @Mock
     Throwable t;
 
     @Mock
@@ -62,7 +64,6 @@ public class DirectionDetailPreseterTest {
     @Before
     public void setUp() throws Exception {
         presenter = new DirectionDetailPresenterImpl(model, view);
-        t = new Throwable();
     }
 
     @Test
