@@ -53,17 +53,19 @@ public class UserActivity extends ApplicationBaseActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-//        userFragment.onOptionsItemSelected(item);
+        userFragment.onOptionsItemSelected(item);
         return super.onOptionsItemSelected(item);
     }
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
+        userFragment.onSaveInstanceState(outState);
         super.onSaveInstanceState(outState);
     }
 
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        userFragment.onRestoreInstanceState(savedInstanceState);
         super.onRestoreInstanceState(savedInstanceState);
     }
 

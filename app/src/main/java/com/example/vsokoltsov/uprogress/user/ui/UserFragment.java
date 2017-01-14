@@ -6,6 +6,7 @@ import android.content.res.ColorStateList;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.design.widget.CollapsingToolbarLayout;
@@ -46,6 +47,8 @@ import com.example.vsokoltsov.uprogress.user.views.UserProfileView;
 
 import org.solovyev.android.views.llm.LinearLayoutManager;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -68,6 +71,7 @@ public class UserFragment extends Fragment implements PopupInterface, UserProfil
     UserProfilePresenter presenter;
     private UserInfoListAdapter adapter;
     CollapsingToolbarLayout layout;
+    Uri imageUri;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -192,8 +196,9 @@ public class UserFragment extends Fragment implements PopupInterface, UserProfil
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch(item.getItemId()) {
-            case R.id.setPhoto:
-                showAlertWindow();
+            case R.id.photo:
+                Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                startActivityForResult(intent, 100);
                 break;
             default: break;
         }
@@ -205,8 +210,10 @@ public class UserFragment extends Fragment implements PopupInterface, UserProfil
         Bitmap selectedBitmap;
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == getActivity().RESULT_OK) {
+            Uri d = data.getData();
             Bundle extras = data.getExtras();
             selectedBitmap = extras.getParcelable("data");
+            ByteArrayOutputStream out = new ByteArrayOutputStream();
         }
         else {
 
@@ -231,7 +238,7 @@ public class UserFragment extends Fragment implements PopupInterface, UserProfil
                         break;
                     case 1:
                         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                        startActivityForResult(intent, 100);
+                        startActivityForResult(intent, 1);
                         break;
                     default:
                         break;
@@ -239,5 +246,17 @@ public class UserFragment extends Fragment implements PopupInterface, UserProfil
             }
         });
         builder.show();
+    }
+
+    public void onSaveInstanceState(Bundle outState) {
+        if (imageUri!= null) {
+            outState.putString("cameraImageUri", imageUri.toString());
+        }
+    }
+
+    public void onRestoreInstanceState(Bundle savedInstanceState) {
+        if (savedInstanceState.containsKey("cameraImageUri")) {
+            imageUri = Uri.parse(savedInstanceState.getString("cameraImageUri"));
+        }
     }
 }

@@ -9,9 +9,11 @@
         android:title="Set image">
         <menu>
             <item
+                android:id="@+id/photo"
                 android:icon="@drawable/photo"
                 android:title="Take a photo" />
             <item
+                android:id="@+id/collection"
                 android:icon="@drawable/upload"
                 android:title="Upload from collection" />
         </menu>
