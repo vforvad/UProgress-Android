@@ -1,13 +1,16 @@
 package com.example.vsokoltsov.uprogress.user.ui;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
@@ -17,6 +20,8 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Config;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -29,6 +34,7 @@ import android.widget.ProgressBar;
 import com.example.vsokoltsov.uprogress.R;
 import com.example.vsokoltsov.uprogress.authentication.models.AuthorizationService;
 import com.example.vsokoltsov.uprogress.common.ApplicationBaseActivity;
+import com.example.vsokoltsov.uprogress.common.AttachmentConfig;
 import com.example.vsokoltsov.uprogress.common.services.ErrorResponse;
 import com.example.vsokoltsov.uprogress.common.utils.RetrofitException;
 import com.example.vsokoltsov.uprogress.direction_detail.popup.PopupInterface;
@@ -50,8 +56,13 @@ import org.solovyev.android.views.llm.LinearLayoutManager;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
+
+import static android.app.Activity.RESULT_OK;
 
 /**
  * Created by vsokoltsov on 06.01.17.
@@ -72,6 +83,11 @@ public class UserFragment extends Fragment implements PopupInterface, UserProfil
     private UserInfoListAdapter adapter;
     CollapsingToolbarLayout layout;
     Uri imageUri;
+    private static final int CAMERA_REQUEST = 1888;
+    public String photoFileName = "photo.jpg";
+    public final String APP_TAG = "UProgress";
+
+    public static final int MEDIA_TYPE_IMAGE = 1;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -198,7 +214,8 @@ public class UserFragment extends Fragment implements PopupInterface, UserProfil
         switch(item.getItemId()) {
             case R.id.photo:
                 Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                startActivityForResult(intent, 100);
+                intent.putExtra(MediaStore.EXTRA_OUTPUT, getPhotoFileUri(photoFileName));
+                getActivity().startActivityForResult(intent, CAMERA_REQUEST);
                 break;
             default: break;
         }
@@ -207,56 +224,117 @@ public class UserFragment extends Fragment implements PopupInterface, UserProfil
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        Bitmap selectedBitmap;
-        super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == getActivity().RESULT_OK) {
-            Uri d = data.getData();
-            Bundle extras = data.getExtras();
-            selectedBitmap = extras.getParcelable("data");
-            ByteArrayOutputStream out = new ByteArrayOutputStream();
-        }
-        else {
-
-        }
-    }
-
-    private void showAlertWindow() {
-        Resources resource = getResources();
-        final CharSequence[] items = {
-                "Upload from device",
-                "Take a photo"
-        };
-
-        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-
-        builder.setTitle(getResources().getString(R.string.directions_list_menu_title));
-        builder.setItems(items, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int item) {
-                switch(item) {
-                    case 0:
-                        break;
-                    case 1:
-                        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                        startActivityForResult(intent, 1);
-                        break;
-                    default:
-                        break;
-                }
+//        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK) {
+            if(requestCode == CAMERA_REQUEST){
+                Uri takenPhotoUri = getPhotoFileUri(photoFileName);
+                File file = new File(takenPhotoUri.getPath());
+                Bitmap takenImage = BitmapFactory.decodeFile(takenPhotoUri.getPath());
+                userAvatar.setImageBitmap(takenImage);
+//                imageUri = data.getData();
             }
-        });
-        builder.show();
+        }
+//        if (resultCode == 1 && data != null) {
+//            if (resultCode == getActivity().RESULT_OK) {
+//                Uri d = data.getData();
+//                Bundle extras = data.getExtras();
+//            }
+//            else {
+//
+//            }
+//        }
+
     }
 
     public void onSaveInstanceState(Bundle outState) {
-        if (imageUri!= null) {
-            outState.putString("cameraImageUri", imageUri.toString());
-        }
+        outState.putParcelable("file_uri", imageUri);
     }
 
     public void onRestoreInstanceState(Bundle savedInstanceState) {
-        if (savedInstanceState.containsKey("cameraImageUri")) {
-            imageUri = Uri.parse(savedInstanceState.getString("cameraImageUri"));
+        imageUri = savedInstanceState.getParcelable("file_uri");
+    }
+
+//    private static File getOutputMediaFile(int type) {
+//
+//        // External sdcard location
+//        File mediaStorageDir = new File(
+//                Environment
+//                        .getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES),
+//                AttachmentConfig.IMAGE_DIRECTORY_NAME);
+//
+//        // Create the storage directory if it does not exist
+//        if (!mediaStorageDir.exists()) {
+//            if (!mediaStorageDir.mkdirs()) {
+//                Log.d("1", "Oops! Failed create "
+//                        + AttachmentConfig.IMAGE_DIRECTORY_NAME + " directory");
+//                return null;
+//            }
+//        }
+//
+//        // Create a media file name
+//        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss",
+//                Locale.getDefault()).format(new Date());
+//        File mediaFile;
+//        if (type == MEDIA_TYPE_IMAGE) {
+//            mediaFile = new File(mediaStorageDir.getPath() + File.separator
+//                    + "IMG_" + timeStamp + ".jpg");
+//        } else {
+//            return null;
+//        }
+//
+//        return mediaFile;
+//    }
+//
+//    public Uri getOutputMediaFileUri(int type) {
+//        return Uri.fromFile(getOutputMediaFile(type));
+//    }
+
+    protected File createImageFile() throws IOException {
+        // Create an image file name
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        String imageFileName = "JPEG_" + timeStamp + "_";
+        File storageDir = Environment.getExternalStoragePublicDirectory(
+                Environment.DIRECTORY_PICTURES);
+        File image = File.createTempFile(
+                imageFileName,  /* prefix */
+                ".jpg",         /* suffix */
+                storageDir      /* directory */
+        );
+
+        // Save a file: path for use with ACTION_VIEW intents
+        return image;
+    }
+
+    public Uri getImageUri(Context inContext, Bitmap inImage) {
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
+        String path = MediaStore.Images.Media.insertImage(inContext.getContentResolver(), inImage, "Title", null);
+        return Uri.parse(path);
+    }
+
+    // Returns the Uri for a photo stored on disk given the fileName
+    public Uri getPhotoFileUri(String fileName) {
+        // Only continue if the SD Card is mounted
+        if (isExternalStorageAvailable()) {
+            // Get safe storage directory for photos
+            // Use `getExternalFilesDir` on Context to access package-specific directories.
+            // This way, we don't need to request external read/write runtime permissions.
+            File mediaStorageDir = new File(getContext().getExternalFilesDir(Environment.DIRECTORY_PICTURES), APP_TAG);
+
+            // Create the storage directory if it does not exist
+            if (!mediaStorageDir.exists() && !mediaStorageDir.mkdirs()){
+                Log.d(APP_TAG, "failed to create directory");
+            }
+
+            // Return the file target for the photo based on filename
+            return Uri.fromFile(new File(mediaStorageDir.getPath() + File.separator + fileName));
         }
+        return null;
+    }
+
+    // Returns true if external storage for photos is available
+    private boolean isExternalStorageAvailable() {
+        String state = Environment.getExternalStorageState();
+        return state.equals(Environment.MEDIA_MOUNTED);
     }
 }

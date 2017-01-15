@@ -59,18 +59,19 @@ public class UserActivity extends ApplicationBaseActivity {
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
-        userFragment.onSaveInstanceState(outState);
         super.onSaveInstanceState(outState);
+        userFragment.onSaveInstanceState(outState);
     }
 
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
-        userFragment.onRestoreInstanceState(savedInstanceState);
         super.onRestoreInstanceState(savedInstanceState);
+        userFragment.onRestoreInstanceState(savedInstanceState);
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
         userFragment.onActivityResult(requestCode, resultCode, data);
     }
 }
