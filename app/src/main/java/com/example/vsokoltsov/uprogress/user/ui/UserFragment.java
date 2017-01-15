@@ -62,6 +62,9 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
+import okhttp3.MediaType;
+import okhttp3.RequestBody;
+
 import static android.app.Activity.RESULT_OK;
 
 /**
@@ -231,6 +234,8 @@ public class UserFragment extends Fragment implements PopupInterface, UserProfil
                 File file = new File(takenPhotoUri.getPath());
                 Bitmap takenImage = BitmapFactory.decodeFile(takenPhotoUri.getPath());
                 userAvatar.setImageBitmap(takenImage);
+                RequestBody requestFile =
+                        RequestBody.create(MediaType.parse("multipart/form-data"), file);
 //                imageUri = data.getData();
             }
         }
