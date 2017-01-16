@@ -36,8 +36,6 @@ public class ImageHelper {
         picasso
                 .load(url)
                 .fit()
-                .error(error)
-                .placeholder(emptyImage)
                 .into(destination);
     }
 

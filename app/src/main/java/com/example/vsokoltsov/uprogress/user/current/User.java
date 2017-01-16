@@ -10,6 +10,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class User {
+    @JsonProperty("id")
+    private int id;
     @JsonProperty("email")
     private String email;
     @JsonProperty("first_name")
@@ -92,5 +94,13 @@ public class User {
 
     public String getDescription() {
         return description;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public int getId() {
+        return id;
     }
 }

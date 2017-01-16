@@ -13,8 +13,11 @@ public class Attachment {
     private String attachableType;
     @JsonProperty("attachable_id")
     private String attachableId;
+    @JsonProperty("id")
     private int id;
+    @JsonProperty("type")
     private String type;
+    @JsonProperty("url")
     private String url;
 
     public String getAttachableType() {

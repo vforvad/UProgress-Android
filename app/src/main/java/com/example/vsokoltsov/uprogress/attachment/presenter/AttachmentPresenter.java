@@ -2,6 +2,7 @@ package com.example.vsokoltsov.uprogress.attachment.presenter;
 
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
+import okhttp3.ResponseBody;
 import retrofit2.http.Part;
 
 /**
@@ -9,7 +10,7 @@ import retrofit2.http.Part;
  */
 
 public interface AttachmentPresenter {
-    void uploadImage(RequestBody description,
-                     MultipartBody.Part file,
-                     String attachableType);
+    void uploadImage(MultipartBody.Part file,
+                     RequestBody attachableType,
+                     RequestBody attachableId);
 }

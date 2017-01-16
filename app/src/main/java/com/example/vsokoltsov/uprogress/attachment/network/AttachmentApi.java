@@ -1,5 +1,8 @@
 package com.example.vsokoltsov.uprogress.attachment.network;
 
+import com.example.vsokoltsov.uprogress.attachment.model.AttachmentResponse;
+import com.example.vsokoltsov.uprogress.authentication.models.Attachment;
+
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
@@ -15,7 +18,7 @@ import rx.Observable;
 public interface AttachmentApi {
     @Multipart
     @POST("attachments")
-    Observable<ResponseBody> upload(@Part("description") RequestBody description,
-                                    @Part MultipartBody.Part file,
-                                    @Part("attachable_type") String attachableType);
+    Observable<AttachmentResponse> upload(@Part MultipartBody.Part file,
+                                          @Part("attachable_type") RequestBody attachableType,
+                                          @Part("attachable_id") RequestBody attachableId);
 }

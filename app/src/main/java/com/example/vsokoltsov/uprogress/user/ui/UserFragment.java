@@ -32,6 +32,10 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 
 import com.example.vsokoltsov.uprogress.R;
+import com.example.vsokoltsov.uprogress.attachment.model.AttachmentModelImpl;
+import com.example.vsokoltsov.uprogress.attachment.presenter.AttachmentPresenterImpl;
+import com.example.vsokoltsov.uprogress.attachment.view.AttachmentView;
+import com.example.vsokoltsov.uprogress.authentication.models.Attachment;
 import com.example.vsokoltsov.uprogress.authentication.models.AuthorizationService;
 import com.example.vsokoltsov.uprogress.common.ApplicationBaseActivity;
 import com.example.vsokoltsov.uprogress.common.AttachmentConfig;
@@ -63,6 +67,7 @@ import java.util.List;
 import java.util.Locale;
 
 import okhttp3.MediaType;
+import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 
 import static android.app.Activity.RESULT_OK;
@@ -71,7 +76,7 @@ import static android.app.Activity.RESULT_OK;
  * Created by vsokoltsov on 06.01.17.
  */
 
-public class UserFragment extends Fragment implements PopupInterface, UserProfileView {
+public class UserFragment extends Fragment implements PopupInterface, UserProfileView, AttachmentView {
     private View fragmentView;
     private User user;
     private ApplicationBaseActivity activity;
@@ -83,6 +88,8 @@ public class UserFragment extends Fragment implements PopupInterface, UserProfil
     private UserFormPopup popup;
     private ProgressBar progressBar;
     UserProfilePresenter presenter;
+    AttachmentPresenterImpl attachmentPresenter;
+    AttachmentModelImpl attachmentModel;
     private UserInfoListAdapter adapter;
     CollapsingToolbarLayout layout;
     Uri imageUri;
@@ -98,7 +105,9 @@ public class UserFragment extends Fragment implements PopupInterface, UserProfil
         fragmentView = inflater.inflate(R.layout.user_fragment, container, false);
         activity = (ApplicationBaseActivity) getActivity();
         UserModel model = new UserModelImpl();
+        attachmentModel = new AttachmentModelImpl();
         presenter = new UserProfilePresenterImpl(this, model);
+        attachmentPresenter = new AttachmentPresenterImpl(attachmentModel, this);
         loadList();
         loadUserImage();
         setElements();
@@ -236,6 +245,12 @@ public class UserFragment extends Fragment implements PopupInterface, UserProfil
                 userAvatar.setImageBitmap(takenImage);
                 RequestBody requestFile =
                         RequestBody.create(MediaType.parse("multipart/form-data"), file);
+                // MultipartBody.Part is used to send also the actual file name
+                MultipartBody.Part body =
+                        MultipartBody.Part.createFormData("file", file.getName(), requestFile);
+                RequestBody attachmentableId = RequestBody.create(MediaType.parse("text/plain"), Integer.toString(user.getId()));
+                RequestBody attachmentableType = RequestBody.create(MediaType.parse("text/plain"), "User");
+                attachmentPresenter.uploadImage(body, attachmentableType, attachmentableId);
 //                imageUri = data.getData();
             }
         }
@@ -341,5 +356,15 @@ public class UserFragment extends Fragment implements PopupInterface, UserProfil
     private boolean isExternalStorageAvailable() {
         String state = Environment.getExternalStorageState();
         return state.equals(Environment.MEDIA_MOUNTED);
+    }
+
+    @Override
+    public void successUpload(Attachment attachment) {
+
+    }
+
+    @Override
+    public void failedUpload(Throwable t) {
+
     }
 }
