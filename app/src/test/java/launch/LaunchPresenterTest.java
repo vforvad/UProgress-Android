@@ -1,4 +1,4 @@
-package com.example.vsokoltsov.uprogress.presenters;
+package launch;
 
 import com.example.vsokoltsov.uprogress.authentication.presenters.AuthenticationPresenterImpl;
 import com.example.vsokoltsov.uprogress.common.helpers.PreferencesHelper;
@@ -46,6 +46,12 @@ public class LaunchPresenterTest {
     @Mock
     CurrentUserModel model;
 
+    @Mock
+    CurrentUser currentUser;
+
+    @Mock
+    Throwable t;
+
     @Before
     public void setUp() throws Exception {
         presenter = new LaunchPresenter(screen, model);
@@ -62,7 +68,6 @@ public class LaunchPresenterTest {
 
     @Test
     public void failedToReceiveCurrentUser() throws Exception {
-        Throwable t = new Throwable();
 
         when(model.getCurrentUser()).thenReturn(Observable.error(t));
 
@@ -73,10 +78,10 @@ public class LaunchPresenterTest {
 
     @Test
     public void callTransitionToList() {
-        when(model.getCurrentUser()).thenReturn(Observable.just(mock(CurrentUser.class)));
+        when(model.getCurrentUser()).thenReturn(Observable.just(currentUser));
 
         presenter.getCurrentUser();
 
-        verify(screen, times(1)).completedCurrentUserRequest();
+        verify(screen, times(1)).currentUserReceived(currentUser);
     }
 }

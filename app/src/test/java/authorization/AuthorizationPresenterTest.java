@@ -1,4 +1,4 @@
-package com.example.vsokoltsov.uprogress.presenters;
+package authorization;
 
 import com.example.vsokoltsov.uprogress.authentication.models.SignIn.SignInRequest;
 import com.example.vsokoltsov.uprogress.authentication.models.SignUp.SignUpRequest;
