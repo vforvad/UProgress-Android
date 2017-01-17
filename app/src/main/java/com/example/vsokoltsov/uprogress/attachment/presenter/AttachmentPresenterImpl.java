@@ -29,24 +29,26 @@ public class AttachmentPresenterImpl implements AttachmentPresenter {
 
     @Override
     public void uploadImage(MultipartBody.Part file, RequestBody attachableType, RequestBody attachableId) {
+        view.startLoader();
         model.uploadImage(file, attachableType, attachableId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<AttachmentResponse>() {
                     @Override
                     public void onCompleted() {
-
+                        view.stopLoader();
                     }
 
                     @Override
                     public void onError(Throwable e) {
-
+                        view.stopLoader();
+                        view.failedUpload(e);
                     }
 
                     @Override
                     public void onNext(AttachmentResponse attachmentResponse) {
                         // TODO Add redirect to user's profile
-
+                        view.successUpload(attachmentResponse.getAttachment());
                     }
                 });
     }

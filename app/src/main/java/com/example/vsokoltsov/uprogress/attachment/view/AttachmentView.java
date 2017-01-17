@@ -9,4 +9,6 @@ import com.example.vsokoltsov.uprogress.authentication.models.Attachment;
 public interface AttachmentView {
     void successUpload(Attachment attachment);
     void failedUpload(Throwable t);
+    void startLoader();
+    void stopLoader();
 }

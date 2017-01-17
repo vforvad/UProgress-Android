@@ -12,6 +12,8 @@ import com.jakewharton.picasso.OkHttp3Downloader;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
 
+import java.io.File;
+
 /**
  * Created by vsokoltsov on 08.01.17.
  */
@@ -35,6 +37,13 @@ public class ImageHelper {
     public void load(String url, ImageView destination, int emptyImage) {
         picasso
                 .load(url)
+                .fit()
+                .into(destination);
+    }
+
+    public void load(File file, ImageView destination, int emptyImage) {
+        picasso
+                .load(file)
                 .fit()
                 .into(destination);
     }

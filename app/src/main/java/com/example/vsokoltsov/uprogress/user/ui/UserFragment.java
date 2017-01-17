@@ -55,6 +55,7 @@ import com.example.vsokoltsov.uprogress.user.popup.UserFormPopup;
 import com.example.vsokoltsov.uprogress.user.presenters.UserProfilePresenter;
 import com.example.vsokoltsov.uprogress.user.presenters.UserProfilePresenterImpl;
 import com.example.vsokoltsov.uprogress.user.views.UserProfileView;
+import com.squareup.picasso.Picasso;
 
 import org.solovyev.android.views.llm.LinearLayoutManager;
 
@@ -100,6 +101,7 @@ public class UserFragment extends Fragment implements PopupInterface, UserProfil
     public final String APP_TAG = "UProgress";
 
     public static final int MEDIA_TYPE_IMAGE = 1;
+    private File selectImageFile = null;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -245,50 +247,39 @@ public class UserFragment extends Fragment implements PopupInterface, UserProfil
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
 //        super.onActivityResult(requestCode, resultCode, data);
-        File file = null;
         if (resultCode == RESULT_OK) {
             if(requestCode == CAMERA_REQUEST){
                 Uri takenPhotoUri = getPhotoFileUri(photoFileName);
-                file = new File(takenPhotoUri.getPath());
+                selectImageFile = new File(takenPhotoUri.getPath());
                 Bitmap takenImage = BitmapFactory.decodeFile(takenPhotoUri.getPath());
-                userAvatar.setImageBitmap(takenImage);
-//                imageUri = data.getData();
+//                userAvatar.setImageBitmap(takenImage);
             }
             else if (requestCode == GALERY_REQUEST) {
                 Uri takenPhotoUri = data.getData();
                 Bitmap bitmap = null;
                 String path = getPath(takenPhotoUri);
-                file = new File(path);
+                selectImageFile = new File(path);
 
-                if (file.exists()) {
-                    try {
-                        bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), takenPhotoUri);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                    userAvatar.setImageBitmap(bitmap);
-                }
+//                if (file.exists()) {
+//                    try {
+//                        bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), takenPhotoUri);
+//                    } catch (IOException e) {
+//                        e.printStackTrace();
+//                    }
+////                    userAvatar.setImageBitmap(bitmap);
+//                }
             }
-            if (file != null) {
+            if (selectImageFile != null) {
                 RequestBody requestFile =
-                        RequestBody.create(MediaType.parse("multipart/form-data"), file);
+                        RequestBody.create(MediaType.parse("multipart/form-data"), selectImageFile);
                 // MultipartBody.Part is used to send also the actual file name
                 MultipartBody.Part body =
-                        MultipartBody.Part.createFormData("file", file.getName(), requestFile);
+                        MultipartBody.Part.createFormData("file", selectImageFile.getName(), requestFile);
                 RequestBody attachmentableId = RequestBody.create(MediaType.parse("text/plain"), Integer.toString(user.getId()));
                 RequestBody attachmentableType = RequestBody.create(MediaType.parse("text/plain"), "User");
                 attachmentPresenter.uploadImage(body, attachmentableType, attachmentableId);
             }
         }
-//        if (resultCode == 1 && data != null) {
-//            if (resultCode == getActivity().RESULT_OK) {
-//                Uri d = data.getData();
-//                Bundle extras = data.getExtras();
-//            }
-//            else {
-//
-//            }
-//        }
 
     }
 
@@ -298,64 +289,6 @@ public class UserFragment extends Fragment implements PopupInterface, UserProfil
 
     public void onRestoreInstanceState(Bundle savedInstanceState) {
         imageUri = savedInstanceState.getParcelable("file_uri");
-    }
-
-//    private static File getOutputMediaFile(int type) {
-//
-//        // External sdcard location
-//        File mediaStorageDir = new File(
-//                Environment
-//                        .getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES),
-//                AttachmentConfig.IMAGE_DIRECTORY_NAME);
-//
-//        // Create the storage directory if it does not exist
-//        if (!mediaStorageDir.exists()) {
-//            if (!mediaStorageDir.mkdirs()) {
-//                Log.d("1", "Oops! Failed create "
-//                        + AttachmentConfig.IMAGE_DIRECTORY_NAME + " directory");
-//                return null;
-//            }
-//        }
-//
-//        // Create a media file name
-//        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss",
-//                Locale.getDefault()).format(new Date());
-//        File mediaFile;
-//        if (type == MEDIA_TYPE_IMAGE) {
-//            mediaFile = new File(mediaStorageDir.getPath() + File.separator
-//                    + "IMG_" + timeStamp + ".jpg");
-//        } else {
-//            return null;
-//        }
-//
-//        return mediaFile;
-//    }
-//
-//    public Uri getOutputMediaFileUri(int type) {
-//        return Uri.fromFile(getOutputMediaFile(type));
-//    }
-
-    protected File createImageFile() throws IOException {
-        // Create an image file name
-        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-        String imageFileName = "JPEG_" + timeStamp + "_";
-        File storageDir = Environment.getExternalStoragePublicDirectory(
-                Environment.DIRECTORY_PICTURES);
-        File image = File.createTempFile(
-                imageFileName,  /* prefix */
-                ".jpg",         /* suffix */
-                storageDir      /* directory */
-        );
-
-        // Save a file: path for use with ACTION_VIEW intents
-        return image;
-    }
-
-    public Uri getImageUri(Context inContext, Bitmap inImage) {
-        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-        inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
-        String path = MediaStore.Images.Media.insertImage(inContext.getContentResolver(), inImage, "Title", null);
-        return Uri.parse(path);
     }
 
     // Returns the Uri for a photo stored on disk given the fileName
@@ -386,7 +319,8 @@ public class UserFragment extends Fragment implements PopupInterface, UserProfil
 
     @Override
     public void successUpload(Attachment attachment) {
-
+        ImageHelper.getInstance(getContext()).load(selectImageFile, userAvatar, R.drawable.empty_user);
+//        AuthorizationService.getInstance().getCurrentUser().setImage(attachment);
     }
 
     @Override
