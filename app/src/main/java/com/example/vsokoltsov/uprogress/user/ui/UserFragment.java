@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.content.res.Resources;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
@@ -94,6 +95,7 @@ public class UserFragment extends Fragment implements PopupInterface, UserProfil
     CollapsingToolbarLayout layout;
     Uri imageUri;
     private static final int CAMERA_REQUEST = 1888;
+    private static final int GALERY_REQUEST = 444;
     public String photoFileName = "photo.jpg";
     public final String APP_TAG = "UProgress";
 
@@ -218,16 +220,22 @@ public class UserFragment extends Fragment implements PopupInterface, UserProfil
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.user_profile, menu);
-        MenuItem setPhotoItem = menu.findItem(R.id.setPhoto);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch(item.getItemId()) {
             case R.id.photo:
-                Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                intent.putExtra(MediaStore.EXTRA_OUTPUT, getPhotoFileUri(photoFileName));
-                getActivity().startActivityForResult(intent, CAMERA_REQUEST);
+                Intent camerIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                camerIntent.putExtra(MediaStore.EXTRA_OUTPUT, getPhotoFileUri(photoFileName));
+                getActivity().startActivityForResult(camerIntent, CAMERA_REQUEST);
+                break;
+            case R.id.collection:
+                Intent intent = new Intent();
+                intent.setType("image/*");
+                intent.setAction(Intent.ACTION_GET_CONTENT);
+                startActivityForResult(Intent.createChooser(intent,
+                        "Select Picture"), GALERY_REQUEST);
                 break;
             default: break;
         }
@@ -237,12 +245,31 @@ public class UserFragment extends Fragment implements PopupInterface, UserProfil
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
 //        super.onActivityResult(requestCode, resultCode, data);
+        File file = null;
         if (resultCode == RESULT_OK) {
             if(requestCode == CAMERA_REQUEST){
                 Uri takenPhotoUri = getPhotoFileUri(photoFileName);
-                File file = new File(takenPhotoUri.getPath());
+                file = new File(takenPhotoUri.getPath());
                 Bitmap takenImage = BitmapFactory.decodeFile(takenPhotoUri.getPath());
                 userAvatar.setImageBitmap(takenImage);
+//                imageUri = data.getData();
+            }
+            else if (requestCode == GALERY_REQUEST) {
+                Uri takenPhotoUri = data.getData();
+                Bitmap bitmap = null;
+                String path = getPath(takenPhotoUri);
+                file = new File(path);
+
+                if (file.exists()) {
+                    try {
+                        bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), takenPhotoUri);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    userAvatar.setImageBitmap(bitmap);
+                }
+            }
+            if (file != null) {
                 RequestBody requestFile =
                         RequestBody.create(MediaType.parse("multipart/form-data"), file);
                 // MultipartBody.Part is used to send also the actual file name
@@ -251,7 +278,6 @@ public class UserFragment extends Fragment implements PopupInterface, UserProfil
                 RequestBody attachmentableId = RequestBody.create(MediaType.parse("text/plain"), Integer.toString(user.getId()));
                 RequestBody attachmentableType = RequestBody.create(MediaType.parse("text/plain"), "User");
                 attachmentPresenter.uploadImage(body, attachmentableType, attachmentableId);
-//                imageUri = data.getData();
             }
         }
 //        if (resultCode == 1 && data != null) {
@@ -366,5 +392,27 @@ public class UserFragment extends Fragment implements PopupInterface, UserProfil
     @Override
     public void failedUpload(Throwable t) {
 
+    }
+
+    public String getPath(Uri uri) {
+        // just some safety built in
+        if( uri == null ) {
+            // TODO perform some logging or show user feedback
+            return null;
+        }
+        // try to retrieve the image from the media store first
+        // this will only work for images selected from gallery
+        String[] projection = { MediaStore.Images.Media.DATA };
+        Cursor cursor = getActivity().managedQuery(uri, projection, null, null, null);
+        if( cursor != null ){
+            int column_index = cursor
+                    .getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+            cursor.moveToFirst();
+            String path = cursor.getString(column_index);
+            cursor.close();
+            return path;
+        }
+        // this is our fallback here
+        return uri.getPath();
     }
 }
