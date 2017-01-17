@@ -49,6 +49,9 @@ public class LaunchPresenterTest {
     @Mock
     CurrentUser currentUser;
 
+    @Mock
+    Throwable t;
+
     @Before
     public void setUp() throws Exception {
         presenter = new LaunchPresenter(screen, model);
@@ -65,7 +68,6 @@ public class LaunchPresenterTest {
 
     @Test
     public void failedToReceiveCurrentUser() throws Exception {
-        Throwable t = new Throwable();
 
         when(model.getCurrentUser()).thenReturn(Observable.error(t));
 
