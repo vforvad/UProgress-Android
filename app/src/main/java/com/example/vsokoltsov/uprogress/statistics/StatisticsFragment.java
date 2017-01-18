@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.vsokoltsov.uprogress.R;
+import com.github.mikephil.charting.charts.PieChart;
 
 /**
  * Created by vsokoltsov on 06.01.17.
@@ -15,6 +16,7 @@ import com.example.vsokoltsov.uprogress.R;
 
 public class StatisticsFragment extends Fragment {
     private View fragmentView;
+    private PieChart mChart;
 
     @Nullable
     @Override
