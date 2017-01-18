@@ -2,6 +2,7 @@ package com.example.vsokoltsov.uprogress.statistics.network;
 
 import com.example.vsokoltsov.uprogress.direction_detail.model.steps.StepRequest;
 import com.example.vsokoltsov.uprogress.direction_detail.model.steps.StepResponse;
+import com.example.vsokoltsov.uprogress.statistics.model.StatisticsResponse;
 
 import retrofit2.http.Body;
 import retrofit2.http.GET;
@@ -14,10 +15,6 @@ import rx.Observable;
  */
 
 public interface StatisticsApi {
-    @GET("statistics")
-    Observable<StepResponse> createStep(
-            @Path("user") String userNick,
-            @Path("direction") String direction,
-            @Body StepRequest request
-    );
+    @GET("users/{user}/statistics")
+    Observable<StatisticsResponse> getStatistics(@Path("user") String userNick);
 }

@@ -3,6 +3,8 @@ package com.example.vsokoltsov.uprogress.statistics.model;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.util.List;
+
 /**
  * Created by vsokoltsov on 18.01.17.
  */
@@ -10,33 +12,34 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class StatisticsInfo {
     @JsonProperty("directions")
-    private StatisticsScope directions;
+    private List<StatisticsItem> directions;
     @JsonProperty("steps")
-    private StatisticsScope steps;
+    private List<StatisticsItem> steps;
     @JsonProperty("directions_steps")
-    private StatisticsScope directionsSteps;
+    private List<StatisticsItem> directionsSteps;
 
-    public void setDirections(StatisticsScope directions) {
-        this.directions = directions;
-    }
 
-    public StatisticsScope getDirections() {
+    public List<StatisticsItem> getDirections() {
         return directions;
     }
 
-    public StatisticsScope getSteps() {
+    public void setDirections(List<StatisticsItem> directions) {
+        this.directions = directions;
+    }
+
+    public List<StatisticsItem> getSteps() {
         return steps;
     }
 
-    public void setSteps(StatisticsScope steps) {
+    public void setSteps(List<StatisticsItem> steps) {
         this.steps = steps;
     }
 
-    public void setDirectionsSteps(StatisticsScope directionsSteps) {
-        this.directionsSteps = directionsSteps;
+    public List<StatisticsItem> getDirectionsSteps() {
+        return directionsSteps;
     }
 
-    public StatisticsScope getDirectionsSteps() {
-        return directionsSteps;
+    public void setDirectionsSteps(List<StatisticsItem> directionsSteps) {
+        this.directionsSteps = directionsSteps;
     }
 }

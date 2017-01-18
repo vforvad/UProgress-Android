@@ -5,4 +5,5 @@ package com.example.vsokoltsov.uprogress.statistics.presenter;
  */
 
 public interface StatisticsPresenter {
+    void getStatistics(String userId);
 }
