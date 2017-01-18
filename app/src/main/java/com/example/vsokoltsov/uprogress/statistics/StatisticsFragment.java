@@ -61,8 +61,8 @@ public class StatisticsFragment extends Fragment implements StatisticsView {
         pieChart.setTransparentCircleColor(Color.WHITE);
         pieChart.setTransparentCircleAlpha(110);
 
-        pieChart.setHoleRadius(58f);
-        pieChart.setTransparentCircleRadius(61f);
+        pieChart.setHoleRadius(50f);
+        pieChart.setTransparentCircleRadius(53f);
 
         pieChart.setDrawCenterText(true);
 
@@ -89,29 +89,15 @@ public class StatisticsFragment extends Fragment implements StatisticsView {
 
     @Override
     public void successLoadStatistics(StatisticsInfo statisticsInfo) {
-        List<StatisticsItem> items = statisticsInfo.getSteps();
+        List<StatisticsItem> items = statisticsInfo.getDirectionsSteps();
         ArrayList<PieEntry> entries = new ArrayList<PieEntry>();
         ArrayList<Integer> colors = new ArrayList<Integer>();
         for (int i = 0; i < items.size(); i ++) {
             StatisticsItem item = items.get(i);
             entries.add(new PieEntry(item.getValue().floatValue(), item.getLabel()));
+            int color = ColorTemplate.rgb(item.getColor());
+            colors.add(color);
         }
-        for (int c : ColorTemplate.VORDIPLOM_COLORS)
-            colors.add(c);
-
-        for (int c : ColorTemplate.JOYFUL_COLORS)
-            colors.add(c);
-
-        for (int c : ColorTemplate.COLORFUL_COLORS)
-            colors.add(c);
-
-        for (int c : ColorTemplate.LIBERTY_COLORS)
-            colors.add(c);
-
-        for (int c : ColorTemplate.PASTEL_COLORS)
-            colors.add(c);
-
-        colors.add(ColorTemplate.getHoloBlue());
 
         PieDataSet dataSet = new PieDataSet(entries, "Election Results");
         dataSet.setSliceSpace(3f);
