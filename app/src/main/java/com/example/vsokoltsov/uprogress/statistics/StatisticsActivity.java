@@ -1,6 +1,9 @@
 package com.example.vsokoltsov.uprogress.statistics;
 
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 
 import com.example.vsokoltsov.uprogress.R;
 import com.example.vsokoltsov.uprogress.common.ApplicationBaseActivity;
@@ -23,5 +26,18 @@ public class StatisticsActivity extends ApplicationBaseActivity {
         statisticsFragment = new StatisticsFragment();
         fragmentTransaction.replace(R.id.main_content, statisticsFragment);
         fragmentTransaction.commit();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        statisticsFragment.onCreateOptionsMenu(menu, inflater);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        statisticsFragment.onOptionsItemSelected(item);
+        return super.onOptionsItemSelected(item);
     }
 }

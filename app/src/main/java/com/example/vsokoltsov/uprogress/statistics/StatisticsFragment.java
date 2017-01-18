@@ -1,12 +1,18 @@
 package com.example.vsokoltsov.uprogress.statistics;
 
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
+import android.widget.SeekBar;
 
 import com.example.vsokoltsov.uprogress.R;
 import com.example.vsokoltsov.uprogress.authentication.models.AuthorizationService;
@@ -20,9 +26,12 @@ import com.example.vsokoltsov.uprogress.statistics.views.StatisticsView;
 import com.example.vsokoltsov.uprogress.user.current.User;
 import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.PieChart;
+import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
+import com.github.mikephil.charting.highlight.Highlight;
+import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 import com.github.mikephil.charting.utils.ColorTemplate;
 
 import java.util.ArrayList;
@@ -36,6 +45,7 @@ public class StatisticsFragment extends Fragment implements StatisticsView {
     private View fragmentView;
     private PieChart pieChart;
     private StatisticsPresenter presenter;
+    private boolean iconSwitcher = true;
 
     @Nullable
     @Override
@@ -114,5 +124,29 @@ public class StatisticsFragment extends Fragment implements StatisticsView {
     @Override
     public void failedLoadStatistics(Throwable t) {
 
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.statistics_menu, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch(item.getItemId()) {
+            case R.id.chartType:
+                if (iconSwitcher) {
+                    item.setIcon(R.drawable.bar_chart_icon);
+                }
+                else {
+                    item.setIcon(R.drawable.pie_chart_icon);
+                }
+                iconSwitcher = !iconSwitcher;
+                break;
+            default:
+                break;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }
