@@ -40,10 +40,12 @@ import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
 import com.github.mikephil.charting.formatter.IAxisValueFormatter;
+import com.github.mikephil.charting.formatter.IValueFormatter;
 import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 import com.github.mikephil.charting.utils.ColorTemplate;
+import com.github.mikephil.charting.utils.ViewPortHandler;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -160,16 +162,16 @@ public class StatisticsFragment extends Fragment implements StatisticsView {
 //        entries.add(new BarEntry(12f, 3));
 //        entries.add(new BarEntry(18f, 4));
 //        entries.add(new BarEntry(9f, 5));
+        String[] labels = new String[] {"label 1", "label 2", "label 3"};
         barChart.animateY(1000);
         BarDataSet dataset = new BarDataSet(entries, "# of Calls");
         dataset.setColors(ColorTemplate.COLORFUL_COLORS);
-        ArrayList<String> labels = new ArrayList<String>();
-        labels.add("January");
-        labels.add("February");
-        labels.add("March");
-        labels.add("April");
-        labels.add("May");
-        labels.add("June");
+        dataset.setValueFormatter(new IValueFormatter() {
+            @Override
+            public String getFormattedValue(float value, Entry entry, int dataSetIndex, ViewPortHandler viewPortHandler) {
+                return entry.getData().toString();
+            }
+        });
         BarData data = new BarData(dataset);
         barChart.setData(data);
         barChart.invalidate();
