@@ -151,7 +151,7 @@ public class StatisticsFragment extends Fragment implements StatisticsView {
 
     private void setData(StatisticsInfo statisticsInfo) {
         ArrayList<BarEntry> entries = new ArrayList<>();
-        List<StatisticsItem> items = statisticsInfo.getSteps();
+        List<StatisticsItem> items = statisticsInfo.getDirectionsSteps();
         for(int i = 0; i < items.size(); i++) {
             StatisticsItem item = items.get(i);
             entries.add(new BarEntry(i, item.getValue().floatValue(), item.getLabel()));
@@ -162,14 +162,14 @@ public class StatisticsFragment extends Fragment implements StatisticsView {
 //        entries.add(new BarEntry(12f, 3));
 //        entries.add(new BarEntry(18f, 4));
 //        entries.add(new BarEntry(9f, 5));
-        String[] labels = new String[] {"label 1", "label 2", "label 3"};
         barChart.animateY(1000);
+        barChart.animateX(1000);
         BarDataSet dataset = new BarDataSet(entries, "# of Calls");
         dataset.setColors(ColorTemplate.COLORFUL_COLORS);
         dataset.setValueFormatter(new IValueFormatter() {
             @Override
             public String getFormattedValue(float value, Entry entry, int dataSetIndex, ViewPortHandler viewPortHandler) {
-                return entry.getData().toString();
+                return entry.getData().toString() + " - " + entry.getY();
             }
         });
         BarData data = new BarData(dataset);
