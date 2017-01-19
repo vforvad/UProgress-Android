@@ -149,11 +149,10 @@ public class StatisticsFragment extends Fragment implements StatisticsView {
 
     private void setData(StatisticsInfo statisticsInfo) {
         ArrayList<BarEntry> entries = new ArrayList<>();
-        List<StatisticsItem> items = statisticsInfo.getDirectionsSteps();
+        List<StatisticsItem> items = statisticsInfo.getSteps();
         for(int i = 0; i < items.size(); i++) {
             StatisticsItem item = items.get(i);
-
-            entries.add(new BarEntry(item.getValue().floatValue(), i));
+            entries.add(new BarEntry(i, item.getValue().floatValue(), item.getLabel()));
         }
 //        entries.add(new BarEntry(4f, 0));
 //        entries.add(new BarEntry(8f, 1));
