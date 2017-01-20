@@ -171,13 +171,13 @@ public class StatisticsFragment extends Fragment implements StatisticsView {
         Bundle bundle = new Bundle();
         android.support.v4.app.FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         if (iconSwitcher) {
-            bundle.putParcelableArrayList("directions_steps", (ArrayList<? extends Parcelable>) localStatistics.getDirectionsSteps());
+            bundle.putParcelableArrayList("directions_steps", getStatisticsList());
             pieFragment = new PieChartWrapper();
             pieFragment.setArguments(bundle);
             fragmentTransaction.replace(R.id.chartsPlaceholder, pieFragment);
         }
         else {
-            bundle.putParcelableArrayList("directions_steps", (ArrayList<? extends Parcelable>) localStatistics.getDirectionsSteps());
+            bundle.putParcelableArrayList("directions_steps", getStatisticsList());
             barFragment = new BarChartWrapper();
             barFragment.setArguments(bundle);
             fragmentTransaction.replace(R.id.chartsPlaceholder, barFragment);
@@ -210,9 +210,37 @@ public class StatisticsFragment extends Fragment implements StatisticsView {
                 iconSwitcher = !iconSwitcher;
                 showChart();
                 break;
+            case R.id.directions:
+                defaultChart = 1;
+                showChart();
+                break;
+            case R.id.steps:
+                defaultChart = 2;
+                showChart();
+                break;
+            case R.id.direction_steps:
+                defaultChart = 3;
+                showChart();
+                break;
             default:
                 break;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private ArrayList<? extends Parcelable> getStatisticsList() {
+        List<StatisticsItem> list = null;
+        switch(defaultChart) {
+            case 1:
+                list = localStatistics.getDirections();
+                break;
+            case 2:
+                list = localStatistics.getSteps();
+                break;
+            case 3:
+                list = localStatistics.getDirectionsSteps();
+                break;
+        }
+        return (ArrayList<? extends Parcelable>) list;
     }
 }
