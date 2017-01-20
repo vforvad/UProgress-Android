@@ -1,5 +1,9 @@
 package com.example.vsokoltsov.uprogress.statistics.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import com.example.vsokoltsov.uprogress.directions_list.models.Direction;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -7,7 +11,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * Created by vsokoltsov on 18.01.17.
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class StatisticsItem {
+public class StatisticsItem implements Parcelable {
     @JsonProperty("label")
     private String label;
     @JsonProperty("value")
@@ -38,4 +42,27 @@ public class StatisticsItem {
     public String getColor() {
         return color;
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeDouble(value);
+        dest.writeString(label);
+    }
+
+    public static final Parcelable.Creator<StatisticsItem> CREATOR = new Parcelable.Creator<StatisticsItem>() {
+        public StatisticsItem createFromParcel(Parcel in) {
+            StatisticsItem item = new StatisticsItem();
+            item.value = in.readDouble();
+            item.label = in.readString();
+            return item;
+        }
+        public StatisticsItem[] newArray(int size) {
+            return new StatisticsItem[size];
+        }
+    };
 }

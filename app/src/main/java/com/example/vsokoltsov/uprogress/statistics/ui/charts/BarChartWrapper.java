@@ -29,12 +29,16 @@ import java.util.List;
 public class BarChartWrapper extends Fragment {
     private View fragmentView;
     private BarChart barChart;
+    List<StatisticsItem> items;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         fragmentView = inflater.inflate(R.layout.bar_chart_fragment, container, false);
-        barChart = (BarChart) fragmentView.findViewById(R.id.barChart);
+        barChart = (BarChart) fragmentView.findViewById(R.id.barChart);Bundle bundle = this.getArguments();
+        items = bundle.getParcelableArrayList("directions_steps");
         configChart();
+        setData();
         return fragmentView;
     }
 
@@ -55,7 +59,7 @@ public class BarChartWrapper extends Fragment {
         barChart.setDrawGridBackground(false);
     }
 
-    public void setData(List<StatisticsItem> items) {
+    public void setData() {
         ArrayList<BarEntry> entries = new ArrayList<>();
         for(int i = 0; i < items.size(); i++) {
             StatisticsItem item = items.get(i);

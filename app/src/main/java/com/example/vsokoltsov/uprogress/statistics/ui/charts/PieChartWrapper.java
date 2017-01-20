@@ -27,6 +27,7 @@ import java.util.List;
 public class PieChartWrapper extends Fragment {
     private View fragmentView;
     private PieChart pieChart;
+    List<StatisticsItem> items;
 
 
     @Nullable
@@ -34,8 +35,15 @@ public class PieChartWrapper extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         fragmentView = inflater.inflate(R.layout.pie_chart_fragment, container, false);
         pieChart = (PieChart) fragmentView.findViewById(R.id.pieChart);
+        Bundle bundle = this.getArguments();
+        items = bundle.getParcelableArrayList("directions_steps");
         configChart();
+        setData();
         return fragmentView;
+    }
+
+    public PieChartWrapper() {
+        super();
     }
 
     private void configChart() {
@@ -79,7 +87,7 @@ public class PieChartWrapper extends Fragment {
 //        mSeekBarY.setOnSeekBarChangeListener(this);
     }
 
-    public void setData(List<StatisticsItem> items) {
+    public void setData() {
         ArrayList<PieEntry> entries = new ArrayList<PieEntry>();
         ArrayList<Integer> colors = new ArrayList<Integer>();
         for (int i = 0; i < items.size(); i ++) {
@@ -94,7 +102,12 @@ public class PieChartWrapper extends Fragment {
         dataSet.setSelectionShift(5f);
         dataSet.setColors(colors);
         PieData data = new PieData(dataSet);
-        pieChart.setData(data);
+        try {
+            pieChart.setData(data);
+        }
+        catch(Exception e) {
+            e.printStackTrace();
+        }
         // undo all highlights
         pieChart.highlightValues(null);
 

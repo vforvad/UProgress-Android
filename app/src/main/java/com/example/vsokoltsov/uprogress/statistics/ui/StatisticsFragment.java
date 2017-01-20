@@ -2,6 +2,7 @@ package com.example.vsokoltsov.uprogress.statistics.ui;
 
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -20,6 +21,8 @@ import com.example.vsokoltsov.uprogress.statistics.model.StatisticsModel;
 import com.example.vsokoltsov.uprogress.statistics.model.StatisticsModelImpl;
 import com.example.vsokoltsov.uprogress.statistics.presenter.StatisticsPresenter;
 import com.example.vsokoltsov.uprogress.statistics.presenter.StatisticsPresenterImpl;
+import com.example.vsokoltsov.uprogress.statistics.ui.charts.BarChartWrapper;
+import com.example.vsokoltsov.uprogress.statistics.ui.charts.PieChartWrapper;
 import com.example.vsokoltsov.uprogress.statistics.views.StatisticsView;
 import com.example.vsokoltsov.uprogress.user.current.User;
 import com.github.mikephil.charting.animation.Easing;
@@ -48,18 +51,19 @@ public class StatisticsFragment extends Fragment implements StatisticsView {
     private boolean iconSwitcher = true;
     private int defaultChart = 1;
     private SeekBar mSeekBarX, mSeekBarY;
+    private android.support.v4.app.FragmentManager fragmentManager;
+    private BarChartWrapper barFragment;
+    private PieChartWrapper pieFragment;
+    private static StatisticsInfo localStatistics;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         fragmentView = inflater.inflate(R.layout.statistics_fragment, container, false);
-//        pieChart = (PieChart) fragmentView.findViewById(R.id.pieChart);
         User user = AuthorizationService.getInstance().getCurrentUser();
         StatisticsModel model = new StatisticsModelImpl();
         presenter = new StatisticsPresenterImpl(model, this);
         presenter.getStatistics(user.getNick());
-        setBarChart();
-//        setPieChart();
         return fragmentView;
     }
     
@@ -158,7 +162,28 @@ public class StatisticsFragment extends Fragment implements StatisticsView {
 
     @Override
     public void successLoadStatistics(StatisticsInfo statisticsInfo) {
-        setData(statisticsInfo);
+        localStatistics = statisticsInfo;
+        showChart();
+    }
+
+    private void showChart() {
+        fragmentManager = getChildFragmentManager();
+        Bundle bundle = new Bundle();
+        android.support.v4.app.FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        if (iconSwitcher) {
+            bundle.putParcelableArrayList("directions_steps", (ArrayList<? extends Parcelable>) localStatistics.getDirectionsSteps());
+            pieFragment = new PieChartWrapper();
+            pieFragment.setArguments(bundle);
+            fragmentTransaction.replace(R.id.chartsPlaceholder, pieFragment);
+        }
+        else {
+            bundle.putParcelableArrayList("directions_steps", (ArrayList<? extends Parcelable>) localStatistics.getDirectionsSteps());
+            barFragment = new BarChartWrapper();
+            barFragment.setArguments(bundle);
+            fragmentTransaction.replace(R.id.chartsPlaceholder, barFragment);
+        }
+
+        fragmentTransaction.commit();
     }
 
     @Override
@@ -183,6 +208,7 @@ public class StatisticsFragment extends Fragment implements StatisticsView {
                     item.setIcon(R.drawable.pie_chart_icon);
                 }
                 iconSwitcher = !iconSwitcher;
+                showChart();
                 break;
             default:
                 break;
