@@ -14,10 +14,10 @@
         <menu>
             <item
                 android:id="@+id/directions"
-                android:title="Take a photo" />
+                android:title="Directions" />
             <item
                 android:id="@+id/steps"
-                android:title="Upload from collection" />
+                android:title="Steps" />
             <item
                 android:id="@+id/direction_steps"
                 android:title="Direction's steps" />
