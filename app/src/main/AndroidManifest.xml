@@ -26,7 +26,7 @@
         <activity android:name=".user.ui.UserActivity"
             android:windowSoftInputMode="adjustNothing">
         </activity>
-        <activity android:name=".statistics.StatisticsActivity">
+        <activity android:name=".statistics.ui.StatisticsActivity">
         </activity>
         <activity android:name=".directions_list.ui.DirectionsActivity">
             <meta-data

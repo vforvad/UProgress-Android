@@ -1,4 +1,4 @@
-package com.example.vsokoltsov.uprogress.statistics;
+package com.example.vsokoltsov.uprogress.statistics.ui;
 
 import android.os.Bundle;
 import android.view.Menu;
@@ -7,7 +7,6 @@ import android.view.MenuItem;
 
 import com.example.vsokoltsov.uprogress.R;
 import com.example.vsokoltsov.uprogress.common.ApplicationBaseActivity;
-import com.example.vsokoltsov.uprogress.user.ui.UserFragment;
 
 /**
  * Created by vsokoltsov on 06.01.17.
