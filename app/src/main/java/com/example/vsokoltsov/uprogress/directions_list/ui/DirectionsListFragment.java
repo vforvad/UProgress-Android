@@ -267,8 +267,8 @@ public class DirectionsListFragment extends Fragment implements SwipeRefreshLayo
         } catch (IOException e) {
             e.printStackTrace();
         }
-        formFragment.directionTitle.setError(errors.getFullErrorMessage("title"));
-        formFragment.directionDescription.setError(errors.getFullErrorMessage("description"));
+        formFragment.titleWrapper.setError(errors.getFullErrorMessage("title"));
+        formFragment.descriptionWrapper.setError(errors.getFullErrorMessage("description"));
     }
 
 

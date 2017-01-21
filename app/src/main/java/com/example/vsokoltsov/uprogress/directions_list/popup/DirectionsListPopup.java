@@ -3,6 +3,7 @@ package com.example.vsokoltsov.uprogress.directions_list.popup;
 import android.app.Dialog;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.DialogFragment;
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
@@ -26,6 +27,8 @@ public class DirectionsListPopup extends DialogFragment {
     View rootView;
     public EditText directionTitle;
     public EditText directionDescription;
+    public TextInputLayout titleWrapper;
+    public TextInputLayout descriptionWrapper;
     Button submitDirection;
 
     public void setPopupInterface(PopupInterface popupInterface) {
@@ -44,6 +47,10 @@ public class DirectionsListPopup extends DialogFragment {
     private void setElements() {
         directionTitle = (EditText) rootView.findViewById(R.id.directionTitle);
         directionDescription = (EditText) rootView.findViewById(R.id.directionDescription);
+
+        titleWrapper = (TextInputLayout) rootView.findViewById(R.id.titleWrapper);
+        descriptionWrapper = (TextInputLayout) rootView.findViewById(R.id.descriptionWrapper);
+
         submitDirection = (Button)  rootView.findViewById(R.id.submitDirection);
         submitDirection.setOnClickListener(new View.OnClickListener() {
             @Override
