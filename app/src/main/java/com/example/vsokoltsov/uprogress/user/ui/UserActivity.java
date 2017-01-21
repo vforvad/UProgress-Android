@@ -45,7 +45,6 @@ public class UserActivity extends ApplicationBaseActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        super.onCreateOptionsMenu(menu);
         MenuInflater inflater = getMenuInflater();
         userFragment.onCreateOptionsMenu(menu, inflater);
         return super.onCreateOptionsMenu(menu);

@@ -25,7 +25,7 @@ import com.example.vsokoltsov.uprogress.authentication.messages.UserMessage;
 import com.example.vsokoltsov.uprogress.authentication.models.AuthorizationService;
 import com.example.vsokoltsov.uprogress.authentication.ui.AuthorizationActivity;
 import com.example.vsokoltsov.uprogress.directions_list.ui.DirectionsActivity;
-import com.example.vsokoltsov.uprogress.statistics.StatisticsActivity;
+import com.example.vsokoltsov.uprogress.statistics.ui.StatisticsActivity;
 import com.example.vsokoltsov.uprogress.user.ui.UserActivity;
 
 import org.greenrobot.eventbus.EventBus;
