@@ -1,5 +1,6 @@
 package com.example.vsokoltsov.uprogress.statistics.ui;
 
+import android.content.res.Configuration;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Parcelable;
@@ -22,11 +23,13 @@ import com.example.vsokoltsov.uprogress.statistics.model.StatisticsModelImpl;
 import com.example.vsokoltsov.uprogress.statistics.presenter.StatisticsPresenter;
 import com.example.vsokoltsov.uprogress.statistics.presenter.StatisticsPresenterImpl;
 import com.example.vsokoltsov.uprogress.statistics.ui.charts.BarChartWrapper;
+import com.example.vsokoltsov.uprogress.statistics.ui.charts.HorizontalBarChartWrapper;
 import com.example.vsokoltsov.uprogress.statistics.ui.charts.PieChartWrapper;
 import com.example.vsokoltsov.uprogress.statistics.views.StatisticsView;
 import com.example.vsokoltsov.uprogress.user.current.User;
 import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.BarChart;
+import com.github.mikephil.charting.charts.HorizontalBarChart;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
@@ -54,12 +57,15 @@ public class StatisticsFragment extends Fragment implements StatisticsView {
     private android.support.v4.app.FragmentManager fragmentManager;
     private BarChartWrapper barFragment;
     private PieChartWrapper pieFragment;
+    private HorizontalBarChartWrapper horizontalBarChart;
     private static StatisticsInfo localStatistics;
+    private int orientation;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         fragmentView = inflater.inflate(R.layout.statistics_fragment, container, false);
+        orientation = getResources().getConfiguration().orientation;
         User user = AuthorizationService.getInstance().getCurrentUser();
         StatisticsModel model = new StatisticsModelImpl();
         presenter = new StatisticsPresenterImpl(model, this);
@@ -178,9 +184,17 @@ public class StatisticsFragment extends Fragment implements StatisticsView {
         }
         else {
             bundle.putParcelableArrayList("directions_steps", getStatisticsList());
-            barFragment = new BarChartWrapper();
-            barFragment.setArguments(bundle);
-            fragmentTransaction.replace(R.id.chartsPlaceholder, barFragment);
+            if (orientation == Configuration.ORIENTATION_PORTRAIT) {
+                horizontalBarChart = new HorizontalBarChartWrapper();
+                horizontalBarChart.setArguments(bundle);
+                fragmentTransaction.replace(R.id.chartsPlaceholder, horizontalBarChart);
+            }
+            else {
+                barFragment = new BarChartWrapper();
+                barFragment.setArguments(bundle);
+                fragmentTransaction.replace(R.id.chartsPlaceholder, barFragment);
+            }
+
         }
 
         fragmentTransaction.commit();
