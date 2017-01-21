@@ -177,8 +177,7 @@ public class DirectionsListFragment extends Fragment implements SwipeRefreshLayo
         pickedDirection = direction;
         Resources resource = getResources();
         final CharSequence[] items = {
-                resource.getString(R.string.directions_list_menu_edit),
-                resource.getString(R.string.directions_list_menu_delete)
+                resource.getString(R.string.directions_list_menu_edit)
         };
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
@@ -196,8 +195,6 @@ public class DirectionsListFragment extends Fragment implements SwipeRefreshLayo
                         formFragment.setArguments(arguments);
                         formFragment.setPopupInterface(DirectionsListFragment.this);
                         formFragment.show(getFragmentManager(), "dialog");
-                        break;
-                    case 1:
                         break;
                     default:
                         break;
