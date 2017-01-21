@@ -5,6 +5,7 @@ import android.app.DialogFragment;
 import android.app.FragmentManager;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.TextInputLayout;
 import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,6 +25,8 @@ public class StepDialogFragment extends DialogFragment {
     private TextView stepTitle;
     private TextView stepDescription;
     private TextView stepUpdatedAt;
+    public TextInputLayout titleWrapper;
+    public TextInputLayout descriptionWrapper;
 
 
     @Nullable
@@ -40,6 +43,9 @@ public class StepDialogFragment extends DialogFragment {
         stepTitle = (TextView) rootView.findViewById(R.id.stepTitle);
         stepDescription = (TextView) rootView.findViewById(R.id.stepDescription);
         stepUpdatedAt = (TextView) rootView.findViewById(R.id.stepUpdatedAt);
+
+        titleWrapper = (TextInputLayout) rootView.findViewById(R.id.titleWrapper);
+        descriptionWrapper = (TextInputLayout) rootView.findViewById(R.id.descriptionWrapper);
     }
 
     private void setValues() {

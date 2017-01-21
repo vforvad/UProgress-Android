@@ -141,6 +141,36 @@ public class DirectionsListPresenterImpl implements DirectionsListPresenter {
 
     }
 
+    @Override
+    public void updateDirection(int userId, int directionId, DirectionRequest directionRequest) {
+        view.startLoader();
+        model.updateDirection(userId, directionId, directionRequest)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<DirectionResponse>() {
+                    @Override
+                    public void onCompleted() {
+                        view.stopLoader();
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        view.failedUpdateDirection(e);
+                        view.stopLoader();
+                    }
+
+                    @Override
+                    public void onNext(DirectionResponse response) {
+                        view.successUpdateDirection(response.getDirection());
+                    }
+                });
+    }
+
+    @Override
+    public void deleteDirection(int userId, int directionId) {
+
+    }
+
     private Observable<DirectionsList> directionsList() {
         return model.getDirectionsList(user.getNick(), pageNumber)
                 .subscribeOn(Schedulers.io())

@@ -1,9 +1,7 @@
 package com.example.vsokoltsov.uprogress.direction_detail.ui;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
@@ -14,7 +12,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.PopupWindow;
 import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -31,7 +28,6 @@ import com.example.vsokoltsov.uprogress.direction_detail.model.DirectionDetailMo
 import com.example.vsokoltsov.uprogress.direction_detail.model.steps.Step;
 import com.example.vsokoltsov.uprogress.direction_detail.model.steps.StepRequest;
 import com.example.vsokoltsov.uprogress.direction_detail.popup.AddStepForm;
-import com.example.vsokoltsov.uprogress.direction_detail.popup.DirectionDetailPopup;
 import com.example.vsokoltsov.uprogress.direction_detail.popup.PopupInterface;
 import com.example.vsokoltsov.uprogress.direction_detail.popup.StepDialogFragment;
 import com.example.vsokoltsov.uprogress.direction_detail.presenter.DirectionDetailPresenter;
@@ -263,8 +259,8 @@ public class DirectionDetailFragment extends Fragment implements DirectionDetail
         } catch (IOException e) {
             e.printStackTrace();
         }
-        formDialog.stepTitle.setError(errors.getFullErrorMessage("title"));
-        formDialog.stepDescription.setError(errors.getFullErrorMessage("description"));
+        formDialog.titleWrapper.setError(errors.getFullErrorMessage("title"));
+        formDialog.descriptionWrapper.setError(errors.getFullErrorMessage("description"));
     }
 
     @Override
@@ -314,7 +310,7 @@ public class DirectionDetailFragment extends Fragment implements DirectionDetail
     }
 
     @Override
-    public void successPopupOperation(Object obj) {
+    public void successPopupOperation(Object obj, boolean operation) {
         StepRequest request = (StepRequest) obj;
         presenter.createStep(userNick, directionId, request);
     }

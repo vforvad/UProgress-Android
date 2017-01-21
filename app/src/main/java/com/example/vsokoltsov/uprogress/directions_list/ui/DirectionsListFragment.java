@@ -69,6 +69,7 @@ public class DirectionsListFragment extends Fragment implements SwipeRefreshLayo
     private User user;
     private FloatingActionButton floatingActionButton;
     private DirectionsListPopup formFragment;
+    private Direction pickedDirection;
 
     static {
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
@@ -173,10 +174,10 @@ public class DirectionsListFragment extends Fragment implements SwipeRefreshLayo
     }
 
     private void selectedItemAction(Direction direction) {
+        pickedDirection = direction;
         Resources resource = getResources();
         final CharSequence[] items = {
-                resource.getString(R.string.directions_list_menu_edit),
-                resource.getString(R.string.directions_list_menu_delete)
+                resource.getString(R.string.directions_list_menu_edit)
         };
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
@@ -187,8 +188,13 @@ public class DirectionsListFragment extends Fragment implements SwipeRefreshLayo
             public void onClick(DialogInterface dialog, int item) {
                 switch(item) {
                     case 0:
-                        break;
-                    case 1:
+                        dialog.dismiss();
+                        Bundle arguments = new Bundle();
+                        arguments.putParcelable("direction", direction);
+                        formFragment = new DirectionsListPopup();
+                        formFragment.setArguments(arguments);
+                        formFragment.setPopupInterface(DirectionsListFragment.this);
+                        formFragment.show(getFragmentManager(), "dialog");
                         break;
                     default:
                         break;
@@ -267,8 +273,37 @@ public class DirectionsListFragment extends Fragment implements SwipeRefreshLayo
         } catch (IOException e) {
             e.printStackTrace();
         }
-        formFragment.directionTitle.setError(errors.getFullErrorMessage("title"));
-        formFragment.directionDescription.setError(errors.getFullErrorMessage("description"));
+        formFragment.titleWrapper.setError(errors.getFullErrorMessage("title"));
+        formFragment.descriptionWrapper.setError(errors.getFullErrorMessage("description"));
+    }
+
+    @Override
+    public void successUpdateDirection(Direction direction) {
+        pickedDirection = null;
+        formFragment.dismiss();
+        for(int i = 0; i < adapter.items.size(); i++) {
+            Direction item = (Direction) adapter.items.get(i);
+            if (item.getId() == direction.getId()) {
+                adapter.items.add(i, direction);
+                break;
+            }
+        }
+        adapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void failedUpdateDirection(Throwable t) {
+
+    }
+
+    @Override
+    public void successDeleteDirection(Direction direction) {
+
+    }
+
+    @Override
+    public void failedDeleteDirection(Throwable t) {
+
     }
 
 
@@ -304,9 +339,14 @@ public class DirectionsListFragment extends Fragment implements SwipeRefreshLayo
     }
 
     @Override
-    public void successPopupOperation(Object obj) {
+    public void successPopupOperation(Object obj, boolean operation) {
         DirectionRequest request = (DirectionRequest) obj;
-        presenter.createDirection(user.getNick(), request);
+        if (operation) {
+            presenter.createDirection(user.getNick(), request);
+        }
+        else {
+            presenter.updateDirection(user.getId(), pickedDirection.getId(), request);
+        }
     }
 
     @Override

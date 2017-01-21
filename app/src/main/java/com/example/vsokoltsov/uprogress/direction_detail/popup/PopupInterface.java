@@ -5,6 +5,6 @@ package com.example.vsokoltsov.uprogress.direction_detail.popup;
  */
 
 public interface PopupInterface {
-    void successPopupOperation(Object obj);
+    void successPopupOperation(Object obj, boolean operation);
     void failedPopupOperation(Throwable t);
 }

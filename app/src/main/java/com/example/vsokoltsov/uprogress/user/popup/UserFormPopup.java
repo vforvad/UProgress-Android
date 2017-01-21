@@ -95,6 +95,6 @@ public class UserFormPopup extends DialogFragment implements View.OnClickListene
                 locationField.getText().toString(),
                 descriptionField.getText().toString()
         );
-        popupInterface.successPopupOperation(request);
+        popupInterface.successPopupOperation(request, true);
     }
 }
