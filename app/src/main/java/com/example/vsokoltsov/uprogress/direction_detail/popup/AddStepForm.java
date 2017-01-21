@@ -4,6 +4,7 @@ import android.app.Dialog;
 import android.app.DialogFragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.TextInputLayout;
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,6 +26,8 @@ public class AddStepForm extends DialogFragment {
     View rootView;
     public EditText stepTitle;
     public EditText stepDescription;
+    public TextInputLayout titleWrapper;
+    public TextInputLayout descriptionWrapper;
     Button submitStep;
 
     public void setPopupInterface(PopupInterface popupInterface) {
@@ -43,6 +46,9 @@ public class AddStepForm extends DialogFragment {
     private void setElements() {
         stepTitle = (EditText) rootView.findViewById(R.id.stepTitle);
         stepDescription = (EditText) rootView.findViewById(R.id.stepDescription);
+
+        titleWrapper = (TextInputLayout) rootView.findViewById(R.id.titleWrapper);
+        descriptionWrapper = (TextInputLayout) rootView.findViewById(R.id.descriptionWrapper);
         submitStep = (Button)  rootView.findViewById(R.id.submitStep);
         submitStep.setOnClickListener(new View.OnClickListener() {
             @Override

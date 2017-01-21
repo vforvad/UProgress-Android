@@ -263,8 +263,8 @@ public class DirectionDetailFragment extends Fragment implements DirectionDetail
         } catch (IOException e) {
             e.printStackTrace();
         }
-        formDialog.stepTitle.setError(errors.getFullErrorMessage("title"));
-        formDialog.stepDescription.setError(errors.getFullErrorMessage("description"));
+        formDialog.titleWrapper.setError(errors.getFullErrorMessage("title"));
+        formDialog.descriptionWrapper.setError(errors.getFullErrorMessage("description"));
     }
 
     @Override
