@@ -16,6 +16,7 @@ import android.widget.EditText;
 import com.example.vsokoltsov.uprogress.R;
 import com.example.vsokoltsov.uprogress.direction_detail.model.steps.StepRequest;
 import com.example.vsokoltsov.uprogress.direction_detail.popup.PopupInterface;
+import com.example.vsokoltsov.uprogress.directions_list.models.Direction;
 import com.example.vsokoltsov.uprogress.directions_list.models.DirectionRequest;
 
 /**
@@ -29,6 +30,7 @@ public class DirectionsListPopup extends DialogFragment {
     public EditText directionDescription;
     public TextInputLayout titleWrapper;
     public TextInputLayout descriptionWrapper;
+    Direction direction = null;
     Button submitDirection;
 
     public void setPopupInterface(PopupInterface popupInterface) {
@@ -39,6 +41,10 @@ public class DirectionsListPopup extends DialogFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.add_direction_layout, container, false);
+        Bundle arguments = getArguments();
+        if (arguments != null) {
+            direction = arguments.getParcelable("direction");
+        }
         setElements();
         setMaxHeightToStepDescription();
         return rootView;
@@ -55,12 +61,18 @@ public class DirectionsListPopup extends DialogFragment {
         submitDirection.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                boolean operation;
                 DirectionRequest request = new DirectionRequest(
                         directionTitle.getText().toString(),
                         directionDescription.getText().toString()
                 );
-                popupInterface.successPopupOperation(request);
+                if (direction != null) {
+                    operation = false;
+                }
+                else {
+                    operation = true;
+                }
+                popupInterface.successPopupOperation(request, operation);
             }
         });
 

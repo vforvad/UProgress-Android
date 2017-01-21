@@ -57,7 +57,7 @@ public class AddStepForm extends DialogFragment {
                         stepTitle.getText().toString(),
                         stepDescription.getText().toString(),
                         false);
-                popupInterface.successPopupOperation(request);
+                popupInterface.successPopupOperation(request, false);
             }
         });
 

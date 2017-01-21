@@ -187,6 +187,13 @@ public class DirectionsListFragment extends Fragment implements SwipeRefreshLayo
             public void onClick(DialogInterface dialog, int item) {
                 switch(item) {
                     case 0:
+                        dialog.dismiss();
+                        Bundle arguments = new Bundle();
+                        arguments.putParcelable("direction", direction);
+                        formFragment = new DirectionsListPopup();
+                        formFragment.setArguments(arguments);
+                        formFragment.setPopupInterface(DirectionsListFragment.this);
+                        formFragment.show(getFragmentManager(), "dialog");
                         break;
                     case 1:
                         break;
@@ -304,9 +311,14 @@ public class DirectionsListFragment extends Fragment implements SwipeRefreshLayo
     }
 
     @Override
-    public void successPopupOperation(Object obj) {
+    public void successPopupOperation(Object obj, boolean operation) {
         DirectionRequest request = (DirectionRequest) obj;
-        presenter.createDirection(user.getNick(), request);
+        if (operation) {
+            presenter.createDirection(user.getNick(), request);
+        }
+        else {
+
+        }
     }
 
     @Override
