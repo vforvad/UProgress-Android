@@ -54,6 +54,11 @@ public class DirectionsListPopup extends DialogFragment {
         directionTitle = (EditText) rootView.findViewById(R.id.directionTitle);
         directionDescription = (EditText) rootView.findViewById(R.id.directionDescription);
 
+        if (direction != null) {
+            directionTitle.setText(direction.getTitle());
+            directionDescription.setText(direction.getDescription());
+        }
+
         titleWrapper = (TextInputLayout) rootView.findViewById(R.id.titleWrapper);
         descriptionWrapper = (TextInputLayout) rootView.findViewById(R.id.descriptionWrapper);
 

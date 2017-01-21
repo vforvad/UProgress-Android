@@ -27,4 +27,14 @@ public class DirectionModelImpl implements DirectionModel {
     public Observable<DirectionResponse> createDirection(String userId, DirectionRequest directionRequest) {
         return service.createDirection(userId, directionRequest);
     }
+
+    @Override
+    public Observable<DirectionResponse> updateDirection(int userId, int directionId, DirectionRequest request) {
+        return service.updateDirection(userId, directionId, request);
+    }
+
+    @Override
+    public Observable<DirectionResponse> deleteDirection(int userId, int directionId) {
+        return service.deleteDirection(userId, directionId);
+    }
 }

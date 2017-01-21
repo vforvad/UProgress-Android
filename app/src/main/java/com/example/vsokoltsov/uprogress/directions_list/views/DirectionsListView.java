@@ -22,4 +22,8 @@ public interface DirectionsListView extends BaseView {
     void stopFooterLoader();
     void successDirectionCreation(Direction direction);
     void failedDirectionCreation(Throwable t);
+    void successUpdateDirection(Direction direction);
+    void failedUpdateDirection(Throwable t);
+    void successDeleteDirection(Direction direction);
+    void failedDeleteDirection(Throwable t);
 }

@@ -177,7 +177,7 @@ public class UserFragment extends Fragment implements PopupInterface, UserProfil
     }
 
     @Override
-    public void successPopupOperation(Object obj) {
+    public void successPopupOperation(Object obj, boolean operation) {
         UserRequest request = (UserRequest) obj;
         presenter.updateUser(user.getNick(), request);
     }

@@ -14,4 +14,6 @@ public interface DirectionsListPresenter {
     void refreshList();
     void loadMoreDirections();
     void createDirection(String userId, DirectionRequest directionRequest);
+    void updateDirection(int userId, int directionId, DirectionRequest directionRequest);
+    void deleteDirection(int userId, int directionId);
 }
