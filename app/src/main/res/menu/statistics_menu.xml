@@ -14,13 +14,13 @@
         <menu>
             <item
                 android:id="@+id/directions"
-                android:title="Directions" />
+                android:title="@string/statistics_directions" />
             <item
                 android:id="@+id/steps"
-                android:title="Steps" />
+                android:title="@string/statistics_steps" />
             <item
                 android:id="@+id/direction_steps"
-                android:title="Direction's steps" />
+                android:title="@string/statistics_directions_steps" />
         </menu>
     </item>
 </menu>

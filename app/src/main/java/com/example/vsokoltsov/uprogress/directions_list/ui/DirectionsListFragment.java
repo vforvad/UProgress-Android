@@ -82,6 +82,7 @@ public class DirectionsListFragment extends Fragment implements SwipeRefreshLayo
         // Inflate the layout for this fragment
         user = AuthorizationService.getInstance().getCurrentUser();
         activity = (ApplicationBaseActivity) getActivity();
+        activity.setTitle(getResources().getString(R.string.directions_title));
         fragmentView = inflater.inflate(R.layout.directions_list_fragment, container, false);
         setElements();
         setComponents();

@@ -22,6 +22,13 @@
     <string name="save">Сохранить</string>
     <string name="title">Название</string>
     <string name="description">Описание</string>
+    <string name="directions_title">Направления</string>
+    <string name="direction_title">Направление</string>
+    <string name="statistiscs_title">Статистика</string>
+
+    <string name="statistics_directions">Напраления</string>
+    <string name="statistics_steps">Шаги</string>
+    <string name="statistics_directions_steps">Шаги направлений</string>
 
     <string name="navigation_item_sign_in">Логин</string>
     <string name="navigation_item_sign_up">Регистрация</string>

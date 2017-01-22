@@ -60,6 +60,9 @@ public class ApplicationBaseActivity extends AppCompatActivity {
         this.progressBar = (ProgressBar) findViewById(R.id.progressBar);
     }
 
+    public void setTitle(int title) {
+        mActionBarToolbar.setTitle(title);
+    }
 
     public void startProgressBar() {
         this.progressBar.setVisibility(View.VISIBLE);

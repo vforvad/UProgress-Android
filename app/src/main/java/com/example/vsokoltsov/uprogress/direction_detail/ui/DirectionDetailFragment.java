@@ -75,6 +75,7 @@ public class DirectionDetailFragment extends Fragment implements DirectionDetail
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         activity = (ApplicationBaseActivity) getActivity();
+        activity.setTitle(getResources().getString(R.string.direction_title));
         fragmentView = inflater.inflate(R.layout.direction_detail_fragment, container, false);
         messagesHelper = new MessagesHelper(getResources());
         getExtras();

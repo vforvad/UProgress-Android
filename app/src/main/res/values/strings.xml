@@ -24,6 +24,13 @@
     <string name="save">Save</string>
     <string name="title">Title</string>
     <string name="description">Description</string>
+    <string name="directions_title">Directions</string>
+    <string name="direction_title">Direction</string>
+    <string name="statistiscs_title">Statistics</string>
+
+    <string name="statistics_directions">Directions</string>
+    <string name="statistics_steps">Steps</string>
+    <string name="statistics_directions_steps">Direction\'s steps</string>
 
     <string name="navigation_item_sign_in">Sign in</string>
     <string name="navigation_item_sign_up">Sign up</string>
