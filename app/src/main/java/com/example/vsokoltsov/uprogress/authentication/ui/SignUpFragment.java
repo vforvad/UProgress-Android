@@ -50,7 +50,7 @@ public class SignUpFragment extends Fragment implements Button.OnClickListener, 
         fragmentView = inflater.inflate(R.layout.sign_up_fragment, container, false);
         setFields();
         setButton();
-        final AuthenticationModel model = new AuthenticationModelImpl();
+        final AuthenticationModel model = new AuthenticationModelImpl(getActivity().getApplicationContext());
         presenter = new AuthenticationPresenterImpl(model, this, new PreferencesHelper(getContext()));
         return fragmentView;
     }

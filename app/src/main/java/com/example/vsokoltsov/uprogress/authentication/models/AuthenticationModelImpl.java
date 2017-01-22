@@ -1,5 +1,7 @@
 package com.example.vsokoltsov.uprogress.authentication.models;
 
+import android.content.Context;
+
 import com.example.vsokoltsov.uprogress.authentication.network.AuthenticationApi;
 import com.example.vsokoltsov.uprogress.common.BaseModelImpl;
 import com.example.vsokoltsov.uprogress.authentication.models.SignIn.SignInRequest;
@@ -18,8 +20,8 @@ public class AuthenticationModelImpl extends BaseModelImpl implements Authentica
     private AuthenticationApi service;
     private CurrentUserApi currentUserService;
 
-    public AuthenticationModelImpl() {
-        super();
+    public AuthenticationModelImpl(Context context) {
+        super(context);
         setService();
     }
 

@@ -14,6 +14,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.vsokoltsov.uprogress.R;
+import com.example.vsokoltsov.uprogress.common.BaseApplication;
 import com.example.vsokoltsov.uprogress.common.helpers.ImageHelper;
 import com.example.vsokoltsov.uprogress.user.current.User;
 import com.squareup.picasso.Picasso;
@@ -91,7 +92,8 @@ public class NavigationListAdapter extends BaseAdapter {
         if (navigation.getUser().getImage() != null) {
             Drawable emptyUser = ContextCompat.getDrawable(context, R.drawable.empty_user);
             String fullUrl = navigation.getUser().getImage().getUrl();
-            ImageHelper.getInstance(context).setUserImage(user, avatarView, R.drawable.empty_user);
+//            baseApplication = ((BaseApplication) getActivity().getApplicationContext());
+            ((BaseApplication) context.getApplicationContext()).getImageHelper().setUserImage(user, avatarView, R.drawable.empty_user);
         }
     }
 

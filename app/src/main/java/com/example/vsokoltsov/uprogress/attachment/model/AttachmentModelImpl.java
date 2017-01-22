@@ -1,7 +1,10 @@
 package com.example.vsokoltsov.uprogress.attachment.model;
 
+import android.content.Context;
+
 import com.example.vsokoltsov.uprogress.attachment.network.AttachmentApi;
 import com.example.vsokoltsov.uprogress.authentication.models.Attachment;
+import com.example.vsokoltsov.uprogress.common.BaseApplication;
 import com.example.vsokoltsov.uprogress.common.utils.ApiRequester;
 
 import okhttp3.MultipartBody;
@@ -17,8 +20,8 @@ import rx.Observable;
 public class AttachmentModelImpl implements AttachmentModel {
     private AttachmentApi service;
 
-    public AttachmentModelImpl() {
-        Retrofit retrofit = ApiRequester.getInstance().getRestAdapter();
+    public AttachmentModelImpl(Context context) {
+        Retrofit retrofit = ((BaseApplication) context.getApplicationContext()).getRetrofitClient();
         service = retrofit.create(AttachmentApi.class);
 
     }

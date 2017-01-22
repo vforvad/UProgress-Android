@@ -13,15 +13,11 @@ import com.example.vsokoltsov.uprogress.common.utils.ContextManager;
 public class PreferencesHelper {
 
     private Context context;
-    private ContextManager contextManager = ContextManager.getInstance();
 
     public static String TOKEN_PREF_NAME = "uprogresstoken";
 
     public PreferencesHelper(Context context) {
         this.context = context;
-    }
-    public PreferencesHelper() {
-        this.context = contextManager.getContext();
     }
 
 

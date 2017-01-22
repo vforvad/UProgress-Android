@@ -18,20 +18,16 @@ import java.io.File;
  * Created by vsokoltsov on 08.01.17.
  */
 public class ImageHelper {
-    private static Context context_;
-    static Drawable error;
-    static Picasso picasso;
-    private static ImageHelper ourInstance = new ImageHelper();
+    private Context context;
+    Drawable error;
+    Picasso picasso;
 
-
-    public static ImageHelper getInstance(Context context) {
-        context_ = context;
-        error = ContextCompat.getDrawable(context_, R.drawable.error);
-        setPicasoInstance();
-        return ourInstance;
-    }
-
-    private ImageHelper() {
+    public ImageHelper(Context context) {
+        this.context = context;
+//        error = ContextCompat.getDrawable(this.context, R.drawable.error);
+        picasso = new Picasso.Builder(context)
+                .downloader(getOkHttpLoader())
+                .build();
     }
 
     public void load(String url, ImageView destination, int emptyImage) {
@@ -49,7 +45,7 @@ public class ImageHelper {
     }
 
     public void setEmptyImage(ImageView destination, int emptyImage) {
-        Drawable drawable = ContextCompat.getDrawable(context_, emptyImage);
+        Drawable drawable = ContextCompat.getDrawable(context, emptyImage);
         picasso
                 .load(emptyImage)
                 .fit()
@@ -67,13 +63,8 @@ public class ImageHelper {
         }
     }
 
-    private static void setPicasoInstance() {
-        picasso = new Picasso.Builder(context_)
-                .downloader(getOkHttpLoader())
-                .build();
-    }
 
-    private static OkHttp3Downloader getOkHttpLoader() {
+    private OkHttp3Downloader getOkHttpLoader() {
         okhttp3.OkHttpClient okHttp3Client = new okhttp3.OkHttpClient();
         OkHttp3Downloader okHttp3Downloader = new OkHttp3Downloader(okHttp3Client);
         return okHttp3Downloader;

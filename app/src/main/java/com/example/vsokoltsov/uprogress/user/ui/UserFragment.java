@@ -40,6 +40,7 @@ import com.example.vsokoltsov.uprogress.authentication.models.Attachment;
 import com.example.vsokoltsov.uprogress.authentication.models.AuthorizationService;
 import com.example.vsokoltsov.uprogress.common.ApplicationBaseActivity;
 import com.example.vsokoltsov.uprogress.common.AttachmentConfig;
+import com.example.vsokoltsov.uprogress.common.BaseApplication;
 import com.example.vsokoltsov.uprogress.common.helpers.ImageUploadHelper;
 import com.example.vsokoltsov.uprogress.common.helpers.UploadHelper;
 import com.example.vsokoltsov.uprogress.common.services.ErrorResponse;
@@ -81,6 +82,7 @@ import static android.app.Activity.RESULT_OK;
  */
 
 public class UserFragment extends Fragment implements PopupInterface, UserProfileView, AttachmentView, UploadHelper {
+    private BaseApplication baseApplication;
     private View fragmentView;
     private User user;
     private ApplicationBaseActivity activity;
@@ -103,11 +105,12 @@ public class UserFragment extends Fragment implements PopupInterface, UserProfil
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        baseApplication = ((BaseApplication) getActivity().getApplicationContext());
         fragmentView = inflater.inflate(R.layout.user_fragment, container, false);
         activity = (ApplicationBaseActivity) getActivity();
-        UserModel model = new UserModelImpl();
+        UserModel model = new UserModelImpl(getActivity().getApplicationContext());
         uploadHelper = new ImageUploadHelper(this);
-        attachmentModel = new AttachmentModelImpl();
+        attachmentModel = new AttachmentModelImpl(getActivity().getApplicationContext());
         presenter = new UserProfilePresenterImpl(this, model);
         attachmentPresenter = new AttachmentPresenterImpl(attachmentModel, this);
         loadList();
@@ -145,7 +148,7 @@ public class UserFragment extends Fragment implements PopupInterface, UserProfil
     private void loadUserImage() {
         userAvatar = (ImageView) fragmentView.findViewById(R.id.userAvatar);
         user = AuthorizationService.getInstance().getCurrentUser();
-        ImageHelper.getInstance(getContext()).setUserImage(user, userAvatar, R.drawable.empty_user);
+        baseApplication.getImageHelper().setUserImage(user, userAvatar, R.drawable.empty_user);
     }
 
     private void loadList() {
@@ -257,7 +260,7 @@ public class UserFragment extends Fragment implements PopupInterface, UserProfil
 
     @Override
     public void successUpload(Attachment attachment) {
-        ImageHelper.getInstance(getContext()).load(attachment.getUrl(), userAvatar, R.drawable.empty_user);
+        baseApplication.getImageHelper().load(attachment.getUrl(), userAvatar, R.drawable.empty_user);
         AuthorizationService.getInstance().getCurrentUser().setImage(attachment);
     }
 

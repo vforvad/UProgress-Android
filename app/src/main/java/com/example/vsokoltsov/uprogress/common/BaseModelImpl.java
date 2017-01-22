@@ -1,5 +1,7 @@
 package com.example.vsokoltsov.uprogress.common;
 
+import android.content.Context;
+
 import com.example.vsokoltsov.uprogress.common.utils.ApiRequester;
 
 import retrofit2.Retrofit;
@@ -11,7 +13,7 @@ import retrofit2.Retrofit;
 public abstract class BaseModelImpl {
     protected Retrofit retrofit;
 
-    public BaseModelImpl() {
-        this.retrofit = ApiRequester.getInstance().getRestAdapter();
+    public BaseModelImpl(Context context) {
+        this.retrofit = ((BaseApplication) context.getApplicationContext()).getRetrofitClient();
     }
 }

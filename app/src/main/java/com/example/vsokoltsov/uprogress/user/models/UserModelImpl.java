@@ -1,5 +1,8 @@
 package com.example.vsokoltsov.uprogress.user.models;
 
+import android.content.Context;
+
+import com.example.vsokoltsov.uprogress.common.BaseApplication;
 import com.example.vsokoltsov.uprogress.common.utils.ApiRequester;
 import com.example.vsokoltsov.uprogress.directions_list.network.DirectionsApi;
 import com.example.vsokoltsov.uprogress.user.current.UserRequest;
@@ -16,8 +19,8 @@ import rx.Observable;
 public class UserModelImpl implements UserModel {
     UserApi service;
 
-    public UserModelImpl() {
-        Retrofit retrofit = ApiRequester.getInstance().getRestAdapter();
+    public UserModelImpl(Context context) {
+        Retrofit retrofit = ((BaseApplication) context.getApplicationContext()).getRetrofitClient();
         service = retrofit.create(UserApi.class);
     }
 

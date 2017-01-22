@@ -1,5 +1,7 @@
 package com.example.vsokoltsov.uprogress.user.current;
 
+import android.content.Context;
+
 import com.example.vsokoltsov.uprogress.authentication.network.AuthenticationApi;
 import com.example.vsokoltsov.uprogress.common.BaseModelImpl;
 import com.example.vsokoltsov.uprogress.user.current.network.CurrentUserApi;
@@ -13,8 +15,8 @@ import rx.Observable;
 public class CurrentUserManager extends BaseModelImpl implements CurrentUserModel {
     private CurrentUserApi service;
 
-    public CurrentUserManager() {
-        super();
+    public CurrentUserManager(Context context) {
+        super(context);
         setService();
 
     }

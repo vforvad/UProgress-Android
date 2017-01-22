@@ -33,7 +33,7 @@ public class LaunchActivity extends AppCompatActivity implements CurrentUserView
         super.onCreate(savedInstanceState);
         setContentView(R.layout.authorization_activity);
         ContextManager.getInstance().setContext(this);
-        CurrentUserModel currentUserManager = new CurrentUserManager();
+        CurrentUserModel currentUserManager = new CurrentUserManager(getApplicationContext());
         LaunchPresenter presenter = new LaunchPresenter(this, currentUserManager);
         presenter.getCurrentUser();
 //        currentUserRequest();

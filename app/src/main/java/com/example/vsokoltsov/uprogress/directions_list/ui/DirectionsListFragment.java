@@ -20,6 +20,7 @@ import android.view.ViewGroup;
 import android.widget.SearchView;
 
 import com.example.vsokoltsov.uprogress.R;
+import com.example.vsokoltsov.uprogress.common.BaseApplication;
 import com.example.vsokoltsov.uprogress.common.adapters.BaseListAdapterInterface;
 import com.example.vsokoltsov.uprogress.common.services.ErrorResponse;
 import com.example.vsokoltsov.uprogress.common.utils.RetrofitException;
@@ -58,6 +59,7 @@ public class DirectionsListFragment extends Fragment implements SwipeRefreshLayo
         DirectionsListView, BaseListAdapterInterface,
         android.support.v7.widget.SearchView.OnQueryTextListener,
         SearchView.OnQueryTextListener, PopupInterface {
+    private BaseApplication baseApplication;
     private View fragmentView;
     private ApplicationBaseActivity activity;
     private List<Direction> directions = new ArrayList<Direction>();
@@ -80,6 +82,7 @@ public class DirectionsListFragment extends Fragment implements SwipeRefreshLayo
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+        baseApplication = ((BaseApplication) getActivity().getApplicationContext());
         user = AuthorizationService.getInstance().getCurrentUser();
         activity = (ApplicationBaseActivity) getActivity();
         activity.setTitle(getResources().getString(R.string.directions_title));
@@ -117,7 +120,7 @@ public class DirectionsListFragment extends Fragment implements SwipeRefreshLayo
     }
 
     private void setComponents() {
-        final DirectionModel model = new DirectionModelImpl();
+        final DirectionModel model = new DirectionModelImpl(getActivity().getApplicationContext());
         presenter = new DirectionsListPresenterImpl(this, model, user);
         setOnClickListener();
     }

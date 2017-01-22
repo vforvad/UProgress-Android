@@ -1,5 +1,8 @@
 package com.example.vsokoltsov.uprogress.statistics.model;
 
+import android.content.Context;
+
+import com.example.vsokoltsov.uprogress.common.BaseApplication;
 import com.example.vsokoltsov.uprogress.common.utils.ApiRequester;
 import com.example.vsokoltsov.uprogress.directions_list.network.DirectionsApi;
 import com.example.vsokoltsov.uprogress.statistics.network.StatisticsApi;
@@ -14,8 +17,8 @@ import rx.Observable;
 public class StatisticsModelImpl implements StatisticsModel {
     StatisticsApi service;
 
-    public StatisticsModelImpl() {
-        Retrofit retrofit = ApiRequester.getInstance().getRestAdapter();
+    public StatisticsModelImpl(Context context) {
+        Retrofit retrofit = ((BaseApplication) context.getApplicationContext()).getRetrofitClient();
         service = retrofit.create(StatisticsApi.class);
     }
 
