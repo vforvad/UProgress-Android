@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/directions"
+            android:icon="@drawable/directions"
+            android:title="@string/direction_title" />
+        <item
+            android:id="@+id/statistics"
+            android:icon="@drawable/statistics_icon"
+            android:title="@string/statistiscs_title" />
+
+    </group>
+</menu>

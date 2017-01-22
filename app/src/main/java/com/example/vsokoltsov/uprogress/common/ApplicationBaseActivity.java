@@ -2,6 +2,7 @@ package com.example.vsokoltsov.uprogress.common;
 
 import android.os.Bundle;
 import android.os.PersistableBundle;
+import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -26,6 +27,9 @@ public class ApplicationBaseActivity extends AppCompatActivity {
     private NavigationDrawer mNavigationDrawerFragment;
     private DrawerLayout drawerLayout;
     private ProgressBar progressBar;
+    private NavigationView navigationView;
+    private NavigationView topNavigationView;
+    private NavigationView bottomNavigationView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,9 +55,14 @@ public class ApplicationBaseActivity extends AppCompatActivity {
 
     public void setLeftNavigationBar() {
         android.support.v4.app.FragmentManager fragmentManager = getSupportFragmentManager();
-        drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-        mNavigationDrawerFragment = (NavigationDrawer) fragmentManager.findFragmentById(R.id.navigation_drawer);
-        mNavigationDrawerFragment.setUp(R.id.navigation_drawer, drawerLayout);
+        navigationView = (NavigationView) findViewById(R.id.nav_view);
+        topNavigationView = (NavigationView) findViewById(R.id.top_navigation);
+        bottomNavigationView = (NavigationView) findViewById(R.id.bottom_navigation);
+        topNavigationView .setItemIconTintList(null);
+        bottomNavigationView.setItemIconTintList(null);
+//        drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+//        mNavigationDrawerFragment = (NavigationDrawer) fragmentManager.findFragmentById(R.id.navigation_drawer);
+//        mNavigationDrawerFragment.setUp(R.id.navigation_drawer, drawerLayout);
     }
 
     public void setProgressBar() {
@@ -78,5 +87,6 @@ public class ApplicationBaseActivity extends AppCompatActivity {
 
     public void setToolbar(Toolbar toolbar) {
         setSupportActionBar(toolbar);
+        toolbar.setVisibility(View.VISIBLE);
     }
 }
