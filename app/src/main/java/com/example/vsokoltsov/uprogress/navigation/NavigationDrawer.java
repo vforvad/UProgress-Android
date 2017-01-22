@@ -24,6 +24,7 @@ import com.example.vsokoltsov.uprogress.R;
 import com.example.vsokoltsov.uprogress.authentication.messages.UserMessage;
 import com.example.vsokoltsov.uprogress.authentication.models.AuthorizationService;
 import com.example.vsokoltsov.uprogress.authentication.ui.AuthorizationActivity;
+import com.example.vsokoltsov.uprogress.common.helpers.PreferencesHelper;
 import com.example.vsokoltsov.uprogress.directions_list.ui.DirectionsActivity;
 import com.example.vsokoltsov.uprogress.statistics.ui.StatisticsActivity;
 import com.example.vsokoltsov.uprogress.user.ui.UserActivity;
@@ -50,6 +51,7 @@ public class NavigationDrawer extends Fragment {
     private FrameLayout rootView;
     private Resources resources;
     private AuthorizationService authManager;
+    private PreferencesHelper preferencesHelper;
 
     public NavigationDrawer() {
         // Required empty public constructor
@@ -63,6 +65,7 @@ public class NavigationDrawer extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         resources = getResources();
+        preferencesHelper = new PreferencesHelper(getContext());
 
         if (savedInstanceState != null) {
             mCurrentSelectedPosition = savedInstanceState.getInt("selected_navigation_drawer_position");
@@ -318,7 +321,7 @@ public class NavigationDrawer extends Fragment {
 
     public void signOut() {
         authManager.setCurrentUser(null);
-        ///Token.deleteToken();
+        preferencesHelper.deleteToken();
         EventBus.getDefault().post(new UserMessage("signOut", authManager.getCurrentUser()));
     }
 
