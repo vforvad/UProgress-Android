@@ -4,6 +4,7 @@ import android.app.Dialog;
 import android.app.DialogFragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.TextInputLayout;
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -31,6 +32,11 @@ public class UserFormPopup extends DialogFragment implements View.OnClickListene
     public EditText emailField;
     public EditText descriptionField;
     public EditText locationField;
+
+    public TextInputLayout firstNameWrapper;
+    public TextInputLayout lastNameWrapper;
+    public TextInputLayout emailWrapper;
+
     Button submitForm;
 
     public void setPopupInterface(PopupInterface popupInterface) {
@@ -74,6 +80,10 @@ public class UserFormPopup extends DialogFragment implements View.OnClickListene
         locationField = (EditText) rootView.findViewById(R.id.locationField);
         descriptionField = (EditText) rootView.findViewById(R.id.descriptionField);
         submitForm = (Button) rootView.findViewById(R.id.submitForm);
+
+        firstNameWrapper = (TextInputLayout) rootView.findViewById(R.id.firstNameWrapper);
+        lastNameWrapper = (TextInputLayout) rootView.findViewById(R.id.lastNameWrapper);
+        emailWrapper = (TextInputLayout) rootView.findViewById(R.id.emailWrapper);
 
         submitForm.setOnClickListener(this);
     }

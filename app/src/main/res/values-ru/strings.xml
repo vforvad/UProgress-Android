@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="email">Электронный адресс</string>
+    <string name="email">Электронный адрес</string>
     <string name="password">Пароль</string>
-    <string name="sign_in">Войти</string>
+    <string name="sign_in">Авторизация</string>
     <string name="sign_up">Регистрация</string>
     <string name="password_confirmation">Подтверждение пароля</string>
     <string name="nick">Ник</string>
@@ -19,4 +19,29 @@
     <string name="user_location">Локация</string>
     <string name="user_description">Описание</string>
     <string name="user_email">Электронная почта</string>
+    <string name="save">Сохранить</string>
+    <string name="title">Название</string>
+    <string name="description">Описание</string>
+    <string name="directions_title">Направления</string>
+    <string name="direction_title">Направление</string>
+    <string name="statistiscs_title">Статистика</string>
+
+    <string name="statistics_directions">Напраления</string>
+    <string name="statistics_steps">Шаги</string>
+    <string name="statistics_directions_steps">Шаги направлений</string>
+
+    <string name="navigation_item_sign_in">Логин</string>
+    <string name="navigation_item_sign_up">Регистрация</string>
+    <string name="navigation_item_directions">Направления</string>
+    <string name="navigation_item_statistics">Статистика</string>
+    <string name="navigation_item_sign_out">Выход</string>
+
+    <string name="user_profile_first_name">Имя</string>
+    <string name="user_profile_last_name">Фамилия</string>
+    <string name="user_profile_email">Почта</string>
+    <string name="user_profile_nick">Ник</string>
+    <string name="user_profile_location">Место положения</string>
+    <string name="user_profile_description">О себе</string>
+    <string name="user_profile_photo">Фото с камеры</string>
+    <string name="user_profile_collection">Выбрать из галереи</string>
 </resources>

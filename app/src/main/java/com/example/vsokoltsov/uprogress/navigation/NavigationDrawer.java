@@ -24,6 +24,7 @@ import com.example.vsokoltsov.uprogress.R;
 import com.example.vsokoltsov.uprogress.authentication.messages.UserMessage;
 import com.example.vsokoltsov.uprogress.authentication.models.AuthorizationService;
 import com.example.vsokoltsov.uprogress.authentication.ui.AuthorizationActivity;
+import com.example.vsokoltsov.uprogress.common.helpers.PreferencesHelper;
 import com.example.vsokoltsov.uprogress.directions_list.ui.DirectionsActivity;
 import com.example.vsokoltsov.uprogress.statistics.ui.StatisticsActivity;
 import com.example.vsokoltsov.uprogress.user.ui.UserActivity;
@@ -50,6 +51,7 @@ public class NavigationDrawer extends Fragment {
     private FrameLayout rootView;
     private Resources resources;
     private AuthorizationService authManager;
+    private PreferencesHelper preferencesHelper;
 
     public NavigationDrawer() {
         // Required empty public constructor
@@ -63,6 +65,7 @@ public class NavigationDrawer extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         resources = getResources();
+        preferencesHelper = new PreferencesHelper(getContext());
 
         if (savedInstanceState != null) {
             mCurrentSelectedPosition = savedInstanceState.getInt("selected_navigation_drawer_position");
@@ -213,7 +216,6 @@ public class NavigationDrawer extends Fragment {
 
     private void setItemsActionsForPhone(int position) {
         NavigationItem navItem = navigationItems.get(position);
-        String signIn = "Sign in";
 
         if (navItem.getUser() != null) {
             Intent userActivity = new Intent(getActivity(), UserActivity.class);
@@ -222,25 +224,25 @@ public class NavigationDrawer extends Fragment {
             return;
         }
 
-        if (navItem.getTitle().equals(signIn)) {
+        if (navItem.getTitle().equals(resources.getString(R.string.navigation_item_sign_in))) {
             Intent authActivity = new Intent(getActivity(), AuthorizationActivity.class);
             authActivity.putExtra("action", "sign_in");
             startActivity(authActivity);
             getActivity().overridePendingTransition(R.anim.pull_in_right, R.anim.push_out_left);
         }
-        else if (navItem.getTitle().equals("Sign up")) {
+        else if (navItem.getTitle().equals(resources.getString(R.string.navigation_item_sign_up))) {
             Intent regActivity = new Intent(getActivity(), AuthorizationActivity.class);
             regActivity.putExtra("action", "sign_up");
             startActivity(regActivity);
             getActivity().overridePendingTransition(R.anim.pull_in_right, R.anim.push_out_left);
         }
-        else if (navItem.getTitle().equals("Directions")) {
+        else if (navItem.getTitle().equals(resources.getString(R.string.navigation_item_directions))) {
             Intent dirActivity = new Intent(getActivity(), DirectionsActivity.class);
             startActivity(dirActivity);
             getActivity().overridePendingTransition(R.anim.pull_in_right, R.anim.push_out_left);
             mDrawerLayout.closeDrawer(rootView);
         }
-        else if(navItem.getTitle().equals("Statistics")) {
+        else if(navItem.getTitle().equals(resources.getString(R.string.navigation_item_statistics))) {
             Intent statisticsActivity = new Intent(getActivity(), StatisticsActivity.class);
             startActivity(statisticsActivity);
             getActivity().overridePendingTransition(R.anim.pull_in_right, R.anim.push_out_left);
@@ -287,11 +289,11 @@ public class NavigationDrawer extends Fragment {
         authManager = AuthorizationService.getInstance();
         if (authManager.getCurrentUser() != null) {
             navigationItems.add(new NavigationItem(authManager.getCurrentUser()));
-            navigationItems.add(new NavigationItem(R.drawable.directions, "Directions"));
-            navigationItems.add(new NavigationItem(R.drawable.statistics_icon, "Statistics"));
+            navigationItems.add(new NavigationItem(R.drawable.directions, resources.getString(R.string.navigation_item_directions)));
+            navigationItems.add(new NavigationItem(R.drawable.statistics_icon, resources.getString(R.string.navigation_item_statistics)));
         } else {
-            navigationItems.add(new NavigationItem(R.drawable.sign_in, "Sign in"));
-            navigationItems.add(new NavigationItem(R.drawable.sign_up, "Sign up"));
+            navigationItems.add(new NavigationItem(R.drawable.sign_in, resources.getString(R.string.navigation_item_sign_in)));
+            navigationItems.add(new NavigationItem(R.drawable.sign_up, resources.getString(R.string.navigation_item_sign_up)));
         }
 //        navigationItems.add(new NavigationItem(R.drawable.contacts, resources.getString(R.string.nav_users)));
 //        navigationItems.add(new NavigationItem(R.drawable.course, resources.getString(R.string.nav_course)));
@@ -302,6 +304,7 @@ public class NavigationDrawer extends Fragment {
 
     public void setSignOutButton() {
         Button signOutButton = (Button) rootView.findViewById(R.id.sign_out_button);
+        signOutButton.setText(resources.getString(R.string.navigation_item_sign_out));
         if (authManager.getCurrentUser() != null) {
             signOutButton.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -318,7 +321,7 @@ public class NavigationDrawer extends Fragment {
 
     public void signOut() {
         authManager.setCurrentUser(null);
-        ///Token.deleteToken();
+        preferencesHelper.deleteToken();
         EventBus.getDefault().post(new UserMessage("signOut", authManager.getCurrentUser()));
     }
 

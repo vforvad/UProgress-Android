@@ -38,6 +38,7 @@ public class AuthorizationBaseFragment extends Fragment {
     private CharSequence Titles[];
     private List<String> titles = new ArrayList<String>();
     private int Numboftabs =2;
+    private Resources resources;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -46,6 +47,7 @@ public class AuthorizationBaseFragment extends Fragment {
         activity = (ApplicationBaseActivity) getActivity();
 
         fragmentView = inflater.inflate(R.layout.authorization_base_fragment, container, false);
+        resources = getResources();
         setTitles();
         defineCurrentTab();
         setSlidingTabs();
@@ -53,9 +55,8 @@ public class AuthorizationBaseFragment extends Fragment {
     }
 
     private void setTitles() {
-        Resources resources = getResources();
-        String signIn = "Sign in"; //resources.getString(R.string.nav_sign_in);
-        String signUp = "Sign up"; //resources.getString(R.string.nav_sign_up);
+        String signIn = resources.getString(R.string.sign_in); //resources.getString(R.string.nav_sign_in);
+        String signUp = resources.getString(R.string.sign_up); //resources.getString(R.string.nav_sign_up);
         titles.add(signIn);
         titles.add(signUp);
     }
@@ -66,6 +67,7 @@ public class AuthorizationBaseFragment extends Fragment {
     }
 
     private void setSlidingTabs() {
+        Resources resources = getResources();
         // Creating The ViewPagerAdapter and Passing Fragment Manager, Titles fot the Tabs and Number Of Tabs.
         adapter =  new AuthorizationViewPagerAdapter(getFragmentManager(), titles, Numboftabs);
 
