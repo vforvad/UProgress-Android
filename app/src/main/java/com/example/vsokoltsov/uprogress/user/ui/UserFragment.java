@@ -86,8 +86,6 @@ public class UserFragment extends Fragment implements PopupInterface, UserProfil
     private ApplicationBaseActivity activity;
     private ImageView userAvatar;
     private List<UserItem> list = new ArrayList<UserItem>();
-    private NavigationDrawer navigationDrawer;
-    private DrawerLayout drawerLayout;
     private Toolbar toolbar;
     private UserFormPopup popup;
     private ProgressBar progressBar;
@@ -97,10 +95,6 @@ public class UserFragment extends Fragment implements PopupInterface, UserProfil
     private UserInfoListAdapter adapter;
     CollapsingToolbarLayout layout;
     Uri imageUri;
-    private static final int CAMERA_REQUEST = 1888;
-    private static final int GALERY_REQUEST = 444;
-    public String photoFileName = "photo.jpg";
-    public final String APP_TAG = "UProgress";
     ImageUploadHelper uploadHelper;
 
     public static final int MEDIA_TYPE_IMAGE = 1;
@@ -132,6 +126,7 @@ public class UserFragment extends Fragment implements PopupInterface, UserProfil
 
     private void setElements() {
         layout = (CollapsingToolbarLayout) fragmentView.findViewById(R.id.collapsing_toolbar);
+        layout.setTitle(user.getCorrectName());
         FloatingActionButton floatingActionButton = (FloatingActionButton) fragmentView.findViewById(R.id.addDirection);
         floatingActionButton.setImageDrawable(getResources().getDrawable(R.drawable.edit_icon));
         floatingActionButton.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.price_green)));
@@ -206,9 +201,9 @@ public class UserFragment extends Fragment implements PopupInterface, UserProfil
         } catch (IOException e) {
             e.printStackTrace();
         }
-        popup.firstNameField.setError(errors.getFullErrorMessage("first_name"));
-        popup.secondNameField.setError(errors.getFullErrorMessage("last_name"));
-        popup.emailField.setError(errors.getFullErrorMessage("email"));
+        popup.firstNameWrapper.setError(errors.getFullErrorMessage("first_name"));
+        popup.lastNameWrapper.setError(errors.getFullErrorMessage("last_name"));
+        popup.emailWrapper.setError(errors.getFullErrorMessage("email"));
     }
 
     @Override

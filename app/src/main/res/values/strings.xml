@@ -21,6 +21,7 @@
     <string name="user_location">Location</string>
     <string name="user_description">Description</string>
     <string name="user_email">Email</string>
+    <string name="save">Save</string>
 
     <string name="navigation_item_sign_in">Sign in</string>
     <string name="navigation_item_sign_up">Sign up</string>

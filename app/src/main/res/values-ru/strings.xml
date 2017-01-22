@@ -19,6 +19,7 @@
     <string name="user_location">Локация</string>
     <string name="user_description">Описание</string>
     <string name="user_email">Электронная почта</string>
+    <string name="save">Сохранить</string>
 
     <string name="navigation_item_sign_in">Логин</string>
     <string name="navigation_item_sign_up">Регистрация</string>
