@@ -11,11 +11,11 @@
             <item
                 android:id="@+id/photo"
                 android:icon="@drawable/photo"
-                android:title="Take a photo" />
+                android:title="@string/user_profile_photo" />
             <item
                 android:id="@+id/collection"
                 android:icon="@drawable/upload"
-                android:title="Upload from collection" />
+                android:title="@string/user_profile_collection" />
         </menu>
     </item>
 </menu>

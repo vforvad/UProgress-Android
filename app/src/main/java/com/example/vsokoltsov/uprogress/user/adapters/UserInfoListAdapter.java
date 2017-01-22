@@ -1,6 +1,8 @@
 package com.example.vsokoltsov.uprogress.user.adapters;
 
 import android.app.Activity;
+import android.content.Context;
+import android.content.res.Resources;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -9,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.vsokoltsov.uprogress.R;
+import com.example.vsokoltsov.uprogress.common.utils.ContextManager;
 import com.example.vsokoltsov.uprogress.direction_detail.model.steps.Step;
 import com.example.vsokoltsov.uprogress.direction_detail.ui.StepsItem;
 import com.example.vsokoltsov.uprogress.user.current.User;
@@ -24,14 +27,8 @@ import java.util.List;
 
 public class UserInfoListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     public List<UserItem> items;
-
-    private final int VISIBLE_THRESHOLD = 5;
-
     private final int ITEM_VIEW_TYPE_BASIC = 0;
-    private final int ITEM_VIEW_TYPE_FOOTER = 1;
-
-    private int firstVisibleItem, visibleItemCount, totalItemCount, previousTotal = 0;
-    private boolean loading = true;
+    Context context = ContextManager.getInstance().getContext();
 
 
     public UserInfoListAdapter(List<UserItem> items){
@@ -79,11 +76,12 @@ public class UserInfoListAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     }
 
     public void setList(User user) {
+        Resources resources = context.getResources();
         List<UserItem> list = new ArrayList<UserItem>();
-        list.add(new UserItem("Email", user.getEmail()));
-        list.add(new UserItem("Nick", user.getNick()));
-        list.add(new UserItem("Location", user.getLocation()));
-        list.add(new UserItem("Description", user.getDescription()));
+        list.add(new UserItem(resources.getString(R.string.user_profile_email), user.getEmail()));
+        list.add(new UserItem(resources.getString(R.string.user_profile_nick), user.getNick()));
+        list.add(new UserItem(resources.getString(R.string.user_profile_location), user.getLocation()));
+        list.add(new UserItem(resources.getString(R.string.user_profile_description), user.getDescription()));
         items = list;
     }
 }

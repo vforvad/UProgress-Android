@@ -25,4 +25,13 @@
     <string name="navigation_item_directions">Направления</string>
     <string name="navigation_item_statistics">Статистика</string>
     <string name="navigation_item_sign_out">Выход</string>
+
+    <string name="user_profile_first_name">Имя</string>
+    <string name="user_profile_last_name">Фамилия</string>
+    <string name="user_profile_email">Почта</string>
+    <string name="user_profile_nick">Ник</string>
+    <string name="user_profile_location">Место положения</string>
+    <string name="user_profile_description">О себе</string>
+    <string name="user_profile_photo">Фото с камеры</string>
+    <string name="user_profile_collection">Выбрать из галереи</string>
 </resources>

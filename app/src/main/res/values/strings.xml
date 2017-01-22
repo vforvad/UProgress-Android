@@ -27,4 +27,13 @@
     <string name="navigation_item_directions">Directions</string>
     <string name="navigation_item_statistics">Statistics</string>
     <string name="navigation_item_sign_out">Sign out</string>
+
+    <string name="user_profile_first_name">First name</string>
+    <string name="user_profile_last_name">Last name</string>
+    <string name="user_profile_email">Email</string>
+    <string name="user_profile_nick">Nick</string>
+    <string name="user_profile_location">Location</string>
+    <string name="user_profile_description">Description</string>
+    <string name="user_profile_photo">Take a photo</string>
+    <string name="user_profile_collection">Upload from collection</string>
 </resources>
