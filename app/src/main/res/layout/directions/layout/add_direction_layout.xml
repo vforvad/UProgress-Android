@@ -24,7 +24,7 @@
                     android:id="@+id/directionTitle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Title"
+                    android:hint="@string/title"
                     android:lines="1"/>
             </android.support.design.widget.TextInputLayout>
 
@@ -38,7 +38,7 @@
                     android:layout_height="wrap_content"
                     android:inputType="textMultiLine"
                     android:ems="3"
-                    android:hint="Description"/>
+                    android:hint="@string/description"/>
             </android.support.design.widget.TextInputLayout>
 
             <Button

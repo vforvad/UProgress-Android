@@ -20,6 +20,8 @@
     <string name="user_description">Описание</string>
     <string name="user_email">Электронная почта</string>
     <string name="save">Сохранить</string>
+    <string name="title">Название</string>
+    <string name="description">Описание</string>
 
     <string name="navigation_item_sign_in">Логин</string>
     <string name="navigation_item_sign_up">Регистрация</string>
