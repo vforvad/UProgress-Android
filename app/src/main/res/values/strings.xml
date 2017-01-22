@@ -21,4 +21,10 @@
     <string name="user_location">Location</string>
     <string name="user_description">Description</string>
     <string name="user_email">Email</string>
+
+    <string name="navigation_item_sign_in">Sign in</string>
+    <string name="navigation_item_sign_up">Sign up</string>
+    <string name="navigation_item_directions">Directions</string>
+    <string name="navigation_item_statistics">Statistics</string>
+    <string name="navigation_item_sign_out">Sign out</string>
 </resources>
