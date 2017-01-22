@@ -1,22 +1,17 @@
 package com.example.vsokoltsov.uprogress.common;
 
 import android.os.Bundle;
-import android.os.PersistableBundle;
 import android.support.design.widget.NavigationView;
-import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.ProgressBar;
 
 import com.example.vsokoltsov.uprogress.R;
-import com.example.vsokoltsov.uprogress.authentication.messages.UserMessage;
 import com.example.vsokoltsov.uprogress.authentication.models.AuthorizationService;
-import com.example.vsokoltsov.uprogress.user.current.CurrentUser;
-import com.example.vsokoltsov.uprogress.navigation.NavigationDrawer;
+import com.example.vsokoltsov.uprogress.navigation.NavigationPresenter;
 import com.example.vsokoltsov.uprogress.common.utils.ContextManager;
-
-import org.greenrobot.eventbus.EventBus;
+import com.example.vsokoltsov.uprogress.user.current.User;
 
 /**
  * Created by vsokoltsov on 22.11.16.
@@ -24,12 +19,12 @@ import org.greenrobot.eventbus.EventBus;
 
 public class ApplicationBaseActivity extends AppCompatActivity {
     private Toolbar mActionBarToolbar;
-    private NavigationDrawer mNavigationDrawerFragment;
-    private DrawerLayout drawerLayout;
     private ProgressBar progressBar;
     private NavigationView navigationView;
     private NavigationView topNavigationView;
     private NavigationView bottomNavigationView;
+    private NavigationPresenter navigationPresenter;
+    private User user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +33,7 @@ public class ApplicationBaseActivity extends AppCompatActivity {
         setToolbar();
         setProgressBar();
         ContextManager.getInstance().setContext(this);
+        user = AuthorizationService.getInstance().getCurrentUser();
     }
 
     public void onCreate(Bundle savedInstanceState, int layoutId) {
@@ -54,15 +50,9 @@ public class ApplicationBaseActivity extends AppCompatActivity {
     }
 
     public void setLeftNavigationBar() {
-        android.support.v4.app.FragmentManager fragmentManager = getSupportFragmentManager();
         navigationView = (NavigationView) findViewById(R.id.nav_view);
-        topNavigationView = (NavigationView) findViewById(R.id.top_navigation);
-        bottomNavigationView = (NavigationView) findViewById(R.id.bottom_navigation);
-        topNavigationView .setItemIconTintList(null);
-        bottomNavigationView.setItemIconTintList(null);
-//        drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-//        mNavigationDrawerFragment = (NavigationDrawer) fragmentManager.findFragmentById(R.id.navigation_drawer);
-//        mNavigationDrawerFragment.setUp(R.id.navigation_drawer, drawerLayout);
+        navigationPresenter = new NavigationPresenter(navigationView, getApplicationContext(), user);
+        navigationPresenter.setUpNavigation();
     }
 
     public void setProgressBar() {
