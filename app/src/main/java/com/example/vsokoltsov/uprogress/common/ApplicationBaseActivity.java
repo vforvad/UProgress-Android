@@ -2,14 +2,19 @@ package com.example.vsokoltsov.uprogress.common;
 
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
 
 import com.example.vsokoltsov.uprogress.R;
 import com.example.vsokoltsov.uprogress.authentication.models.AuthorizationService;
+import com.example.vsokoltsov.uprogress.navigation.NavigationDrawer;
 import com.example.vsokoltsov.uprogress.navigation.NavigationPresenter;
 import com.example.vsokoltsov.uprogress.common.utils.ContextManager;
 import com.example.vsokoltsov.uprogress.user.current.User;
@@ -21,6 +26,7 @@ import com.example.vsokoltsov.uprogress.user.current.User;
 public class ApplicationBaseActivity extends AppCompatActivity {
     private Toolbar mActionBarToolbar;
     private ProgressBar progressBar;
+    private DrawerLayout drawerLayout;
     private NavigationView navigationView;
     private NavigationView topNavigationView;
     private NavigationView bottomNavigationView;
@@ -50,9 +56,13 @@ public class ApplicationBaseActivity extends AppCompatActivity {
     }
 
     public void setLeftNavigationBar() {
+        drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         user = AuthorizationService.getInstance().getCurrentUser();
         navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationPresenter = new NavigationPresenter(navigationView, getApplicationContext(), user);
+        navigationPresenter = new NavigationPresenter(navigationView, drawerLayout,
+                getApplicationContext(),
+                user,
+                getAcionBarToggler());
         navigationPresenter.setUpNavigation();
     }
 
@@ -87,5 +97,47 @@ public class ApplicationBaseActivity extends AppCompatActivity {
             getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_menu);
             getSupportActionBar().setHomeButtonEnabled(true);
         }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch(item.getItemId()) {
+            case android.R.id.home:
+                drawerLayout.openDrawer(GravityCompat.START);
+                break;
+            default:
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    private ActionBarDrawerToggle getAcionBarToggler() {
+        ActionBarDrawerToggle actionBarDrawerToggle = new ActionBarDrawerToggle(this,
+                drawerLayout,
+                mActionBarToolbar,
+                R.string.navigation_drawer_open,
+                R.string.navigation_drawer_close){
+
+            @Override
+            public void onDrawerClosed(View drawerView) {
+                // Code here will be triggered once the drawer closes as we dont want anything to happen so we leave this blank
+                super.onDrawerClosed(drawerView);
+            }
+
+            @Override
+            public void onDrawerOpened(View drawerView) {
+                // Code here will be triggered once the drawer open as we dont want anything to happen so we leave this blank
+
+                super.onDrawerOpened(drawerView);
+            }
+        };
+
+        drawerLayout.post(new Runnable() {
+            @Override
+            public void run() {
+                actionBarDrawerToggle.syncState();
+            }
+        });
+        return actionBarDrawerToggle;
     }
 }

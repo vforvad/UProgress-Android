@@ -1,12 +1,17 @@
 package com.example.vsokoltsov.uprogress.navigation;
 
+import android.app.Activity;
 import android.content.Context;
 import android.support.design.widget.NavigationView;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.vsokoltsov.uprogress.R;
+import com.example.vsokoltsov.uprogress.common.ApplicationBaseActivity;
 import com.example.vsokoltsov.uprogress.common.BaseApplication;
 import com.example.vsokoltsov.uprogress.user.current.User;
 
@@ -18,8 +23,11 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class NavigationPresenter {
     private final NavigationView baseNavigationView;
+    private final DrawerLayout drawerLayout;
     private NavigationView topNavigationView;
     private NavigationView bottomNavigationView;
+    private Toolbar toolbar;
+    private ActionBarDrawerToggle actionBarDrawerToggle;
 
     private final Context context;
     private User currentUser;
@@ -29,16 +37,29 @@ public class NavigationPresenter {
     TextView userName;
     ImageView imageView;
 
-    public NavigationPresenter(NavigationView baseNavigationView, Context context, User currentUser) {
+    public NavigationPresenter(NavigationView baseNavigationView,
+                               DrawerLayout drawerLayout,
+                               Context context,
+                               User currentUser,
+                               ActionBarDrawerToggle actionBarDrawerToggle) {
         this.baseNavigationView = baseNavigationView;
+        this.drawerLayout = drawerLayout;
         this.context = context;
         this.currentUser = currentUser;
+        this.toolbar = toolbar;
+        this.actionBarDrawerToggle = actionBarDrawerToggle;
     }
 
     public void setUpNavigation() {
+
+        setDrawerLayout();
         setUpTopNavigation();
         setUpFooterNavigation();
         setUpNavigationHeader();
+    }
+
+    private void setDrawerLayout() {
+        drawerLayout.setDrawerListener(actionBarDrawerToggle);
     }
 
     private void setUpTopNavigation() {
@@ -81,8 +102,8 @@ public class NavigationPresenter {
     }
 
     private void setTextInfo(){
-        TextView userName = (TextView) navHeader.findViewById(R.id.name);
-        TextView userEmail = (TextView) navHeader.findViewById(R.id.email);
+        userName = (TextView) navHeader.findViewById(R.id.name);
+        userEmail = (TextView) navHeader.findViewById(R.id.email);
 
         if (currentUser.isFullNamePresent()) {
             userName.setText(currentUser.getCorrectName());
@@ -94,7 +115,7 @@ public class NavigationPresenter {
     }
 
     private void setImageInfo() {
-        CircleImageView avatarView = (CircleImageView) navHeader.findViewById(R.id.circleView);
-        ((BaseApplication) context.getApplicationContext()).getImageHelper().setUserImage(currentUser, avatarView, R.drawable.empty_user);
+        imageView = (CircleImageView) navHeader.findViewById(R.id.circleView);
+        ((BaseApplication) context.getApplicationContext()).getImageHelper().setUserImage(currentUser, imageView, R.drawable.empty_user);
     }
 }
