@@ -140,4 +140,8 @@ public class ApplicationBaseActivity extends AppCompatActivity {
         });
         return actionBarDrawerToggle;
     }
+
+    public void setDetailViewToolbar() {
+        getSupportActionBar().setHomeAsUpIndicator(R.drawable.return_icon);
+    }
 }
