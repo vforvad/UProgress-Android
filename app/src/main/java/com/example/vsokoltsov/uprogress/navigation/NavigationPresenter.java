@@ -20,6 +20,7 @@ import com.example.vsokoltsov.uprogress.common.BaseApplication;
 import com.example.vsokoltsov.uprogress.directions_list.ui.DirectionsActivity;
 import com.example.vsokoltsov.uprogress.statistics.ui.StatisticsActivity;
 import com.example.vsokoltsov.uprogress.user.current.User;
+import com.example.vsokoltsov.uprogress.user.ui.UserActivity;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -34,6 +35,7 @@ public class NavigationPresenter implements NavigationView.OnNavigationItemSelec
     private NavigationView bottomNavigationView;
     private Toolbar toolbar;
     private ActionBarDrawerToggle actionBarDrawerToggle;
+    private NavigationViewItemsClick itemsClick;
 
     private final Context context;
     private User currentUser;
@@ -45,12 +47,13 @@ public class NavigationPresenter implements NavigationView.OnNavigationItemSelec
 
     public NavigationPresenter(NavigationView baseNavigationView,
                                DrawerLayout drawerLayout,
-                               Context context,
+                               NavigationViewItemsClick clicksInterface,
                                User currentUser,
                                ActionBarDrawerToggle actionBarDrawerToggle) {
         this.baseNavigationView = baseNavigationView;
         this.drawerLayout = drawerLayout;
-        this.context = context;
+        this.context = (Context) clicksInterface;
+        this.itemsClick = clicksInterface;
         this.currentUser = currentUser;
         this.toolbar = toolbar;
         this.actionBarDrawerToggle = actionBarDrawerToggle;
@@ -100,6 +103,13 @@ public class NavigationPresenter implements NavigationView.OnNavigationItemSelec
         else {
             setTextInfo();
             setImageInfo();
+            navHeader.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent userActivity = new Intent(context, UserActivity.class);
+                    context.startActivity(userActivity);
+                }
+            });
         }
     }
 
@@ -127,6 +137,7 @@ public class NavigationPresenter implements NavigationView.OnNavigationItemSelec
 
     private void setNavigationItemListener() {
         topNavigationView.setNavigationItemSelectedListener(this);
+        bottomNavigationView.setNavigationItemSelectedListener(this);
     }
 
     @Override
@@ -144,10 +155,14 @@ public class NavigationPresenter implements NavigationView.OnNavigationItemSelec
                 Intent signInActivity = new Intent(context, AuthorizationActivity.class);
                 signInActivity.putExtra("action", "sign_in");
                 context.startActivity(signInActivity);
+                ((Activity) context).overridePendingTransition(R.anim.pull_in_right, R.anim.push_out_left);
+                return true;
             case R.id.sign_up:
                 Intent signUpActivity = new Intent(context, AuthorizationActivity.class);
                 signUpActivity.putExtra("action", "sign_up");
                 context.startActivity(signUpActivity);
+                ((Activity) context).overridePendingTransition(R.anim.pull_in_right, R.anim.push_out_left);
+                return true;
             case R.id.directions:
                 Intent dirActivity = new Intent(context, DirectionsActivity.class);
                 context.startActivity(dirActivity);
@@ -155,6 +170,9 @@ public class NavigationPresenter implements NavigationView.OnNavigationItemSelec
             case R.id.statistics:
                 Intent statisticsActivity = new Intent(context, StatisticsActivity.class);
                 context.startActivity(statisticsActivity);
+                return true;
+            case R.id.sign_out:
+                itemsClick.signOut();
                 return true;
             default: return true;
         }

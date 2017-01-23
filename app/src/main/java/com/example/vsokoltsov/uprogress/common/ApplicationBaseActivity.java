@@ -13,25 +13,29 @@ import android.view.View;
 import android.widget.ProgressBar;
 
 import com.example.vsokoltsov.uprogress.R;
+import com.example.vsokoltsov.uprogress.authentication.messages.UserMessage;
 import com.example.vsokoltsov.uprogress.authentication.models.AuthorizationService;
 import com.example.vsokoltsov.uprogress.navigation.NavigationDrawer;
 import com.example.vsokoltsov.uprogress.navigation.NavigationPresenter;
 import com.example.vsokoltsov.uprogress.common.utils.ContextManager;
+import com.example.vsokoltsov.uprogress.navigation.NavigationViewItemsClick;
 import com.example.vsokoltsov.uprogress.user.current.User;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 /**
  * Created by vsokoltsov on 22.11.16.
  */
 
-public class ApplicationBaseActivity extends AppCompatActivity {
+public class ApplicationBaseActivity extends AppCompatActivity implements NavigationViewItemsClick {
     private Toolbar mActionBarToolbar;
     private ProgressBar progressBar;
     private DrawerLayout drawerLayout;
     private NavigationView navigationView;
-    private NavigationView topNavigationView;
-    private NavigationView bottomNavigationView;
     private NavigationPresenter navigationPresenter;
     private User user;
+    private AuthorizationService authorizationService = AuthorizationService.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -143,5 +147,40 @@ public class ApplicationBaseActivity extends AppCompatActivity {
 
     public void setDetailViewToolbar() {
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.return_icon);
+    }
+
+    @Override
+    public void signOut() {
+        authorizationService.setCurrentUser(null);
+        ((BaseApplication) getApplicationContext()).getPreferencesHelper().deleteToken();
+        EventBus.getDefault().post(new UserMessage("signOut", authorizationService.getCurrentUser()));
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    public void onStop() {
+        EventBus.getDefault().unregister(this);
+        super.onStop();
+    }
+
+    // This method will be called when a MessageEvent is posted
+    @Subscribe
+    public void onEvent(UserMessage event){
+        switch (event.operationName){
+            case "currentUser":
+                navigationPresenter.setCurrentUser(event.user);
+                navigationPresenter.setUpNavigation();
+                break;
+            case "signOut":
+                navigationPresenter.setCurrentUser(event.user);
+                navigationPresenter.setUpNavigation();
+                break;
+            default: break;
+        }
     }
 }
