@@ -35,7 +35,6 @@ public class LaunchPresenter {
                     public void onError(Throwable e) {
                         view.currentUserFailedToReceive(e);
                         view.completedCurrentUserRequest();
-                        e.printStackTrace();
                     }
 
                     @Override

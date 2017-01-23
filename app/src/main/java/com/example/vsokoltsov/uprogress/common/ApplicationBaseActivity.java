@@ -33,7 +33,6 @@ public class ApplicationBaseActivity extends AppCompatActivity {
         setToolbar();
         setProgressBar();
         ContextManager.getInstance().setContext(this);
-        user = AuthorizationService.getInstance().getCurrentUser();
     }
 
     public void onCreate(Bundle savedInstanceState, int layoutId) {
@@ -50,6 +49,7 @@ public class ApplicationBaseActivity extends AppCompatActivity {
     }
 
     public void setLeftNavigationBar() {
+        user = AuthorizationService.getInstance().getCurrentUser();
         navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationPresenter = new NavigationPresenter(navigationView, getApplicationContext(), user);
         navigationPresenter.setUpNavigation();
