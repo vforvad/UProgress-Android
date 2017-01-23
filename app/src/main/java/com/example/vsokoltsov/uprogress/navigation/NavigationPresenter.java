@@ -77,12 +77,13 @@ public class NavigationPresenter implements NavigationView.OnNavigationItemSelec
         topNavigationView .setItemIconTintList(null);
 
         if (currentUser != null) {
-            menu = R.menu.signed_navigation;
+            topNavigationView.getMenu().setGroupVisible(R.id.unsignedUser, false);
+            topNavigationView.getMenu().setGroupVisible(R.id.signedUser, true);
         }
         else {
-            menu = R.menu.unsigned_navigation;
+            topNavigationView.getMenu().setGroupVisible(R.id.unsignedUser, true);
+            topNavigationView.getMenu().setGroupVisible(R.id.signedUser, false);
         }
-        topNavigationView.inflateMenu(menu);
     }
 
     private void setUpFooterNavigation() {
