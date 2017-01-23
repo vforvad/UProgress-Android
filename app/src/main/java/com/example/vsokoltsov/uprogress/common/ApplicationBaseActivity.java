@@ -2,6 +2,7 @@ package com.example.vsokoltsov.uprogress.common;
 
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -45,7 +46,7 @@ public class ApplicationBaseActivity extends AppCompatActivity {
 
     public void setToolbar() {
         mActionBarToolbar = (Toolbar) findViewById(R.id.toolbar_actionbar);
-        setSupportActionBar(mActionBarToolbar);
+        defaultToolbar(mActionBarToolbar);
     }
 
     public void setLeftNavigationBar() {
@@ -76,7 +77,15 @@ public class ApplicationBaseActivity extends AppCompatActivity {
     }
 
     public void setToolbar(Toolbar toolbar) {
-        setSupportActionBar(toolbar);
-        toolbar.setVisibility(View.VISIBLE);
+        defaultToolbar(toolbar);
+    }
+
+    private void defaultToolbar(Toolbar toolbar) {
+        if (toolbar != null) {
+            setSupportActionBar(toolbar);
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_menu);
+            getSupportActionBar().setHomeButtonEnabled(true);
+        }
     }
 }
