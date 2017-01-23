@@ -2,10 +2,13 @@ package com.example.vsokoltsov.uprogress.navigation;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -13,6 +16,7 @@ import android.widget.TextView;
 import com.example.vsokoltsov.uprogress.R;
 import com.example.vsokoltsov.uprogress.common.ApplicationBaseActivity;
 import com.example.vsokoltsov.uprogress.common.BaseApplication;
+import com.example.vsokoltsov.uprogress.directions_list.ui.DirectionsActivity;
 import com.example.vsokoltsov.uprogress.user.current.User;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -21,7 +25,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
  * Created by vsokoltsov on 23.01.17.
  */
 
-public class NavigationPresenter {
+public class NavigationPresenter implements NavigationView.OnNavigationItemSelectedListener {
     private final NavigationView baseNavigationView;
     private final DrawerLayout drawerLayout;
     private NavigationView topNavigationView;
@@ -51,11 +55,11 @@ public class NavigationPresenter {
     }
 
     public void setUpNavigation() {
-
         setDrawerLayout();
         setUpTopNavigation();
         setUpFooterNavigation();
         setUpNavigationHeader();
+        setNavigationItemListener();
     }
 
     private void setDrawerLayout() {
@@ -117,5 +121,28 @@ public class NavigationPresenter {
     private void setImageInfo() {
         imageView = (CircleImageView) navHeader.findViewById(R.id.circleView);
         ((BaseApplication) context.getApplicationContext()).getImageHelper().setUserImage(currentUser, imageView, R.drawable.empty_user);
+    }
+
+    private void setNavigationItemListener() {
+        topNavigationView.setNavigationItemSelectedListener(this);
+    }
+
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        if(item.isChecked()) {
+            item.setChecked(false);
+        }
+        else {
+            item.setChecked(true);
+        }
+        drawerLayout.closeDrawers();
+
+        switch(item.getItemId()) {
+            case R.id.directions:
+                Intent dirActivity = new Intent(context, DirectionsActivity.class);
+                context.startActivity(dirActivity);
+                return true;
+            default: return true;
+        }
     }
 }

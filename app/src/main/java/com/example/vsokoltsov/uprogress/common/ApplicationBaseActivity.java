@@ -60,7 +60,7 @@ public class ApplicationBaseActivity extends AppCompatActivity {
         user = AuthorizationService.getInstance().getCurrentUser();
         navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationPresenter = new NavigationPresenter(navigationView, drawerLayout,
-                getApplicationContext(),
+                this,
                 user,
                 getAcionBarToggler());
         navigationPresenter.setUpNavigation();

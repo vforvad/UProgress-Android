@@ -20,13 +20,12 @@ import com.example.vsokoltsov.uprogress.directions_list.ui.DirectionsActivity;
 public class DirectionDetailActivity extends ApplicationBaseActivity {
     private android.support.v4.app.FragmentManager fragmentManager;
     private DirectionDetailFragment directionDetailFragment;
-    private static Direction direction;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
+//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+//        getSupportActionBar().setDisplayShowHomeEnabled(true);
         fragmentManager = getSupportFragmentManager();
         android.support.v4.app.FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         directionDetailFragment = new DirectionDetailFragment();
@@ -36,7 +35,6 @@ public class DirectionDetailActivity extends ApplicationBaseActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        int itemId = item.getItemId();
         switch (item.getItemId()) {
             case android.R.id.home:
                 NavUtils.navigateUpTo(this, new Intent(this, DirectionsActivity.class));

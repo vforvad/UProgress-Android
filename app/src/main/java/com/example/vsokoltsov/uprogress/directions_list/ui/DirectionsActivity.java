@@ -23,7 +23,6 @@ import java.util.List;
 public class DirectionsActivity extends ApplicationBaseActivity {
     private android.support.v4.app.FragmentManager fragmentManager;
     private DirectionsListFragment directionsListFragment;
-    private static boolean replaceFragment = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,7 +34,6 @@ public class DirectionsActivity extends ApplicationBaseActivity {
         directionsListFragment= new DirectionsListFragment();
         fragmentTransaction.replace(R.id.main_content, directionsListFragment);
         fragmentTransaction.commit();
-        replaceFragment = true;
 //        }
     }
 
