@@ -18,6 +18,7 @@ import android.widget.Toast;
 
 import com.example.vsokoltsov.uprogress.R;
 import com.example.vsokoltsov.uprogress.common.ApplicationBaseActivity;
+import com.example.vsokoltsov.uprogress.common.BaseApplication;
 import com.example.vsokoltsov.uprogress.common.SwipeableRecyclerViewTouchListener;
 import com.example.vsokoltsov.uprogress.common.helpers.MessagesHelper;
 import com.example.vsokoltsov.uprogress.common.services.ErrorResponse;
@@ -52,6 +53,7 @@ import rx.schedulers.Schedulers;
 
 public class DirectionDetailFragment extends Fragment implements DirectionDetailView, DirectionDetailListAdapter,
         SwipeRefreshLayout.OnRefreshListener, SearchView.OnQueryTextListener, PopupInterface {
+    BaseApplication baseApplication;
     private View fragmentView;
     private ApplicationBaseActivity activity;
     private TextView directionDetailTitle;
@@ -74,6 +76,7 @@ public class DirectionDetailFragment extends Fragment implements DirectionDetail
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+        baseApplication = ((BaseApplication) getActivity().getApplicationContext());
         activity = (ApplicationBaseActivity) getActivity();
         activity.setTitle(getResources().getString(R.string.direction_title));
         fragmentView = inflater.inflate(R.layout.direction_detail_fragment, container, false);
@@ -112,7 +115,7 @@ public class DirectionDetailFragment extends Fragment implements DirectionDetail
     }
 
     private void setComponents() {
-        DirectionDetailModel model = new DirectionDetailModelImpl();
+        DirectionDetailModel model = new DirectionDetailModelImpl(getActivity().getApplicationContext());
         presenter = new DirectionDetailPresenterImpl(model, this);
     }
 

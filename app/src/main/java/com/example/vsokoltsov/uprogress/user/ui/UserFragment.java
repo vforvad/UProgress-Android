@@ -1,28 +1,16 @@
 package com.example.vsokoltsov.uprogress.user.ui;
 
-import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.ColorStateList;
-import android.content.res.Resources;
-import android.database.Cursor;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
-import android.provider.MediaStore;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
-import android.support.v4.content.ContextCompat;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.AlertDialog;
+import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Config;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -39,15 +27,13 @@ import com.example.vsokoltsov.uprogress.attachment.view.AttachmentView;
 import com.example.vsokoltsov.uprogress.authentication.models.Attachment;
 import com.example.vsokoltsov.uprogress.authentication.models.AuthorizationService;
 import com.example.vsokoltsov.uprogress.common.ApplicationBaseActivity;
-import com.example.vsokoltsov.uprogress.common.AttachmentConfig;
+import com.example.vsokoltsov.uprogress.common.BaseApplication;
 import com.example.vsokoltsov.uprogress.common.helpers.ImageUploadHelper;
 import com.example.vsokoltsov.uprogress.common.helpers.UploadHelper;
 import com.example.vsokoltsov.uprogress.common.services.ErrorResponse;
 import com.example.vsokoltsov.uprogress.common.utils.RetrofitException;
 import com.example.vsokoltsov.uprogress.direction_detail.popup.PopupInterface;
 import com.example.vsokoltsov.uprogress.user.adapters.UserInfoListAdapter;
-import com.example.vsokoltsov.uprogress.common.helpers.ImageHelper;
-import com.example.vsokoltsov.uprogress.navigation.NavigationDrawer;
 import com.example.vsokoltsov.uprogress.user.current.User;
 import com.example.vsokoltsov.uprogress.user.current.UserItem;
 import com.example.vsokoltsov.uprogress.user.current.UserRequest;
@@ -57,30 +43,23 @@ import com.example.vsokoltsov.uprogress.user.popup.UserFormPopup;
 import com.example.vsokoltsov.uprogress.user.presenters.UserProfilePresenter;
 import com.example.vsokoltsov.uprogress.user.presenters.UserProfilePresenterImpl;
 import com.example.vsokoltsov.uprogress.user.views.UserProfileView;
-import com.squareup.picasso.Picasso;
 
 import org.solovyev.android.views.llm.LinearLayoutManager;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 
-import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
-
-import static android.app.Activity.RESULT_OK;
 
 /**
  * Created by vsokoltsov on 06.01.17.
  */
 
 public class UserFragment extends Fragment implements PopupInterface, UserProfileView, AttachmentView, UploadHelper {
+    private BaseApplication baseApplication;
     private View fragmentView;
     private User user;
     private ApplicationBaseActivity activity;
@@ -100,14 +79,19 @@ public class UserFragment extends Fragment implements PopupInterface, UserProfil
     public static final int MEDIA_TYPE_IMAGE = 1;
     private File selectImageFile = null;
 
+    static {
+        AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        baseApplication = ((BaseApplication) getActivity().getApplicationContext());
         fragmentView = inflater.inflate(R.layout.user_fragment, container, false);
         activity = (ApplicationBaseActivity) getActivity();
-        UserModel model = new UserModelImpl();
+        UserModel model = new UserModelImpl(getActivity().getApplicationContext());
         uploadHelper = new ImageUploadHelper(this);
-        attachmentModel = new AttachmentModelImpl();
+        attachmentModel = new AttachmentModelImpl(getActivity().getApplicationContext());
         presenter = new UserProfilePresenterImpl(this, model);
         attachmentPresenter = new AttachmentPresenterImpl(attachmentModel, this);
         loadList();
@@ -145,7 +129,7 @@ public class UserFragment extends Fragment implements PopupInterface, UserProfil
     private void loadUserImage() {
         userAvatar = (ImageView) fragmentView.findViewById(R.id.userAvatar);
         user = AuthorizationService.getInstance().getCurrentUser();
-        ImageHelper.getInstance(getContext()).setUserImage(user, userAvatar, R.drawable.empty_user);
+        baseApplication.getImageHelper().setUserImage(user, userAvatar, R.drawable.empty_user);
     }
 
     private void loadList() {
@@ -257,7 +241,7 @@ public class UserFragment extends Fragment implements PopupInterface, UserProfil
 
     @Override
     public void successUpload(Attachment attachment) {
-        ImageHelper.getInstance(getContext()).load(attachment.getUrl(), userAvatar, R.drawable.empty_user);
+        baseApplication.getImageHelper().load(attachment.getUrl(), userAvatar, R.drawable.empty_user);
         AuthorizationService.getInstance().getCurrentUser().setImage(attachment);
     }
 

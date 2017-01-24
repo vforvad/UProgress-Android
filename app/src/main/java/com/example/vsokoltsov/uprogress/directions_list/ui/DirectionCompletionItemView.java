@@ -16,6 +16,7 @@ import com.example.vsokoltsov.uprogress.directions_list.models.Direction;
  */
 
 public class DirectionCompletionItemView extends CardView {
+    private StringBuilder builder;
     private TextView directionPercents;
     private TextView directionTitle;
     private TextView directionRation;
@@ -43,6 +44,7 @@ public class DirectionCompletionItemView extends CardView {
 
     private void init() {
         inflate(getContext(), R.layout.direction_list_item, this);
+        builder = new StringBuilder();
         directionPercents = (TextView) findViewById(R.id.directionPercents);
         directionTitle = (TextView) findViewById(R.id.directionTitle);
         directionRation = (TextView) findViewById(R.id.directionRation);
@@ -51,8 +53,9 @@ public class DirectionCompletionItemView extends CardView {
     }
 
     public void bind(Direction direction) {
+        builder.append(direction.getPercentsResult());
         directionTitle.setText(direction.getTitle());
-        //directionPercents.setText(String.format("%d", direction.getPercentsResult()));
+        directionPercents.setText(builder.toString());
         directionRation.setText(direction.getFinishedStepsRation());
 
         //Icon

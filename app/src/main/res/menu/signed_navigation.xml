@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group
+        android:id="@+id/signedUser"
+        android:checkableBehavior="single">
+        <item
+            android:id="@+id/directions"
+            android:icon="@drawable/directions"
+            android:title="@string/direction_title" />
+        <item
+            android:id="@+id/statistics"
+            android:icon="@drawable/statistics_icon"
+            android:title="@string/statistiscs_title" />
+
+    </group>
+    <group
+        android:id="@+id/unsignedUser"
+        android:checkableBehavior="single">
+        <item
+            android:id="@+id/sign_in"
+            android:icon="@drawable/sign_in"
+            android:title="@string/sign_in" />
+        <item
+            android:id="@+id/sign_up"
+            android:icon="@drawable/sign_up"
+            android:title="@string/sign_up" />
+    </group>
+</menu>

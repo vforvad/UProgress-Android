@@ -32,8 +32,8 @@ public class ImageUploadHelper {
     public final UploadHelper helper;
     Uri imageUri;
     private File selectImageFile = null;
-    private static final int CAMERA_REQUEST = 1888;
-    private static final int GALERY_REQUEST = 444;
+    private final int CAMERA_REQUEST = 1888;
+    private final int GALERY_REQUEST = 444;
 
     public ImageUploadHelper(UploadHelper helper) {
         this.helper = helper;
@@ -54,14 +54,6 @@ public class ImageUploadHelper {
                 String path = getPath(takenPhotoUri);
                 selectImageFile = new File(path);
 
-//                if (file.exists()) {
-//                    try {
-//                        bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), takenPhotoUri);
-//                    } catch (IOException e) {
-//                        e.printStackTrace();
-//                    }
-////                    userAvatar.setImageBitmap(bitmap);
-//                }
             }
             if (selectImageFile != null) {
                 RequestBody requestFile =

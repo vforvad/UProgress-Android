@@ -1,5 +1,8 @@
 package com.example.vsokoltsov.uprogress.direction_detail.model;
 
+import android.content.Context;
+
+import com.example.vsokoltsov.uprogress.common.BaseApplication;
 import com.example.vsokoltsov.uprogress.common.utils.ApiRequester;
 import com.example.vsokoltsov.uprogress.direction_detail.model.steps.StepRequest;
 import com.example.vsokoltsov.uprogress.direction_detail.model.steps.StepResponse;
@@ -20,8 +23,8 @@ public class DirectionDetailModelImpl implements DirectionDetailModel {
     DirectionsApi directionsService;
     StepsApi stepService;
 
-    public DirectionDetailModelImpl () {
-        Retrofit retrofit = ApiRequester.getInstance().getRestAdapter();
+    public DirectionDetailModelImpl(Context context) {
+        Retrofit retrofit = ((BaseApplication) context.getApplicationContext()).getRetrofitClient();
         directionsService = retrofit.create(DirectionsApi.class);
         stepService = retrofit.create(StepsApi.class);
     }

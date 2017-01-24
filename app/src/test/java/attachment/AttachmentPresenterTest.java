@@ -1,5 +1,7 @@
 package attachment;
 
+import android.content.Context;
+
 import com.example.vsokoltsov.uprogress.attachment.model.AttachmentModel;
 import com.example.vsokoltsov.uprogress.attachment.model.AttachmentResponse;
 import com.example.vsokoltsov.uprogress.attachment.presenter.AttachmentPresenter;

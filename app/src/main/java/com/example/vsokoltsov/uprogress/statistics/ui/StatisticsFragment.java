@@ -17,6 +17,7 @@ import android.widget.SeekBar;
 import com.example.vsokoltsov.uprogress.R;
 import com.example.vsokoltsov.uprogress.authentication.models.AuthorizationService;
 import com.example.vsokoltsov.uprogress.common.ApplicationBaseActivity;
+import com.example.vsokoltsov.uprogress.common.BaseApplication;
 import com.example.vsokoltsov.uprogress.statistics.model.StatisticsInfo;
 import com.example.vsokoltsov.uprogress.statistics.model.StatisticsItem;
 import com.example.vsokoltsov.uprogress.statistics.model.StatisticsModel;
@@ -48,6 +49,7 @@ import java.util.List;
  */
 
 public class StatisticsFragment extends Fragment implements StatisticsView {
+    private BaseApplication baseApplication;
     private View fragmentView;
     private PieChart pieChart;
     private BarChart barChart;
@@ -66,12 +68,13 @@ public class StatisticsFragment extends Fragment implements StatisticsView {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        baseApplication = ((BaseApplication) getActivity().getApplicationContext());
         fragmentView = inflater.inflate(R.layout.statistics_fragment, container, false);
         activity = (ApplicationBaseActivity) getActivity();
         activity.setTitle(getResources().getString(R.string.statistiscs_title));
         orientation = getResources().getConfiguration().orientation;
         User user = AuthorizationService.getInstance().getCurrentUser();
-        StatisticsModel model = new StatisticsModelImpl();
+        StatisticsModel model = new StatisticsModelImpl(getActivity().getApplicationContext());
         presenter = new StatisticsPresenterImpl(model, this);
         presenter.getStatistics(user.getNick());
         return fragmentView;

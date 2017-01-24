@@ -1,5 +1,8 @@
 package com.example.vsokoltsov.uprogress.common.utils;
 
+import android.content.Context;
+
+import com.example.vsokoltsov.uprogress.common.BaseApplication;
 import com.example.vsokoltsov.uprogress.common.helpers.PreferencesHelper;
 
 import java.io.IOException;
@@ -32,8 +35,8 @@ public class ApiRequester {
     }
 
 
-    private OkHttpClient okHttpClient() {
-        PreferencesHelper preferencesHelper = new PreferencesHelper();
+    private OkHttpClient okHttpClient(Context context) {
+        PreferencesHelper preferencesHelper = new PreferencesHelper(context);
         return new OkHttpClient.Builder().addInterceptor(new Interceptor() {
             @Override
             public okhttp3.Response intercept(Chain chain) throws IOException {
@@ -48,8 +51,8 @@ public class ApiRequester {
         }).build();
     }
 
-    public Retrofit getRestAdapter() {
-        OkHttpClient client = this.okHttpClient();
+    public Retrofit getRestAdapter(Context context) {
+        OkHttpClient client = this.okHttpClient(context);
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(ApiRequester.API_ADDRESS)
                 .addConverterFactory(JacksonConverterFactory.create())

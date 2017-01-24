@@ -14,6 +14,7 @@ import com.example.vsokoltsov.uprogress.R;
 import com.example.vsokoltsov.uprogress.authentication.messages.UserMessage;
 import com.example.vsokoltsov.uprogress.authentication.models.AuthorizationService;
 import com.example.vsokoltsov.uprogress.authentication.models.SignIn.SignInRequest;
+import com.example.vsokoltsov.uprogress.common.BaseApplication;
 import com.example.vsokoltsov.uprogress.common.helpers.PreferencesHelper;
 import com.example.vsokoltsov.uprogress.authentication.models.AuthenticationModelImpl;
 import com.example.vsokoltsov.uprogress.authentication.models.AuthenticationModel;
@@ -34,6 +35,7 @@ import java.io.IOException;
  */
 
 public class SignInFragment extends Fragment implements Button.OnClickListener, AuthorizationScreen {
+    BaseApplication baseApplication;
     private View fragmentView;
     public ApplicationBaseActivity activity;
     private EditText emailField;
@@ -44,13 +46,14 @@ public class SignInFragment extends Fragment implements Button.OnClickListener, 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        baseApplication = ((BaseApplication) getActivity().getApplicationContext());
         activity = (ApplicationBaseActivity) getActivity();
 
         fragmentView = inflater.inflate(R.layout.sign_in_fragment, container, false);
         setFields();
         setButton();
 
-        final AuthenticationModel model = new AuthenticationModelImpl();
+        final AuthenticationModel model = new AuthenticationModelImpl(getActivity().getApplicationContext());
         presenter = new AuthenticationPresenterImpl(model, this, new PreferencesHelper(getContext()));
         return fragmentView;
     }

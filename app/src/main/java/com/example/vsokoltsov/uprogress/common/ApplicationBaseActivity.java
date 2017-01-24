@@ -1,31 +1,41 @@
 package com.example.vsokoltsov.uprogress.common;
 
 import android.os.Bundle;
-import android.os.PersistableBundle;
+import android.support.design.widget.NavigationView;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
 
 import com.example.vsokoltsov.uprogress.R;
 import com.example.vsokoltsov.uprogress.authentication.messages.UserMessage;
 import com.example.vsokoltsov.uprogress.authentication.models.AuthorizationService;
-import com.example.vsokoltsov.uprogress.user.current.CurrentUser;
 import com.example.vsokoltsov.uprogress.navigation.NavigationDrawer;
+import com.example.vsokoltsov.uprogress.navigation.NavigationPresenter;
 import com.example.vsokoltsov.uprogress.common.utils.ContextManager;
+import com.example.vsokoltsov.uprogress.navigation.NavigationViewItemsClick;
+import com.example.vsokoltsov.uprogress.user.current.User;
 
 import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 /**
  * Created by vsokoltsov on 22.11.16.
  */
 
-public class ApplicationBaseActivity extends AppCompatActivity {
+public class ApplicationBaseActivity extends AppCompatActivity implements NavigationViewItemsClick {
     private Toolbar mActionBarToolbar;
-    private NavigationDrawer mNavigationDrawerFragment;
-    private DrawerLayout drawerLayout;
     private ProgressBar progressBar;
+    private DrawerLayout drawerLayout;
+    private NavigationView navigationView;
+    private NavigationPresenter navigationPresenter;
+    private User user;
+    private AuthorizationService authorizationService = AuthorizationService.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,14 +56,18 @@ public class ApplicationBaseActivity extends AppCompatActivity {
 
     public void setToolbar() {
         mActionBarToolbar = (Toolbar) findViewById(R.id.toolbar_actionbar);
-        setSupportActionBar(mActionBarToolbar);
+        defaultToolbar(mActionBarToolbar);
     }
 
     public void setLeftNavigationBar() {
-        android.support.v4.app.FragmentManager fragmentManager = getSupportFragmentManager();
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-        mNavigationDrawerFragment = (NavigationDrawer) fragmentManager.findFragmentById(R.id.navigation_drawer);
-        mNavigationDrawerFragment.setUp(R.id.navigation_drawer, drawerLayout);
+        user = AuthorizationService.getInstance().getCurrentUser();
+        navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationPresenter = new NavigationPresenter(navigationView, drawerLayout,
+                this,
+                user,
+                getAcionBarToggler());
+        navigationPresenter.setUpNavigation();
     }
 
     public void setProgressBar() {
@@ -77,6 +91,96 @@ public class ApplicationBaseActivity extends AppCompatActivity {
     }
 
     public void setToolbar(Toolbar toolbar) {
-        setSupportActionBar(toolbar);
+        defaultToolbar(toolbar);
+    }
+
+    private void defaultToolbar(Toolbar toolbar) {
+        if (toolbar != null) {
+            setSupportActionBar(toolbar);
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_menu);
+            getSupportActionBar().setHomeButtonEnabled(true);
+        }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch(item.getItemId()) {
+            case android.R.id.home:
+                drawerLayout.openDrawer(GravityCompat.START);
+                break;
+            default:
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    private ActionBarDrawerToggle getAcionBarToggler() {
+        ActionBarDrawerToggle actionBarDrawerToggle = new ActionBarDrawerToggle(this,
+                drawerLayout,
+                mActionBarToolbar,
+                R.string.navigation_drawer_open,
+                R.string.navigation_drawer_close){
+
+            @Override
+            public void onDrawerClosed(View drawerView) {
+                // Code here will be triggered once the drawer closes as we dont want anything to happen so we leave this blank
+                super.onDrawerClosed(drawerView);
+            }
+
+            @Override
+            public void onDrawerOpened(View drawerView) {
+                // Code here will be triggered once the drawer open as we dont want anything to happen so we leave this blank
+
+                super.onDrawerOpened(drawerView);
+            }
+        };
+
+        drawerLayout.post(new Runnable() {
+            @Override
+            public void run() {
+                actionBarDrawerToggle.syncState();
+            }
+        });
+        return actionBarDrawerToggle;
+    }
+
+    public void setDetailViewToolbar() {
+        getSupportActionBar().setHomeAsUpIndicator(R.drawable.return_icon);
+    }
+
+    @Override
+    public void signOut() {
+        authorizationService.setCurrentUser(null);
+        ((BaseApplication) getApplicationContext()).getPreferencesHelper().deleteToken();
+        EventBus.getDefault().post(new UserMessage("signOut", authorizationService.getCurrentUser()));
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    public void onStop() {
+        EventBus.getDefault().unregister(this);
+        super.onStop();
+    }
+
+    // This method will be called when a MessageEvent is posted
+    @Subscribe
+    public void onEvent(UserMessage event){
+        switch (event.operationName){
+            case "currentUser":
+                navigationPresenter.setCurrentUser(event.user);
+                navigationPresenter.setUpNavigation();
+                break;
+            case "signOut":
+                navigationPresenter.setCurrentUser(event.user);
+                navigationPresenter.setUpNavigation();
+                break;
+            default: break;
+        }
     }
 }
