@@ -44,7 +44,7 @@ public class DirectionCompletionItemView extends CardView {
 
     private void init() {
         inflate(getContext(), R.layout.direction_list_item, this);
-        builder = new StringBuilder();
+
         directionPercents = (TextView) findViewById(R.id.directionPercents);
         directionTitle = (TextView) findViewById(R.id.directionTitle);
         directionRation = (TextView) findViewById(R.id.directionRation);
@@ -53,9 +53,8 @@ public class DirectionCompletionItemView extends CardView {
     }
 
     public void bind(Direction direction) {
-        builder.append(direction.getPercentsResult());
         directionTitle.setText(direction.getTitle());
-        directionPercents.setText(builder.toString());
+        directionPercents.setText(Integer.toString(direction.getPercentsResult()));
         directionRation.setText(direction.getFinishedStepsRation());
 
         //Icon
