@@ -25,6 +25,7 @@ public class DirectionDetailActivity extends ApplicationBaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         super.setDetailViewToolbar();
+        super.disableLeftNavigationBar();
         fragmentManager = getSupportFragmentManager();
         android.support.v4.app.FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         directionDetailFragment = new DirectionDetailFragment();
