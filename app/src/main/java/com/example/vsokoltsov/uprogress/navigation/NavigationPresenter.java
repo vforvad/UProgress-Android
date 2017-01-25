@@ -150,7 +150,7 @@ public class NavigationPresenter implements NavigationView.OnNavigationItemSelec
             item.setChecked(true);
         }
         drawerLayout.closeDrawers();
-
+        String className = context.getClass().getSimpleName();
         switch(item.getItemId()) {
             case R.id.sign_in:
                 Intent signInActivity = new Intent(context, AuthorizationActivity.class);
