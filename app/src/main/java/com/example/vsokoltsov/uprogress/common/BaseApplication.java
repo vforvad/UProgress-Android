@@ -2,6 +2,7 @@ package com.example.vsokoltsov.uprogress.common;
 
 import android.app.Application;
 import android.content.Context;
+import android.support.multidex.MultiDex;
 
 import com.example.vsokoltsov.uprogress.common.helpers.ImageHelper;
 import com.example.vsokoltsov.uprogress.common.helpers.PreferencesHelper;
@@ -29,6 +30,11 @@ public class BaseApplication extends Application {
         preferencesHelper = new PreferencesHelper(getApplicationContext());
     }
 
+    @Override
+    protected void attachBaseContext(Context base) {
+        super.attachBaseContext(base);
+        MultiDex.install(this);
+    }
 
     public Retrofit getRetrofitClient() {
         return retrofitClient;
