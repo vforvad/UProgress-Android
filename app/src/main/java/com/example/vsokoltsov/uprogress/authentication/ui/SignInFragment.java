@@ -59,7 +59,7 @@ public class SignInFragment extends Fragment implements Button.OnClickListener, 
     }
 
     private void setFields() {
-        emailField = (EditText) fragmentView.findViewById(R.id.emailField);
+        emailField = (EditText) fragmentView.findViewById(R.id.signInEmailField);
         passwordField = (EditText) fragmentView.findViewById(R.id.passwordField);
 
         Drawable emailImg = ContextCompat.getDrawable(getContext(), R.drawable.email);

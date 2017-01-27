@@ -8,14 +8,15 @@
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:id="@+id/signInFragment">
 
         <android.support.v7.widget.AppCompatEditText
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:inputType="textEmailAddress"
             android:ems="10"
-            android:id="@+id/emailField"
+            android:id="@+id/signInEmailField"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="30dp"
             android:layout_marginLeft="20dp"

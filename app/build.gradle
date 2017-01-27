@@ -25,7 +25,7 @@ android {
         targetSdkVersion 25
         versionCode 1
         versionName "1.0"
-        testInstrumentationRunner "android.support.test.runner.AndroidJunitRunner"
+        testInstrumentationRunner 'android.support.test.runner.AndroidJUnitRunner'
         multiDexEnabled true
 
 //        vectorDrawables.useSupportLibrary = true
@@ -78,11 +78,9 @@ android {
 }
 
 configurations.all {
-    resolutionStrategy.force 'junit:junit:4.12'
-    resolutionStrategy.force "com.android.support:support-annotations:25.1.0"
-    resolutionStrategy.force "com.android.support:appcompat-v7:25.1.0"
-    resolutionStrategy.force "com.android.support:design:25.1.0"
-    //resolutionStrategy.force "com.android.support:support-compat:25.1.0"
+    resolutionStrategy {
+        force 'com.android.support:support-v4:25.1.0'
+    }
 }
 
 dependencies {
@@ -113,20 +111,16 @@ dependencies {
 
     testCompile "org.mockito:mockito-core:1.+"
 
-    // Espresso support
-    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
-        exclude group: 'com.android.support', module: 'support-annotations'
-        exclude group: 'javax.inject'
-    })
+    // Espresso UI Testing dependencies.
+    androidTestCompile "com.android.support.test.espresso:espresso-core:2.2.2"
+    androidTestCompile "com.android.support.test.espresso:espresso-contrib:2.2.2"
+    androidTestCompile "com.android.support.test.espresso:espresso-intents:2.2.2"
+    compile "com.android.support.test.espresso:espresso-idling-resource:2.2.2"
+}
 
-    androidTestCompile 'com.android.support.test:runner:0.5'
-
-
-    // add this for intent mocking support
-    androidTestCompile('com.android.support.test.espresso:espresso-intents:2.2.2') {
-        exclude module: 'support-annotations'
+configurations.compile.dependencies.each { compileDependency ->
+    println "Excluding compile dependency: ${compileDependency.getName()}"
+    configurations.androidTestCompile.dependencies.each { androidTestCompileDependency ->
+        configurations.androidTestCompile.exclude module: "${compileDependency.getName()}"
     }
-
-
-    //androidTestCompile 'com.android.support.test:testing-support-lib:0.1'
 }

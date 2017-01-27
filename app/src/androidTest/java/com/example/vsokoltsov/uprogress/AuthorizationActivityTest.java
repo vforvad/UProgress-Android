@@ -13,11 +13,15 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import static android.support.test.espresso.Espresso.onData;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.hasErrorText;
+import static android.support.test.espresso.matcher.ViewMatchers.withChild;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
+import static android.support.test.espresso.matcher.ViewMatchers.withParent;
+import static org.hamcrest.core.AllOf.allOf;
 
 /**
  * Created by vsokoltsov on 26.01.17.
@@ -35,7 +39,7 @@ public class AuthorizationActivityTest {
     @Test
     public void failedSignInFragmentAuth() {
         onView(withId(R.id.signInButton)).perform(click());
-        onView(withId(R.id.emailField)).check(matches(hasErrorText("Can\'t be blank")));
+        onView(allOf(withId(R.id.signInEmailField))).check(matches(hasErrorText("Can\'t be blank")));
     }
 
 
