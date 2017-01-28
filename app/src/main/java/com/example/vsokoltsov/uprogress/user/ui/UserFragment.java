@@ -28,6 +28,7 @@ import com.example.vsokoltsov.uprogress.authentication.models.Attachment;
 import com.example.vsokoltsov.uprogress.authentication.models.AuthorizationService;
 import com.example.vsokoltsov.uprogress.common.ApplicationBaseActivity;
 import com.example.vsokoltsov.uprogress.common.BaseApplication;
+import com.example.vsokoltsov.uprogress.common.ErrorHandler;
 import com.example.vsokoltsov.uprogress.common.helpers.ImageUploadHelper;
 import com.example.vsokoltsov.uprogress.common.helpers.UploadHelper;
 import com.example.vsokoltsov.uprogress.common.services.ErrorResponse;
@@ -75,6 +76,7 @@ public class UserFragment extends Fragment implements PopupInterface, UserProfil
     CollapsingToolbarLayout layout;
     Uri imageUri;
     ImageUploadHelper uploadHelper;
+    private ErrorHandler errorHandler;
 
     public static final int MEDIA_TYPE_IMAGE = 1;
     private File selectImageFile = null;
@@ -88,6 +90,7 @@ public class UserFragment extends Fragment implements PopupInterface, UserProfil
                              Bundle savedInstanceState) {
         baseApplication = ((BaseApplication) getActivity().getApplicationContext());
         fragmentView = inflater.inflate(R.layout.user_fragment, container, false);
+        errorHandler = new ErrorHandler(getActivity());
         activity = (ApplicationBaseActivity) getActivity();
         UserModel model = new UserModelImpl(getActivity().getApplicationContext());
         uploadHelper = new ImageUploadHelper(this);
@@ -163,7 +166,7 @@ public class UserFragment extends Fragment implements PopupInterface, UserProfil
 
     @Override
     public void failedPopupOperation(Throwable t) {
-
+        errorHandler.showMessage(t);
     }
 
     @Override
@@ -178,16 +181,21 @@ public class UserFragment extends Fragment implements PopupInterface, UserProfil
 
     @Override
     public void failedUpdate(Throwable t) {
-        RetrofitException error = (RetrofitException) t;
-        ErrorResponse errors = null;
         try {
-            errors = error.getErrorBodyAs(ErrorResponse.class);
-        } catch (IOException e) {
-            e.printStackTrace();
+            RetrofitException error = (RetrofitException) t;
+            ErrorResponse errors = null;
+            try {
+                errors = error.getErrorBodyAs(ErrorResponse.class);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            popup.firstNameWrapper.setError(errors.getFullErrorMessage("first_name"));
+            popup.lastNameWrapper.setError(errors.getFullErrorMessage("last_name"));
+            popup.emailWrapper.setError(errors.getFullErrorMessage("email"));
         }
-        popup.firstNameWrapper.setError(errors.getFullErrorMessage("first_name"));
-        popup.lastNameWrapper.setError(errors.getFullErrorMessage("last_name"));
-        popup.emailWrapper.setError(errors.getFullErrorMessage("email"));
+        catch(Exception e) {
+            errorHandler.showMessage(t);
+        }
     }
 
     @Override
@@ -247,7 +255,7 @@ public class UserFragment extends Fragment implements PopupInterface, UserProfil
 
     @Override
     public void failedUpload(Throwable t) {
-
+        errorHandler.showMessage(t);
     }
 
     @Override
