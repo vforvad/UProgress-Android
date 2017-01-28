@@ -95,14 +95,18 @@ public class SignInFragment extends Fragment implements Button.OnClickListener, 
 
     @Override
     public void failedResponse(Throwable t) {
+        RetrofitException error = (RetrofitException) t;
         try {
-            RetrofitException error = (RetrofitException) t;
             ErrorResponse errors = null;
             errors = error.getErrorBodyAs(ErrorResponse.class);
             emailField.setError(errors.getFullErrorMessage("email"));
             passwordField.setError(errors.getFullErrorMessage("password"));
         } catch (IOException e) {
-            dialog.show("500 error");
+            int errorCode = error.getResponse().code();
+            if (errorCode >= 500) {
+                dialog.show("500 error");
+            }
+
         }
     }
 

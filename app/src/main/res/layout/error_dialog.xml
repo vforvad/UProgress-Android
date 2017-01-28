@@ -40,7 +40,5 @@
         android:layout_centerHorizontal="true"
         android:backgroundTint="#DA5F6A"
         android:textColor="#ffffffff" />
-    <!--android:background="@drawable/btn_flat_red_selector"-->
-    <!--android:src="@drawable/dialog_cross"-->
 
 </RelativeLayout>
