@@ -21,6 +21,7 @@ import android.widget.SearchView;
 
 import com.example.vsokoltsov.uprogress.R;
 import com.example.vsokoltsov.uprogress.common.BaseApplication;
+import com.example.vsokoltsov.uprogress.common.ErrorHandler;
 import com.example.vsokoltsov.uprogress.common.adapters.BaseListAdapterInterface;
 import com.example.vsokoltsov.uprogress.common.services.ErrorResponse;
 import com.example.vsokoltsov.uprogress.common.utils.RetrofitException;
@@ -72,6 +73,7 @@ public class DirectionsListFragment extends Fragment implements SwipeRefreshLayo
     private FloatingActionButton floatingActionButton;
     private DirectionsListPopup formFragment;
     private Direction pickedDirection;
+    private ErrorHandler errorHandler;
 
     static {
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
@@ -87,6 +89,7 @@ public class DirectionsListFragment extends Fragment implements SwipeRefreshLayo
         activity = (ApplicationBaseActivity) getActivity();
         activity.setTitle(getResources().getString(R.string.directions_title));
         fragmentView = inflater.inflate(R.layout.directions_list_fragment, container, false);
+        errorHandler = new ErrorHandler(getActivity());
         setElements();
         setComponents();
         presenter.loadDirections();
@@ -270,15 +273,7 @@ public class DirectionsListFragment extends Fragment implements SwipeRefreshLayo
 
     @Override
     public void failedDirectionCreation(Throwable t) {
-        RetrofitException error = (RetrofitException) t;
-        ErrorResponse errors = null;
-        try {
-            errors = error.getErrorBodyAs(ErrorResponse.class);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        formFragment.titleWrapper.setError(errors.getFullErrorMessage("title"));
-        formFragment.descriptionWrapper.setError(errors.getFullErrorMessage("description"));
+       directionOperationInvalid(t);
     }
 
     @Override
@@ -297,7 +292,7 @@ public class DirectionsListFragment extends Fragment implements SwipeRefreshLayo
 
     @Override
     public void failedUpdateDirection(Throwable t) {
-
+       directionOperationInvalid(t);
     }
 
     @Override
@@ -355,6 +350,18 @@ public class DirectionsListFragment extends Fragment implements SwipeRefreshLayo
 
     @Override
     public void failedPopupOperation(Throwable t) {
+        errorHandler.showMessage(t);
+    }
 
+    private void directionOperationInvalid(Throwable t) {
+        try {
+            RetrofitException error = (RetrofitException) t;
+            ErrorResponse errors = null;
+            errors = error.getErrorBodyAs(ErrorResponse.class);
+            formFragment.titleWrapper.setError(errors.getFullErrorMessage("title"));
+            formFragment.descriptionWrapper.setError(errors.getFullErrorMessage("description"));
+        } catch (IOException e) {
+            errorHandler.showMessage(t);
+        }
     }
 }
