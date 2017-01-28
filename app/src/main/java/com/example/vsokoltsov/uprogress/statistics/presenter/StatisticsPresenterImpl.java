@@ -24,19 +24,20 @@ public class StatisticsPresenterImpl implements StatisticsPresenter {
 
     @Override
     public void getStatistics(String userId) {
+        view.startLoader();
         model.getStatistics(userId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<StatisticsResponse>() {
                     @Override
                     public void onCompleted() {
-
+                        view.stopLoader();
                     }
 
                     @Override
                     public void onError(Throwable e) {
                         view.failedLoadStatistics(e);
-//                        view.stopLoader();
+                        view.stopLoader();
                     }
 
                     @Override

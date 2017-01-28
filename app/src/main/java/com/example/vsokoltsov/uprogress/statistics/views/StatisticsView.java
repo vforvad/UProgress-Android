@@ -9,4 +9,6 @@ import com.example.vsokoltsov.uprogress.statistics.model.StatisticsInfo;
 public interface StatisticsView {
     void successLoadStatistics(StatisticsInfo statisticsInfo);
     void failedLoadStatistics(Throwable t);
+    void startLoader();
+    void stopLoader();
 }

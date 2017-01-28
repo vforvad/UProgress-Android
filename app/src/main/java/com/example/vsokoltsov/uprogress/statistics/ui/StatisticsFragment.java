@@ -18,6 +18,7 @@ import com.example.vsokoltsov.uprogress.R;
 import com.example.vsokoltsov.uprogress.authentication.models.AuthorizationService;
 import com.example.vsokoltsov.uprogress.common.ApplicationBaseActivity;
 import com.example.vsokoltsov.uprogress.common.BaseApplication;
+import com.example.vsokoltsov.uprogress.common.ErrorHandler;
 import com.example.vsokoltsov.uprogress.statistics.model.StatisticsInfo;
 import com.example.vsokoltsov.uprogress.statistics.model.StatisticsItem;
 import com.example.vsokoltsov.uprogress.statistics.model.StatisticsModel;
@@ -64,12 +65,14 @@ public class StatisticsFragment extends Fragment implements StatisticsView {
     private static StatisticsInfo localStatistics;
     private ApplicationBaseActivity activity;
     private int orientation;
+    private ErrorHandler errorHandler;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         baseApplication = ((BaseApplication) getActivity().getApplicationContext());
         fragmentView = inflater.inflate(R.layout.statistics_fragment, container, false);
+        errorHandler = new ErrorHandler(getActivity());
         activity = (ApplicationBaseActivity) getActivity();
         activity.setTitle(getResources().getString(R.string.statistiscs_title));
         orientation = getResources().getConfiguration().orientation;
@@ -78,99 +81,6 @@ public class StatisticsFragment extends Fragment implements StatisticsView {
         presenter = new StatisticsPresenterImpl(model, this);
         presenter.getStatistics(user.getNick());
         return fragmentView;
-    }
-    
-    private void setBarChart() {
-//        barChart.setOnChartValueSelectedListener(this);
-
-        barChart.setDrawBarShadow(false);
-        barChart.setDrawValueAboveBar(true);
-
-        barChart.getDescription().setEnabled(false);
-
-        // if more than 60 entries are displayed in the chart, no values will be
-        // drawn
-        barChart.setMaxVisibleValueCount(1000);
-
-        // scaling can now only be done on x- and y-axis separately
-        barChart.setPinchZoom(false);
-
-        barChart.setDrawGridBackground(false);
-        // barChart.setDrawYLabels(false);
-
-//        IAxisValueFormatter xAxisFormatter = new DayAxisValueFormatter(barChart);
-
-
-
-//        mSeekBarY.setProgress(50);
-//        mSeekBarX.setProgress(12);
-
-        // setting data
-//        mSeekBarY.setProgress(50);
-//        mSeekBarX.setProgress(12);
-    }
-
-    private void setPieChart() {
-        pieChart.setUsePercentValues(true);
-        pieChart.getDescription().setEnabled(false);
-        pieChart.setExtraOffsets(5, 10, 5, 5);
-
-        pieChart.setDragDecelerationFrictionCoef(0.95f);
-
-//        pieChart.setCenterTextTypeface(mTfLight);
-//        pieChart.setCenterText(generateCenterSpannableText());
-
-        pieChart.setDrawHoleEnabled(true);
-        pieChart.setHoleColor(Color.WHITE);
-
-        pieChart.setTransparentCircleColor(Color.WHITE);
-        pieChart.setTransparentCircleAlpha(110);
-
-        pieChart.setHoleRadius(50f);
-        pieChart.setTransparentCircleRadius(53f);
-
-        pieChart.setDrawCenterText(true);
-
-        pieChart.setRotationAngle(0);
-        // enable rotation of the chart by touch
-        pieChart.setRotationEnabled(true);
-        pieChart.setHighlightPerTapEnabled(true);
-
-        // pieChart.setUnit(" €");
-        // pieChart.setDrawUnitsInChart(true);
-
-        // add a selection listener
-//        pieChart.setOnChartValueSelectedListener(getActivity());
-
-//        setData(4, 100);
-
-        pieChart.animateY(1400, Easing.EasingOption.EaseInOutQuad);
-        // pieChart.spin(2000, 0, 360);
-
-//        mSeekBarX.setOnSeekBarChangeListener(this);
-//        mSeekBarY.setOnSeekBarChangeListener(this);
-    }
-
-    private void setData(StatisticsInfo statisticsInfo) {
-        ArrayList<BarEntry> entries = new ArrayList<>();
-        List<StatisticsItem> items = statisticsInfo.getDirectionsSteps();
-        for(int i = 0; i < items.size(); i++) {
-            StatisticsItem item = items.get(i);
-            entries.add(new BarEntry(i, item.getValue().floatValue(), item.getLabel()));
-        }
-        barChart.animateY(1000);
-        barChart.animateX(1000);
-        BarDataSet dataset = new BarDataSet(entries, "# of Calls");
-        dataset.setColors(ColorTemplate.COLORFUL_COLORS);
-        dataset.setValueFormatter(new IValueFormatter() {
-            @Override
-            public String getFormattedValue(float value, Entry entry, int dataSetIndex, ViewPortHandler viewPortHandler) {
-                return entry.getData().toString() + " - " + entry.getY();
-            }
-        });
-        BarData data = new BarData(dataset);
-        barChart.setData(data);
-        barChart.invalidate();
     }
 
     @Override
@@ -209,7 +119,17 @@ public class StatisticsFragment extends Fragment implements StatisticsView {
 
     @Override
     public void failedLoadStatistics(Throwable t) {
+        errorHandler.showMessage(t);
+    }
 
+    @Override
+    public void startLoader() {
+        activity.startProgressBar();
+    }
+
+    @Override
+    public void stopLoader() {
+        activity.stopProgressBar();
     }
 
     @Override
