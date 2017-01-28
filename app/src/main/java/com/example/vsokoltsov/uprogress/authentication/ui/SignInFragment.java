@@ -16,6 +16,7 @@ import com.example.vsokoltsov.uprogress.authentication.models.AuthorizationServi
 import com.example.vsokoltsov.uprogress.authentication.models.SignIn.SignInRequest;
 import com.example.vsokoltsov.uprogress.common.BaseApplication;
 import com.example.vsokoltsov.uprogress.common.ErrorDialog;
+import com.example.vsokoltsov.uprogress.common.ErrorHandler;
 import com.example.vsokoltsov.uprogress.common.helpers.PreferencesHelper;
 import com.example.vsokoltsov.uprogress.authentication.models.AuthenticationModelImpl;
 import com.example.vsokoltsov.uprogress.authentication.models.AuthenticationModel;
@@ -43,7 +44,7 @@ public class SignInFragment extends Fragment implements Button.OnClickListener, 
     private EditText passwordField;
     private AuthenticationPresenter presenter;
     AuthorizationService auth = AuthorizationService.getInstance();
-    ErrorDialog dialog;
+    ErrorHandler errorHandler;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -52,7 +53,7 @@ public class SignInFragment extends Fragment implements Button.OnClickListener, 
         activity = (ApplicationBaseActivity) getActivity();
 
         fragmentView = inflater.inflate(R.layout.sign_in_fragment, container, false);
-        dialog = new ErrorDialog(getActivity());
+        errorHandler = new ErrorHandler(getActivity());
         setFields();
         setButton();
 
@@ -102,11 +103,7 @@ public class SignInFragment extends Fragment implements Button.OnClickListener, 
             emailField.setError(errors.getFullErrorMessage("email"));
             passwordField.setError(errors.getFullErrorMessage("password"));
         } catch (IOException e) {
-            int errorCode = error.getResponse().code();
-            if (errorCode >= 500) {
-                dialog.show("500 error");
-            }
-
+            errorHandler.showMessage(t);
         }
     }
 

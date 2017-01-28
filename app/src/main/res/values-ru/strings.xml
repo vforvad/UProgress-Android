@@ -44,4 +44,6 @@
     <string name="user_profile_description">О себе</string>
     <string name="user_profile_photo">Фото с камеры</string>
     <string name="user_profile_collection">Выбрать из галереи</string>
+
+    <string name="internal_server_error">Ошибка сервера. Повторите запрос позже</string>
 </resources>

@@ -14,6 +14,7 @@ import com.example.vsokoltsov.uprogress.R;
 import com.example.vsokoltsov.uprogress.authentication.messages.UserMessage;
 import com.example.vsokoltsov.uprogress.authentication.models.AuthorizationService;
 import com.example.vsokoltsov.uprogress.authentication.models.SignUp.SignUpRequest;
+import com.example.vsokoltsov.uprogress.common.ErrorHandler;
 import com.example.vsokoltsov.uprogress.common.helpers.PreferencesHelper;
 import com.example.vsokoltsov.uprogress.authentication.models.AuthenticationModel;
 import com.example.vsokoltsov.uprogress.authentication.models.AuthenticationModelImpl;
@@ -42,12 +43,14 @@ public class SignUpFragment extends Fragment implements Button.OnClickListener, 
     private EditText nickField;
     private AuthenticationPresenter presenter;
     private AuthorizationService auth = AuthorizationService.getInstance();
+    ErrorHandler errorHandler;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         activity = (ApplicationBaseActivity) getActivity();
         fragmentView = inflater.inflate(R.layout.sign_up_fragment, container, false);
+        errorHandler = new ErrorHandler(getActivity());
         setFields();
         setButton();
         final AuthenticationModel model = new AuthenticationModelImpl(getActivity().getApplicationContext());
@@ -97,16 +100,16 @@ public class SignUpFragment extends Fragment implements Button.OnClickListener, 
     @Override
     public void failedResponse(Throwable t) {
         RetrofitException error = (RetrofitException) t;
-        ErrorResponse errors = null;
         try {
+            ErrorResponse errors = null;
             errors = error.getErrorBodyAs(ErrorResponse.class);
+            emailField.setError(errors.getFullErrorMessage("email"));
+            passwordField.setError(errors.getFullErrorMessage("password"));
+            passwordConfirmationField.setError(errors.getFullErrorMessage("password_confirmation"));
+            nickField.setError(errors.getFullErrorMessage("nick"));
         } catch (IOException e) {
-            e.printStackTrace();
+            errorHandler.showMessage(t);
         }
-        emailField.setError(errors.getFullErrorMessage("email"));
-        passwordField.setError(errors.getFullErrorMessage("password"));
-        passwordConfirmationField.setError(errors.getFullErrorMessage("password_confirmation"));
-        nickField.setError(errors.getFullErrorMessage("nick"));
     }
 
     @Override
