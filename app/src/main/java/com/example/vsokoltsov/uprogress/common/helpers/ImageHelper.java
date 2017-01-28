@@ -1,16 +1,16 @@
 package com.example.vsokoltsov.uprogress.common.helpers;
 
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AppCompatDelegate;
 import android.widget.ImageView;
 
 import com.example.vsokoltsov.uprogress.R;
+import com.example.vsokoltsov.uprogress.common.BaseApplication;
 import com.example.vsokoltsov.uprogress.user.current.User;
 import com.jakewharton.picasso.OkHttp3Downloader;
 import com.squareup.picasso.Picasso;
-import com.squareup.picasso.Target;
 
 import java.io.File;
 
@@ -21,6 +21,10 @@ public class ImageHelper {
     private Context context;
     Drawable error;
     Picasso picasso;
+
+    static {
+        AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
+    }
 
     public ImageHelper(Context context) {
         this.context = context;
@@ -44,22 +48,23 @@ public class ImageHelper {
                 .into(destination);
     }
 
-    public void setEmptyImage(ImageView destination, int emptyImage) {
-        Drawable drawable = ContextCompat.getDrawable(context, emptyImage);
-        picasso
-                .load(emptyImage)
-                .fit()
-                .error(drawable)
-                .into(destination);
+    public void setEmptyImage(Context context, ImageView destination, int emptyImage) {
+            Drawable drawable = context.getResources().getDrawable(emptyImage);
+            picasso
+                    .load(emptyImage)
+                    .fit()
+                    .error(drawable)
+                    .into(destination);
+
 
     }
 
-    public void setUserImage(User user, ImageView destination, int emptyImage) {
+    public void setUserImage(Context context, User user, ImageView destination, int emptyImage) {
         if (user.getImage() != null) {
             load(user.getImage().getUrl(), destination, emptyImage);
         }
         else {
-            setEmptyImage(destination, emptyImage);
+            setEmptyImage(context, destination, emptyImage);
         }
     }
 

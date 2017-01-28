@@ -132,7 +132,7 @@ public class UserFragment extends Fragment implements PopupInterface, UserProfil
     private void loadUserImage() {
         userAvatar = (ImageView) fragmentView.findViewById(R.id.userAvatar);
         user = AuthorizationService.getInstance().getCurrentUser();
-        baseApplication.getImageHelper().setUserImage(user, userAvatar, R.drawable.empty_user);
+        baseApplication.getImageHelper().setUserImage(getContext(), user, userAvatar, R.drawable.ic_empty_user);
     }
 
     private void loadList() {
@@ -249,7 +249,7 @@ public class UserFragment extends Fragment implements PopupInterface, UserProfil
 
     @Override
     public void successUpload(Attachment attachment) {
-        baseApplication.getImageHelper().load(attachment.getUrl(), userAvatar, R.drawable.empty_user);
+        baseApplication.getImageHelper().load(attachment.getUrl(), userAvatar, R.drawable.ic_empty_user);
         AuthorizationService.getInstance().getCurrentUser().setImage(attachment);
     }
 

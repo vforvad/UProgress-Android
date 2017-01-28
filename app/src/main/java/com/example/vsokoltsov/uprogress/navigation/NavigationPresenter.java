@@ -15,7 +15,6 @@ import android.widget.TextView;
 
 import com.example.vsokoltsov.uprogress.R;
 import com.example.vsokoltsov.uprogress.authentication.ui.AuthorizationActivity;
-import com.example.vsokoltsov.uprogress.common.ApplicationBaseActivity;
 import com.example.vsokoltsov.uprogress.common.BaseApplication;
 import com.example.vsokoltsov.uprogress.directions_list.ui.DirectionsActivity;
 import com.example.vsokoltsov.uprogress.statistics.ui.StatisticsActivity;
@@ -133,7 +132,7 @@ public class NavigationPresenter implements NavigationView.OnNavigationItemSelec
 
     private void setImageInfo() {
         imageView = (CircleImageView) navHeader.findViewById(R.id.circleView);
-        ((BaseApplication) context.getApplicationContext()).getImageHelper().setUserImage(currentUser, imageView, R.drawable.empty_user);
+        ((BaseApplication) context.getApplicationContext()).getImageHelper().setUserImage(context, currentUser, imageView, R.drawable.ic_empty_user);
     }
 
     private void setNavigationItemListener() {

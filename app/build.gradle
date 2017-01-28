@@ -28,7 +28,7 @@ android {
         testInstrumentationRunner 'android.support.test.runner.AndroidJUnitRunner'
         multiDexEnabled true
 
-//        vectorDrawables.useSupportLibrary = true
+        vectorDrawables.useSupportLibrary = true
         generatedDensities = []
     }
 
@@ -66,6 +66,16 @@ android {
 
     testOptions {
         unitTests.returnDefaultValues = true
+    }
+
+    buildTypes {
+        production {
+            resValue "string", "serverUrl",  "http://95.213.251.57"
+        }
+
+        development {
+            resValue "string", "serverUrl", "http://1840b304.ngrok.io"
+        }
     }
 
     lintOptions {

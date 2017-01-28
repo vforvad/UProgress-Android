@@ -1,6 +1,5 @@
 package com.example.vsokoltsov.uprogress.navigation;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
@@ -15,9 +14,7 @@ import android.widget.TextView;
 
 import com.example.vsokoltsov.uprogress.R;
 import com.example.vsokoltsov.uprogress.common.BaseApplication;
-import com.example.vsokoltsov.uprogress.common.helpers.ImageHelper;
 import com.example.vsokoltsov.uprogress.user.current.User;
-import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -90,10 +87,10 @@ public class NavigationListAdapter extends BaseAdapter {
 //        Drawable d = new BitmapDrawable(activity.getResources(), Bitmap.createScaledBitmap(bitmap, width, backgroundHeight, true));
 //        contentView.findViewById(R.id.backgroundView).setBackground(d);
         if (navigation.getUser().getImage() != null) {
-            Drawable emptyUser = ContextCompat.getDrawable(context, R.drawable.empty_user);
+            Drawable emptyUser = ContextCompat.getDrawable(context, R.drawable.ic_empty_user);
             String fullUrl = navigation.getUser().getImage().getUrl();
 //            baseApplication = ((BaseApplication) getActivity().getApplicationContext());
-            ((BaseApplication) context.getApplicationContext()).getImageHelper().setUserImage(user, avatarView, R.drawable.empty_user);
+            ((BaseApplication) context.getApplicationContext()).getImageHelper().setUserImage(context, user, avatarView, R.drawable.ic_empty_user);
         }
     }
 
