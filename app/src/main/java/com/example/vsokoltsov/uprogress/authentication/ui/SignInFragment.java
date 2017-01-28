@@ -15,6 +15,7 @@ import com.example.vsokoltsov.uprogress.authentication.messages.UserMessage;
 import com.example.vsokoltsov.uprogress.authentication.models.AuthorizationService;
 import com.example.vsokoltsov.uprogress.authentication.models.SignIn.SignInRequest;
 import com.example.vsokoltsov.uprogress.common.BaseApplication;
+import com.example.vsokoltsov.uprogress.common.ErrorDialog;
 import com.example.vsokoltsov.uprogress.common.helpers.PreferencesHelper;
 import com.example.vsokoltsov.uprogress.authentication.models.AuthenticationModelImpl;
 import com.example.vsokoltsov.uprogress.authentication.models.AuthenticationModel;
@@ -42,6 +43,7 @@ public class SignInFragment extends Fragment implements Button.OnClickListener, 
     private EditText passwordField;
     private AuthenticationPresenter presenter;
     AuthorizationService auth = AuthorizationService.getInstance();
+    ErrorDialog dialog;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -50,6 +52,7 @@ public class SignInFragment extends Fragment implements Button.OnClickListener, 
         activity = (ApplicationBaseActivity) getActivity();
 
         fragmentView = inflater.inflate(R.layout.sign_in_fragment, container, false);
+        dialog = new ErrorDialog(getActivity());
         setFields();
         setButton();
 
@@ -59,7 +62,7 @@ public class SignInFragment extends Fragment implements Button.OnClickListener, 
     }
 
     private void setFields() {
-        emailField = (EditText) fragmentView.findViewById(R.id.signInEmailField);
+        emailField = (EditText) fragmentView.findViewById(R.id.emailField);
         passwordField = (EditText) fragmentView.findViewById(R.id.passwordField);
 
         Drawable emailImg = ContextCompat.getDrawable(getContext(), R.drawable.email);
@@ -92,15 +95,15 @@ public class SignInFragment extends Fragment implements Button.OnClickListener, 
 
     @Override
     public void failedResponse(Throwable t) {
-        RetrofitException error = (RetrofitException) t;
-        ErrorResponse errors = null;
         try {
+            RetrofitException error = (RetrofitException) t;
+            ErrorResponse errors = null;
             errors = error.getErrorBodyAs(ErrorResponse.class);
+            emailField.setError(errors.getFullErrorMessage("email"));
+            passwordField.setError(errors.getFullErrorMessage("password"));
         } catch (IOException e) {
-            e.printStackTrace();
+            dialog.show("500 error");
         }
-        emailField.setError(errors.getFullErrorMessage("email"));
-        passwordField.setError(errors.getFullErrorMessage("password"));
     }
 
     @Override
