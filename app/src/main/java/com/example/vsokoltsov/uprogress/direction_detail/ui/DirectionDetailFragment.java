@@ -19,6 +19,7 @@ import android.widget.Toast;
 import com.example.vsokoltsov.uprogress.R;
 import com.example.vsokoltsov.uprogress.common.ApplicationBaseActivity;
 import com.example.vsokoltsov.uprogress.common.BaseApplication;
+import com.example.vsokoltsov.uprogress.common.ErrorHandler;
 import com.example.vsokoltsov.uprogress.common.SwipeableRecyclerViewTouchListener;
 import com.example.vsokoltsov.uprogress.common.helpers.MessagesHelper;
 import com.example.vsokoltsov.uprogress.common.services.ErrorResponse;
@@ -65,6 +66,7 @@ public class DirectionDetailFragment extends Fragment implements DirectionDetail
     String userNick;
     MessagesHelper messagesHelper;
     AddStepForm formDialog;
+    private ErrorHandler errorHandler;
 
     private RecyclerView rv;
     private StepsListAdapter adapter;
@@ -81,6 +83,7 @@ public class DirectionDetailFragment extends Fragment implements DirectionDetail
         activity.setTitle(getResources().getString(R.string.direction_title));
         fragmentView = inflater.inflate(R.layout.direction_detail_fragment, container, false);
         messagesHelper = new MessagesHelper(getResources());
+        errorHandler = new ErrorHandler(activity);
         getExtras();
         setComponents();
         setElements();
@@ -200,7 +203,7 @@ public class DirectionDetailFragment extends Fragment implements DirectionDetail
 
     @Override
     public void failureResponse(Throwable t) {
-
+        errorHandler.showMessage(t);
     }
 
     @Override
@@ -256,15 +259,16 @@ public class DirectionDetailFragment extends Fragment implements DirectionDetail
 
     @Override
     public void failedStepCreate(Throwable t) {
-        RetrofitException error = (RetrofitException) t;
-        ErrorResponse errors = null;
         try {
+            RetrofitException error = (RetrofitException) t;
+            ErrorResponse errors = null;
             errors = error.getErrorBodyAs(ErrorResponse.class);
+            formDialog.titleWrapper.setError(errors.getFullErrorMessage("title"));
+            formDialog.descriptionWrapper.setError(errors.getFullErrorMessage("description"));
         } catch (IOException e) {
-            e.printStackTrace();
+            errorHandler.showMessage(t);
         }
-        formDialog.titleWrapper.setError(errors.getFullErrorMessage("title"));
-        formDialog.descriptionWrapper.setError(errors.getFullErrorMessage("description"));
+
     }
 
     @Override
@@ -321,7 +325,7 @@ public class DirectionDetailFragment extends Fragment implements DirectionDetail
 
     @Override
     public void failedPopupOperation(Throwable t) {
-
+        errorHandler.showMessage(t);
     }
 
     public void createStep() {
