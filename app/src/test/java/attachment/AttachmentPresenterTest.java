@@ -2,14 +2,14 @@ package attachment;
 
 import android.content.Context;
 
-import com.example.vsokoltsov.uprogress.attachment.model.AttachmentModel;
-import com.example.vsokoltsov.uprogress.attachment.model.AttachmentResponse;
-import com.example.vsokoltsov.uprogress.attachment.presenter.AttachmentPresenter;
-import com.example.vsokoltsov.uprogress.attachment.presenter.AttachmentPresenterImpl;
-import com.example.vsokoltsov.uprogress.attachment.view.AttachmentView;
-import com.example.vsokoltsov.uprogress.authentication.models.Attachment;
-import com.example.vsokoltsov.uprogress.authentication.presenters.AuthenticationPresenterImpl;
-import com.example.vsokoltsov.uprogress.user.current.User;
+import com.vsokoltsov.uprogress.attachment.model.AttachmentModel;
+import com.vsokoltsov.uprogress.attachment.model.AttachmentResponse;
+import com.vsokoltsov.uprogress.attachment.presenter.AttachmentPresenter;
+import com.vsokoltsov.uprogress.attachment.presenter.AttachmentPresenterImpl;
+import com.vsokoltsov.uprogress.attachment.view.AttachmentView;
+import com.vsokoltsov.uprogress.authentication.models.Attachment;
+import com.vsokoltsov.uprogress.authentication.presenters.AuthenticationPresenterImpl;
+import com.vsokoltsov.uprogress.user.current.User;
 
 import org.junit.Before;
 import org.junit.Rule;

@@ -20,7 +20,7 @@ android {
     compileSdkVersion 25
     buildToolsVersion "24.0.3"
     defaultConfig {
-        applicationId "com.example.vsokoltsov.uprogress"
+        applicationId "vsokoltsov.uprogress"
         minSdkVersion 14
         targetSdkVersion 25
         versionCode 1

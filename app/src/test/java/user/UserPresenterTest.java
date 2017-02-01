@@ -1,12 +1,12 @@
 package user;
 
-import com.example.vsokoltsov.uprogress.direction_detail.presenter.DirectionDetailPresenterImpl;
-import com.example.vsokoltsov.uprogress.user.current.User;
-import com.example.vsokoltsov.uprogress.user.current.UserRequest;
-import com.example.vsokoltsov.uprogress.user.current.UserResponse;
-import com.example.vsokoltsov.uprogress.user.models.UserModel;
-import com.example.vsokoltsov.uprogress.user.presenters.UserProfilePresenterImpl;
-import com.example.vsokoltsov.uprogress.user.views.UserProfileView;
+import com.vsokoltsov.uprogress.direction_detail.presenter.DirectionDetailPresenterImpl;
+import com.vsokoltsov.uprogress.user.current.User;
+import com.vsokoltsov.uprogress.user.current.UserRequest;
+import com.vsokoltsov.uprogress.user.current.UserResponse;
+import com.vsokoltsov.uprogress.user.models.UserModel;
+import com.vsokoltsov.uprogress.user.presenters.UserProfilePresenterImpl;
+import com.vsokoltsov.uprogress.user.views.UserProfileView;
 
 import org.junit.Before;
 import org.junit.Rule;

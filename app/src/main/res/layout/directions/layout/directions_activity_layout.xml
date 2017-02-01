@@ -20,7 +20,7 @@
 
     <fragment
         android:id="@+id/navigation_drawer"
-        android:name="com.example.vsokoltsov.uprogress.navigation.NavigationDrawer"
+        android:name="com.vsokoltsov.uprogress.navigation.NavigationDrawer"
         android:layout_width="240dp"
         android:layout_height="match_parent"
         android:layout_gravity="start"

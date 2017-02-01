@@ -1,11 +1,11 @@
 package launch;
 
-import com.example.vsokoltsov.uprogress.authentication.presenters.AuthenticationPresenterImpl;
-import com.example.vsokoltsov.uprogress.common.helpers.PreferencesHelper;
-import com.example.vsokoltsov.uprogress.launch.LaunchPresenter;
-import com.example.vsokoltsov.uprogress.user.current.CurrentUser;
-import com.example.vsokoltsov.uprogress.user.current.CurrentUserModel;
-import com.example.vsokoltsov.uprogress.user.current.CurrentUserView;
+import com.vsokoltsov.uprogress.authentication.presenters.AuthenticationPresenterImpl;
+import com.vsokoltsov.uprogress.common.helpers.PreferencesHelper;
+import com.vsokoltsov.uprogress.launch.LaunchPresenter;
+import com.vsokoltsov.uprogress.user.current.CurrentUser;
+import com.vsokoltsov.uprogress.user.current.CurrentUserModel;
+import com.vsokoltsov.uprogress.user.current.CurrentUserView;
 
 import org.junit.Before;
 import org.junit.Rule;

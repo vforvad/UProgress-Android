@@ -1,13 +1,13 @@
 package authorization;
 
-import com.example.vsokoltsov.uprogress.authentication.models.SignIn.SignInRequest;
-import com.example.vsokoltsov.uprogress.authentication.models.SignUp.SignUpRequest;
-import com.example.vsokoltsov.uprogress.authentication.presenters.AuthenticationPresenterImpl;
-import com.example.vsokoltsov.uprogress.common.helpers.PreferencesHelper;
-import com.example.vsokoltsov.uprogress.authentication.models.AuthenticationModel;
-import com.example.vsokoltsov.uprogress.user.current.CurrentUser;
-import com.example.vsokoltsov.uprogress.authentication.models.Token;
-import com.example.vsokoltsov.uprogress.authentication.views.AuthorizationScreen;
+import com.vsokoltsov.uprogress.authentication.models.SignIn.SignInRequest;
+import com.vsokoltsov.uprogress.authentication.models.SignUp.SignUpRequest;
+import com.vsokoltsov.uprogress.authentication.presenters.AuthenticationPresenterImpl;
+import com.vsokoltsov.uprogress.common.helpers.PreferencesHelper;
+import com.vsokoltsov.uprogress.authentication.models.AuthenticationModel;
+import com.vsokoltsov.uprogress.user.current.CurrentUser;
+import com.vsokoltsov.uprogress.authentication.models.Token;
+import com.vsokoltsov.uprogress.authentication.views.AuthorizationScreen;
 
 import org.junit.Before;
 import org.junit.Rule;
