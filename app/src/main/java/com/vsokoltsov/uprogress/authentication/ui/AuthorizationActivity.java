@@ -2,6 +2,9 @@ package com.vsokoltsov.uprogress.authentication.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.support.annotation.VisibleForTesting;
+import android.support.test.espresso.idling.CountingIdlingResource;
 import android.support.v7.app.AppCompatDelegate;
 
 import com.vsokoltsov.uprogress.R;
@@ -12,6 +15,7 @@ public class AuthorizationActivity extends ApplicationBaseActivity{
     private String action;
     private android.support.v4.app.FragmentManager fragmentManager;
     public AuthorizationBaseFragment authorizationBaseFragment;
+    private CountingIdlingResource mIdlingResource;
 
     static
     {
@@ -51,5 +55,21 @@ public class AuthorizationActivity extends ApplicationBaseActivity{
         Intent userActivity = new Intent(this, UserActivity.class);
         startActivity(userActivity);
         overridePendingTransition(R.anim.pull_in_right, R.anim.push_out_left);
+    }
+
+    @VisibleForTesting
+    public CountingIdlingResource getIdlingResourceInit()
+    {
+        if(mIdlingResource == null)
+            mIdlingResource = new CountingIdlingResource(getClass().getName(), true);
+
+        return mIdlingResource;
+    }
+
+    @VisibleForTesting
+    @Nullable
+    public CountingIdlingResource getIdlingResource()
+    {
+        return mIdlingResource;
     }
 }
