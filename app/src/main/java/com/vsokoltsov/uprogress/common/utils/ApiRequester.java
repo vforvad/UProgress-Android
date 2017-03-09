@@ -20,7 +20,7 @@ import retrofit2.converter.jackson.JacksonConverterFactory;
 public class ApiRequester {
     private static final String APP_HOST = "http://0e0e33e3.ngrok.io";
     private static final String API_VERSION = "v1/";
-    public static final String API_ADDRESS = APP_HOST + "/api/" + API_VERSION;
+    public static String API_ADDRESS = APP_HOST + "/api/" + API_VERSION;
 
     public static class SingletonHolder {
         public static final ApiRequester HOLDER_INSTANCE = new ApiRequester();

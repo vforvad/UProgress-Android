@@ -15,7 +15,6 @@ import retrofit2.Retrofit;
  */
 
 public class BaseApplication extends Application {
-    private Context context;
     private ImageHelper imageHelper;
     private Retrofit retrofitClient;
     private PreferencesHelper preferencesHelper;
@@ -46,5 +45,10 @@ public class BaseApplication extends Application {
 
     public PreferencesHelper getPreferencesHelper() {
         return preferencesHelper;
+    }
+
+    public void setApiUrl(Context context, String url) {
+        ApiRequester.API_ADDRESS = url + "/";
+        retrofitClient = ApiRequester.getInstance().getRestAdapter(context);
     }
 }
