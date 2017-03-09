@@ -33,6 +33,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import java.io.IOException;
+import java.net.InetAddress;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -47,6 +48,7 @@ import static android.support.test.espresso.Espresso.onData;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.swipeLeft;
+import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.hasErrorText;
 import static android.support.test.espresso.matcher.ViewMatchers.isDescendantOfA;
@@ -57,6 +59,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.withEffectiveVi
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withParent;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
+import static org.hamcrest.Matchers.anyOf;
 import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.startsWith;
@@ -71,23 +74,22 @@ public class AuthorizationActivityTest {
     public ActivityTestRule<AuthorizationActivity> authorizationActivityRule =
             new ActivityTestRule<>(AuthorizationActivity.class, true, true);
 
-    private IdlingResource mIdlingResource;
+    private IntentServiceIdlingResource mIdlingResource;
     private Resources resources;
     private MockWebServer server = new MockWebServer();
     String serverURL;
     private ApiRequester requester;
+    private BaseTestApplication baseTestApplication;
 
     @Before
     public void before() throws IOException {
-        server = new MockWebServer();
-        server.start();
-        mIdlingResource = authorizationActivityRule.getActivity().getIdlingResourceInit();
+        Context context = authorizationActivityRule.getActivity().getApplicationContext();
+        mIdlingResource = new IntentServiceIdlingResource(context);
         resources = authorizationActivityRule.getActivity().getResources();
         try {
-            ((BaseApplication) authorizationActivityRule.getActivity().getApplicationContext()).setApiUrl(authorizationActivityRule.getActivity().getApplicationContext(), server.url("/sessions").toString());
-            ApiRequester.API_ADDRESS = server.url("/").toString();
-            requester = ApiRequester.getInstance();
-            serverURL = ApiRequester.API_ADDRESS;
+            baseTestApplication = ((BaseTestApplication) authorizationActivityRule.getActivity().getApplicationContext());
+            server = baseTestApplication.getServer();
+            server.start(3000);
             Espresso.registerIdlingResources(mIdlingResource);
         }
         catch (Exception e) {
@@ -135,6 +137,42 @@ public class AuthorizationActivityTest {
         onView(withId(R.id.signInButton)).perform(click());
         onView(allOf(withId(R.id.emailField), isDescendantOfA(withId(R.id.signInFragment)))).check(matches(hasErrorText("Can't be blank\n")));
 
+    }
+
+    @Test
+    public void testFailedSignUp() throws Exception {
+        String fileName = "failed_sign_in.json";
+        server.enqueue(new MockResponse()
+                .setResponseCode(403)
+                .setBody(RestServiceTestHelper.getStringFromFile(getInstrumentation().getContext(), fileName)));
+
+        Intent intent = new Intent();
+        authorizationActivityRule.launchActivity(intent);
+
+        onView(withId(R.id.pager)).perform(swipeLeft());
+        onView(withId(R.id.signUpButton)).perform(click());
+
+        onView(allOf(withId(R.id.emailField), isDescendantOfA(withId(R.id.signUpFragment)))).check(matches(hasErrorText("Can't be blank\n")));
+    }
+
+    @Test
+    public void testSuccessSignIn() throws Exception {
+        String token = "token.json";
+        String currentUser = "current_user.json";
+
+        server.enqueue(new MockResponse()
+                .setResponseCode(200)
+                .setBody(RestServiceTestHelper.getStringFromFile(getInstrumentation().getContext(), token)));
+
+        server.enqueue(new MockResponse()
+                .setResponseCode(200)
+                .setBody(RestServiceTestHelper.getStringFromFile(getInstrumentation().getContext(), currentUser)));
+
+        onView(allOf(withId(R.id.emailField), isDescendantOfA(withId(R.id.signInFragment)))).perform(typeText("aaaa"));
+        onView(allOf(withId(R.id.passwordField), isDescendantOfA(withId(R.id.signInFragment)))).perform(typeText("bbb"));
+        onView(withId(R.id.signInButton)).perform(click());
+
+        onView(allOf(withId(R.id.collapsing_toolbar))).check(matches(isDisplayed()));
     }
 
     @After

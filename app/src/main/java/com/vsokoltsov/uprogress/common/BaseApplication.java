@@ -16,7 +16,7 @@ import retrofit2.Retrofit;
 
 public class BaseApplication extends Application {
     private ImageHelper imageHelper;
-    private Retrofit retrofitClient;
+    protected Retrofit retrofitClient;
     private PreferencesHelper preferencesHelper;
 
     public static String NAME = "uprogress";
@@ -25,7 +25,7 @@ public class BaseApplication extends Application {
     public void onCreate() {
         super.onCreate();
         imageHelper = new ImageHelper(getApplicationContext());
-        retrofitClient = ApiRequester.getInstance().getRestAdapter(getApplicationContext());
+        setRetrofitClient(getApplicationContext());
         preferencesHelper = new PreferencesHelper(getApplicationContext());
     }
 
@@ -33,6 +33,10 @@ public class BaseApplication extends Application {
     protected void attachBaseContext(Context base) {
         super.attachBaseContext(base);
         MultiDex.install(this);
+    }
+
+    public void setRetrofitClient(Context context) {
+        retrofitClient = ApiRequester.getInstance().getRestAdapter(context);
     }
 
     public Retrofit getRetrofitClient() {
