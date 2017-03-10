@@ -26,9 +26,12 @@ import okhttp3.mockwebserver.MockWebServer;
 
 import static android.support.test.InstrumentationRegistry.getInstrumentation;
 import static android.support.test.espresso.Espresso.onView;
+import static android.support.test.espresso.action.ViewActions.swipeDown;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
+import static android.support.test.espresso.matcher.ViewMatchers.isDisplayingAtLeast;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
+import static com.vsokoltsov.uprogress.common.TestUtils.withCustomConstraints;
 
 /**
  * Created by vsokoltsov on 10.03.17.
@@ -42,6 +45,7 @@ public class DirectionsActitvityTest {
     private Resources resources;
     private MockWebServer server;
     private BaseTestApplication baseTestApplication;
+    String directions = "directions.json";
 
     @Rule
     public ActivityTestRule<DirectionsActivity> authorizationActivityRule =
@@ -60,8 +64,6 @@ public class DirectionsActitvityTest {
 
             Espresso.registerIdlingResources(mIdlingResource);
 
-            String directions = "directions.json";
-
             server.enqueue(new MockResponse()
                     .setResponseCode(200)
                     .setBody(RestServiceTestHelper.getStringFromFile(getInstrumentation().getContext(), directions)));
@@ -78,5 +80,17 @@ public class DirectionsActitvityTest {
     @Test
     public void testExistanceOfDirections() throws Exception {
         onView(withRecyclerView(R.id.directionsList).atPositionOnView(0, R.id.directionTitle)).check(matches(withText("Title")));
+        onView(withRecyclerView(R.id.directionsList).atPositionOnView(0, R.id.directionPercents)).check(matches(withText("75")));
+    }
+
+    @Test
+    public void testSwipeRefreshLayout() throws Exception {
+
+        server.enqueue(new MockResponse()
+                .setResponseCode(200)
+                .setBody(RestServiceTestHelper.getStringFromFile(getInstrumentation().getContext(), directions)));
+
+        onView(withId(R.id.directionsList))
+                .perform(withCustomConstraints(swipeDown(), isDisplayingAtLeast(85)));
     }
 }
