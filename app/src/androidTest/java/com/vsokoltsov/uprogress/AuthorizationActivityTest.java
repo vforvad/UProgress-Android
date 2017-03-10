@@ -175,6 +175,28 @@ public class AuthorizationActivityTest {
         onView(allOf(withId(R.id.collapsing_toolbar))).check(matches(isDisplayed()));
     }
 
+    @Test
+    public void testSuccessSingUp() throws Exception {
+        String token = "token.json";
+        String currentUser = "current_user.json";
+
+        server.enqueue(new MockResponse()
+                .setResponseCode(200)
+                .setBody(RestServiceTestHelper.getStringFromFile(getInstrumentation().getContext(), token)));
+
+        server.enqueue(new MockResponse()
+                .setResponseCode(200)
+                .setBody(RestServiceTestHelper.getStringFromFile(getInstrumentation().getContext(), currentUser)));
+
+        onView(withId(R.id.pager)).perform(swipeLeft());
+
+        onView(allOf(withId(R.id.emailField), isDescendantOfA(withId(R.id.signUpFragment)))).perform(typeText("aaaa"));
+        onView(allOf(withId(R.id.passwordField), isDescendantOfA(withId(R.id.signUpFragment)))).perform(typeText("bbb"));
+        onView(withId(R.id.signUpButton)).perform(click());
+
+        onView(allOf(withId(R.id.collapsing_toolbar))).check(matches(isDisplayed()));
+    }
+
     @After
     public void after() {
         Espresso.unregisterIdlingResources(mIdlingResource);
