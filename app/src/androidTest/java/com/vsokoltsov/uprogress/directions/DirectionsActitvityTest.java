@@ -4,16 +4,20 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.support.test.espresso.Espresso;
+import android.support.test.espresso.contrib.RecyclerViewActions;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
+import android.view.View;
 
 import com.vsokoltsov.uprogress.R;
 import com.vsokoltsov.uprogress.common.BaseTestApplication;
 import com.vsokoltsov.uprogress.common.IntentServiceIdlingResource;
 import com.vsokoltsov.uprogress.common.RecyclerViewMatcher;
 import com.vsokoltsov.uprogress.common.RestServiceTestHelper;
+import com.vsokoltsov.uprogress.directions_list.adapters.DirectionsListAdapter;
 import com.vsokoltsov.uprogress.directions_list.ui.DirectionsActivity;
 
+import org.hamcrest.Matchers;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -25,13 +29,22 @@ import okhttp3.mockwebserver.MockResponse;
 import okhttp3.mockwebserver.MockWebServer;
 
 import static android.support.test.InstrumentationRegistry.getInstrumentation;
+import static android.support.test.espresso.Espresso.onData;
 import static android.support.test.espresso.Espresso.onView;
+import static android.support.test.espresso.action.ViewActions.scrollTo;
 import static android.support.test.espresso.action.ViewActions.swipeDown;
+import static android.support.test.espresso.action.ViewActions.swipeUp;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
+import static android.support.test.espresso.contrib.RecyclerViewActions.scrollToPosition;
+import static android.support.test.espresso.matcher.ViewMatchers.isDescendantOfA;
+import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayingAtLeast;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static com.vsokoltsov.uprogress.common.TestUtils.withCustomConstraints;
+import static org.hamcrest.Matchers.allOf;
+import static org.hamcrest.Matchers.instanceOf;
+import static org.hamcrest.Matchers.is;
 
 /**
  * Created by vsokoltsov on 10.03.17.
@@ -92,5 +105,12 @@ public class DirectionsActitvityTest {
 
         onView(withId(R.id.directionsList))
                 .perform(withCustomConstraints(swipeDown(), isDisplayingAtLeast(85)));
+    }
+
+    @Test
+    public void testFooterProgressBar() throws Exception {
+        onView(withId(R.id.directionsList)).perform(scrollToPosition(13));
+        onView(withId(R.id.directionsList)).perform(swipeUp());
+        onView(allOf(withId(R.id.progressBar), isDescendantOfA(withId(R.id.directionsList)))).check(matches(isDisplayed()));
     }
 }
