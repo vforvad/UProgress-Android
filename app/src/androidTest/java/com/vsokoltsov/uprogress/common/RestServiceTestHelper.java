@@ -1,4 +1,4 @@
-package com.vsokoltsov.uprogress;
+package com.vsokoltsov.uprogress.common;
 
 import android.content.Context;
 

@@ -25,7 +25,7 @@ android {
         targetSdkVersion 25
         versionCode 1
         versionName "1.0"
-        testInstrumentationRunner 'com.vsokoltsov.uprogress.UProgressTestRunner'
+        testInstrumentationRunner 'com.vsokoltsov.uprogress.common.UProgressTestRunner'
         multiDexEnabled true
 
         vectorDrawables.useSupportLibrary = true

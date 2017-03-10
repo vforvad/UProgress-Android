@@ -7,10 +7,10 @@ import android.support.test.espresso.Espresso;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 
-import com.vsokoltsov.uprogress.BaseTestApplication;
-import com.vsokoltsov.uprogress.IntentServiceIdlingResource;
+import com.vsokoltsov.uprogress.common.BaseTestApplication;
+import com.vsokoltsov.uprogress.common.IntentServiceIdlingResource;
 import com.vsokoltsov.uprogress.R;
-import com.vsokoltsov.uprogress.RestServiceTestHelper;
+import com.vsokoltsov.uprogress.common.RestServiceTestHelper;
 import com.vsokoltsov.uprogress.authentication.ui.AuthorizationActivity;
 import com.vsokoltsov.uprogress.common.utils.ApiRequester;
 

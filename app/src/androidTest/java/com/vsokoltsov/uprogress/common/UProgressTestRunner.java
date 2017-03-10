@@ -1,4 +1,4 @@
-package com.vsokoltsov.uprogress;
+package com.vsokoltsov.uprogress.common;
 
 /**
  * Created by vsokoltsov on 09.03.17.
