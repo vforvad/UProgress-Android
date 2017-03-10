@@ -60,12 +60,7 @@ public class DirectionsActitvityTest {
 
             Espresso.registerIdlingResources(mIdlingResource);
 
-            String currentUser = "current_user.json";
             String directions = "directions.json";
-
-//            server.enqueue(new MockResponse()
-//                    .setResponseCode(200)
-//                    .setBody(RestServiceTestHelper.getStringFromFile(getInstrumentation().getContext(), currentUser)));
 
             server.enqueue(new MockResponse()
                     .setResponseCode(200)
