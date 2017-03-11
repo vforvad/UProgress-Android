@@ -8,6 +8,7 @@ import android.support.test.espresso.contrib.RecyclerViewActions;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 import android.view.View;
+import android.widget.AutoCompleteTextView;
 
 import com.vsokoltsov.uprogress.R;
 import com.vsokoltsov.uprogress.common.BaseTestApplication;
@@ -39,6 +40,7 @@ import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.contrib.RecyclerViewActions.scrollToPosition;
 import static android.support.test.espresso.matcher.ViewMatchers.hasErrorText;
+import static android.support.test.espresso.matcher.ViewMatchers.isAssignableFrom;
 import static android.support.test.espresso.matcher.ViewMatchers.isDescendantOfA;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayingAtLeast;
@@ -189,5 +191,19 @@ public class DirectionsActitvityTest {
 
         onView(allOf(withId(R.id.titleWrapper), isDescendantOfA(withId(R.id.directionFormLayout)))).check(matches(hasTextInputLayoutErrorText("Can't be blank\n")));
         onView(allOf(withId(R.id.descriptionWrapper), isDescendantOfA(withId(R.id.directionFormLayout)))).check(matches(hasTextInputLayoutErrorText("Can't be blank\n")));
+    }
+
+    @Test
+    public void testSearch() throws Exception {
+        server.enqueue(new MockResponse()
+                .setResponseCode(200)
+                .setBody(RestServiceTestHelper.getStringFromFile(getInstrumentation().getContext(), directions)));
+
+        Intent intent = new Intent();
+        authorizationActivityRule.launchActivity(intent);
+
+        onView(withId(R.id.search)).perform(click());
+        onView(isAssignableFrom(AutoCompleteTextView.class)).perform(typeText("Some"));
+        onView(withRecyclerView(R.id.directionsList).atPositionOnView(0, R.id.directionTitle)).check(matches(withText("Some unique title")));
     }
 }
