@@ -22,6 +22,7 @@ import org.hamcrest.Matchers;
 import org.hamcrest.TypeSafeMatcher;
 
 import static android.support.test.espresso.core.deps.guava.base.Preconditions.checkNotNull;
+import static org.hamcrest.Matchers.any;
 
 public class TestUtils {
     public static <VH extends RecyclerView.ViewHolder> ViewAction actionOnItemViewAtPosition(int position,
@@ -155,6 +156,26 @@ public class TestUtils {
 
             @Override
             public void describeTo(Description description) {
+            }
+        };
+    }
+
+    public static ViewAction recyclerClick() {
+        return new ViewAction() {
+
+            @Override
+            public Matcher<View> getConstraints() {
+                return any(View.class);
+            }
+
+            @Override
+            public String getDescription() {
+                return "performing click() on recycler view item";
+            }
+
+            @Override
+            public void perform(UiController uiController, View view) {
+                view.performClick();
             }
         };
     }

@@ -4,6 +4,7 @@
     "title": "CREATED TITLE",
     "description": "Description",
     "user_id":  1000,
-    "percents_result": 0
+    "percents_result": 0,
+    "steps": []
   }
 }

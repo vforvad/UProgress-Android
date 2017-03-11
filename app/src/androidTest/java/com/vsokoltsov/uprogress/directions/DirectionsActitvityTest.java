@@ -7,6 +7,7 @@ import android.support.test.espresso.Espresso;
 import android.support.test.espresso.contrib.RecyclerViewActions;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.AutoCompleteTextView;
 
@@ -47,6 +48,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.isDisplayingAtL
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static com.vsokoltsov.uprogress.common.TestUtils.hasTextInputLayoutErrorText;
+import static com.vsokoltsov.uprogress.common.TestUtils.recyclerClick;
 import static com.vsokoltsov.uprogress.common.TestUtils.withCustomConstraints;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.instanceOf;
@@ -205,5 +207,24 @@ public class DirectionsActitvityTest {
         onView(withId(R.id.search)).perform(click());
         onView(isAssignableFrom(AutoCompleteTextView.class)).perform(typeText("Some"));
         onView(withRecyclerView(R.id.directionsList).atPositionOnView(0, R.id.directionTitle)).check(matches(withText("Some unique title")));
+    }
+
+    @Test
+    public void testMovingToDetailView() throws Exception {
+        String direction = "direction.json";
+
+        server.enqueue(new MockResponse()
+                .setResponseCode(200)
+                .setBody(RestServiceTestHelper.getStringFromFile(getInstrumentation().getContext(), directions)));
+
+        server.enqueue(new MockResponse()
+                .setResponseCode(200)
+                .setBody(RestServiceTestHelper.getStringFromFile(getInstrumentation().getContext(), direction)));
+
+        Intent intent = new Intent();
+        authorizationActivityRule.launchActivity(intent);
+
+        onView(withId(R.id.directionsList)).perform(RecyclerViewActions.actionOnItemAtPosition(0, recyclerClick()));
+        onView(withId(R.id.directionDetailDescription)).check(matches(withText("Description")));
     }
 }
