@@ -174,6 +174,26 @@ public class TestUtils {
         };
     }
 
+    public static ViewAction recyclerLongClick() {
+        return new ViewAction() {
+
+            @Override
+            public Matcher<View> getConstraints() {
+                return any(View.class);
+            }
+
+            @Override
+            public String getDescription() {
+                return "performing longClick() on recycler view item";
+            }
+
+            @Override
+            public void perform(UiController uiController, View view) {
+                view.performLongClick();
+            }
+        };
+    }
+
     public static RecyclerViewMatcher withRecyclerView(final int recyclerViewId) {
         return new RecyclerViewMatcher(recyclerViewId);
     }

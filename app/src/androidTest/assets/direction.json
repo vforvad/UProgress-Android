@@ -4,13 +4,22 @@
     "title": "CREATED TITLE",
     "description": "Description",
     "user_id":  1000,
-    "percents_result": 0,
+    "percents_result": 47,
     "steps": [
-      {"id": 2,
+      {
+        "id": 2,
         "title": "Cardigan mustache slow-carb chartreuse five dollar toast flexitarian.",
         "description": "Fixie synth celiac pug bushwick. Chambray pug messenger bag lomo cliche literally keffiyeh truffaut. Godard irony chillwave post-ironic readymade pabst selvage.",
         "direction_id": 1,
         "is_done": false,
+        "updated_at": "2016-12-31T19:17:44.551Z"
+      },
+      {
+        "id": 3,
+        "title": "Simple title",
+        "description": "Simple description",
+        "direction_id": 1,
+        "is_done": true,
         "updated_at": "2016-12-31T19:17:44.551Z"
       }
     ]

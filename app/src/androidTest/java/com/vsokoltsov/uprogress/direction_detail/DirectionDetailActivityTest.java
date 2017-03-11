@@ -6,8 +6,10 @@ import android.content.res.Resources;
 import android.support.annotation.Nullable;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.espresso.Espresso;
+import android.support.test.espresso.contrib.RecyclerViewActions;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
+import android.widget.AutoCompleteTextView;
 
 import com.vsokoltsov.uprogress.R;
 import com.vsokoltsov.uprogress.common.BaseTestApplication;
@@ -29,10 +31,19 @@ import okhttp3.mockwebserver.MockWebServer;
 
 import static android.support.test.InstrumentationRegistry.getInstrumentation;
 import static android.support.test.espresso.Espresso.onView;
+import static android.support.test.espresso.action.ViewActions.click;
+import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
+import static android.support.test.espresso.matcher.ViewMatchers.isAssignableFrom;
+import static android.support.test.espresso.matcher.ViewMatchers.isDescendantOfA;
+import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
+import static com.vsokoltsov.uprogress.common.TestUtils.hasTextInputLayoutErrorText;
+import static com.vsokoltsov.uprogress.common.TestUtils.recyclerClick;
+import static com.vsokoltsov.uprogress.common.TestUtils.recyclerLongClick;
 import static com.vsokoltsov.uprogress.common.TestUtils.withRecyclerView;
+import static org.hamcrest.Matchers.allOf;
 
 /**
  * Created by vsokoltsov on 11.03.17.
@@ -87,6 +98,28 @@ public class DirectionDetailActivityTest {
     public void testCorrectDataOfDirection() throws Exception {
         onView(withId(R.id.directionDetailTitle)).check(matches(withText("CREATED TITLE")));
         onView(withId(R.id.directionDetailDescription)).check(matches(withText("Description")));
+    }
+
+
+    @Test
+    public void testStepsPresence() throws Exception {
+        onView(withRecyclerView(R.id.stepsList).atPositionOnView(0, R.id.stepsTitle)).check(matches(withText("Cardigan mustache slow-carb chartreuse five dollar toast flexitarian.")));
+    }
+
+    @Test
+    public void testSearch() throws Exception {
+        onView(withId(R.id.search)).perform(click());
+        onView(isAssignableFrom(AutoCompleteTextView.class)).perform(typeText("Simple"));
+        onView(withRecyclerView(R.id.stepsList).atPositionOnView(0, R.id.stepsTitle)).check(matches(withText("Simple title")));
+    }
+
+    @Test
+    public void testStepDetailDialog() throws Exception {
+        onView(withId(R.id.stepsList)).perform(RecyclerViewActions.actionOnItemAtPosition(0, recyclerLongClick()));
+
+        onView(allOf(withId(R.id.stepTitle), isDescendantOfA(withId(R.id.stepDetailPopup)))).check(matches(isDisplayed()));
+        onView(allOf(withId(R.id.stepDescription), isDescendantOfA(withId(R.id.stepDetailPopup)))).check(matches(isDisplayed()));
+        onView(allOf(withId(R.id.stepUpdatedAt), isDescendantOfA(withId(R.id.stepDetailPopup)))).check(matches(isDisplayed()));
     }
 
     @After

@@ -2,7 +2,6 @@ package com.vsokoltsov.uprogress.direction_detail.popup;
 
 import android.app.Dialog;
 import android.app.DialogFragment;
-import android.app.FragmentManager;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputLayout;
@@ -32,7 +31,7 @@ public class StepDialogFragment extends DialogFragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.popup_window, container, false);
+        View rootView = inflater.inflate(R.layout.step_detail_popup, container, false);
         setCancelable(true);
         setElements(rootView);
         setValues();
