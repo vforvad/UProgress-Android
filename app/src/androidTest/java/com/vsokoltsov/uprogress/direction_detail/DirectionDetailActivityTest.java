@@ -56,6 +56,7 @@ public class DirectionDetailActivityTest {
     private BaseTestApplication baseTestApplication;
     private String direction = "direction.json";
     private String step = "step.json";
+    private String errors = "direction_error.json";
 
     @Rule
     public ActivityTestRule<DirectionDetailActivity> authorizationActivityRule =
@@ -134,9 +135,16 @@ public class DirectionDetailActivityTest {
 
     @Test
     public void testFailedStepCreate() throws Exception {
+        server.enqueue(new MockResponse()
+                .setResponseCode(403)
+                .setBody(RestServiceTestHelper.getStringFromFile(getInstrumentation().getContext(), errors)));
+
         onView(withId(R.id.addItem)).perform(click());
 
+        onView(allOf(withId(R.id.submitStep), isDescendantOfA(withId(R.id.stepFormPopup)))).perform(click());
 
+        onView(allOf(withId(R.id.titleWrapper), isDescendantOfA(withId(R.id.stepFormPopup)))).check(matches(hasTextInputLayoutErrorText("Can't be blank\n")));
+        onView(allOf(withId(R.id.descriptionWrapper), isDescendantOfA(withId(R.id.stepFormPopup)))).check(matches(hasTextInputLayoutErrorText("Can't be blank\n")));
     }
 
     @After
