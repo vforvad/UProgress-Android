@@ -147,6 +147,21 @@ public class DirectionDetailActivityTest {
         onView(allOf(withId(R.id.descriptionWrapper), isDescendantOfA(withId(R.id.stepFormPopup)))).check(matches(hasTextInputLayoutErrorText("Can't be blank\n")));
     }
 
+    @Test
+    public void testSuccessStepCreate() throws Exception {
+        server.enqueue(new MockResponse()
+                .setResponseCode(200)
+                .setBody(RestServiceTestHelper.getStringFromFile(getInstrumentation().getContext(), step)));
+
+        onView(withId(R.id.addItem)).perform(click());
+
+        onView(allOf(withId(R.id.stepTitle), isDescendantOfA(withId(R.id.stepFormPopup)))).perform(typeText("New step"));
+        onView(allOf(withId(R.id.stepDescription), isDescendantOfA(withId(R.id.stepFormPopup)))).perform(typeText("New step description"));
+        onView(allOf(withId(R.id.submitStep), isDescendantOfA(withId(R.id.stepFormPopup)))).perform(click());
+
+        onView(withRecyclerView(R.id.stepsList).atPositionOnView(2, R.id.stepsTitle)).check(matches(withText("New step")));
+    }
+
     @After
     public void afterEach() {
         try {
