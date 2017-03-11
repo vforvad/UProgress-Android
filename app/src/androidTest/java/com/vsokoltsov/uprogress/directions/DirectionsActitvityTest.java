@@ -38,11 +38,13 @@ import static android.support.test.espresso.action.ViewActions.swipeUp;
 import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.contrib.RecyclerViewActions.scrollToPosition;
+import static android.support.test.espresso.matcher.ViewMatchers.hasErrorText;
 import static android.support.test.espresso.matcher.ViewMatchers.isDescendantOfA;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayingAtLeast;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
+import static com.vsokoltsov.uprogress.common.TestUtils.hasTextInputLayoutErrorText;
 import static com.vsokoltsov.uprogress.common.TestUtils.withCustomConstraints;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.instanceOf;
@@ -165,5 +167,27 @@ public class DirectionsActitvityTest {
         onView(allOf(withId(R.id.submitDirection), isDescendantOfA(withId(R.id.directionFormLayout)))).perform(click());
 
         onView(withRecyclerView(R.id.directionsList).atPositionOnView(0, R.id.directionTitle)).check(matches(withText("CREATED TITLE")));
+    }
+
+    @Test
+    public void testFailedDirectionCreation() throws Exception {
+        String error = "direction_error.json";
+
+        server.enqueue(new MockResponse()
+                .setResponseCode(200)
+                .setBody(RestServiceTestHelper.getStringFromFile(getInstrumentation().getContext(), directions)));
+
+        server.enqueue(new MockResponse()
+                .setResponseCode(403)
+                .setBody(RestServiceTestHelper.getStringFromFile(getInstrumentation().getContext(), error)));
+
+        Intent intent = new Intent();
+        authorizationActivityRule.launchActivity(intent);
+
+        onView(withId(R.id.addDirection)).perform(click());
+        onView(allOf(withId(R.id.submitDirection), isDescendantOfA(withId(R.id.directionFormLayout)))).perform(click());
+
+        onView(allOf(withId(R.id.titleWrapper), isDescendantOfA(withId(R.id.directionFormLayout)))).check(matches(hasTextInputLayoutErrorText("Can't be blank\n")));
+        onView(allOf(withId(R.id.descriptionWrapper), isDescendantOfA(withId(R.id.directionFormLayout)))).check(matches(hasTextInputLayoutErrorText("Can't be blank\n")));
     }
 }
