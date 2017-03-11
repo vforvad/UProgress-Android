@@ -3,6 +3,7 @@ package com.vsokoltsov.uprogress.authorization;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
+import android.support.annotation.Nullable;
 import android.support.test.espresso.Espresso;
 import android.support.test.filters.LargeTest;
 import android.support.test.rule.ActivityTestRule;
@@ -14,6 +15,7 @@ import com.vsokoltsov.uprogress.R;
 import com.vsokoltsov.uprogress.common.RestServiceTestHelper;
 import com.vsokoltsov.uprogress.authentication.ui.AuthorizationActivity;
 import com.vsokoltsov.uprogress.common.utils.ApiRequester;
+import com.vsokoltsov.uprogress.direction_detail.ui.DirectionDetailActivity;
 
 import org.json.JSONException;
 import org.junit.After;
@@ -45,9 +47,6 @@ import static org.hamcrest.core.AllOf.allOf;
  */
 @RunWith(AndroidJUnit4.class)
 public class AuthorizationActivityTest {
-    @Rule
-    public ActivityTestRule<AuthorizationActivity> authorizationActivityRule =
-            new ActivityTestRule<>(AuthorizationActivity.class, true, true);
 
     private IntentServiceIdlingResource mIdlingResource;
     private Resources resources;
@@ -56,29 +55,33 @@ public class AuthorizationActivityTest {
     private ApiRequester requester;
     private BaseTestApplication baseTestApplication;
 
+    @Rule
+    public ActivityTestRule<AuthorizationActivity> authorizationActivityRule =
+            new ActivityTestRule<AuthorizationActivity>(AuthorizationActivity.class){
+                @Override
+                public AuthorizationActivity launchActivity(@Nullable Intent startIntent) {
+                    try {
+                        if (server != null) {
+                            server.shutdown();
+                        }
+                        server = new MockWebServer();
+                        server.start(3000);
+                    }
+                    catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    return super.launchActivity(startIntent);
+                }
+            };
+
+
     @Before
-    public void before() throws IOException {
-        Context context = authorizationActivityRule.getActivity().getApplicationContext();
-        mIdlingResource = new IntentServiceIdlingResource(context);
+    public void beforeEach() throws Exception {
         resources = authorizationActivityRule.getActivity().getResources();
-        try {
-            baseTestApplication = ((BaseTestApplication) authorizationActivityRule.getActivity().getApplicationContext());
-            server = baseTestApplication.getServer();
-            server.start(3000);
-            Espresso.registerIdlingResources(mIdlingResource);
-        }
-        catch (Exception e) {
-            e.printStackTrace();
-        }
-
-    }
-
-    public AuthorizationActivityTest() {
-        super();
     }
 
     @Test
-    public void itemsForViewPage() throws JSONException {
+    public void itemsForViewPage() throws Exception {
         onView(allOf(withText(resources.getString(R.string.sign_in)), isDescendantOfA(withId(R.id.tabs)))).check(matches(isDisplayed()));
         onView(allOf(withText(resources.getString(R.string.sign_up)), isDescendantOfA(withId(R.id.tabs)))).check(matches(isDisplayed()));
     }
@@ -106,12 +109,8 @@ public class AuthorizationActivityTest {
                 .setResponseCode(403)
                 .setBody(RestServiceTestHelper.getStringFromFile(getInstrumentation().getContext(), fileName)));
 
-        Intent intent = new Intent();
-        authorizationActivityRule.launchActivity(intent);
-
         onView(withId(R.id.signInButton)).perform(click());
         onView(allOf(withId(R.id.emailField), isDescendantOfA(withId(R.id.signInFragment)))).check(matches(hasErrorText("Can't be blank\n")));
-
     }
 
     @Test
@@ -120,9 +119,6 @@ public class AuthorizationActivityTest {
         server.enqueue(new MockResponse()
                 .setResponseCode(403)
                 .setBody(RestServiceTestHelper.getStringFromFile(getInstrumentation().getContext(), fileName)));
-
-        Intent intent = new Intent();
-        authorizationActivityRule.launchActivity(intent);
 
         onView(withId(R.id.pager)).perform(swipeLeft());
         onView(withId(R.id.signUpButton)).perform(click());
@@ -147,7 +143,7 @@ public class AuthorizationActivityTest {
         onView(allOf(withId(R.id.passwordField), isDescendantOfA(withId(R.id.signInFragment)))).perform(typeText("bbb"));
         onView(withId(R.id.signInButton)).perform(click());
 
-        onView(allOf(withId(R.id.collapsing_toolbar))).check(matches(isDisplayed()));
+        onView(withId(R.id.collapsing_toolbar)).check(matches(isDisplayed()));
     }
 
     @Test
@@ -169,12 +165,19 @@ public class AuthorizationActivityTest {
         onView(allOf(withId(R.id.passwordField), isDescendantOfA(withId(R.id.signUpFragment)))).perform(typeText("bbb"));
         onView(withId(R.id.signUpButton)).perform(click());
 
+
         onView(allOf(withId(R.id.collapsing_toolbar))).check(matches(isDisplayed()));
+
     }
 
     @After
-    public void after() {
-        Espresso.unregisterIdlingResources(mIdlingResource);
+    public void after() throws Exception {
+        try {
+            server.shutdown();
+        }
+        catch(Exception e) {
+            e.printStackTrace();
+        }
     }
 
 

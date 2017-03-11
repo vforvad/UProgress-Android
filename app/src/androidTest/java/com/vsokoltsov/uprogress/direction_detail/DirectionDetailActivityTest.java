@@ -16,6 +16,7 @@ import com.vsokoltsov.uprogress.common.RestServiceTestHelper;
 import com.vsokoltsov.uprogress.direction_detail.ui.DirectionDetailActivity;
 import com.vsokoltsov.uprogress.directions_list.ui.DirectionsActivity;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -51,7 +52,7 @@ public class DirectionDetailActivityTest {
                 @Override
                 public DirectionDetailActivity launchActivity(@Nullable Intent startIntent) {
                     try {
-                        MockWebServer server = new MockWebServer();
+                        server = new MockWebServer();
                         server.start(3000);
 
                         server.enqueue(new MockResponse()
@@ -86,5 +87,15 @@ public class DirectionDetailActivityTest {
     public void testCorrectDataOfDirection() throws Exception {
         onView(withId(R.id.directionDetailTitle)).check(matches(withText("CREATED TITLE")));
         onView(withId(R.id.directionDetailDescription)).check(matches(withText("Description")));
+    }
+
+    @After
+    public void afterEach() {
+        try {
+            server.shutdown();
+        }
+        catch(Exception e) {
+            e.printStackTrace();
+        }
     }
 }
