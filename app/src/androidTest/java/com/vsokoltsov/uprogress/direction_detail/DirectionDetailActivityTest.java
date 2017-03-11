@@ -55,6 +55,7 @@ public class DirectionDetailActivityTest {
     private MockWebServer server;
     private BaseTestApplication baseTestApplication;
     private String direction = "direction.json";
+    private String step = "step.json";
 
     @Rule
     public ActivityTestRule<DirectionDetailActivity> authorizationActivityRule =
@@ -120,6 +121,22 @@ public class DirectionDetailActivityTest {
         onView(allOf(withId(R.id.stepTitle), isDescendantOfA(withId(R.id.stepDetailPopup)))).check(matches(isDisplayed()));
         onView(allOf(withId(R.id.stepDescription), isDescendantOfA(withId(R.id.stepDetailPopup)))).check(matches(isDisplayed()));
         onView(allOf(withId(R.id.stepUpdatedAt), isDescendantOfA(withId(R.id.stepDetailPopup)))).check(matches(isDisplayed()));
+    }
+
+    @Test
+    public void testStepFormItemsPresent() throws Exception {
+        onView(withId(R.id.addItem)).perform(click());
+
+        onView(allOf(withId(R.id.stepTitle), isDescendantOfA(withId(R.id.stepFormPopup)))).check(matches(isDisplayed()));
+        onView(allOf(withId(R.id.stepDescription), isDescendantOfA(withId(R.id.stepFormPopup)))).check(matches(isDisplayed()));
+        onView(allOf(withId(R.id.submitStep), isDescendantOfA(withId(R.id.stepFormPopup)))).check(matches(isDisplayed()));
+    }
+
+    @Test
+    public void testFailedStepCreate() throws Exception {
+        onView(withId(R.id.addItem)).perform(click());
+
+
     }
 
     @After
