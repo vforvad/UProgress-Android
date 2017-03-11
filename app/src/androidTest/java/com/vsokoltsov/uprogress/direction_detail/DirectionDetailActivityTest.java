@@ -181,6 +181,17 @@ public class DirectionDetailActivityTest {
         onView(withRecyclerView(R.id.stepsList).atPositionOnView(0, R.id.isChecked)).check(matches(isChecked()));
     }
 
+    @Test
+    public void testFailedStepCompletion() throws Exception {
+        server.enqueue(new MockResponse()
+                .setResponseCode(403)
+                .setBody(RestServiceTestHelper.getStringFromFile(getInstrumentation().getContext(), errors)));
+
+        TestUtils.ToastMatcher tm = new TestUtils().new ToastMatcher ();
+        onView(withRecyclerView(R.id.stepsList).atPositionOnView(0, R.id.isChecked)).perform(click());
+        onView(withRecyclerView(R.id.stepsList).atPositionOnView(0, R.id.isChecked)).check(matches(isChecked()));
+    }
+
     @After
     public void afterEach() {
         try {
