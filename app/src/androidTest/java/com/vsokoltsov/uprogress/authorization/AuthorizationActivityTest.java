@@ -143,6 +143,8 @@ public class AuthorizationActivityTest {
         onView(allOf(withId(R.id.passwordField), isDescendantOfA(withId(R.id.signInFragment)))).perform(typeText("bbb"));
         onView(withId(R.id.signInButton)).perform(click());
 
+        Thread.sleep(1000);
+
         onView(withId(R.id.collapsing_toolbar)).check(matches(isDisplayed()));
     }
 
