@@ -3,6 +3,7 @@ package com.vsokoltsov.uprogress.directions;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
+import android.support.annotation.Nullable;
 import android.support.test.espresso.Espresso;
 import android.support.test.espresso.contrib.RecyclerViewActions;
 import android.support.test.rule.ActivityTestRule;
@@ -16,10 +17,12 @@ import com.vsokoltsov.uprogress.common.BaseTestApplication;
 import com.vsokoltsov.uprogress.common.IntentServiceIdlingResource;
 import com.vsokoltsov.uprogress.common.RecyclerViewMatcher;
 import com.vsokoltsov.uprogress.common.RestServiceTestHelper;
+import com.vsokoltsov.uprogress.direction_detail.ui.DirectionDetailActivity;
 import com.vsokoltsov.uprogress.directions_list.adapters.DirectionsListAdapter;
 import com.vsokoltsov.uprogress.directions_list.ui.DirectionsActivity;
 
 import org.hamcrest.Matchers;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -69,51 +72,68 @@ public class DirectionsActitvityTest {
 
     @Rule
     public ActivityTestRule<DirectionsActivity> authorizationActivityRule =
-            new ActivityTestRule<>(DirectionsActivity.class, true, true);
+            new ActivityTestRule<DirectionsActivity>(DirectionsActivity.class) {
+                @Override
+                public DirectionsActivity launchActivity(@Nullable Intent startIntent) {
+                    try {
+                        server = new MockWebServer();
+                        server.start(3000);
+
+                        server.enqueue(new MockResponse()
+                                .setResponseCode(200)
+                                .setBody(RestServiceTestHelper.getStringFromFile(getInstrumentation().getContext(), directions)));
+                    }
+                    catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    return super.launchActivity(startIntent);
+                }
+            };
 
     @Before
     public void beforeEach() throws IOException {
         Context context = authorizationActivityRule.getActivity().getApplicationContext();
         mIdlingResource = new IntentServiceIdlingResource(context);
         resources = authorizationActivityRule.getActivity().getResources();
-        try {
-
-            baseTestApplication = ((BaseTestApplication) authorizationActivityRule.getActivity().getApplicationContext());
-            server = baseTestApplication.getServer();
-            server.start(3000);
-
-            Espresso.registerIdlingResources(mIdlingResource);
-
-
-
-        }
-        catch (Exception e) {
-            e.printStackTrace();
-        }
+//        try {
+//
+//            baseTestApplication = ((BaseTestApplication) authorizationActivityRule.getActivity().getApplicationContext());
+//            server = baseTestApplication.getServer();
+//            server.start(3000);
+//
+//            Espresso.registerIdlingResources(mIdlingResource);
+//
+//
+//
+//        }
+//        catch (Exception e) {
+//            e.printStackTrace();
+//        }
     }
 
     @Test
-    public void testExistanceOfDirections() throws Exception {
+    public void testExistenceOfDirections() throws Exception {
 
-        server.enqueue(new MockResponse()
-                .setResponseCode(200)
-                .setBody(RestServiceTestHelper.getStringFromFile(getInstrumentation().getContext(), directions)));
-
-        Intent intent = new Intent();
-        authorizationActivityRule.launchActivity(intent);
+//        server.enqueue(new MockResponse()
+//                .setResponseCode(200)
+//                .setBody(RestServiceTestHelper.getStringFromFile(getInstrumentation().getContext(), directions)));
+//
+//        Intent intent = new Intent();
+//        authorizationActivityRule.launchActivity(intent);
 
         onView(withRecyclerView(R.id.directionsList).atPositionOnView(0, R.id.directionTitle)).check(matches(withText("Title")));
         onView(withRecyclerView(R.id.directionsList).atPositionOnView(0, R.id.directionPercents)).check(matches(withText("75")));
+
     }
 
     @Test
     public void testSwipeRefreshLayout() throws Exception {
-        server.enqueue(new MockResponse()
-                .setResponseCode(200)
-                .setBody(RestServiceTestHelper.getStringFromFile(getInstrumentation().getContext(), directions)));
-
-        Intent intent = new Intent();
-        authorizationActivityRule.launchActivity(intent);
+//        server.enqueue(new MockResponse()
+//                .setResponseCode(200)
+//                .setBody(RestServiceTestHelper.getStringFromFile(getInstrumentation().getContext(), directions)));
+//
+//        Intent intent = new Intent();
+//        authorizationActivityRule.launchActivity(intent);
 
         onView(withId(R.id.directionsList))
                 .perform(withCustomConstraints(swipeDown(), isDisplayingAtLeast(85)));
@@ -122,12 +142,12 @@ public class DirectionsActitvityTest {
     @Test
     public void testFooterProgressBar() throws Exception {
 
-        server.enqueue(new MockResponse()
-                .setResponseCode(200)
-                .setBody(RestServiceTestHelper.getStringFromFile(getInstrumentation().getContext(), directions)));
-
-        Intent intent = new Intent();
-        authorizationActivityRule.launchActivity(intent);
+//        server.enqueue(new MockResponse()
+//                .setResponseCode(200)
+//                .setBody(RestServiceTestHelper.getStringFromFile(getInstrumentation().getContext(), directions)));
+//
+//        Intent intent = new Intent();
+//        authorizationActivityRule.launchActivity(intent);
 
         onView(withId(R.id.directionsList)).perform(scrollToPosition(13));
         onView(withId(R.id.directionsList)).perform(swipeUp());
@@ -136,12 +156,12 @@ public class DirectionsActitvityTest {
 
     @Test
     public void testDisplayingCreateDirectionPopup() throws Exception {
-        server.enqueue(new MockResponse()
-                .setResponseCode(200)
-                .setBody(RestServiceTestHelper.getStringFromFile(getInstrumentation().getContext(), directions)));
-
-        Intent intent = new Intent();
-        authorizationActivityRule.launchActivity(intent);
+//        server.enqueue(new MockResponse()
+//                .setResponseCode(200)
+//                .setBody(RestServiceTestHelper.getStringFromFile(getInstrumentation().getContext(), directions)));
+//
+//        Intent intent = new Intent();
+//        authorizationActivityRule.launchActivity(intent);
 
         onView(withId(R.id.addDirection)).perform(click());
         onView(allOf(withId(R.id.directionTitle), isDescendantOfA(withId(R.id.directionFormLayout)))).check(matches(isDisplayed()));
@@ -153,16 +173,16 @@ public class DirectionsActitvityTest {
     public void testSuccessDirectionCreation() throws Exception {
         String direction = "direction.json";
 
-        server.enqueue(new MockResponse()
-                .setResponseCode(200)
-                .setBody(RestServiceTestHelper.getStringFromFile(getInstrumentation().getContext(), directions)));
+//        server.enqueue(new MockResponse()
+//                .setResponseCode(200)
+//                .setBody(RestServiceTestHelper.getStringFromFile(getInstrumentation().getContext(), directions)));
 
         server.enqueue(new MockResponse()
                 .setResponseCode(200)
                 .setBody(RestServiceTestHelper.getStringFromFile(getInstrumentation().getContext(), direction)));
 
-        Intent intent = new Intent();
-        authorizationActivityRule.launchActivity(intent);
+//        Intent intent = new Intent();
+//        authorizationActivityRule.launchActivity(intent);
 
         onView(withId(R.id.addDirection)).perform(click());
         onView(allOf(withId(R.id.directionTitle), isDescendantOfA(withId(R.id.directionFormLayout)))).perform(typeText("CREATED TITLE"));
@@ -176,16 +196,16 @@ public class DirectionsActitvityTest {
     public void testFailedDirectionCreation() throws Exception {
         String error = "direction_error.json";
 
-        server.enqueue(new MockResponse()
-                .setResponseCode(200)
-                .setBody(RestServiceTestHelper.getStringFromFile(getInstrumentation().getContext(), directions)));
+//        server.enqueue(new MockResponse()
+//                .setResponseCode(200)
+//                .setBody(RestServiceTestHelper.getStringFromFile(getInstrumentation().getContext(), directions)));
 
         server.enqueue(new MockResponse()
                 .setResponseCode(403)
                 .setBody(RestServiceTestHelper.getStringFromFile(getInstrumentation().getContext(), error)));
 
-        Intent intent = new Intent();
-        authorizationActivityRule.launchActivity(intent);
+//        Intent intent = new Intent();
+//        authorizationActivityRule.launchActivity(intent);
 
         onView(withId(R.id.addDirection)).perform(click());
         onView(allOf(withId(R.id.submitDirection), isDescendantOfA(withId(R.id.directionFormLayout)))).perform(click());
@@ -196,12 +216,12 @@ public class DirectionsActitvityTest {
 
     @Test
     public void testSearch() throws Exception {
-        server.enqueue(new MockResponse()
-                .setResponseCode(200)
-                .setBody(RestServiceTestHelper.getStringFromFile(getInstrumentation().getContext(), directions)));
-
-        Intent intent = new Intent();
-        authorizationActivityRule.launchActivity(intent);
+//        server.enqueue(new MockResponse()
+//                .setResponseCode(200)
+//                .setBody(RestServiceTestHelper.getStringFromFile(getInstrumentation().getContext(), directions)));
+//
+//        Intent intent = new Intent();
+//        authorizationActivityRule.launchActivity(intent);
 
         onView(withId(R.id.search)).perform(click());
         onView(isAssignableFrom(AutoCompleteTextView.class)).perform(typeText("Some"));
@@ -212,18 +232,23 @@ public class DirectionsActitvityTest {
     public void testMovingToDetailView() throws Exception {
         String direction = "direction.json";
 
-        server.enqueue(new MockResponse()
-                .setResponseCode(200)
-                .setBody(RestServiceTestHelper.getStringFromFile(getInstrumentation().getContext(), directions)));
+//        server.enqueue(new MockResponse()
+//                .setResponseCode(200)
+//                .setBody(RestServiceTestHelper.getStringFromFile(getInstrumentation().getContext(), directions)));
 
         server.enqueue(new MockResponse()
                 .setResponseCode(200)
                 .setBody(RestServiceTestHelper.getStringFromFile(getInstrumentation().getContext(), direction)));
 
-        Intent intent = new Intent();
-        authorizationActivityRule.launchActivity(intent);
+//        Intent intent = new Intent();
+//        authorizationActivityRule.launchActivity(intent);
 
         onView(withId(R.id.directionsList)).perform(RecyclerViewActions.actionOnItemAtPosition(0, recyclerClick()));
         onView(withId(R.id.directionDetailDescription)).check(matches(withText("Description")));
+    }
+
+    @After
+    public void afterEach() throws IOException {
+        server.shutdown();
     }
 }
