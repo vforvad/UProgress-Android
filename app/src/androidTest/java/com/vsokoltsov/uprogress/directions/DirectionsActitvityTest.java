@@ -35,6 +35,7 @@ import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.scrollTo;
 import static android.support.test.espresso.action.ViewActions.swipeDown;
 import static android.support.test.espresso.action.ViewActions.swipeUp;
+import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.contrib.RecyclerViewActions.scrollToPosition;
 import static android.support.test.espresso.matcher.ViewMatchers.isDescendantOfA;
@@ -143,4 +144,26 @@ public class DirectionsActitvityTest {
         onView(allOf(withId(R.id.submitDirection), isDescendantOfA(withId(R.id.directionFormLayout)))).check(matches(isDisplayed()));
     }
 
+    @Test
+    public void testSuccessDirectionCreation() throws Exception {
+        String direction = "direction.json";
+
+        server.enqueue(new MockResponse()
+                .setResponseCode(200)
+                .setBody(RestServiceTestHelper.getStringFromFile(getInstrumentation().getContext(), directions)));
+
+        server.enqueue(new MockResponse()
+                .setResponseCode(200)
+                .setBody(RestServiceTestHelper.getStringFromFile(getInstrumentation().getContext(), direction)));
+
+        Intent intent = new Intent();
+        authorizationActivityRule.launchActivity(intent);
+
+        onView(withId(R.id.addDirection)).perform(click());
+        onView(allOf(withId(R.id.directionTitle), isDescendantOfA(withId(R.id.directionFormLayout)))).perform(typeText("CREATED TITLE"));
+        onView(allOf(withId(R.id.directionDescription), isDescendantOfA(withId(R.id.directionFormLayout)))).perform(typeText("Description"));
+        onView(allOf(withId(R.id.submitDirection), isDescendantOfA(withId(R.id.directionFormLayout)))).perform(click());
+
+        onView(withRecyclerView(R.id.directionsList).atPositionOnView(0, R.id.directionTitle)).check(matches(withText("CREATED TITLE")));
+    }
 }
