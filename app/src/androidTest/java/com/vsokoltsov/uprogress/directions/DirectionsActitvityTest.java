@@ -50,6 +50,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static com.vsokoltsov.uprogress.common.TestUtils.hasTextInputLayoutErrorText;
 import static com.vsokoltsov.uprogress.common.TestUtils.recyclerClick;
 import static com.vsokoltsov.uprogress.common.TestUtils.withCustomConstraints;
+import static com.vsokoltsov.uprogress.common.TestUtils.withRecyclerView;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.is;
@@ -59,9 +60,7 @@ import static org.hamcrest.Matchers.is;
  */
 @RunWith(AndroidJUnit4.class)
 public class DirectionsActitvityTest {
-    public static RecyclerViewMatcher withRecyclerView(final int recyclerViewId) {
-        return new RecyclerViewMatcher(recyclerViewId);
-    }
+
     private IntentServiceIdlingResource mIdlingResource;
     private Resources resources;
     private MockWebServer server;

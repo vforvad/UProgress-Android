@@ -109,12 +109,6 @@ public class TestUtils {
         }
     }
 
-
-    public static RecyclerViewMatcher withRecyclerView(final int recyclerViewId) {
-
-        return new RecyclerViewMatcher(recyclerViewId);
-    }
-
     public static ViewAction withCustomConstraints(final ViewAction action, final Matcher<View> constraints) {
         return new ViewAction() {
             @Override
@@ -178,5 +172,9 @@ public class TestUtils {
                 view.performClick();
             }
         };
+    }
+
+    public static RecyclerViewMatcher withRecyclerView(final int recyclerViewId) {
+        return new RecyclerViewMatcher(recyclerViewId);
     }
 }
