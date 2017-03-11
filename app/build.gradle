@@ -76,6 +76,7 @@ android {
         development {
             resValue "string", "serverUrl", "http://1840b304.ngrok.io"
         }
+
     }
 
     lintOptions {

@@ -31,6 +31,7 @@ import okhttp3.mockwebserver.MockWebServer;
 import static android.support.test.InstrumentationRegistry.getInstrumentation;
 import static android.support.test.espresso.Espresso.onData;
 import static android.support.test.espresso.Espresso.onView;
+import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.scrollTo;
 import static android.support.test.espresso.action.ViewActions.swipeDown;
 import static android.support.test.espresso.action.ViewActions.swipeUp;
@@ -65,7 +66,7 @@ public class DirectionsActitvityTest {
             new ActivityTestRule<>(DirectionsActivity.class, true, true);
 
     @Before
-    public void before() throws IOException {
+    public void beforeEach() throws IOException {
         Context context = authorizationActivityRule.getActivity().getApplicationContext();
         mIdlingResource = new IntentServiceIdlingResource(context);
         resources = authorizationActivityRule.getActivity().getResources();
@@ -77,12 +78,7 @@ public class DirectionsActitvityTest {
 
             Espresso.registerIdlingResources(mIdlingResource);
 
-            server.enqueue(new MockResponse()
-                    .setResponseCode(200)
-                    .setBody(RestServiceTestHelper.getStringFromFile(getInstrumentation().getContext(), directions)));
 
-            Intent intent = new Intent();
-            authorizationActivityRule.launchActivity(intent);
 
         }
         catch (Exception e) {
@@ -92,16 +88,26 @@ public class DirectionsActitvityTest {
 
     @Test
     public void testExistanceOfDirections() throws Exception {
+
+        server.enqueue(new MockResponse()
+                .setResponseCode(200)
+                .setBody(RestServiceTestHelper.getStringFromFile(getInstrumentation().getContext(), directions)));
+
+        Intent intent = new Intent();
+        authorizationActivityRule.launchActivity(intent);
+
         onView(withRecyclerView(R.id.directionsList).atPositionOnView(0, R.id.directionTitle)).check(matches(withText("Title")));
         onView(withRecyclerView(R.id.directionsList).atPositionOnView(0, R.id.directionPercents)).check(matches(withText("75")));
     }
 
     @Test
     public void testSwipeRefreshLayout() throws Exception {
-
         server.enqueue(new MockResponse()
                 .setResponseCode(200)
                 .setBody(RestServiceTestHelper.getStringFromFile(getInstrumentation().getContext(), directions)));
+
+        Intent intent = new Intent();
+        authorizationActivityRule.launchActivity(intent);
 
         onView(withId(R.id.directionsList))
                 .perform(withCustomConstraints(swipeDown(), isDisplayingAtLeast(85)));
@@ -109,8 +115,32 @@ public class DirectionsActitvityTest {
 
     @Test
     public void testFooterProgressBar() throws Exception {
+
+        server.enqueue(new MockResponse()
+                .setResponseCode(200)
+                .setBody(RestServiceTestHelper.getStringFromFile(getInstrumentation().getContext(), directions)));
+
+        Intent intent = new Intent();
+        authorizationActivityRule.launchActivity(intent);
+
         onView(withId(R.id.directionsList)).perform(scrollToPosition(13));
         onView(withId(R.id.directionsList)).perform(swipeUp());
         onView(allOf(withId(R.id.progressBar), isDescendantOfA(withId(R.id.directionsList)))).check(matches(isDisplayed()));
     }
+
+    @Test
+    public void testDisplayingCreateDirectionPopup() throws Exception {
+        server.enqueue(new MockResponse()
+                .setResponseCode(200)
+                .setBody(RestServiceTestHelper.getStringFromFile(getInstrumentation().getContext(), directions)));
+
+        Intent intent = new Intent();
+        authorizationActivityRule.launchActivity(intent);
+
+        onView(withId(R.id.addDirection)).perform(click());
+        onView(allOf(withId(R.id.directionTitle), isDescendantOfA(withId(R.id.directionFormLayout)))).check(matches(isDisplayed()));
+        onView(allOf(withId(R.id.directionDescription), isDescendantOfA(withId(R.id.directionFormLayout)))).check(matches(isDisplayed()));
+        onView(allOf(withId(R.id.submitDirection), isDescendantOfA(withId(R.id.directionFormLayout)))).check(matches(isDisplayed()));
+    }
+
 }
