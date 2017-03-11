@@ -4,10 +4,12 @@ package com.vsokoltsov.uprogress.common;
  * Created by vsokoltsov on 10.03.17.
  */
 
+import android.os.IBinder;
 import android.support.annotation.IdRes;
 import android.support.annotation.NonNull;
 import android.support.design.widget.TextInputLayout;
 import android.support.test.espresso.PerformException;
+import android.support.test.espresso.Root;
 import android.support.test.espresso.UiController;
 import android.support.test.espresso.ViewAction;
 import android.support.test.espresso.matcher.BoundedMatcher;
@@ -15,6 +17,7 @@ import android.support.test.espresso.matcher.ViewMatchers;
 import android.support.test.espresso.util.HumanReadables;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.view.WindowManager;
 
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
@@ -50,7 +53,7 @@ public class TestUtils {
         }
 
         public Matcher<View> getConstraints() {
-            return Matchers.allOf(new Matcher[] {
+            return Matchers.allOf(new Matcher[]{
                     ViewMatchers.isAssignableFrom(RecyclerView.class), ViewMatchers.isDisplayed()
             });
         }
@@ -94,7 +97,7 @@ public class TestUtils {
         }
 
         public Matcher<View> getConstraints() {
-            return Matchers.allOf(new Matcher[] {
+            return Matchers.allOf(new Matcher[]{
                     ViewMatchers.isAssignableFrom(RecyclerView.class), ViewMatchers.isDisplayed()
             });
         }
@@ -196,5 +199,27 @@ public class TestUtils {
 
     public static RecyclerViewMatcher withRecyclerView(final int recyclerViewId) {
         return new RecyclerViewMatcher(recyclerViewId);
+    }
+
+    public class ToastMatcher extends TypeSafeMatcher<Root> {
+
+        @Override
+        public void describeTo(Description description) {
+            description.appendText("is toast");
+        }
+
+        @Override
+        public boolean matchesSafely(Root root) {
+            int type = root.getWindowLayoutParams().get().type;
+            if ((type == WindowManager.LayoutParams.TYPE_TOAST)) {
+                IBinder windowToken = root.getDecorView().getWindowToken();
+                IBinder appToken = root.getDecorView().getApplicationWindowToken();
+                if (windowToken == appToken) {
+                    //means this window isn't contained by any other windows.
+                }
+            }
+            return false;
+
+        }
     }
 }

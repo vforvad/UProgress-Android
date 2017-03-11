@@ -4,7 +4,7 @@
     "title": "New step",
     "description": "New step description",
     "direction_id": 1,
-    "is_done": false,
+    "is_done": true,
     "updated_at": "2016-12-31T19:17:44.551Z"
   }
 }

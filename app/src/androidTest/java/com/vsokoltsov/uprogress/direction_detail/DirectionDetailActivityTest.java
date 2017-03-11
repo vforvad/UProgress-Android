@@ -9,12 +9,14 @@ import android.support.test.espresso.Espresso;
 import android.support.test.espresso.contrib.RecyclerViewActions;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
+import android.support.v4.view.accessibility.AccessibilityNodeInfoCompat;
 import android.widget.AutoCompleteTextView;
 
 import com.vsokoltsov.uprogress.R;
 import com.vsokoltsov.uprogress.common.BaseTestApplication;
 import com.vsokoltsov.uprogress.common.IntentServiceIdlingResource;
 import com.vsokoltsov.uprogress.common.RestServiceTestHelper;
+import com.vsokoltsov.uprogress.common.TestUtils;
 import com.vsokoltsov.uprogress.direction_detail.ui.DirectionDetailActivity;
 import com.vsokoltsov.uprogress.directions_list.ui.DirectionsActivity;
 
@@ -29,12 +31,16 @@ import java.io.IOException;
 import okhttp3.mockwebserver.MockResponse;
 import okhttp3.mockwebserver.MockWebServer;
 
+import static android.app.PendingIntent.getActivity;
 import static android.support.test.InstrumentationRegistry.getInstrumentation;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
+import static android.support.test.espresso.core.deps.guava.base.Predicates.not;
+import static android.support.test.espresso.matcher.RootMatchers.withDecorView;
 import static android.support.test.espresso.matcher.ViewMatchers.isAssignableFrom;
+import static android.support.test.espresso.matcher.ViewMatchers.isChecked;
 import static android.support.test.espresso.matcher.ViewMatchers.isDescendantOfA;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
@@ -44,6 +50,7 @@ import static com.vsokoltsov.uprogress.common.TestUtils.recyclerClick;
 import static com.vsokoltsov.uprogress.common.TestUtils.recyclerLongClick;
 import static com.vsokoltsov.uprogress.common.TestUtils.withRecyclerView;
 import static org.hamcrest.Matchers.allOf;
+import static org.hamcrest.Matchers.is;
 
 /**
  * Created by vsokoltsov on 11.03.17.
@@ -94,6 +101,7 @@ public class DirectionDetailActivityTest {
         Context context = InstrumentationRegistry.getInstrumentation()
                 .getTargetContext();
         mIdlingResource = new IntentServiceIdlingResource(context);
+        resources = context.getResources();
     }
 
     @Test
@@ -162,6 +170,17 @@ public class DirectionDetailActivityTest {
         onView(withRecyclerView(R.id.stepsList).atPositionOnView(2, R.id.stepsTitle)).check(matches(withText("New step")));
     }
 
+    @Test
+    public void testSuccessStepCompletion() throws Exception {
+        server.enqueue(new MockResponse()
+                .setResponseCode(200)
+                .setBody(RestServiceTestHelper.getStringFromFile(getInstrumentation().getContext(), step)));
+
+        TestUtils.ToastMatcher tm = new TestUtils().new ToastMatcher ();
+        onView(withRecyclerView(R.id.stepsList).atPositionOnView(0, R.id.isChecked)).perform(click());
+        onView(withRecyclerView(R.id.stepsList).atPositionOnView(0, R.id.isChecked)).check(matches(isChecked()));
+    }
+
     @After
     public void afterEach() {
         try {
@@ -171,4 +190,6 @@ public class DirectionDetailActivityTest {
             e.printStackTrace();
         }
     }
+
+
 }
