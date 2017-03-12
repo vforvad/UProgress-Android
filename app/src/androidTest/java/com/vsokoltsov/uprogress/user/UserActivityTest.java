@@ -8,6 +8,7 @@ import android.support.test.InstrumentationRegistry;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 
+import com.vsokoltsov.uprogress.R;
 import com.vsokoltsov.uprogress.common.BaseTestApplication;
 import com.vsokoltsov.uprogress.common.IntentServiceIdlingResource;
 import com.vsokoltsov.uprogress.common.RestServiceTestHelper;
@@ -17,6 +18,7 @@ import com.vsokoltsov.uprogress.user.ui.UserActivity;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
+import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import java.io.IOException;
@@ -25,6 +27,12 @@ import okhttp3.mockwebserver.MockResponse;
 import okhttp3.mockwebserver.MockWebServer;
 
 import static android.support.test.InstrumentationRegistry.getInstrumentation;
+import static android.support.test.espresso.Espresso.onView;
+import static android.support.test.espresso.assertion.ViewAssertions.matches;
+import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
+import static android.support.test.espresso.matcher.ViewMatchers.withId;
+import static android.support.test.espresso.matcher.ViewMatchers.withText;
+import static com.vsokoltsov.uprogress.common.TestUtils.withRecyclerView;
 
 /**
  * Created by vsokoltsov on 12.03.17.
@@ -79,5 +87,13 @@ public class UserActivityTest {
         server.shutdown();
     }
 
+    @Test
+    public void testCurrentUserInfoExistence() throws Exception {
+        onView(withId(R.id.collapsing_toolbar)).check(matches(isDisplayed()));
+        onView(withRecyclerView(R.id.recyclerView).atPositionOnView(0, R.id.infoTitle)).check(matches(withText(resources.getString(R.string.user_profile_email))));
+        onView(withRecyclerView(R.id.recyclerView).atPositionOnView(1, R.id.infoTitle)).check(matches(withText(resources.getString(R.string.user_profile_nick))));
+        onView(withRecyclerView(R.id.recyclerView).atPositionOnView(2, R.id.infoTitle)).check(matches(withText(resources.getString(R.string.user_profile_location))));
+        onView(withRecyclerView(R.id.recyclerView).atPositionOnView(3, R.id.infoTitle)).check(matches(withText(resources.getString(R.string.user_profile_description))));
+    }
 
 }
