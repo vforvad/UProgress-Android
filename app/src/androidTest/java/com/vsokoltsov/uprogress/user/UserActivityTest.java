@@ -28,11 +28,14 @@ import okhttp3.mockwebserver.MockWebServer;
 
 import static android.support.test.InstrumentationRegistry.getInstrumentation;
 import static android.support.test.espresso.Espresso.onView;
+import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
+import static android.support.test.espresso.matcher.ViewMatchers.isDescendantOfA;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static com.vsokoltsov.uprogress.common.TestUtils.withRecyclerView;
+import static org.hamcrest.Matchers.allOf;
 
 /**
  * Created by vsokoltsov on 12.03.17.
@@ -96,4 +99,14 @@ public class UserActivityTest {
         onView(withRecyclerView(R.id.recyclerView).atPositionOnView(3, R.id.infoTitle)).check(matches(withText(resources.getString(R.string.user_profile_description))));
     }
 
+    @Test
+    public void testUserFormFieldsExistance() throws Exception {
+        onView(withId(R.id.addDirection)).perform(click());
+
+        onView(allOf(withId(R.id.firstNameField), isDescendantOfA(withId(R.id.userFormPopup)))).check(matches(isDisplayed()));
+        onView(allOf(withId(R.id.lastNameField), isDescendantOfA(withId(R.id.userFormPopup)))).check(matches(isDisplayed()));
+        onView(allOf(withId(R.id.emailField), isDescendantOfA(withId(R.id.userFormPopup)))).check(matches(isDisplayed()));
+        onView(allOf(withId(R.id.locationField), isDescendantOfA(withId(R.id.userFormPopup)))).check(matches(isDisplayed()));
+        onView(allOf(withId(R.id.descriptionField), isDescendantOfA(withId(R.id.userFormPopup)))).check(matches(isDisplayed()));
+    }
 }
