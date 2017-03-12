@@ -50,6 +50,7 @@ public class UserActivityTest {
     private BaseTestApplication baseTestApplication;
     private String currentUser = "current_user.json";
     String errors = "user_error.json";
+    String updatedUser = "updated_user.json";
 
     @Rule
     public ActivityTestRule<UserActivity> authorizationActivityRule =
@@ -129,13 +130,15 @@ public class UserActivityTest {
     public void testSuccessUserUpdate() throws Exception {
         server.enqueue(new MockResponse()
                 .setResponseCode(200)
-                .setBody(RestServiceTestHelper.getStringFromFile(getInstrumentation().getContext(), currentUser)));
+                .setBody(RestServiceTestHelper.getStringFromFile(getInstrumentation().getContext(), updatedUser)));
 
         onView(withId(R.id.addDirection)).perform(click());
 
         onView(allOf(withId(R.id.firstNameField), isDescendantOfA(withId(R.id.userFormPopup)))).perform(typeText("example@mail.com"));
         onView(allOf(withId(R.id.lastNameField), isDescendantOfA(withId(R.id.userFormPopup)))).perform(typeText("firstName"));
         onView(allOf(withId(R.id.emailField), isDescendantOfA(withId(R.id.userFormPopup)))).perform(typeText("lastName"));
+        onView(allOf(withId(R.id.submitForm), isDescendantOfA(withId(R.id.userFormPopup)))).perform(click());
 
+        onView(withRecyclerView(R.id.recyclerView).atPositionOnView(0, R.id.infoValue)).check(matches(withText("example@mail.com")));
     }
 }

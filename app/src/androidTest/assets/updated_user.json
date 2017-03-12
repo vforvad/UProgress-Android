@@ -1,0 +1,7 @@
+{
+  "current_user": {
+    "email": "example@mail.com",
+    "first_name": "firstName",
+    "last_name": "lastName"
+  }
+}
