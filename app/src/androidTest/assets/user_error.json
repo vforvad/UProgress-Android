@@ -1,0 +1,7 @@
+{
+  "errors": {
+    "email": ["Can't be blank"],
+    "first_name": ["Can't be blank"],
+    "last_name": ["Can't be blank"]
+  }
+}
