@@ -29,11 +29,13 @@ import okhttp3.mockwebserver.MockWebServer;
 import static android.support.test.InstrumentationRegistry.getInstrumentation;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
+import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.isDescendantOfA;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
+import static com.vsokoltsov.uprogress.common.TestUtils.hasTextInputLayoutErrorText;
 import static com.vsokoltsov.uprogress.common.TestUtils.withRecyclerView;
 import static org.hamcrest.Matchers.allOf;
 
@@ -47,6 +49,7 @@ public class UserActivityTest {
     private MockWebServer server;
     private BaseTestApplication baseTestApplication;
     private String currentUser = "current_user.json";
+    String errors = "user_error.json";
 
     @Rule
     public ActivityTestRule<UserActivity> authorizationActivityRule =
@@ -57,10 +60,6 @@ public class UserActivityTest {
                     try {
                         server = new MockWebServer();
                         server.start(3000);
-
-                        server.enqueue(new MockResponse()
-                                .setResponseCode(200)
-                                .setBody(RestServiceTestHelper.getStringFromFile(getInstrumentation().getContext(), currentUser)));
                     }
                     catch (Exception e) {
                         e.printStackTrace();
@@ -108,5 +107,35 @@ public class UserActivityTest {
         onView(allOf(withId(R.id.emailField), isDescendantOfA(withId(R.id.userFormPopup)))).check(matches(isDisplayed()));
         onView(allOf(withId(R.id.locationField), isDescendantOfA(withId(R.id.userFormPopup)))).check(matches(isDisplayed()));
         onView(allOf(withId(R.id.descriptionField), isDescendantOfA(withId(R.id.userFormPopup)))).check(matches(isDisplayed()));
+    }
+
+    @Test
+    public void testFailedUserUpdate() throws Exception {
+        server.enqueue(new MockResponse()
+                .setResponseCode(403)
+                .setBody(RestServiceTestHelper.getStringFromFile(getInstrumentation().getContext(), errors)));
+
+
+        onView(withId(R.id.addDirection)).perform(click());
+
+        onView(allOf(withId(R.id.submitForm), isDescendantOfA(withId(R.id.userFormPopup)))).perform(click());
+
+        onView(allOf(withId(R.id.firstNameWrapper), isDescendantOfA(withId(R.id.userFormPopup)))).check(matches(hasTextInputLayoutErrorText("Can't be blank\n")));
+        onView(allOf(withId(R.id.lastNameWrapper), isDescendantOfA(withId(R.id.userFormPopup)))).check(matches(hasTextInputLayoutErrorText("Can't be blank\n")));
+        onView(allOf(withId(R.id.emailWrapper), isDescendantOfA(withId(R.id.userFormPopup)))).check(matches(hasTextInputLayoutErrorText("Can't be blank\n")));
+    }
+
+    @Test
+    public void testSuccessUserUpdate() throws Exception {
+        server.enqueue(new MockResponse()
+                .setResponseCode(200)
+                .setBody(RestServiceTestHelper.getStringFromFile(getInstrumentation().getContext(), currentUser)));
+
+        onView(withId(R.id.addDirection)).perform(click());
+
+        onView(allOf(withId(R.id.firstNameField), isDescendantOfA(withId(R.id.userFormPopup)))).perform(typeText("example@mail.com"));
+        onView(allOf(withId(R.id.lastNameField), isDescendantOfA(withId(R.id.userFormPopup)))).perform(typeText("firstName"));
+        onView(allOf(withId(R.id.emailField), isDescendantOfA(withId(R.id.userFormPopup)))).perform(typeText("lastName"));
+
     }
 }
