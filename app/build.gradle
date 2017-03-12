@@ -18,7 +18,7 @@ repositories {
 
 android {
     compileSdkVersion 25
-    buildToolsVersion "24.0.3"
+    buildToolsVersion '25.0.0'
     defaultConfig {
         applicationId "vsokoltsov.uprogress"
         minSdkVersion 14
@@ -40,7 +40,7 @@ android {
                     'src/main/res/layout/authorization'
             ]
         }
-       androidTest.setRoot('src/androidTest')
+        androidTest.setRoot('src/androidTest')
     }
     aaptOptions {
         additionalParameters "--no-version-vectors"
@@ -70,7 +70,7 @@ android {
 
     buildTypes {
         production {
-            resValue "string", "serverUrl",  "http://95.213.251.57"
+            resValue "string", "serverUrl", "http://95.213.251.57"
         }
 
         development {
@@ -96,6 +96,11 @@ configurations.all {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
+
+    // Required -- JUnit 4 framework
+    
+
+    // Espresso UI Testing dependencies.
     compile 'com.android.support:appcompat-v7:25.1.0'
     compile 'io.reactivex:rxandroid:1.1.0'
     compile 'io.reactivex:rxjava:1.1.0'
@@ -116,20 +121,16 @@ dependencies {
     compile 'com.jakewharton.picasso:picasso2-okhttp3-downloader:1.0.2'
     compile 'com.github.PhilJay:MPAndroidChart:v3.0.1'
     compile 'com.android.support:multidex:1.0.1'
-
-    // Required -- JUnit 4 framework
+    compile 'com.android.support.test.espresso:espresso-idling-resource:2.2.2'
+    compile 'com.google.firebase:firebase-messaging:10.0.1'
     testCompile 'junit:junit:4.12'
-
-    testCompile "org.mockito:mockito-core:1.+"
+    testCompile 'org.mockito:mockito-core:1.+'
     androidTestCompile 'com.squareup.okhttp3:mockwebserver:3.3.0'
-
-    // Espresso UI Testing dependencies.
     androidTestCompile 'com.android.support.test:runner:0.5'
     androidTestCompile 'com.android.support.test:rules:0.5'
-    androidTestCompile "com.android.support.test.espresso:espresso-core:2.2.2"
-    androidTestCompile "com.android.support.test.espresso:espresso-contrib:2.2.2"
-    androidTestCompile "com.android.support.test.espresso:espresso-intents:2.2.2"
-    compile "com.android.support.test.espresso:espresso-idling-resource:2.2.2"
+    androidTestCompile 'com.android.support.test.espresso:espresso-core:2.2.2'
+    androidTestCompile 'com.android.support.test.espresso:espresso-contrib:2.2.2'
+    androidTestCompile 'com.android.support.test.espresso:espresso-intents:2.2.2'
 }
 
 configurations.compile.dependencies.each { compileDependency ->
@@ -138,3 +139,5 @@ configurations.compile.dependencies.each { compileDependency ->
         configurations.androidTestCompile.exclude module: "${compileDependency.getName()}"
     }
 }
+
+apply plugin: 'com.google.gms.google-services'
