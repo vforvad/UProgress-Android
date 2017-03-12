@@ -1,18 +1,18 @@
 package direction_detail;
 
-import com.example.vsokoltsov.uprogress.authentication.presenters.AuthenticationPresenterImpl;
-import com.example.vsokoltsov.uprogress.direction_detail.model.DirectionDetail;
-import com.example.vsokoltsov.uprogress.direction_detail.model.DirectionDetailModel;
-import com.example.vsokoltsov.uprogress.direction_detail.model.DirectionDetailModelImpl;
-import com.example.vsokoltsov.uprogress.direction_detail.model.steps.Step;
-import com.example.vsokoltsov.uprogress.direction_detail.model.steps.StepRequest;
-import com.example.vsokoltsov.uprogress.direction_detail.model.steps.StepResponse;
-import com.example.vsokoltsov.uprogress.direction_detail.presenter.DirectionDetailPresenter;
-import com.example.vsokoltsov.uprogress.direction_detail.presenter.DirectionDetailPresenterImpl;
-import com.example.vsokoltsov.uprogress.direction_detail.view.DirectionDetailView;
-import com.example.vsokoltsov.uprogress.directions_list.models.Direction;
-import com.example.vsokoltsov.uprogress.directions_list.models.DirectionRequest;
-import com.example.vsokoltsov.uprogress.directions_list.models.DirectionResponse;
+import com.vsokoltsov.uprogress.authentication.presenters.AuthenticationPresenterImpl;
+import com.vsokoltsov.uprogress.direction_detail.model.DirectionDetail;
+import com.vsokoltsov.uprogress.direction_detail.model.DirectionDetailModel;
+import com.vsokoltsov.uprogress.direction_detail.model.DirectionDetailModelImpl;
+import com.vsokoltsov.uprogress.direction_detail.model.steps.Step;
+import com.vsokoltsov.uprogress.direction_detail.model.steps.StepRequest;
+import com.vsokoltsov.uprogress.direction_detail.model.steps.StepResponse;
+import com.vsokoltsov.uprogress.direction_detail.presenter.DirectionDetailPresenter;
+import com.vsokoltsov.uprogress.direction_detail.presenter.DirectionDetailPresenterImpl;
+import com.vsokoltsov.uprogress.direction_detail.view.DirectionDetailView;
+import com.vsokoltsov.uprogress.directions_list.models.Direction;
+import com.vsokoltsov.uprogress.directions_list.models.DirectionRequest;
+import com.vsokoltsov.uprogress.directions_list.models.DirectionResponse;
 
 import org.junit.Before;
 import org.junit.Rule;

@@ -1,15 +1,15 @@
 package directions_list;
 
-import com.example.vsokoltsov.uprogress.directions_list.models.Direction;
-import com.example.vsokoltsov.uprogress.directions_list.models.DirectionModel;
-import com.example.vsokoltsov.uprogress.directions_list.models.DirectionRequest;
-import com.example.vsokoltsov.uprogress.directions_list.models.DirectionResponse;
-import com.example.vsokoltsov.uprogress.directions_list.models.DirectionsList;
-import com.example.vsokoltsov.uprogress.directions_list.presenters.DirectionsListPresenter;
-import com.example.vsokoltsov.uprogress.directions_list.presenters.DirectionsListPresenterImpl;
-import com.example.vsokoltsov.uprogress.directions_list.views.DirectionsListView;
-import com.example.vsokoltsov.uprogress.launch.LaunchPresenter;
-import com.example.vsokoltsov.uprogress.user.current.User;
+import com.vsokoltsov.uprogress.directions_list.models.Direction;
+import com.vsokoltsov.uprogress.directions_list.models.DirectionModel;
+import com.vsokoltsov.uprogress.directions_list.models.DirectionRequest;
+import com.vsokoltsov.uprogress.directions_list.models.DirectionResponse;
+import com.vsokoltsov.uprogress.directions_list.models.DirectionsList;
+import com.vsokoltsov.uprogress.directions_list.presenters.DirectionsListPresenter;
+import com.vsokoltsov.uprogress.directions_list.presenters.DirectionsListPresenterImpl;
+import com.vsokoltsov.uprogress.directions_list.views.DirectionsListView;
+import com.vsokoltsov.uprogress.launch.LaunchPresenter;
+import com.vsokoltsov.uprogress.user.current.User;
 
 import org.junit.Before;
 import org.junit.Rule;

@@ -1,0 +1,6 @@
+{
+  "errors": {
+    "title": ["Can't be blank"],
+    "description": ["Can't be blank"]
+  }
+}
