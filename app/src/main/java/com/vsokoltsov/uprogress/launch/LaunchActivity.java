@@ -10,6 +10,7 @@ import com.vsokoltsov.uprogress.authentication.network.AuthenticationApi;
 import com.vsokoltsov.uprogress.authentication.models.AuthorizationService;
 import com.vsokoltsov.uprogress.common.TabletActivity;
 import com.vsokoltsov.uprogress.common.utils.ContextManager;
+import com.vsokoltsov.uprogress.directions_list.ui.DirectionsListFragment;
 import com.vsokoltsov.uprogress.user.current.CurrentUser;
 import com.vsokoltsov.uprogress.common.utils.ApiRequester;
 import com.vsokoltsov.uprogress.authentication.ui.AuthorizationActivity;

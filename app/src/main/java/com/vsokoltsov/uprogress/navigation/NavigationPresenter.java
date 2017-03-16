@@ -67,7 +67,9 @@ public class NavigationPresenter implements NavigationView.OnNavigationItemSelec
     }
 
     private void setDrawerLayout() {
-        drawerLayout.setDrawerListener(actionBarDrawerToggle);
+        if (actionBarDrawerToggle != null) {
+            drawerLayout.setDrawerListener(actionBarDrawerToggle);
+        }
     }
 
     private void setUpTopNavigation() {
@@ -148,7 +150,9 @@ public class NavigationPresenter implements NavigationView.OnNavigationItemSelec
         else {
             item.setChecked(true);
         }
-        drawerLayout.closeDrawers();
+        if (drawerLayout != null) {
+            drawerLayout.closeDrawers();
+        }
         String className = context.getClass().getSimpleName();
         switch(item.getItemId()) {
             case R.id.sign_in:

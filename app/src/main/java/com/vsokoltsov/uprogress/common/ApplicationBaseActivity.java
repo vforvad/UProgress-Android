@@ -36,10 +36,12 @@ public class ApplicationBaseActivity extends AppCompatActivity implements Naviga
     private NavigationPresenter navigationPresenter;
     private User user;
     private AuthorizationService authorizationService = AuthorizationService.getInstance();
+    private boolean isTablet;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        isTablet = getResources().getBoolean(R.bool.isTablet);
         setContentView(R.layout.base_activity_layout);
         setToolbar();
         setProgressBar();
@@ -61,7 +63,7 @@ public class ApplicationBaseActivity extends AppCompatActivity implements Naviga
 
     public void setLeftNavigationBar() {
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-        drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
+        drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_OPEN);
         user = AuthorizationService.getInstance().getCurrentUser();
         navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationPresenter = new NavigationPresenter(navigationView, drawerLayout,
@@ -103,9 +105,18 @@ public class ApplicationBaseActivity extends AppCompatActivity implements Naviga
     private void defaultToolbar(Toolbar toolbar) {
         if (toolbar != null) {
             setSupportActionBar(toolbar);
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_menu);
-            getSupportActionBar().setHomeButtonEnabled(true);
+
+            if (isTablet) {
+                getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+                getSupportActionBar().setDisplayShowTitleEnabled(true);
+            }
+            else {
+                getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+                getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_menu);
+                getSupportActionBar().setHomeButtonEnabled(true);
+            }
+
+
         }
     }
 
@@ -121,7 +132,7 @@ public class ApplicationBaseActivity extends AppCompatActivity implements Naviga
         return super.onOptionsItemSelected(item);
     }
 
-    private ActionBarDrawerToggle getAcionBarToggler() {
+    public ActionBarDrawerToggle getAcionBarToggler() {
         ActionBarDrawerToggle actionBarDrawerToggle = new ActionBarDrawerToggle(this,
                 drawerLayout,
                 mActionBarToolbar,
@@ -148,6 +159,9 @@ public class ApplicationBaseActivity extends AppCompatActivity implements Naviga
                 actionBarDrawerToggle.syncState();
             }
         });
+        if (isTablet) {
+            actionBarDrawerToggle.setDrawerIndicatorEnabled(false);
+        }
         return actionBarDrawerToggle;
     }
 
