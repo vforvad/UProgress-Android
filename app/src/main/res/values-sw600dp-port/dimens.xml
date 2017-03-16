@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <bool name="isTablet">true</bool>
     <dimen name="authorization_view_pager_padding_top">50dp</dimen>
-    <dimen name="authorization_view_pager_padding">150dp</dimen>
+    <dimen name="authorization_view_pager_padding">10dp</dimen>
 </resources>

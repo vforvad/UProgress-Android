@@ -18,6 +18,9 @@
             android:id="@+id/pager"
             android:layout_height="match_parent"
             android:layout_width="match_parent"
-            android:layout_weight="1" />
+            android:layout_weight="1"
+            android:paddingTop="@dimen/authorization_view_pager_padding_top"
+            android:paddingLeft="@dimen/authorization_view_pager_padding"
+            android:paddingRight="@dimen/authorization_view_pager_padding"/>
     </LinearLayout>
 </LinearLayout>

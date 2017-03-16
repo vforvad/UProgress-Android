@@ -10,4 +10,6 @@
     <dimen name="tab_label">14sp</dimen>
     <dimen name="custom_tab_layout_height">72dp</dimen>
     <bool name="isTablet">false</bool>
+    <dimen name="authorization_view_pager_padding_top">10dp</dimen>
+    <dimen name="authorization_view_pager_padding">0dp</dimen>
 </resources>
