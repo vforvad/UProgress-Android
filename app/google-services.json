@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "879658458834",
+    "firebase_url": "https://uprogress-a0a8d.firebaseio.com",
+    "project_id": "uprogress-a0a8d",
+    "storage_bucket": "uprogress-a0a8d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:879658458834:android:04b4ddecada20e3d",
+        "android_client_info": {
+          "package_name": "vsokoltsov.uprogress"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "879658458834-6lp06kpdh5o54qr3fp858g6e5dvh7d7u.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "vsokoltsov.uprogress",
+            "certificate_hash": "e6e01960bce053537c57b9265403f0f26e121243"
+          }
+        },
+        {
+          "client_id": "879658458834-m7tfohqlc55c4iot8562c6fpne00tnf1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDZujHqV_T_nD61p2Mz1UZiQYUtwPbtkxE"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "879658458834-m7tfohqlc55c4iot8562c6fpne00tnf1.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
