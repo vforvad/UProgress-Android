@@ -234,6 +234,7 @@ public class UserFragment extends Fragment implements PopupInterface, UserProfil
         uploadHelper.onActivityResult(requestCode, resultCode, data, user);
     }
 
+    @Override
     public void onSaveInstanceState(Bundle outState) {
         outState.putParcelable("file_uri", imageUri);
     }
