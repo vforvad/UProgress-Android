@@ -7,6 +7,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
 
 import com.vsokoltsov.uprogress.R;
+import com.vsokoltsov.uprogress.authentication.messages.UserMessage;
 import com.vsokoltsov.uprogress.authentication.models.AuthorizationService;
 import com.vsokoltsov.uprogress.authentication.ui.AuthorizationBaseFragment;
 import com.vsokoltsov.uprogress.common.utils.ContextManager;
@@ -14,6 +15,9 @@ import com.vsokoltsov.uprogress.direction_detail.ui.DirectionDetailFragment;
 import com.vsokoltsov.uprogress.navigation.NavigationPresenter;
 import com.vsokoltsov.uprogress.user.current.User;
 import com.vsokoltsov.uprogress.user.ui.UserFragment;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 import java.lang.reflect.Constructor;
 
@@ -30,7 +34,12 @@ public class TabletActivity extends ApplicationBaseActivity {
         super.onCreate(savedInstanceState);
         super.setLeftNavigationBar();
         if (AuthorizationService.getInstance().getCurrentUser() != null) {
-            renderFragment(UserFragment.class, null);
+            fragmentManager = getSupportFragmentManager();
+            android.support.v4.app.FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            UserFragment frg = new UserFragment();
+            frg.setUser(AuthorizationService.getInstance().getCurrentUser());
+            fragmentTransaction.replace(R.id.main_content, frg);
+            fragmentTransaction.commit();
         }
         else {
             Bundle arguments = new Bundle();
@@ -55,5 +64,4 @@ public class TabletActivity extends ApplicationBaseActivity {
             e.printStackTrace();
         }
     }
-
 }
