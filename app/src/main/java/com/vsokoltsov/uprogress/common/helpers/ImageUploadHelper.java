@@ -34,10 +34,12 @@ public class ImageUploadHelper {
     private File selectImageFile = null;
     private final int CAMERA_REQUEST = 1888;
     private final int GALERY_REQUEST = 444;
+    private Fragment fragment;
 
     public ImageUploadHelper(UploadHelper helper) {
         this.helper = helper;
         this.activity = ((Fragment) helper).getActivity();
+        this.fragment = (Fragment) helper;
     }
 
     public void onActivityResult(int requestCode, int resultCode, Intent data, User user) {
@@ -46,7 +48,6 @@ public class ImageUploadHelper {
                 Uri takenPhotoUri = getPhotoFileUri(photoFileName);
                 selectImageFile = new File(takenPhotoUri.getPath());
                 Bitmap takenImage = BitmapFactory.decodeFile(takenPhotoUri.getPath());
-//                userAvatar.setImageBitmap(takenImage);
             }
             else if (requestCode == GALERY_REQUEST) {
                 Uri takenPhotoUri = data.getData();
@@ -71,14 +72,14 @@ public class ImageUploadHelper {
     public void cameraIntent() {
         Intent camerIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         camerIntent.putExtra(MediaStore.EXTRA_OUTPUT, getPhotoFileUri(photoFileName));
-        activity.startActivityForResult(camerIntent, CAMERA_REQUEST);
+        fragment.startActivityForResult(camerIntent, CAMERA_REQUEST);
     }
 
     public void galleryIntent() {
         Intent intent = new Intent();
         intent.setType("image/*");
         intent.setAction(Intent.ACTION_GET_CONTENT);
-        activity.startActivityForResult(Intent.createChooser(intent,
+        fragment.startActivityForResult(Intent.createChooser(intent,
                 "Select Picture"), GALERY_REQUEST);
     }
 

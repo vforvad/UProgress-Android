@@ -63,7 +63,7 @@ public class ApplicationBaseActivity extends AppCompatActivity implements Naviga
 
     public void setLeftNavigationBar() {
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-        drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_OPEN);
+        drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
         user = AuthorizationService.getInstance().getCurrentUser();
         navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationPresenter = new NavigationPresenter(navigationView, drawerLayout,

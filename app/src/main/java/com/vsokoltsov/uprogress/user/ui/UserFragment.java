@@ -90,6 +90,7 @@ public class UserFragment extends Fragment implements PopupInterface, UserProfil
                              Bundle savedInstanceState) {
         baseApplication = ((BaseApplication) getActivity().getApplicationContext());
         fragmentView = inflater.inflate(R.layout.user_fragment, container, false);
+        setHasOptionsMenu(true);
         errorHandler = new ErrorHandler(getActivity());
         activity = (ApplicationBaseActivity) getActivity();
         UserModel model = new UserModelImpl(getActivity().getApplicationContext());
