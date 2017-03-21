@@ -55,16 +55,14 @@
         </activity>
 
         <service
-            android:name=".common.UProgressFirebaseService"
-            android:exported="false">
+            android:name=".common.UProgressFirebaseService">
             <intent-filter>
                 <action android:name="com.google.firebase.INSTANCE_ID_EVENT"/>
             </intent-filter>
         </service>
 
         <service
-            android:name=".common.UProgressMessagingService"
-            android:exported="false">
+            android:name=".common.UProgressMessagingService">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT"/>
             </intent-filter>

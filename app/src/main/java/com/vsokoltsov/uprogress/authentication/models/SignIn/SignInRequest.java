@@ -1,5 +1,7 @@
 package com.vsokoltsov.uprogress.authentication.models.SignIn;
 
+import android.content.Context;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
@@ -12,5 +14,9 @@ public class SignInRequest {
 
     public SignInRequest(String email, String password) {
         this.data = new SignInData(email, password);
+    }
+
+    public SignInRequest(String email, String password, Context context) {
+        this.data = new SignInData(email, password, context);
     }
 }

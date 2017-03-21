@@ -1,5 +1,6 @@
 package com.vsokoltsov.uprogress.authentication.ui;
 
+import android.content.pm.PackageInfo;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -25,6 +26,7 @@ import com.vsokoltsov.uprogress.authentication.presenters.AuthenticationPresente
 import com.vsokoltsov.uprogress.common.ApplicationBaseActivity;
 import com.vsokoltsov.uprogress.authentication.views.AuthorizationScreen;
 import com.vsokoltsov.uprogress.common.services.ErrorResponse;
+import com.vsokoltsov.uprogress.common.utils.DeviceTokenManager;
 import com.vsokoltsov.uprogress.common.utils.RetrofitException;
 import com.vsokoltsov.uprogress.user.current.CurrentUser;
 
@@ -82,7 +84,8 @@ public class SignInFragment extends Fragment implements Button.OnClickListener, 
     public void onClick(View v) {
         SignInRequest request = new SignInRequest(
                 emailField.getText().toString(),
-                passwordField.getText().toString()
+                passwordField.getText().toString(),
+                getContext()
         );
         presenter.onSignInSubmit(request);
     }
