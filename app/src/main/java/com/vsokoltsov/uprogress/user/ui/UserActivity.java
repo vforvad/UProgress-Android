@@ -43,19 +43,6 @@ public class UserActivity extends ApplicationBaseActivity {
         fragmentTransaction.commit();
     }
 
-//    @Override
-//    public boolean onCreateOptionsMenu(Menu menu) {
-//        MenuInflater inflater = getMenuInflater();
-//        userFragment.onCreateOptionsMenu(menu, inflater);
-//        return super.onCreateOptionsMenu(menu);
-//    }
-//
-//    @Override
-//    public boolean onOptionsItemSelected(MenuItem item) {
-//        userFragment.onOptionsItemSelected(item);
-//        return super.onOptionsItemSelected(item);
-//    }
-//
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);

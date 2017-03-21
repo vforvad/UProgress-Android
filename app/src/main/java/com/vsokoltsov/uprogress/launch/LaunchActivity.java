@@ -55,26 +55,26 @@ public class LaunchActivity extends AppCompatActivity implements CurrentUserView
 
     @Override
     public void completedCurrentUserRequest() {
-        if (isTablet) {
-            tabletActivity();
-        }
-        else {
+//        if (isTablet) {
+//            tabletActivity();
+//        }
+//        else {
             Intent usersActivity = new Intent(this, AuthorizationActivity.class);
             startActivity(usersActivity);
             overridePendingTransition(R.anim.pull_in_right, R.anim.push_out_left);
-        }
+//        }
     }
 
     @Override
     public void redirectToProfile() {
-        if (isTablet) {
-            tabletActivity();
-        }
-        else {
+//        if (isTablet) {
+//            tabletActivity();
+//        }
+//        else {
             Intent profileActivity = new Intent(this, UserActivity.class);
             startActivity(profileActivity);
             overridePendingTransition(R.anim.pull_in_right, R.anim.push_out_left);
-        }
+//        }
     }
 
     private void tabletActivity() {

@@ -15,7 +15,10 @@ import android.widget.TextView;
 
 import com.vsokoltsov.uprogress.R;
 import com.vsokoltsov.uprogress.authentication.ui.AuthorizationActivity;
+import com.vsokoltsov.uprogress.common.ApplicationBaseActivity;
 import com.vsokoltsov.uprogress.common.BaseApplication;
+import com.vsokoltsov.uprogress.common.NavigationFragments;
+import com.vsokoltsov.uprogress.common.TabletFragments;
 import com.vsokoltsov.uprogress.directions_list.ui.DirectionsActivity;
 import com.vsokoltsov.uprogress.statistics.ui.StatisticsActivity;
 import com.vsokoltsov.uprogress.user.current.User;
@@ -39,6 +42,9 @@ public class NavigationPresenter implements NavigationView.OnNavigationItemSelec
     private final Context context;
     private User currentUser;
     private View navHeader;
+    private TabletFragments tabletFragments;
+    private boolean isTablet;
+    private NavigationFragments navigationFragments;
 
     TextView userEmail;
     TextView userName;
@@ -56,6 +62,9 @@ public class NavigationPresenter implements NavigationView.OnNavigationItemSelec
         this.currentUser = currentUser;
         this.toolbar = toolbar;
         this.actionBarDrawerToggle = actionBarDrawerToggle;
+        this.isTablet = context.getResources().getBoolean(R.bool.isTablet);
+        this.tabletFragments = new TabletFragments(((ApplicationBaseActivity) context).getSupportFragmentManager());
+        this.navigationFragments = new NavigationFragments(context);
     }
 
     public void setUpNavigation() {
@@ -67,7 +76,7 @@ public class NavigationPresenter implements NavigationView.OnNavigationItemSelec
     }
 
     private void setDrawerLayout() {
-        if (actionBarDrawerToggle != null) {
+        if (actionBarDrawerToggle != null && drawerLayout != null) {
             drawerLayout.setDrawerListener(actionBarDrawerToggle);
         }
     }
@@ -153,7 +162,7 @@ public class NavigationPresenter implements NavigationView.OnNavigationItemSelec
         if (drawerLayout != null) {
             drawerLayout.closeDrawers();
         }
-        String className = context.getClass().getSimpleName();
+
         switch(item.getItemId()) {
             case R.id.sign_in:
                 Intent signInActivity = new Intent(context, AuthorizationActivity.class);

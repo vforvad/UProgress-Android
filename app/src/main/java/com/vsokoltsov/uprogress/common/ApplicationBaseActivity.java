@@ -62,8 +62,10 @@ public class ApplicationBaseActivity extends AppCompatActivity implements Naviga
     }
 
     public void setLeftNavigationBar() {
-        drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-        drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
+        if (drawerLayout  != null) {
+            drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+            drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
+        }
         user = AuthorizationService.getInstance().getCurrentUser();
         navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationPresenter = new NavigationPresenter(navigationView, drawerLayout,
@@ -152,15 +154,16 @@ public class ApplicationBaseActivity extends AppCompatActivity implements Naviga
                 super.onDrawerOpened(drawerView);
             }
         };
-
-        drawerLayout.post(new Runnable() {
-            @Override
-            public void run() {
-                actionBarDrawerToggle.syncState();
+        if (drawerLayout != null) {
+            drawerLayout.post(new Runnable() {
+                @Override
+                public void run() {
+                    actionBarDrawerToggle.syncState();
+                }
+            });
+            if (isTablet) {
+                actionBarDrawerToggle.setDrawerIndicatorEnabled(false);
             }
-        });
-        if (isTablet) {
-            actionBarDrawerToggle.setDrawerIndicatorEnabled(false);
         }
         return actionBarDrawerToggle;
     }
