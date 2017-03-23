@@ -2,6 +2,8 @@ package com.vsokoltsov.uprogress.common;
 
 import android.app.Application;
 import android.content.Context;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.support.multidex.MultiDex;
 
 import com.vsokoltsov.uprogress.common.helpers.ImageHelper;
@@ -18,6 +20,7 @@ public class BaseApplication extends Application {
     private ImageHelper imageHelper;
     protected Retrofit retrofitClient;
     private PreferencesHelper preferencesHelper;
+    private PackageInfo packageInfo;
 
     public static String NAME = "uprogress";
 
@@ -27,6 +30,7 @@ public class BaseApplication extends Application {
         imageHelper = new ImageHelper(getApplicationContext());
         setRetrofitClient(getApplicationContext());
         preferencesHelper = new PreferencesHelper(getApplicationContext());
+        setPackageInfo();
     }
 
     @Override
@@ -37,6 +41,14 @@ public class BaseApplication extends Application {
 
     public void setRetrofitClient(Context context) {
         retrofitClient = ApiRequester.getInstance().getRestAdapter(context);
+    }
+
+    public void setPackageInfo() {
+        try {
+            packageInfo = getPackageManager().getPackageInfo(getPackageName(), 0);
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 
     public Retrofit getRetrofitClient() {
@@ -54,5 +66,9 @@ public class BaseApplication extends Application {
     public void setApiUrl(Context context, String url) {
         ApiRequester.API_ADDRESS = url + "/";
         retrofitClient = ApiRequester.getInstance().getRestAdapter(context);
+    }
+
+    public PackageInfo getPackageInfo() {
+        return packageInfo;
     }
 }

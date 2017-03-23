@@ -1,5 +1,7 @@
 package com.vsokoltsov.uprogress.authentication.models.SignIn;
 
+import android.content.Context;
+
 import com.vsokoltsov.uprogress.authentication.models.Authorization;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -10,11 +12,19 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class SignInData {
     private String email;
     private String password;
-    private Authorization authorization = new Authorization();
+    private Authorization authorization;
+    @JsonProperty("device_token")
+    private String deviceToken;
 
     public SignInData(String email, String password) {
         this.email = email;
         this.password = password;
+    }
+
+    public SignInData(String email, String password, Context context) {
+        this.email = email;
+        this.password = password;
+        this.authorization = new Authorization(context);
     }
 
     public Authorization getAuthorization() {
@@ -35,5 +45,13 @@ public class SignInData {
 
     public String getPassword() {
         return password;
+    }
+
+    public String getDeviceToken() {
+        return deviceToken;
+    }
+
+    public void setDeviceToken(String deviceToken) {
+        this.deviceToken = deviceToken;
     }
 }
