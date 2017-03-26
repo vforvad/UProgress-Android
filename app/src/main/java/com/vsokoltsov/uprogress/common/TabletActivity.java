@@ -19,10 +19,19 @@ public class TabletActivity extends ApplicationBaseActivity {
         super.setLeftNavigationBar();
         tabletFragments = new TabletFragments(getSupportFragmentManager());
         if (AuthorizationService.getInstance().getCurrentUser() != null) {
-            getSupportActionBar().hide();
             tabletFragments.showProfile(AuthorizationService.getInstance().getCurrentUser());
         } else {
             tabletFragments.shoAuthorizationProfile("sign_in");
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        if(getFragmentManager().getBackStackEntryCount() >= 1) {
+            getFragmentManager().popBackStack();
+        }
+        else {
+            super.onBackPressed();
         }
     }
 }

@@ -22,6 +22,7 @@ import android.widget.SearchView;
 import com.vsokoltsov.uprogress.R;
 import com.vsokoltsov.uprogress.common.BaseApplication;
 import com.vsokoltsov.uprogress.common.ErrorHandler;
+import com.vsokoltsov.uprogress.common.TabletActivity;
 import com.vsokoltsov.uprogress.common.adapters.BaseListAdapterInterface;
 import com.vsokoltsov.uprogress.common.services.ErrorResponse;
 import com.vsokoltsov.uprogress.common.utils.RetrofitException;
@@ -74,6 +75,7 @@ public class DirectionsListFragment extends Fragment implements SwipeRefreshLayo
     private DirectionsListPopup formFragment;
     private Direction pickedDirection;
     private ErrorHandler errorHandler;
+    private boolean isTablet;
 
     static {
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
@@ -84,6 +86,11 @@ public class DirectionsListFragment extends Fragment implements SwipeRefreshLayo
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+        setHasOptionsMenu(true);
+        isTablet = getResources().getBoolean(R.bool.isTablet);
+        if (isTablet) {
+            ((TabletActivity) getActivity()).setToolbar();
+        }
         baseApplication = ((BaseApplication) getActivity().getApplicationContext());
         user = AuthorizationService.getInstance().getCurrentUser();
         activity = (ApplicationBaseActivity) getActivity();
@@ -214,7 +221,12 @@ public class DirectionsListFragment extends Fragment implements SwipeRefreshLayo
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
+//        if (isTablet) {
+//            activity.getToolBar().inflateMenu(R.menu.direction_detail);
+//        }
+//        else {
         inflater.inflate(R.menu.direction_detail, menu);
+//        }
         MenuItem searchItem = menu.findItem(R.id.search);
         MenuItem addItem = menu.findItem(R.id.addItem);
         addItem.setVisible(false);
@@ -364,4 +376,5 @@ public class DirectionsListFragment extends Fragment implements SwipeRefreshLayo
             errorHandler.showMessage(t);
         }
     }
+
 }

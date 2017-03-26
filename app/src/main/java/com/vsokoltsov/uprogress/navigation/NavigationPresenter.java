@@ -117,8 +117,13 @@ public class NavigationPresenter implements NavigationView.OnNavigationItemSelec
             navHeader.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent userActivity = new Intent(context, UserActivity.class);
-                    context.startActivity(userActivity);
+                    if (isTablet) {
+                        tabletFragments.showProfile(currentUser);
+                    }
+                    else {
+                        Intent userActivity = new Intent(context, UserActivity.class);
+                        context.startActivity(userActivity);
+                    }
                 }
             });
         }
@@ -177,12 +182,22 @@ public class NavigationPresenter implements NavigationView.OnNavigationItemSelec
                 ((Activity) context).overridePendingTransition(R.anim.pull_in_right, R.anim.push_out_left);
                 return true;
             case R.id.directions:
-                Intent dirActivity = new Intent(context, DirectionsActivity.class);
-                context.startActivity(dirActivity);
+                if (isTablet) {
+                    tabletFragments.directionsList();
+                }
+                else {
+                    Intent dirActivity = new Intent(context, DirectionsActivity.class);
+                    context.startActivity(dirActivity);
+                }
                 return true;
             case R.id.statistics:
-                Intent statisticsActivity = new Intent(context, StatisticsActivity.class);
-                context.startActivity(statisticsActivity);
+                if (isTablet) {
+                    tabletFragments.statistisFragment();
+                }
+                else {
+                    Intent statisticsActivity = new Intent(context, StatisticsActivity.class);
+                    context.startActivity(statisticsActivity);
+                }
                 return true;
             case R.id.sign_out:
                 itemsClick.signOut();

@@ -9,6 +9,7 @@ import com.vsokoltsov.uprogress.R;
 import com.vsokoltsov.uprogress.authentication.models.AuthorizationService;
 import com.vsokoltsov.uprogress.authentication.ui.AuthorizationBaseFragment;
 import com.vsokoltsov.uprogress.directions_list.ui.DirectionsListFragment;
+import com.vsokoltsov.uprogress.statistics.ui.StatisticsFragment;
 import com.vsokoltsov.uprogress.user.current.User;
 import com.vsokoltsov.uprogress.user.ui.UserFragment;
 
@@ -36,6 +37,7 @@ public class TabletFragments {
         Bundle arguments = new Bundle();
         AuthorizationBaseFragment fragment = new AuthorizationBaseFragment();
         arguments.putString("action", action);
+        fragment.setArguments(arguments);
         commitTransaction(fragment);
     }
 
@@ -45,9 +47,19 @@ public class TabletFragments {
         commitTransaction(frg);
     }
 
+    public void statistisFragment() {
+        this.fragmentTransaction = fragmentManager.beginTransaction();
+        StatisticsFragment frg = new StatisticsFragment();
+        commitTransaction(frg);
+    }
+
 
     private void commitTransaction(Fragment frg) {
         fragmentTransaction.replace(R.id.main_content, frg);
+        if  (fragmentManager.getBackStackEntryCount() >= 1) {
+
+        }
+        fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
     }
 }

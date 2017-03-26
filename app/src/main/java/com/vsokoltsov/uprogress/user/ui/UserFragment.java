@@ -80,6 +80,7 @@ public class UserFragment extends Fragment implements PopupInterface, UserProfil
 
     public static final int MEDIA_TYPE_IMAGE = 1;
     private File selectImageFile = null;
+    private boolean isTablet;
 
     static {
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
@@ -90,9 +91,13 @@ public class UserFragment extends Fragment implements PopupInterface, UserProfil
                              Bundle savedInstanceState) {
         baseApplication = ((BaseApplication) getActivity().getApplicationContext());
         fragmentView = inflater.inflate(R.layout.user_fragment, container, false);
+        isTablet = getResources().getBoolean(R.bool.isTablet);
         setHasOptionsMenu(true);
         errorHandler = new ErrorHandler(getActivity());
         activity = (ApplicationBaseActivity) getActivity();
+        if (isTablet) {
+            activity.getSupportActionBar().hide();
+        }
         UserModel model = new UserModelImpl(getActivity().getApplicationContext());
         uploadHelper = new ImageUploadHelper(this);
         attachmentModel = new AttachmentModelImpl(getActivity().getApplicationContext());
@@ -263,5 +268,15 @@ public class UserFragment extends Fragment implements PopupInterface, UserProfil
     @Override
     public void setUploadFileData(MultipartBody.Part body, RequestBody attachmentableId, RequestBody attachmentableType) {
         attachmentPresenter.uploadImage(body, attachmentableType, attachmentableId);
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        if(isTablet) {
+//            if (!activity.getSupportActionBar().isShowing()) {
+                activity.getSupportActionBar().show();
+//            }
+        }
     }
 }

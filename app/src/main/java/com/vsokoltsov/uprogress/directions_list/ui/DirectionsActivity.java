@@ -35,11 +35,11 @@ public class DirectionsActivity extends ApplicationBaseActivity {
         fragmentTransaction.commit();
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        super.onCreateOptionsMenu(menu);
-        MenuInflater inflater = getMenuInflater();
-        directionsListFragment.onCreateOptionsMenu(menu, inflater);
-        return true;
-    }
+//    @Override
+//    public boolean onCreateOptionsMenu(Menu menu) {
+//        super.onCreateOptionsMenu(menu);
+//        MenuInflater inflater = getMenuInflater();
+//        directionsListFragment.onCreateOptionsMenu(menu, inflater);
+//        return true;
+//    }
 }
