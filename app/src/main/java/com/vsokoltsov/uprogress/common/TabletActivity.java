@@ -2,8 +2,10 @@ package com.vsokoltsov.uprogress.common;
 
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.NavUtils;
 
 import com.vsokoltsov.uprogress.authentication.models.AuthorizationService;
+import com.vsokoltsov.uprogress.directions_list.ui.DirectionsActivity;
 
 
 /**
@@ -34,4 +36,5 @@ public class TabletActivity extends ApplicationBaseActivity {
             super.onBackPressed();
         }
     }
+
 }

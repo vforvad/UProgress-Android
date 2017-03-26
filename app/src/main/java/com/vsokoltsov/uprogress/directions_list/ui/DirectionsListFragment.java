@@ -23,6 +23,7 @@ import com.vsokoltsov.uprogress.R;
 import com.vsokoltsov.uprogress.common.BaseApplication;
 import com.vsokoltsov.uprogress.common.ErrorHandler;
 import com.vsokoltsov.uprogress.common.TabletActivity;
+import com.vsokoltsov.uprogress.common.TabletFragments;
 import com.vsokoltsov.uprogress.common.adapters.BaseListAdapterInterface;
 import com.vsokoltsov.uprogress.common.services.ErrorResponse;
 import com.vsokoltsov.uprogress.common.utils.RetrofitException;
@@ -76,6 +77,7 @@ public class DirectionsListFragment extends Fragment implements SwipeRefreshLayo
     private Direction pickedDirection;
     private ErrorHandler errorHandler;
     private boolean isTablet;
+    private TabletFragments tabletFragments;
 
     static {
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
@@ -96,6 +98,7 @@ public class DirectionsListFragment extends Fragment implements SwipeRefreshLayo
         activity = (ApplicationBaseActivity) getActivity();
         activity.setTitle(getResources().getString(R.string.directions_title));
         fragmentView = inflater.inflate(R.layout.directions_list_fragment, container, false);
+        tabletFragments = new TabletFragments(getFragmentManager());
         errorHandler = new ErrorHandler(getActivity());
         setElements();
         setComponents();
@@ -157,11 +160,16 @@ public class DirectionsListFragment extends Fragment implements SwipeRefreshLayo
 
                     @Override
                     public void onNext(Direction direction) {
-                        Intent directionDetailActivity = new Intent(getActivity(), DirectionDetailActivity.class);
-                        directionDetailActivity.putExtra("user", user.getNick());
-                        directionDetailActivity.putExtra("direction", Integer.toString(direction.getId()));
-                        startActivity(directionDetailActivity);
-                        getActivity().overridePendingTransition(R.anim.pull_in_right, R.anim.push_out_left);
+                        if (isTablet) {
+                            tabletFragments.showDetailDirection(user.getNick(), Integer.toString(direction.getId()));
+                        }
+                        else {
+                            Intent directionDetailActivity = new Intent(getActivity(), DirectionDetailActivity.class);
+                            directionDetailActivity.putExtra("user", user.getNick());
+                            directionDetailActivity.putExtra("direction", Integer.toString(direction.getId()));
+                            startActivity(directionDetailActivity);
+                            getActivity().overridePendingTransition(R.anim.pull_in_right, R.anim.push_out_left);
+                        }
 
                     }
                 });

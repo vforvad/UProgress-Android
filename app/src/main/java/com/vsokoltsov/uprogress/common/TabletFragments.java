@@ -8,6 +8,7 @@ import android.support.v4.app.FragmentTransaction;
 import com.vsokoltsov.uprogress.R;
 import com.vsokoltsov.uprogress.authentication.models.AuthorizationService;
 import com.vsokoltsov.uprogress.authentication.ui.AuthorizationBaseFragment;
+import com.vsokoltsov.uprogress.direction_detail.ui.DirectionDetailFragment;
 import com.vsokoltsov.uprogress.directions_list.ui.DirectionsListFragment;
 import com.vsokoltsov.uprogress.statistics.ui.StatisticsFragment;
 import com.vsokoltsov.uprogress.user.current.User;
@@ -50,6 +51,16 @@ public class TabletFragments {
     public void statistisFragment() {
         this.fragmentTransaction = fragmentManager.beginTransaction();
         StatisticsFragment frg = new StatisticsFragment();
+        commitTransaction(frg);
+    }
+
+    public void showDetailDirection(String user, String direction) {
+        Bundle arguments = new Bundle();
+        arguments.putString("user", user);
+        arguments.putString("direction", direction);
+        this.fragmentTransaction = fragmentManager.beginTransaction();
+        DirectionDetailFragment frg = new DirectionDetailFragment();
+        frg.setArguments(arguments);
         commitTransaction(frg);
     }
 

@@ -126,7 +126,9 @@ public class ApplicationBaseActivity extends AppCompatActivity implements Naviga
     public boolean onOptionsItemSelected(MenuItem item) {
         switch(item.getItemId()) {
             case android.R.id.home:
-                drawerLayout.openDrawer(GravityCompat.START);
+                if (!isTablet) {
+                    drawerLayout.openDrawer(GravityCompat.START);
+                }
                 break;
             default:
                 break;
