@@ -103,6 +103,9 @@ public class NavigationPresenter implements NavigationView.OnNavigationItemSelec
         if (currentUser == null) {
             bottomNavigationView.setVisibility(View.GONE);
         }
+        else {
+            bottomNavigationView.setVisibility(View.VISIBLE);
+        }
     }
 
     private void setUpNavigationHeader() {
@@ -112,6 +115,7 @@ public class NavigationPresenter implements NavigationView.OnNavigationItemSelec
             navHeader.setVisibility(View.GONE);
         }
         else {
+            navHeader.setVisibility(View.VISIBLE);
             setTextInfo();
             setImageInfo();
             navHeader.setOnClickListener(new View.OnClickListener() {
