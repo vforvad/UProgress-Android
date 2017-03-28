@@ -1,7 +1,10 @@
 package com.vsokoltsov.uprogress.common;
 
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
@@ -10,7 +13,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.vsokoltsov.uprogress.R;
 import com.vsokoltsov.uprogress.authentication.messages.UserMessage;
@@ -207,5 +212,13 @@ public class ApplicationBaseActivity extends AppCompatActivity implements Naviga
                 break;
             default: break;
         }
+    }
+
+    public void setEmptyList(View view, int textId) {
+        TextView emptyMessage = (TextView) view.findViewById(R.id.emptyListMessage);
+        ImageView imageView = (ImageView) view.findViewById(R.id.emptyListImage);
+        Drawable emptyListImage = ContextCompat.getDrawable(this, R.drawable.empty_list_icon);
+        imageView.setImageDrawable(emptyListImage);
+        emptyMessage.setText(getResources().getString(textId));
     }
 }

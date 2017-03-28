@@ -4,9 +4,11 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.content.res.Resources;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatDelegate;
@@ -17,10 +19,13 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.SearchView;
+import android.widget.TextView;
 
 import com.vsokoltsov.uprogress.R;
 import com.vsokoltsov.uprogress.common.BaseApplication;
+import com.vsokoltsov.uprogress.common.EmptyRecyclerView;
 import com.vsokoltsov.uprogress.common.ErrorHandler;
 import com.vsokoltsov.uprogress.common.TabletActivity;
 import com.vsokoltsov.uprogress.common.TabletFragments;
@@ -66,7 +71,7 @@ public class DirectionsListFragment extends Fragment implements SwipeRefreshLayo
     private View fragmentView;
     private ApplicationBaseActivity activity;
     private List<Direction> directions = new ArrayList<Direction>();
-    private RecyclerView rv;
+    private EmptyRecyclerView rv;
     private DirectionsListAdapter adapter;
     private SwipeRefreshLayout swipeLayout;
     private LinearLayoutManager llm;
@@ -78,6 +83,7 @@ public class DirectionsListFragment extends Fragment implements SwipeRefreshLayo
     private ErrorHandler errorHandler;
     private boolean isTablet;
     private TabletFragments tabletFragments;
+    private View emptyListView;
 
     static {
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
@@ -98,6 +104,8 @@ public class DirectionsListFragment extends Fragment implements SwipeRefreshLayo
         activity = (ApplicationBaseActivity) getActivity();
         activity.setTitle(getResources().getString(R.string.directions_title));
         fragmentView = inflater.inflate(R.layout.directions_list_fragment, container, false);
+        emptyListView = fragmentView.findViewById(R.id.emptyListView);
+        activity.setEmptyList(emptyListView, R.string.empty_directions_list);
         tabletFragments = new TabletFragments(getFragmentManager());
         errorHandler = new ErrorHandler(getActivity());
         setElements();
@@ -108,11 +116,14 @@ public class DirectionsListFragment extends Fragment implements SwipeRefreshLayo
 
     private void setElements() {
         setButton();
-        rv = (RecyclerView) fragmentView.findViewById(R.id.directionsList);
+        rv = (EmptyRecyclerView) fragmentView.findViewById(R.id.directionsList);
         llm = new LinearLayoutManager(getActivity());
         rv.setLayoutManager(llm);
+        rv.setEmptyView(emptyListView);
         adapter = new DirectionsListAdapter(directions, rv, this);
+
         rv.setAdapter(adapter);
+
 
         swipeLayout = (SwipeRefreshLayout) fragmentView.findViewById(R.id.swipe_layout);
         swipeLayout.setOnRefreshListener(this);
@@ -383,6 +394,10 @@ public class DirectionsListFragment extends Fragment implements SwipeRefreshLayo
         } catch (IOException e) {
             errorHandler.showMessage(t);
         }
+    }
+
+    private void setEmptyListView() {
+
     }
 
 }

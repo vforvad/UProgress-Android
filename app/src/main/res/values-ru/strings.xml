@@ -47,4 +47,6 @@
 
     <string name="internal_server_error">Ошибка сервера. Повторите запрос позже</string>
     <string name="not_found">Ресурс не найден</string>
+
+    <string name="empty_directions_list">У вас нет направлений</string>
 </resources>

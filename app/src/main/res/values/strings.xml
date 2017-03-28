@@ -49,4 +49,6 @@
 
     <string name="internal_server_error">Internal server error. Please try it later</string>
     <string name="not_found">Resource was not found</string>
+
+    <string name="empty_directions_list">There is no directions</string>
 </resources>

@@ -43,6 +43,7 @@ public class ImageHelper {
 
     public void load(String url, ImageView destination, int emptyImage) {
         RequestCreator requestCreator = picasso.load(url).fit();
+
         if (context.getResources().getBoolean(R.bool.isTablet)) {
             requestCreator.transform(new CircleTransform());
         }
