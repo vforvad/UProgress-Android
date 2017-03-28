@@ -16,4 +16,5 @@
     <dimen name="user_profile_image_padding">0dp</dimen>
     <dimen name="empty_list_image_size">50dp</dimen>
     <dimen name="directions_list_padding">0dp</dimen>
+    <dimen name="direction_detail_padding">0dp</dimen>
 </resources>
