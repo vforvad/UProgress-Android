@@ -62,7 +62,7 @@ public class ApplicationBaseActivity extends AppCompatActivity implements Naviga
     }
 
     public void setLeftNavigationBar() {
-        if (drawerLayout  != null) {
+        if (drawerLayout  == null) {
             drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
             drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
         }

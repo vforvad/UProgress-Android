@@ -3,4 +3,6 @@
     <bool name="isTablet">true</bool>
     <dimen name="authorization_view_pager_padding_top">50dp</dimen>
     <dimen name="authorization_view_pager_padding">150dp</dimen>
+    <dimen name="user_profile_padding">100dp</dimen>
+    <dimen name="user_profile_image_padding">10dp</dimen>
 </resources>

@@ -12,4 +12,6 @@
     <bool name="isTablet">false</bool>
     <dimen name="authorization_view_pager_padding_top">10dp</dimen>
     <dimen name="authorization_view_pager_padding">0dp</dimen>
+    <dimen name="user_profile_padding">0dp</dimen>
+    <dimen name="user_profile_image_padding">0dp</dimen>
 </resources>

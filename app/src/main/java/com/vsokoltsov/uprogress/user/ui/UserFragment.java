@@ -2,6 +2,7 @@ package com.vsokoltsov.uprogress.user.ui;
 
 import android.content.Intent;
 import android.content.res.ColorStateList;
+import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -95,6 +96,7 @@ public class UserFragment extends Fragment implements PopupInterface, UserProfil
         setHasOptionsMenu(true);
         errorHandler = new ErrorHandler(getActivity());
         activity = (ApplicationBaseActivity) getActivity();
+        user = AuthorizationService.getInstance().getCurrentUser();
         if (isTablet) {
             activity.getSupportActionBar().hide();
         }
@@ -137,7 +139,6 @@ public class UserFragment extends Fragment implements PopupInterface, UserProfil
 
     private void loadUserImage() {
         userAvatar = (ImageView) fragmentView.findViewById(R.id.userAvatar);
-        user = AuthorizationService.getInstance().getCurrentUser();
         baseApplication.getImageHelper().setUserImage(getContext(), user, userAvatar, R.drawable.ic_empty_user);
     }
 
