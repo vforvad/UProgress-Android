@@ -88,7 +88,6 @@ public class DirectionDetailFragment extends Fragment implements DirectionDetail
         // Inflate the layout for this fragment
         baseApplication = ((BaseApplication) getActivity().getApplicationContext());
         activity = (ApplicationBaseActivity) getActivity();
-        activity.setTitle(getResources().getString(R.string.direction_title));
         fragmentView = inflater.inflate(R.layout.direction_detail_fragment, container, false);
         tabletFragments = new TabletFragments(getFragmentManager());
         getActivity().invalidateOptionsMenu();
@@ -97,6 +96,10 @@ public class DirectionDetailFragment extends Fragment implements DirectionDetail
         if (isTablet) {
             ((TabletActivity) getActivity()).setToolbar();
             ((TabletActivity) getActivity()).getToolBar().setNavigationIcon(R.drawable.return_icon);
+            ((TabletActivity) getActivity()).getToolBar().setTitle(getResources().getString(R.string.direction_title));
+        }
+        else {
+            activity.setTitle(getResources().getString(R.string.direction_title));
         }
         messagesHelper = new MessagesHelper(getResources());
         errorHandler = new ErrorHandler(activity);
