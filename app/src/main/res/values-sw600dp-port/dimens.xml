@@ -5,4 +5,5 @@
     <dimen name="user_profile_padding">20dp</dimen>
     <dimen name="user_profile_image_padding">10dp</dimen>
     <dimen name="empty_list_image_size">75dp</dimen>
+    <dimen name="directions_list_padding">25dp</dimen>
 </resources>

@@ -315,10 +315,7 @@ public class DirectionDetailFragment extends Fragment implements DirectionDetail
                 if (isTablet) {
                     tabletFragments.directionsList();
                 }
-                else {
-                    NavUtils.navigateUpTo(getActivity(), new Intent(getContext(), DirectionsActivity.class));
-                }
-                return false;
+                return true;
             case R.id.addItem:
                 createStep();
                 return true;
@@ -326,17 +323,6 @@ public class DirectionDetailFragment extends Fragment implements DirectionDetail
                 return super.onOptionsItemSelected(item);
         }
     }
-
-
-//    @Override
-//    public boolean onSupportNavigateUp() {
-//        return true;
-//    }
-//
-//    @Override
-//    public void onBackPressed() {
-//        super.onBackPressed();
-//    }
 
     @Override
     public void onCheckboxChanged(Step step, boolean value) {
