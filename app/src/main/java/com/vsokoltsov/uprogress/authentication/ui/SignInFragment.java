@@ -18,6 +18,7 @@ import com.vsokoltsov.uprogress.authentication.models.SignIn.SignInRequest;
 import com.vsokoltsov.uprogress.common.BaseApplication;
 import com.vsokoltsov.uprogress.common.ErrorDialog;
 import com.vsokoltsov.uprogress.common.ErrorHandler;
+import com.vsokoltsov.uprogress.common.TabletFragments;
 import com.vsokoltsov.uprogress.common.helpers.PreferencesHelper;
 import com.vsokoltsov.uprogress.authentication.models.AuthenticationModelImpl;
 import com.vsokoltsov.uprogress.authentication.models.AuthenticationModel;
@@ -47,13 +48,14 @@ public class SignInFragment extends Fragment implements Button.OnClickListener, 
     private AuthenticationPresenter presenter;
     AuthorizationService auth = AuthorizationService.getInstance();
     ErrorHandler errorHandler;
+    private boolean isTablet;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         baseApplication = ((BaseApplication) getActivity().getApplicationContext());
         activity = (ApplicationBaseActivity) getActivity();
-
+        isTablet = getResources().getBoolean(R.bool.isTablet);
         fragmentView = inflater.inflate(R.layout.sign_in_fragment, container, false);
         errorHandler = new ErrorHandler(getActivity());
         setFields();
@@ -94,7 +96,12 @@ public class SignInFragment extends Fragment implements Button.OnClickListener, 
     public void successResponse(CurrentUser currentUser) {
         auth.setCurrentUser(currentUser.getUser());
         EventBus.getDefault().post(new UserMessage("currentUser", currentUser.getUser()));
-        ((AuthorizationActivity) activity).redirectToProfile();
+        if (isTablet) {
+            (new TabletFragments(getFragmentManager())).showProfile(currentUser.getUser());
+        }
+        else {
+            ((AuthorizationActivity) activity).redirectToProfile();
+        }
     }
 
     @Override

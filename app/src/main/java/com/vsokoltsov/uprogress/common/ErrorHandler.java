@@ -22,10 +22,14 @@ public class ErrorHandler {
         RetrofitException error = (RetrofitException) throwable;
         int errorCode = error.getResponse().code();
 
-        String message;
-        if (errorCode >= 500) {
-            message = activity.getResources().getString(R.string.internal_server_error);
-            dialog.show(message);
+        String message = "";
+        if (errorCode >= 400 && errorCode <= 499) {
+            message = activity.getResources().getString(R.string.not_found);
         }
+        else if (errorCode >= 500) {
+            message = activity.getResources().getString(R.string.internal_server_error);
+
+        }
+        dialog.show(message);
     }
 }

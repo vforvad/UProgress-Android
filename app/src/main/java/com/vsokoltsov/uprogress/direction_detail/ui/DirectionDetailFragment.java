@@ -1,7 +1,9 @@
 package com.vsokoltsov.uprogress.direction_detail.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.NavUtils;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
@@ -21,6 +23,8 @@ import com.vsokoltsov.uprogress.common.ApplicationBaseActivity;
 import com.vsokoltsov.uprogress.common.BaseApplication;
 import com.vsokoltsov.uprogress.common.ErrorHandler;
 import com.vsokoltsov.uprogress.common.SwipeableRecyclerViewTouchListener;
+import com.vsokoltsov.uprogress.common.TabletActivity;
+import com.vsokoltsov.uprogress.common.TabletFragments;
 import com.vsokoltsov.uprogress.common.helpers.MessagesHelper;
 import com.vsokoltsov.uprogress.common.services.ErrorResponse;
 import com.vsokoltsov.uprogress.common.utils.RetrofitException;
@@ -37,6 +41,7 @@ import com.vsokoltsov.uprogress.direction_detail.presenter.DirectionDetailPresen
 import com.vsokoltsov.uprogress.direction_detail.view.DirectionDetailListAdapter;
 import com.vsokoltsov.uprogress.direction_detail.view.DirectionDetailView;
 import com.vsokoltsov.uprogress.directions_list.models.Direction;
+import com.vsokoltsov.uprogress.directions_list.ui.DirectionsActivity;
 
 import org.solovyev.android.views.llm.LinearLayoutManager;
 
@@ -73,6 +78,9 @@ public class DirectionDetailFragment extends Fragment implements DirectionDetail
     private SwipeRefreshLayout swipeLayout;
     private LinearLayoutManager llm;
     private List<Step> steps = new ArrayList<Step>();
+    private TabletFragments tabletFragments;
+
+    private boolean isTablet;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -82,6 +90,14 @@ public class DirectionDetailFragment extends Fragment implements DirectionDetail
         activity = (ApplicationBaseActivity) getActivity();
         activity.setTitle(getResources().getString(R.string.direction_title));
         fragmentView = inflater.inflate(R.layout.direction_detail_fragment, container, false);
+        tabletFragments = new TabletFragments(getFragmentManager());
+        getActivity().invalidateOptionsMenu();
+        setHasOptionsMenu(true);
+        isTablet = getResources().getBoolean(R.bool.isTablet);
+        if (isTablet) {
+            ((TabletActivity) getActivity()).setToolbar();
+            ((TabletActivity) getActivity()).getToolBar().setNavigationIcon(R.drawable.return_icon);
+        }
         messagesHelper = new MessagesHelper(getResources());
         errorHandler = new ErrorHandler(activity);
         getExtras();
@@ -123,7 +139,14 @@ public class DirectionDetailFragment extends Fragment implements DirectionDetail
     }
 
     private void getExtras() {
-        Bundle extras = getActivity().getIntent().getExtras();
+        Bundle extras;
+        if (isTablet) {
+            extras = getArguments();
+        }
+        else {
+            extras = getActivity().getIntent().getExtras();
+        }
+
         if (extras != null) {
             userNick = extras.getString("user");
             directionId = extras.getString("direction");
@@ -247,7 +270,8 @@ public class DirectionDetailFragment extends Fragment implements DirectionDetail
 
     @Override
     public void failedDelete(Throwable t) {
-
+        Toast.makeText(getContext(), getResources().getString(R.string.steps_failed_update_message),
+                Toast.LENGTH_LONG).show();
     }
 
     @Override
@@ -283,6 +307,22 @@ public class DirectionDetailFragment extends Fragment implements DirectionDetail
         MenuItem searchItem = menu.findItem(R.id.search);
         final SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
         searchView.setOnQueryTextListener(this);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                if (isTablet) {
+                    tabletFragments.directionsList();
+                }
+                return true;
+            case R.id.addItem:
+                createStep();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     @Override

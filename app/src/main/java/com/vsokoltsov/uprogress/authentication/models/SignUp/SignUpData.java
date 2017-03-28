@@ -1,6 +1,9 @@
 package com.vsokoltsov.uprogress.authentication.models.SignUp;
 
 
+import android.content.Context;
+
+import com.vsokoltsov.uprogress.authentication.models.Authorization;
 import com.vsokoltsov.uprogress.authentication.models.SignIn.SignInData;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -17,6 +20,14 @@ public class SignUpData extends SignInData {
         super(email, password);
         this.passwordConfirmation = passwordConfirmation;
         this.nick = nick;
+    }
+
+    public SignUpData(String email, String password,
+                      String passwordConfirmation, String nick, Context context) {
+        super(email, password);
+        this.passwordConfirmation = passwordConfirmation;
+        this.nick = nick;
+        this.authorization = new Authorization(context);
     }
 
     public void setPasswordConfirmation(String passwordConfirmation) {

@@ -8,7 +8,9 @@ import android.support.v7.app.AppCompatActivity;
 import com.vsokoltsov.uprogress.R;
 import com.vsokoltsov.uprogress.authentication.network.AuthenticationApi;
 import com.vsokoltsov.uprogress.authentication.models.AuthorizationService;
+import com.vsokoltsov.uprogress.common.TabletActivity;
 import com.vsokoltsov.uprogress.common.utils.ContextManager;
+import com.vsokoltsov.uprogress.directions_list.ui.DirectionsListFragment;
 import com.vsokoltsov.uprogress.user.current.CurrentUser;
 import com.vsokoltsov.uprogress.common.utils.ApiRequester;
 import com.vsokoltsov.uprogress.authentication.ui.AuthorizationActivity;
@@ -27,11 +29,12 @@ import rx.schedulers.Schedulers;
  */
 
 public class LaunchActivity extends AppCompatActivity implements CurrentUserView{
-
+    private boolean isTablet;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.authorization_activity);
+        isTablet = getResources().getBoolean(R.bool.isTablet);
         ContextManager.getInstance().setContext(this);
         CurrentUserModel currentUserManager = new CurrentUserManager(getApplicationContext());
         LaunchPresenter presenter = new LaunchPresenter(this, currentUserManager);
@@ -52,15 +55,31 @@ public class LaunchActivity extends AppCompatActivity implements CurrentUserView
 
     @Override
     public void completedCurrentUserRequest() {
-        Intent usersActivity = new Intent(this, AuthorizationActivity.class);
-        startActivity(usersActivity);
-        overridePendingTransition(R.anim.pull_in_right, R.anim.push_out_left);
+        if (isTablet) {
+            tabletActivity();
+        }
+        else {
+            Intent usersActivity = new Intent(this, AuthorizationActivity.class);
+            startActivity(usersActivity);
+            overridePendingTransition(R.anim.pull_in_right, R.anim.push_out_left);
+        }
     }
 
     @Override
     public void redirectToProfile() {
-        Intent profileActivity = new Intent(this, UserActivity.class);
-        startActivity(profileActivity);
+        if (isTablet) {
+            tabletActivity();
+        }
+        else {
+            Intent profileActivity = new Intent(this, UserActivity.class);
+            startActivity(profileActivity);
+            overridePendingTransition(R.anim.pull_in_right, R.anim.push_out_left);
+        }
+    }
+
+    private void tabletActivity() {
+        Intent tabletActivity = new Intent(this, TabletActivity.class);
+        startActivity(tabletActivity);
         overridePendingTransition(R.anim.pull_in_right, R.anim.push_out_left);
     }
 }

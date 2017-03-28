@@ -12,7 +12,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class SignInData {
     private String email;
     private String password;
-    private Authorization authorization;
+    protected Authorization authorization;
     @JsonProperty("device_token")
     private String deviceToken;
 

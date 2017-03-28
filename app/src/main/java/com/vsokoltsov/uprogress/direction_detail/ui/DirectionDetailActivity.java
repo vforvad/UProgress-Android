@@ -33,6 +33,16 @@ public class DirectionDetailActivity extends ApplicationBaseActivity {
         fragmentTransaction.commit();
     }
 
+
+
+//    @Override
+//    public boolean onCreateOptionsMenu(Menu menu) {
+//        super.onCreateOptionsMenu(menu);
+//        MenuInflater inflater = getMenuInflater();
+//        directionDetailFragment.onCreateOptionsMenu(menu, inflater);
+//        return true;
+//    }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -57,13 +67,5 @@ public class DirectionDetailActivity extends ApplicationBaseActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        super.onCreateOptionsMenu(menu);
-        MenuInflater inflater = getMenuInflater();
-        directionDetailFragment.onCreateOptionsMenu(menu, inflater);
-        return true;
     }
 }

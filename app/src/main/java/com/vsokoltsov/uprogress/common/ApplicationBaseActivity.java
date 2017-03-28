@@ -1,7 +1,10 @@
 package com.vsokoltsov.uprogress.common;
 
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
@@ -10,7 +13,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.vsokoltsov.uprogress.R;
 import com.vsokoltsov.uprogress.authentication.messages.UserMessage;
@@ -36,10 +41,12 @@ public class ApplicationBaseActivity extends AppCompatActivity implements Naviga
     private NavigationPresenter navigationPresenter;
     private User user;
     private AuthorizationService authorizationService = AuthorizationService.getInstance();
+    private boolean isTablet;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        isTablet = getResources().getBoolean(R.bool.isTablet);
         setContentView(R.layout.base_activity_layout);
         setToolbar();
         setProgressBar();
@@ -60,8 +67,10 @@ public class ApplicationBaseActivity extends AppCompatActivity implements Naviga
     }
 
     public void setLeftNavigationBar() {
-        drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-        drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
+        if (drawerLayout  == null) {
+            drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+            drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
+        }
         user = AuthorizationService.getInstance().getCurrentUser();
         navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationPresenter = new NavigationPresenter(navigationView, drawerLayout,
@@ -103,9 +112,18 @@ public class ApplicationBaseActivity extends AppCompatActivity implements Naviga
     private void defaultToolbar(Toolbar toolbar) {
         if (toolbar != null) {
             setSupportActionBar(toolbar);
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_menu);
-            getSupportActionBar().setHomeButtonEnabled(true);
+
+            if (isTablet) {
+                getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+                getSupportActionBar().setDisplayShowTitleEnabled(true);
+            }
+            else {
+                getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+                getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_menu);
+                getSupportActionBar().setHomeButtonEnabled(true);
+            }
+
+
         }
     }
 
@@ -113,7 +131,9 @@ public class ApplicationBaseActivity extends AppCompatActivity implements Naviga
     public boolean onOptionsItemSelected(MenuItem item) {
         switch(item.getItemId()) {
             case android.R.id.home:
-                drawerLayout.openDrawer(GravityCompat.START);
+                if (!isTablet) {
+                    drawerLayout.openDrawer(GravityCompat.START);
+                }
                 break;
             default:
                 break;
@@ -121,7 +141,7 @@ public class ApplicationBaseActivity extends AppCompatActivity implements Naviga
         return super.onOptionsItemSelected(item);
     }
 
-    private ActionBarDrawerToggle getAcionBarToggler() {
+    public ActionBarDrawerToggle getAcionBarToggler() {
         ActionBarDrawerToggle actionBarDrawerToggle = new ActionBarDrawerToggle(this,
                 drawerLayout,
                 mActionBarToolbar,
@@ -141,13 +161,17 @@ public class ApplicationBaseActivity extends AppCompatActivity implements Naviga
                 super.onDrawerOpened(drawerView);
             }
         };
-
-        drawerLayout.post(new Runnable() {
-            @Override
-            public void run() {
-                actionBarDrawerToggle.syncState();
+        if (drawerLayout != null) {
+            drawerLayout.post(new Runnable() {
+                @Override
+                public void run() {
+                    actionBarDrawerToggle.syncState();
+                }
+            });
+            if (isTablet) {
+                actionBarDrawerToggle.setDrawerIndicatorEnabled(false);
             }
-        });
+        }
         return actionBarDrawerToggle;
     }
 
@@ -188,5 +212,13 @@ public class ApplicationBaseActivity extends AppCompatActivity implements Naviga
                 break;
             default: break;
         }
+    }
+
+    public void setEmptyList(View view, int textId) {
+        TextView emptyMessage = (TextView) view.findViewById(R.id.emptyListMessage);
+        ImageView imageView = (ImageView) view.findViewById(R.id.emptyListImage);
+        Drawable emptyListImage = ContextCompat.getDrawable(this, R.drawable.empty_list_icon);
+        imageView.setImageDrawable(emptyListImage);
+        emptyMessage.setText(getResources().getString(textId));
     }
 }

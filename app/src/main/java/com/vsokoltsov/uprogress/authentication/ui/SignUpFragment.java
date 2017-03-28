@@ -15,6 +15,7 @@ import com.vsokoltsov.uprogress.authentication.messages.UserMessage;
 import com.vsokoltsov.uprogress.authentication.models.AuthorizationService;
 import com.vsokoltsov.uprogress.authentication.models.SignUp.SignUpRequest;
 import com.vsokoltsov.uprogress.common.ErrorHandler;
+import com.vsokoltsov.uprogress.common.TabletFragments;
 import com.vsokoltsov.uprogress.common.helpers.PreferencesHelper;
 import com.vsokoltsov.uprogress.authentication.models.AuthenticationModel;
 import com.vsokoltsov.uprogress.authentication.models.AuthenticationModelImpl;
@@ -44,12 +45,16 @@ public class SignUpFragment extends Fragment implements Button.OnClickListener, 
     private AuthenticationPresenter presenter;
     private AuthorizationService auth = AuthorizationService.getInstance();
     ErrorHandler errorHandler;
+    private boolean isTablet;
+    private TabletFragments tabletFragments;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         activity = (ApplicationBaseActivity) getActivity();
+        isTablet = getResources().getBoolean(R.bool.isTablet);
         fragmentView = inflater.inflate(R.layout.sign_up_fragment, container, false);
+        tabletFragments = new TabletFragments(getFragmentManager());
         errorHandler = new ErrorHandler(getActivity());
         setFields();
         setButton();
@@ -85,7 +90,8 @@ public class SignUpFragment extends Fragment implements Button.OnClickListener, 
                 emailField.getText().toString(),
                 passwordField.getText().toString(),
                 passwordConfirmationField.getText().toString(),
-                nickField.getText().toString()
+                nickField.getText().toString(),
+                getContext()
         );
         presenter.onSignUpSubmit(request);
     }
@@ -94,7 +100,13 @@ public class SignUpFragment extends Fragment implements Button.OnClickListener, 
     public void successResponse(CurrentUser currentUser) {
         auth.setCurrentUser(currentUser.getUser());
         EventBus.getDefault().post(new UserMessage("currentUser", currentUser.getUser()));
-        ((AuthorizationActivity) activity).redirectToProfile();
+        if (isTablet) {
+            tabletFragments.showProfile(currentUser.getUser());
+        }
+        else {
+            ((AuthorizationActivity) activity).redirectToProfile();
+        }
+
     }
 
     @Override

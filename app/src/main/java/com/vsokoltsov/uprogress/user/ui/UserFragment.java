@@ -2,6 +2,7 @@ package com.vsokoltsov.uprogress.user.ui;
 
 import android.content.Intent;
 import android.content.res.ColorStateList;
+import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -24,6 +25,7 @@ import com.vsokoltsov.uprogress.R;
 import com.vsokoltsov.uprogress.attachment.model.AttachmentModelImpl;
 import com.vsokoltsov.uprogress.attachment.presenter.AttachmentPresenterImpl;
 import com.vsokoltsov.uprogress.attachment.view.AttachmentView;
+import com.vsokoltsov.uprogress.authentication.messages.UserMessage;
 import com.vsokoltsov.uprogress.authentication.models.Attachment;
 import com.vsokoltsov.uprogress.authentication.models.AuthorizationService;
 import com.vsokoltsov.uprogress.common.ApplicationBaseActivity;
@@ -45,6 +47,7 @@ import com.vsokoltsov.uprogress.user.presenters.UserProfilePresenter;
 import com.vsokoltsov.uprogress.user.presenters.UserProfilePresenterImpl;
 import com.vsokoltsov.uprogress.user.views.UserProfileView;
 
+import org.greenrobot.eventbus.EventBus;
 import org.solovyev.android.views.llm.LinearLayoutManager;
 
 import java.io.File;
@@ -80,6 +83,7 @@ public class UserFragment extends Fragment implements PopupInterface, UserProfil
 
     public static final int MEDIA_TYPE_IMAGE = 1;
     private File selectImageFile = null;
+    private boolean isTablet;
 
     static {
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
@@ -90,8 +94,14 @@ public class UserFragment extends Fragment implements PopupInterface, UserProfil
                              Bundle savedInstanceState) {
         baseApplication = ((BaseApplication) getActivity().getApplicationContext());
         fragmentView = inflater.inflate(R.layout.user_fragment, container, false);
+        isTablet = getResources().getBoolean(R.bool.isTablet);
+        setHasOptionsMenu(true);
         errorHandler = new ErrorHandler(getActivity());
         activity = (ApplicationBaseActivity) getActivity();
+        user = AuthorizationService.getInstance().getCurrentUser();
+        if (isTablet) {
+            activity.getSupportActionBar().hide();
+        }
         UserModel model = new UserModelImpl(getActivity().getApplicationContext());
         uploadHelper = new ImageUploadHelper(this);
         attachmentModel = new AttachmentModelImpl(getActivity().getApplicationContext());
@@ -131,7 +141,6 @@ public class UserFragment extends Fragment implements PopupInterface, UserProfil
 
     private void loadUserImage() {
         userAvatar = (ImageView) fragmentView.findViewById(R.id.userAvatar);
-        user = AuthorizationService.getInstance().getCurrentUser();
         baseApplication.getImageHelper().setUserImage(getContext(), user, userAvatar, R.drawable.ic_empty_user);
     }
 
@@ -218,6 +227,7 @@ public class UserFragment extends Fragment implements PopupInterface, UserProfil
     public boolean onOptionsItemSelected(MenuItem item) {
         switch(item.getItemId()) {
             case R.id.photo:
+
                 uploadHelper.cameraIntent();
                 break;
             case R.id.collection:
@@ -233,6 +243,7 @@ public class UserFragment extends Fragment implements PopupInterface, UserProfil
         uploadHelper.onActivityResult(requestCode, resultCode, data, user);
     }
 
+    @Override
     public void onSaveInstanceState(Bundle outState) {
         outState.putParcelable("file_uri", imageUri);
     }
@@ -251,6 +262,7 @@ public class UserFragment extends Fragment implements PopupInterface, UserProfil
     public void successUpload(Attachment attachment) {
         baseApplication.getImageHelper().load(attachment.getUrl(), userAvatar, R.drawable.ic_empty_user);
         AuthorizationService.getInstance().getCurrentUser().setImage(attachment);
+        EventBus.getDefault().post(new UserMessage("currentUser", AuthorizationService.getInstance().getCurrentUser()));
     }
 
     @Override
@@ -261,5 +273,15 @@ public class UserFragment extends Fragment implements PopupInterface, UserProfil
     @Override
     public void setUploadFileData(MultipartBody.Part body, RequestBody attachmentableId, RequestBody attachmentableType) {
         attachmentPresenter.uploadImage(body, attachmentableType, attachmentableId);
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        if(isTablet) {
+//            if (!activity.getSupportActionBar().isShowing()) {
+                activity.getSupportActionBar().show();
+//            }
+        }
     }
 }

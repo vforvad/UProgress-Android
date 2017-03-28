@@ -34,6 +34,7 @@ public class UserActivity extends ApplicationBaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState, R.layout.user_activity_layout);
+        super.setLeftNavigationBar();
         user = AuthorizationService.getInstance().getCurrentUser();
         fragmentManager = getSupportFragmentManager();
         android.support.v4.app.FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
@@ -41,19 +42,6 @@ public class UserActivity extends ApplicationBaseActivity {
         userFragment.setUser(user);
         fragmentTransaction.replace(R.id.main_content, userFragment);
         fragmentTransaction.commit();
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        userFragment.onCreateOptionsMenu(menu, inflater);
-        return super.onCreateOptionsMenu(menu);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        userFragment.onOptionsItemSelected(item);
-        return super.onOptionsItemSelected(item);
     }
 
     @Override

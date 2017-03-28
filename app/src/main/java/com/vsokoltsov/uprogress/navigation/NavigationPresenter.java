@@ -15,7 +15,10 @@ import android.widget.TextView;
 
 import com.vsokoltsov.uprogress.R;
 import com.vsokoltsov.uprogress.authentication.ui.AuthorizationActivity;
+import com.vsokoltsov.uprogress.common.ApplicationBaseActivity;
 import com.vsokoltsov.uprogress.common.BaseApplication;
+import com.vsokoltsov.uprogress.common.NavigationFragments;
+import com.vsokoltsov.uprogress.common.TabletFragments;
 import com.vsokoltsov.uprogress.directions_list.ui.DirectionsActivity;
 import com.vsokoltsov.uprogress.statistics.ui.StatisticsActivity;
 import com.vsokoltsov.uprogress.user.current.User;
@@ -39,6 +42,9 @@ public class NavigationPresenter implements NavigationView.OnNavigationItemSelec
     private final Context context;
     private User currentUser;
     private View navHeader;
+    private TabletFragments tabletFragments;
+    private boolean isTablet;
+    private NavigationFragments navigationFragments;
 
     TextView userEmail;
     TextView userName;
@@ -56,6 +62,9 @@ public class NavigationPresenter implements NavigationView.OnNavigationItemSelec
         this.currentUser = currentUser;
         this.toolbar = toolbar;
         this.actionBarDrawerToggle = actionBarDrawerToggle;
+        this.isTablet = context.getResources().getBoolean(R.bool.isTablet);
+        this.tabletFragments = new TabletFragments(((ApplicationBaseActivity) context).getSupportFragmentManager());
+        this.navigationFragments = new NavigationFragments(context);
     }
 
     public void setUpNavigation() {
@@ -67,7 +76,9 @@ public class NavigationPresenter implements NavigationView.OnNavigationItemSelec
     }
 
     private void setDrawerLayout() {
-        drawerLayout.setDrawerListener(actionBarDrawerToggle);
+        if (actionBarDrawerToggle != null && drawerLayout != null) {
+            drawerLayout.setDrawerListener(actionBarDrawerToggle);
+        }
     }
 
     private void setUpTopNavigation() {
@@ -92,6 +103,9 @@ public class NavigationPresenter implements NavigationView.OnNavigationItemSelec
         if (currentUser == null) {
             bottomNavigationView.setVisibility(View.GONE);
         }
+        else {
+            bottomNavigationView.setVisibility(View.VISIBLE);
+        }
     }
 
     private void setUpNavigationHeader() {
@@ -101,13 +115,19 @@ public class NavigationPresenter implements NavigationView.OnNavigationItemSelec
             navHeader.setVisibility(View.GONE);
         }
         else {
+            navHeader.setVisibility(View.VISIBLE);
             setTextInfo();
             setImageInfo();
             navHeader.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent userActivity = new Intent(context, UserActivity.class);
-                    context.startActivity(userActivity);
+                    if (isTablet) {
+                        tabletFragments.showProfile(currentUser);
+                    }
+                    else {
+                        Intent userActivity = new Intent(context, UserActivity.class);
+                        context.startActivity(userActivity);
+                    }
                 }
             });
         }
@@ -148,8 +168,10 @@ public class NavigationPresenter implements NavigationView.OnNavigationItemSelec
         else {
             item.setChecked(true);
         }
-        drawerLayout.closeDrawers();
-        String className = context.getClass().getSimpleName();
+        if (drawerLayout != null) {
+            drawerLayout.closeDrawers();
+        }
+
         switch(item.getItemId()) {
             case R.id.sign_in:
                 Intent signInActivity = new Intent(context, AuthorizationActivity.class);
@@ -164,12 +186,22 @@ public class NavigationPresenter implements NavigationView.OnNavigationItemSelec
                 ((Activity) context).overridePendingTransition(R.anim.pull_in_right, R.anim.push_out_left);
                 return true;
             case R.id.directions:
-                Intent dirActivity = new Intent(context, DirectionsActivity.class);
-                context.startActivity(dirActivity);
+                if (isTablet) {
+                    tabletFragments.directionsList();
+                }
+                else {
+                    Intent dirActivity = new Intent(context, DirectionsActivity.class);
+                    context.startActivity(dirActivity);
+                }
                 return true;
             case R.id.statistics:
-                Intent statisticsActivity = new Intent(context, StatisticsActivity.class);
-                context.startActivity(statisticsActivity);
+                if (isTablet) {
+                    tabletFragments.statistisFragment();
+                }
+                else {
+                    Intent statisticsActivity = new Intent(context, StatisticsActivity.class);
+                    context.startActivity(statisticsActivity);
+                }
                 return true;
             case R.id.sign_out:
                 itemsClick.signOut();

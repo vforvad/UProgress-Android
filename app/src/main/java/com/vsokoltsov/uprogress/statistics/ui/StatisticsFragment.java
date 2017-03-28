@@ -19,6 +19,7 @@ import com.vsokoltsov.uprogress.authentication.models.AuthorizationService;
 import com.vsokoltsov.uprogress.common.ApplicationBaseActivity;
 import com.vsokoltsov.uprogress.common.BaseApplication;
 import com.vsokoltsov.uprogress.common.ErrorHandler;
+import com.vsokoltsov.uprogress.common.TabletActivity;
 import com.vsokoltsov.uprogress.statistics.model.StatisticsInfo;
 import com.vsokoltsov.uprogress.statistics.model.StatisticsItem;
 import com.vsokoltsov.uprogress.statistics.model.StatisticsModel;
@@ -66,12 +67,18 @@ public class StatisticsFragment extends Fragment implements StatisticsView {
     private ApplicationBaseActivity activity;
     private int orientation;
     private ErrorHandler errorHandler;
+    private boolean isTablet;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         baseApplication = ((BaseApplication) getActivity().getApplicationContext());
         fragmentView = inflater.inflate(R.layout.statistics_fragment, container, false);
+        setHasOptionsMenu(true);
+        isTablet = getResources().getBoolean(R.bool.isTablet);
+        if (isTablet) {
+            ((TabletActivity) getActivity()).setToolbar();
+        }
         errorHandler = new ErrorHandler(getActivity());
         activity = (ApplicationBaseActivity) getActivity();
         activity.setTitle(getResources().getString(R.string.statistiscs_title));

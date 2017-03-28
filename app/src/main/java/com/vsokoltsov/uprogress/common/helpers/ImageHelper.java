@@ -1,13 +1,20 @@
 package com.vsokoltsov.uprogress.common.helpers;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapShader;
+import android.graphics.Canvas;
+import android.graphics.Paint;
 import android.graphics.drawable.Drawable;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatDelegate;
 import android.widget.ImageView;
 
+import com.squareup.picasso.RequestCreator;
+import com.squareup.picasso.Transformation;
 import com.vsokoltsov.uprogress.R;
 import com.vsokoltsov.uprogress.common.BaseApplication;
+import com.vsokoltsov.uprogress.common.CircleTransform;
 import com.vsokoltsov.uprogress.user.current.User;
 import com.jakewharton.picasso.OkHttp3Downloader;
 import com.squareup.picasso.Picasso;
@@ -35,10 +42,12 @@ public class ImageHelper {
     }
 
     public void load(String url, ImageView destination, int emptyImage) {
-        picasso
-                .load(url)
-                .fit()
-                .into(destination);
+        RequestCreator requestCreator = picasso.load(url).fit();
+
+        if (context.getResources().getBoolean(R.bool.isTablet)) {
+            requestCreator.transform(new CircleTransform());
+        }
+        requestCreator.into(destination);
     }
 
     public void load(File file, ImageView destination, int emptyImage) {
