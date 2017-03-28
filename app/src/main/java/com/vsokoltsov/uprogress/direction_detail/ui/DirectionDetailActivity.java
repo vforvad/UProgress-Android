@@ -63,7 +63,7 @@ public class DirectionDetailActivity extends ApplicationBaseActivity {
     public boolean onSupportNavigateUp() {
         return true;
     }
- 
+
     @Override
     public void onBackPressed() {
         super.onBackPressed();

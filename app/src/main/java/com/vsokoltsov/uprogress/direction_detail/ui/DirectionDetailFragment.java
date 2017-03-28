@@ -270,7 +270,8 @@ public class DirectionDetailFragment extends Fragment implements DirectionDetail
 
     @Override
     public void failedDelete(Throwable t) {
-
+        Toast.makeText(getContext(), getResources().getString(R.string.steps_failed_update_message),
+                Toast.LENGTH_LONG).show();
     }
 
     @Override

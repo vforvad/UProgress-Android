@@ -1,5 +1,6 @@
 package com.vsokoltsov.uprogress.common.helpers;
 
+
 import android.app.Activity;
 import android.content.Intent;
 import android.database.Cursor;
@@ -14,6 +15,8 @@ import android.util.Log;
 import com.vsokoltsov.uprogress.user.current.User;
 
 import java.io.File;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
@@ -27,7 +30,7 @@ import static android.app.Activity.RESULT_OK;
 
 public class ImageUploadHelper {
     public final String APP_TAG = "UProgress";
-    public String photoFileName = "photo.jpg";
+    public String photoFileName;
     private final Activity activity;
     public final UploadHelper helper;
     Uri imageUri;
@@ -45,7 +48,7 @@ public class ImageUploadHelper {
     public void onActivityResult(int requestCode, int resultCode, Intent data, User user) {
         if (resultCode == RESULT_OK) {
             if(requestCode == CAMERA_REQUEST){
-                Uri takenPhotoUri = getPhotoFileUri(photoFileName);
+                Uri takenPhotoUri = getPhotoFileUri(getPhotoFileName());
                 selectImageFile = new File(takenPhotoUri.getPath());
                 Bitmap takenImage = BitmapFactory.decodeFile(takenPhotoUri.getPath());
             }
@@ -56,7 +59,7 @@ public class ImageUploadHelper {
                 selectImageFile = new File(path);
 
             }
-            if (selectImageFile != null) {
+            if (selectImageFile != null && (requestCode == CAMERA_REQUEST || requestCode == GALERY_REQUEST)) {
                 RequestBody requestFile =
                         RequestBody.create(MediaType.parse("multipart/form-data"), selectImageFile);
                 // MultipartBody.Part is used to send also the actual file name
@@ -70,8 +73,9 @@ public class ImageUploadHelper {
     }
 
     public void cameraIntent() {
+        setPhotoFileName();
         Intent camerIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        camerIntent.putExtra(MediaStore.EXTRA_OUTPUT, getPhotoFileUri(photoFileName));
+        camerIntent.putExtra(MediaStore.EXTRA_OUTPUT, getPhotoFileUri(getPhotoFileName()));
         fragment.startActivityForResult(camerIntent, CAMERA_REQUEST);
     }
 
@@ -93,7 +97,7 @@ public class ImageUploadHelper {
         // try to retrieve the image from the media store first
         // this will only work for images selected from gallery
         String[] projection = { MediaStore.Images.Media.DATA };
-        Cursor cursor = activity.managedQuery(uri, projection, null, null, null);
+        Cursor cursor = activity.getBaseContext().getContentResolver().query(uri, projection, null, null, null);
         if( cursor != null ){
             int column_index = cursor
                     .getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
@@ -129,4 +133,14 @@ public class ImageUploadHelper {
         }
         return null;
     }
+
+    private String getPhotoFileName() {
+        return photoFileName;
+    }
+
+    private void setPhotoFileName() {
+        String timeStamp = GenerateRandomString.randomString(15);
+        this.photoFileName = timeStamp + "_.jpg";
+    }
 }
+

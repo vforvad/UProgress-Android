@@ -25,6 +25,7 @@ import com.vsokoltsov.uprogress.R;
 import com.vsokoltsov.uprogress.attachment.model.AttachmentModelImpl;
 import com.vsokoltsov.uprogress.attachment.presenter.AttachmentPresenterImpl;
 import com.vsokoltsov.uprogress.attachment.view.AttachmentView;
+import com.vsokoltsov.uprogress.authentication.messages.UserMessage;
 import com.vsokoltsov.uprogress.authentication.models.Attachment;
 import com.vsokoltsov.uprogress.authentication.models.AuthorizationService;
 import com.vsokoltsov.uprogress.common.ApplicationBaseActivity;
@@ -46,6 +47,7 @@ import com.vsokoltsov.uprogress.user.presenters.UserProfilePresenter;
 import com.vsokoltsov.uprogress.user.presenters.UserProfilePresenterImpl;
 import com.vsokoltsov.uprogress.user.views.UserProfileView;
 
+import org.greenrobot.eventbus.EventBus;
 import org.solovyev.android.views.llm.LinearLayoutManager;
 
 import java.io.File;
@@ -225,6 +227,7 @@ public class UserFragment extends Fragment implements PopupInterface, UserProfil
     public boolean onOptionsItemSelected(MenuItem item) {
         switch(item.getItemId()) {
             case R.id.photo:
+
                 uploadHelper.cameraIntent();
                 break;
             case R.id.collection:
@@ -259,6 +262,7 @@ public class UserFragment extends Fragment implements PopupInterface, UserProfil
     public void successUpload(Attachment attachment) {
         baseApplication.getImageHelper().load(attachment.getUrl(), userAvatar, R.drawable.ic_empty_user);
         AuthorizationService.getInstance().getCurrentUser().setImage(attachment);
+        EventBus.getDefault().post(new UserMessage("currentUser", AuthorizationService.getInstance().getCurrentUser()));
     }
 
     @Override
