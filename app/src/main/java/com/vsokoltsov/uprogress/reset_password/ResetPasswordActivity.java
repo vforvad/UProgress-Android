@@ -17,17 +17,29 @@ import com.vsokoltsov.uprogress.directions_list.ui.DirectionsActivity;
 public class ResetPasswordActivity extends ApplicationBaseActivity {
     private android.support.v4.app.FragmentManager fragmentManager;
     private ResetPasswordBaseFragment resetPasswordBaseFragment;
+    private String token;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         super.setDetailViewToolbar();
         super.disableLeftNavigationBar();
+        getExtras();
+        Bundle arguments = new Bundle();
+        arguments.putString("reset_token", token);
         fragmentManager = getSupportFragmentManager();
         android.support.v4.app.FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         resetPasswordBaseFragment = new ResetPasswordBaseFragment();
+        resetPasswordBaseFragment.setArguments(arguments);
         fragmentTransaction.replace(R.id.main_content, resetPasswordBaseFragment);
         fragmentTransaction.commit();
+    }
+
+    private void getExtras() {
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            token = (String) extras.getString("reset_token");
+        }
     }
 
     @Override

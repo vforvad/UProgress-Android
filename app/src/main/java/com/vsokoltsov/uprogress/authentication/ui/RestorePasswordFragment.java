@@ -71,22 +71,22 @@ public class RestorePasswordFragment extends Fragment implements Button.OnClickL
 
     @Override
     public void onClick(View view) {
-        if (isTablet) {
-
-        }
-        else {
-            Intent signUpActivity = new Intent(getContext(), ResetPasswordActivity.class);
-            getContext().startActivity(signUpActivity);
-            ((Activity) getContext()).overridePendingTransition(R.anim.pull_in_right, R.anim.push_out_left);
-        }
-//        RestorePasswordRequest request = new
-//                RestorePasswordRequest(emailField.getText().toString());
-//        presenter.onRestorePassword(request);
+        RestorePasswordRequest request = new
+                RestorePasswordRequest(emailField.getText().toString());
+        presenter.onRestorePassword(request);
     }
 
     @Override
     public void successRestoreResponse(String token) {
+        if (isTablet) {
 
+        }
+        else {
+            Intent resetPasswordActivity = new Intent(getContext(), ResetPasswordActivity.class);
+            resetPasswordActivity.putExtra("reset_token", token);
+            getContext().startActivity(resetPasswordActivity);
+            ((Activity) getContext()).overridePendingTransition(R.anim.pull_in_right, R.anim.push_out_left);
+        }
     }
 
     @Override
