@@ -129,12 +129,11 @@ public class AuthenticationPresenterImpl implements AuthenticationPresenter {
                     @Override
                     public void onError(Throwable e) {
                         passwordScreen.failedRestoreResponse(e);
-                        screen.stopLoader();
+                        passwordScreen.stopLoader();
                     }
 
                     @Override
                     public void onNext(Token token) {
-                        // TODO Add redirect to user's profile
                         passwordScreen.successRestoreResponse(token.getToken());
                     }
                 });

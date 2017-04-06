@@ -21,6 +21,10 @@ import com.vsokoltsov.uprogress.common.ApplicationBaseActivity;
 import com.vsokoltsov.uprogress.common.BaseApplication;
 import com.vsokoltsov.uprogress.common.ErrorHandler;
 import com.vsokoltsov.uprogress.common.helpers.PreferencesHelper;
+import com.vsokoltsov.uprogress.common.services.ErrorResponse;
+import com.vsokoltsov.uprogress.common.utils.RetrofitException;
+
+import java.io.IOException;
 
 /**
  * Created by vsokoltsov on 06.04.17.
@@ -76,7 +80,14 @@ public class RestorePasswordFragment extends Fragment implements Button.OnClickL
 
     @Override
     public void failedRestoreResponse(Throwable t) {
-
+        RetrofitException error = (RetrofitException) t;
+        try {
+            ErrorResponse errors = null;
+            errors = error.getErrorBodyAs(ErrorResponse.class);
+            emailField.setError(errors.getFullErrorMessage("email"));
+        } catch (IOException e) {
+            errorHandler.showMessage(t);
+        }
     }
 
     @Override
