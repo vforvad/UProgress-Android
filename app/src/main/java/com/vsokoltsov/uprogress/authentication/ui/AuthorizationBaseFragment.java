@@ -2,6 +2,7 @@ package com.vsokoltsov.uprogress.authentication.ui;
 
 import android.content.res.Resources;
 import android.graphics.drawable.ColorDrawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTabHost;
@@ -91,7 +92,9 @@ public class AuthorizationBaseFragment extends Fragment {
         tabs = (SlidingTabLayout) fragmentView.findViewById(R.id.tabs);
         tabs.setDistributeEvenly(true); // To make the Tabs Fixed set this true, This makes the tabs Space Evenly in Available width
         tabs.setTabsFontSize(12);
-        tabs.setBackground(new ColorDrawable(getResources().getColor(R.color.colorPrimary)));
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+            tabs.setBackground(new ColorDrawable(getResources().getColor(R.color.colorPrimary)));
+        }
         tabs.setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener(){
             @Override
             public void onPageSelected(int position) {
