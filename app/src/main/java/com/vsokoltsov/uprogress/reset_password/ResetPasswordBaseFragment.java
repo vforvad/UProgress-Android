@@ -33,6 +33,7 @@ public class ResetPasswordBaseFragment extends Fragment implements Button.OnClic
                              Bundle savedInstanceState) {
         fragmentView = inflater.inflate(R.layout.reset_password_fragment, container, false);
         setFields();
+        setButton();
         activity = (ApplicationBaseActivity) getActivity();
         isTablet = getResources().getBoolean(R.bool.isTablet);
         if (isTablet) {
