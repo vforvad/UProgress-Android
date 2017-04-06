@@ -50,4 +50,6 @@
     <string name="not_found">Ресурс не найден</string>
 
     <string name="empty_directions_list">У вас нет направлений</string>
+
+    <string name="restore_password_button">Восстановить пароль</string>
 </resources>

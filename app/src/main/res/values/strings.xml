@@ -52,4 +52,6 @@
     <string name="not_found">Resource was not found</string>
 
     <string name="empty_directions_list">There is no directions</string>
+
+    <string name="restore_password_button">Restore password</string>
 </resources>
