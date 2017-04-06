@@ -4,6 +4,7 @@
     <string name="password">Пароль</string>
     <string name="sign_in">Авторизация</string>
     <string name="sign_up">Регистрация</string>
+    <string name="restore_password">Пароль</string>
     <string name="password_confirmation">Подтверждение пароля</string>
     <string name="nick">Ник</string>
     <string name="loading">Загрузка...</string>

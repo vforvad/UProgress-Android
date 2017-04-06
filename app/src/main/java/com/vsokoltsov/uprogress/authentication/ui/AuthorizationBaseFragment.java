@@ -37,7 +37,7 @@ public class AuthorizationBaseFragment extends Fragment {
     private SlidingTabLayout tabs;
     private CharSequence Titles[];
     private List<String> titles = new ArrayList<String>();
-    private int Numboftabs =2;
+    private int Numboftabs =3;
     private Resources resources;
 
     @Override
@@ -57,8 +57,10 @@ public class AuthorizationBaseFragment extends Fragment {
     private void setTitles() {
         String signIn = resources.getString(R.string.sign_in); //resources.getString(R.string.nav_sign_in);
         String signUp = resources.getString(R.string.sign_up); //resources.getString(R.string.nav_sign_up);
+        String restorePassword = resources.getString(R.string.restore_password);
         titles.add(signIn);
         titles.add(signUp);
+        titles.add(restorePassword);
     }
 
     private void defineCurrentTab() {
@@ -88,6 +90,7 @@ public class AuthorizationBaseFragment extends Fragment {
         // Assiging the Sliding Tab Layout View
         tabs = (SlidingTabLayout) fragmentView.findViewById(R.id.tabs);
         tabs.setDistributeEvenly(true); // To make the Tabs Fixed set this true, This makes the tabs Space Evenly in Available width
+        tabs.setTabsFontSize(12);
         tabs.setBackground(new ColorDrawable(getResources().getColor(R.color.colorPrimary)));
         tabs.setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener(){
             @Override
