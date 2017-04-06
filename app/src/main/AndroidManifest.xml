@@ -23,6 +23,8 @@
 
         <activity android:name=".authentication.ui.AuthorizationActivity">
         </activity>
+        <activity android:name=".reset_password.ResetPasswordActivity">
+        </activity>
         <activity android:name=".user.ui.UserActivity"
             android:windowSoftInputMode="adjustNothing">
         </activity>

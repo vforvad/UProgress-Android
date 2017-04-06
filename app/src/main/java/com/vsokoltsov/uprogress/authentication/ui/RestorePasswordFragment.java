@@ -1,5 +1,7 @@
 package com.vsokoltsov.uprogress.authentication.ui;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -23,6 +25,7 @@ import com.vsokoltsov.uprogress.common.ErrorHandler;
 import com.vsokoltsov.uprogress.common.helpers.PreferencesHelper;
 import com.vsokoltsov.uprogress.common.services.ErrorResponse;
 import com.vsokoltsov.uprogress.common.utils.RetrofitException;
+import com.vsokoltsov.uprogress.reset_password.ResetPasswordActivity;
 
 import java.io.IOException;
 
@@ -68,9 +71,17 @@ public class RestorePasswordFragment extends Fragment implements Button.OnClickL
 
     @Override
     public void onClick(View view) {
-        RestorePasswordRequest request = new
-                RestorePasswordRequest(emailField.getText().toString());
-        presenter.onRestorePassword(request);
+        if (isTablet) {
+
+        }
+        else {
+            Intent signUpActivity = new Intent(getContext(), ResetPasswordActivity.class);
+            getContext().startActivity(signUpActivity);
+            ((Activity) getContext()).overridePendingTransition(R.anim.pull_in_right, R.anim.push_out_left);
+        }
+//        RestorePasswordRequest request = new
+//                RestorePasswordRequest(emailField.getText().toString());
+//        presenter.onRestorePassword(request);
     }
 
     @Override
