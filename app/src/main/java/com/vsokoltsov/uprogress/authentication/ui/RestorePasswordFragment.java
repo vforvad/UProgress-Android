@@ -13,7 +13,10 @@ import android.widget.EditText;
 import com.vsokoltsov.uprogress.R;
 import com.vsokoltsov.uprogress.authentication.models.AuthenticationModel;
 import com.vsokoltsov.uprogress.authentication.models.AuthenticationModelImpl;
+import com.vsokoltsov.uprogress.authentication.models.RestorePassword.RestorePasswordRequest;
+import com.vsokoltsov.uprogress.authentication.presenters.AuthenticationPresenter;
 import com.vsokoltsov.uprogress.authentication.presenters.AuthenticationPresenterImpl;
+import com.vsokoltsov.uprogress.authentication.views.RestorePasswordScreen;
 import com.vsokoltsov.uprogress.common.ApplicationBaseActivity;
 import com.vsokoltsov.uprogress.common.BaseApplication;
 import com.vsokoltsov.uprogress.common.ErrorHandler;
@@ -23,12 +26,14 @@ import com.vsokoltsov.uprogress.common.helpers.PreferencesHelper;
  * Created by vsokoltsov on 06.04.17.
  */
 
-public class RestorePasswordFragment extends Fragment implements Button.OnClickListener {
+public class RestorePasswordFragment extends Fragment implements Button.OnClickListener, RestorePasswordScreen {
     private View fragmentView;
     public ApplicationBaseActivity activity;
     private EditText emailField;
     ErrorHandler errorHandler;
     private boolean isTablet;
+    private AuthenticationModel model;
+    private AuthenticationPresenter presenter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -37,6 +42,8 @@ public class RestorePasswordFragment extends Fragment implements Button.OnClickL
         activity = (ApplicationBaseActivity) getActivity();
         isTablet = getResources().getBoolean(R.bool.isTablet);
         errorHandler = new ErrorHandler(getActivity());
+        model = new AuthenticationModelImpl(getContext());
+        presenter = new AuthenticationPresenterImpl(model, this);
         setFields();
         setButton();
         return fragmentView;
@@ -57,6 +64,28 @@ public class RestorePasswordFragment extends Fragment implements Button.OnClickL
 
     @Override
     public void onClick(View view) {
+        RestorePasswordRequest request = new
+                RestorePasswordRequest(emailField.getText().toString());
+        presenter.onRestorePassword(request);
+    }
 
+    @Override
+    public void successRestoreResponse(String token) {
+
+    }
+
+    @Override
+    public void failedRestoreResponse(Throwable t) {
+
+    }
+
+    @Override
+    public void startLoader() {
+        activity.startProgressBar();
+    }
+
+    @Override
+    public void stopLoader() {
+        activity.stopProgressBar();
     }
 }

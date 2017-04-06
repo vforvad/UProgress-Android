@@ -18,7 +18,7 @@ import retrofit2.converter.jackson.JacksonConverterFactory;
  * Created by vsokoltsov on 11.03.16.
  */
 public class ApiRequester {
-    private static final String APP_HOST = "http://95.213.251.57";
+    private static final String APP_HOST = "http://03d08630.ngrok.io";
     private static final String API_VERSION = "v1/";
     public static String API_ADDRESS = APP_HOST + "/api/" + API_VERSION;
 

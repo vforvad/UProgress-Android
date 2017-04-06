@@ -1,5 +1,6 @@
 package com.vsokoltsov.uprogress.authentication.network;
 
+import com.vsokoltsov.uprogress.authentication.models.RestorePassword.RestorePasswordRequest;
 import com.vsokoltsov.uprogress.user.current.CurrentUser;
 import com.vsokoltsov.uprogress.authentication.models.SignIn.SignInRequest;
 import com.vsokoltsov.uprogress.authentication.models.SignUp.SignUpRequest;
@@ -21,4 +22,7 @@ public interface AuthenticationApi{
 
     @POST("registrations")
     Observable<Token> signUp(@Body SignUpRequest user);
+
+    @POST("sessions/restore_password")
+    Observable<Token> restorePassword(@Body RestorePasswordRequest user);
 }
