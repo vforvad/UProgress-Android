@@ -11,6 +11,12 @@ public class ResetPasswordResponse {
     @JsonProperty("message")
     private String message;
 
+    public ResetPasswordResponse() {  }
+
+    public ResetPasswordResponse(String message) {
+        this.message = message;
+    }
+
     public String getMessage() {
         return message;
     }
