@@ -77,7 +77,7 @@ public class DirectionDetailPresenterImpl implements DirectionDetailPresenter {
                     public void onNext(StepResponse step) {
                         screen.successStepUpdate(step.getStep());
                     }
-                });;
+                });
     }
 
     @Override

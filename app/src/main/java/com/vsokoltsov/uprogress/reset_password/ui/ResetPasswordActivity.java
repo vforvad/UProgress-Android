@@ -7,9 +7,7 @@ import android.view.MenuItem;
 
 import com.vsokoltsov.uprogress.R;
 import com.vsokoltsov.uprogress.common.ApplicationBaseActivity;
-import com.vsokoltsov.uprogress.direction_detail.ui.DirectionDetailFragment;
 import com.vsokoltsov.uprogress.directions_list.ui.DirectionsActivity;
-import com.vsokoltsov.uprogress.reset_password.ResetPasswordBaseFragment;
 
 /**
  * Created by vsokoltsov on 07.04.17.

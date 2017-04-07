@@ -42,8 +42,8 @@ public class NavigationPresenter implements NavigationView.OnNavigationItemSelec
     private final Context context;
     private User currentUser;
     private View navHeader;
-    private TabletFragments tabletFragments;
     private boolean isTablet;
+    private TabletFragments tabletFragments;
     private NavigationFragments navigationFragments;
 
     TextView userEmail;
@@ -174,16 +174,21 @@ public class NavigationPresenter implements NavigationView.OnNavigationItemSelec
 
         switch(item.getItemId()) {
             case R.id.sign_in:
-                Intent signInActivity = new Intent(context, AuthorizationActivity.class);
-                signInActivity.putExtra("action", "sign_in");
-                context.startActivity(signInActivity);
-                ((Activity) context).overridePendingTransition(R.anim.pull_in_right, R.anim.push_out_left);
-                return true;
+                if (isTablet) {
+                    tabletFragments.shoAuthorizationProfile("sign_in");
+                }
+                else {
+                    navigationFragments.signIn("sign_in");
+                }
+
             case R.id.sign_up:
-                Intent signUpActivity = new Intent(context, AuthorizationActivity.class);
-                signUpActivity.putExtra("action", "sign_up");
-                context.startActivity(signUpActivity);
-                ((Activity) context).overridePendingTransition(R.anim.pull_in_right, R.anim.push_out_left);
+                if (isTablet) {
+                    tabletFragments.shoAuthorizationProfile("sign_up");
+                }
+                else {
+                    navigationFragments.signIn("sign_up");
+                }
+
                 return true;
             case R.id.directions:
                 if (isTablet) {

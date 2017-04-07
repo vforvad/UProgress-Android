@@ -10,6 +10,7 @@ import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.vsokoltsov.uprogress.R;
 import com.vsokoltsov.uprogress.authentication.adapters.AuthorizationViewPagerAdapter;
@@ -29,6 +30,7 @@ public class AuthorizationBaseFragment extends Fragment {
 
     private android.support.v4.app.FragmentManager fragmentManager;
     private String action;
+    private String resetPasswordMessage;
 
     private FragmentTabHost mTabHost;
 
@@ -52,6 +54,10 @@ public class AuthorizationBaseFragment extends Fragment {
         setTitles();
         defineCurrentTab();
         setSlidingTabs();
+        if (resetPasswordMessage != null) {
+            Toast.makeText(getContext(), getResources().getString(R.string.reset_password_success),
+                    Toast.LENGTH_LONG).show();
+        }
         return fragmentView;
     }
 
@@ -67,6 +73,7 @@ public class AuthorizationBaseFragment extends Fragment {
     private void defineCurrentTab() {
         Bundle extras = getArguments();
         action = extras.getString("action");
+        resetPasswordMessage = extras.getString("reset_password_message");
     }
 
     private void setSlidingTabs() {
