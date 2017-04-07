@@ -84,6 +84,7 @@ public class AuthorizationActivityTest {
     public void itemsForViewPage() throws Exception {
         onView(allOf(withText(resources.getString(R.string.sign_in)), isDescendantOfA(withId(R.id.tabs)))).check(matches(isDisplayed()));
         onView(allOf(withText(resources.getString(R.string.sign_up)), isDescendantOfA(withId(R.id.tabs)))).check(matches(isDisplayed()));
+        onView(allOf(withText(resources.getString(R.string.restore_password)), isDescendantOfA(withId(R.id.tabs)))).check(matches(isDisplayed()));
     }
 
     @Test
@@ -100,6 +101,15 @@ public class AuthorizationActivityTest {
         onView(allOf(withId(R.id.emailField), isDescendantOfA(withId(R.id.signUpFragment)))).check(matches(isDisplayed()));
         onView(allOf(withId(R.id.passwordField), isDescendantOfA(withId(R.id.signUpFragment)))).check(matches(isDisplayed()));
         onView(allOf(withId(R.id.signUpButton), isDescendantOfA(withId(R.id.signUpFragment)))).check(matches(isDisplayed()));
+    }
+
+    @Test
+    public void testPresenseOfEmailFieldOnRestorePassworFragment() throws Exception {
+        onView(withId(R.id.pager)).perform(swipeLeft());
+        onView(withId(R.id.pager)).perform(swipeLeft());
+
+        onView(allOf(withId(R.id.emailField), isDescendantOfA(withId(R.id.restorePasswordFragment)))).check(matches(isDisplayed()));
+        onView(allOf(withId(R.id.restorePasswordButton), isDescendantOfA(withId(R.id.restorePasswordFragment)))).check(matches(isDisplayed()));
     }
 
     @Test
