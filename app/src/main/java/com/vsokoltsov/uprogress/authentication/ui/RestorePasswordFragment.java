@@ -20,12 +20,10 @@ import com.vsokoltsov.uprogress.authentication.presenters.AuthenticationPresente
 import com.vsokoltsov.uprogress.authentication.presenters.AuthenticationPresenterImpl;
 import com.vsokoltsov.uprogress.authentication.views.RestorePasswordScreen;
 import com.vsokoltsov.uprogress.common.ApplicationBaseActivity;
-import com.vsokoltsov.uprogress.common.BaseApplication;
 import com.vsokoltsov.uprogress.common.ErrorHandler;
-import com.vsokoltsov.uprogress.common.helpers.PreferencesHelper;
 import com.vsokoltsov.uprogress.common.services.ErrorResponse;
 import com.vsokoltsov.uprogress.common.utils.RetrofitException;
-import com.vsokoltsov.uprogress.reset_password.ResetPasswordActivity;
+import com.vsokoltsov.uprogress.reset_password.ui.ResetPasswordActivity;
 
 import java.io.IOException;
 
