@@ -180,13 +180,13 @@ public class NavigationPresenter implements NavigationView.OnNavigationItemSelec
                 else {
                     navigationFragments.signIn("sign_in");
                 }
-
+                return true;
             case R.id.sign_up:
                 if (isTablet) {
                     tabletFragments.shoAuthorizationProfile("sign_up");
                 }
                 else {
-                    navigationFragments.signIn("sign_up");
+                    navigationFragments.signUp("sign_up");
                 }
 
                 return true;
