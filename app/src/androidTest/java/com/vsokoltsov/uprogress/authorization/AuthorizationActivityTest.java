@@ -167,9 +167,39 @@ public class AuthorizationActivityTest {
         onView(allOf(withId(R.id.passwordField), isDescendantOfA(withId(R.id.signUpFragment)))).perform(typeText("bbb"));
         onView(withId(R.id.signUpButton)).perform(click());
 
-
         onView(allOf(withId(R.id.collapsing_toolbar))).check(matches(isDisplayed()));
 
+    }
+
+    @Test
+    public void testSuccessRestorePassword() throws Exception {
+        String token = "token.json";
+        server.enqueue(new MockResponse()
+                .setResponseCode(200)
+                .setBody(RestServiceTestHelper.getStringFromFile(getInstrumentation().getContext(), token)));
+
+        onView(withId(R.id.pager)).perform(swipeLeft());
+        onView(withId(R.id.pager)).perform(swipeLeft());
+
+        onView(allOf(withId(R.id.emailField), isDescendantOfA(withId(R.id.restorePasswordFragment)))).perform(typeText("aaaa"));
+        onView(withId(R.id.restorePasswordButton)).perform(click());
+
+        onView(withId(R.id.resetPasswordFragment)).check(matches(isDisplayed()));
+    }
+
+    @Test
+    public void testFailedRestorePassword() throws Exception {
+        String fileName = "failed_sign_in.json";
+        server.enqueue(new MockResponse()
+                .setResponseCode(403)
+                .setBody(RestServiceTestHelper.getStringFromFile(getInstrumentation().getContext(), fileName)));
+
+        onView(withId(R.id.pager)).perform(swipeLeft());
+        onView(withId(R.id.pager)).perform(swipeLeft());
+
+        onView(withId(R.id.restorePasswordButton)).perform(click());
+
+        onView(allOf(withId(R.id.emailField), isDescendantOfA(withId(R.id.restorePasswordFragment)))).check(matches(hasErrorText("Can't be blank\n")));
     }
 
     @After
