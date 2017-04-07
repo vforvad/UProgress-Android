@@ -4,6 +4,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
+import com.vsokoltsov.uprogress.authentication.ui.RestorePasswordFragment;
 import com.vsokoltsov.uprogress.authentication.ui.SignInFragment;
 import com.vsokoltsov.uprogress.authentication.ui.SignUpFragment;
 
@@ -35,12 +36,15 @@ public class AuthorizationViewPagerAdapter extends FragmentStatePagerAdapter {
             SignInFragment tab1 = new SignInFragment();
             return tab1;
         }
-        else             // As we are having 2 tabs if the position is now 0 it must be 1 so we are returning second tab
+        else if(position == 1)            // As we are having 2 tabs if the position is now 0 it must be 1 so we are returning second tab
         {
             SignUpFragment tab2 = new SignUpFragment();
             return tab2;
         }
-
+        else {
+            RestorePasswordFragment tab3 = new RestorePasswordFragment();
+            return tab3;
+        }
     }
 
     // This method return the titles for the Tabs in the Tab Strip

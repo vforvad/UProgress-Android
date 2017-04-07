@@ -2,6 +2,7 @@ package com.vsokoltsov.uprogress.authentication.models;
 
 import android.content.Context;
 
+import com.vsokoltsov.uprogress.authentication.models.RestorePassword.RestorePasswordRequest;
 import com.vsokoltsov.uprogress.authentication.network.AuthenticationApi;
 import com.vsokoltsov.uprogress.common.BaseModelImpl;
 import com.vsokoltsov.uprogress.authentication.models.SignIn.SignInRequest;
@@ -46,5 +47,10 @@ public class AuthenticationModelImpl extends BaseModelImpl implements Authentica
     private void setService() {
         service = retrofit.create(AuthenticationApi.class);
         currentUserService = retrofit.create(CurrentUserApi.class);
+    }
+
+    @Override
+    public Observable<Token> restorePasswordRequest(RestorePasswordRequest request) {
+        return service.restorePassword(request);
     }
 }

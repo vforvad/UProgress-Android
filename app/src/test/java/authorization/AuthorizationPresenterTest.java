@@ -1,8 +1,11 @@
 package authorization;
 
+import com.vsokoltsov.uprogress.authentication.models.RestorePassword.RestorePasswordRequest;
 import com.vsokoltsov.uprogress.authentication.models.SignIn.SignInRequest;
 import com.vsokoltsov.uprogress.authentication.models.SignUp.SignUpRequest;
+import com.vsokoltsov.uprogress.authentication.presenters.AuthenticationPresenter;
 import com.vsokoltsov.uprogress.authentication.presenters.AuthenticationPresenterImpl;
+import com.vsokoltsov.uprogress.authentication.views.RestorePasswordScreen;
 import com.vsokoltsov.uprogress.common.helpers.PreferencesHelper;
 import com.vsokoltsov.uprogress.authentication.models.AuthenticationModel;
 import com.vsokoltsov.uprogress.user.current.CurrentUser;
@@ -46,10 +49,16 @@ public class AuthorizationPresenterTest {
     SignUpRequest signUpRequest;
 
     @Mock
+    RestorePasswordRequest restorePasswordRequest;
+
+    @Mock
     AuthenticationModel model;
 
     @Mock
     AuthorizationScreen screen;
+
+    @Mock
+    RestorePasswordScreen restorePasswordScreen;
 
     @Mock
     PreferencesHelper preferencesHelper;
@@ -132,5 +141,31 @@ public class AuthorizationPresenterTest {
         presenter.onSignUpSubmit(signUpRequest);
 
         verify(screen, times(1)).failedResponse(t);
+    }
+
+    @Test
+    public void onFailureRestorePassword() throws Exception {
+        AuthenticationPresenter presenter = new AuthenticationPresenterImpl(model, restorePasswordScreen);
+        Throwable t = new Throwable();
+        when(model.restorePasswordRequest(restorePasswordRequest)).thenReturn(Observable.error(t));
+
+        presenter.onRestorePassword(restorePasswordRequest);
+
+        verify(restorePasswordScreen, times(1)).startLoader();
+        verify(restorePasswordScreen, times(1)).failedRestoreResponse(t);
+        verify(restorePasswordScreen, times(1)).stopLoader();
+    }
+
+    @Test
+    public void onSuccessRestorePassword() throws Exception {
+        String testToken = "Test";
+        AuthenticationPresenter presenter = new AuthenticationPresenterImpl(model, restorePasswordScreen);
+        when(model.restorePasswordRequest(restorePasswordRequest)).thenReturn(Observable.just(new Token(testToken)));
+
+        presenter.onRestorePassword(restorePasswordRequest);
+
+        verify(restorePasswordScreen, times(1)).startLoader();
+        verify(restorePasswordScreen, times(1)).successRestoreResponse(testToken);
+        verify(restorePasswordScreen, times(1)).stopLoader();
     }
 }

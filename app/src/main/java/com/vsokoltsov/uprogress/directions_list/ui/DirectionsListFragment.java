@@ -96,13 +96,23 @@ public class DirectionsListFragment extends Fragment implements SwipeRefreshLayo
         // Inflate the layout for this fragment
         setHasOptionsMenu(true);
         isTablet = getResources().getBoolean(R.bool.isTablet);
-        if (isTablet) {
-            ((TabletActivity) getActivity()).setToolbar();
-        }
         baseApplication = ((BaseApplication) getActivity().getApplicationContext());
         user = AuthorizationService.getInstance().getCurrentUser();
         activity = (ApplicationBaseActivity) getActivity();
-        activity.setTitle(getResources().getString(R.string.directions_title));
+
+        if (isTablet) {
+            try {
+                ((TabletActivity) getActivity()).setToolbar();
+                ((TabletActivity) getActivity()).getToolBar().setTitle(getResources().getString(R.string.directions_title));
+            }
+            catch(Exception e) {
+                e.printStackTrace();
+            }
+
+        }
+        else {
+            activity.setTitle(getResources().getString(R.string.directions_title));
+        }
         fragmentView = inflater.inflate(R.layout.directions_list_fragment, container, false);
         emptyListView = fragmentView.findViewById(R.id.emptyListView);
         activity.setEmptyList(emptyListView, R.string.empty_directions_list);

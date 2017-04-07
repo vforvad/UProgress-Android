@@ -76,12 +76,20 @@ public class StatisticsFragment extends Fragment implements StatisticsView {
         fragmentView = inflater.inflate(R.layout.statistics_fragment, container, false);
         setHasOptionsMenu(true);
         isTablet = getResources().getBoolean(R.bool.isTablet);
+        activity = (ApplicationBaseActivity) getActivity();
         if (isTablet) {
-            ((TabletActivity) getActivity()).setToolbar();
+            try {
+                ((TabletActivity) getActivity()).setToolbar();
+                ((TabletActivity) getActivity()).getToolBar().setTitle(getResources().getString(R.string.statistiscs_title));
+            }
+                catch(Exception e) {
+                e.printStackTrace();
+            }
+        }
+        else {
+            activity.setTitle(getResources().getString(R.string.statistiscs_title));
         }
         errorHandler = new ErrorHandler(getActivity());
-        activity = (ApplicationBaseActivity) getActivity();
-        activity.setTitle(getResources().getString(R.string.statistiscs_title));
         orientation = getResources().getConfiguration().orientation;
         User user = AuthorizationService.getInstance().getCurrentUser();
         StatisticsModel model = new StatisticsModelImpl(getActivity().getApplicationContext());

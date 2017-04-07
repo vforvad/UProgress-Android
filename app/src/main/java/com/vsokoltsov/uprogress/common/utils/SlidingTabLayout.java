@@ -76,6 +76,7 @@ public class SlidingTabLayout extends HorizontalScrollView {
     private ViewPager mViewPager;
     private SparseArray<String> mContentDescriptions = new SparseArray<String>();
     private ViewPager.OnPageChangeListener mViewPagerPageChangeListener;
+    private Integer fontSize;
 
     private final SlidingTabStrip mTabStrip;
 
@@ -225,8 +226,15 @@ public class SlidingTabLayout extends HorizontalScrollView {
                 tabView.setSelected(true);
             }
             tabTitleView.setTextColor(getResources().getColorStateList(R.color.selector));
-            tabTitleView.setTextSize(14);
+            if (fontSize == null) {
+                fontSize = 14;
+            }
+            tabTitleView.setTextSize(fontSize);
         }
+    }
+
+    public void setTabsFontSize(int fontSize) {
+        this.fontSize = fontSize;
     }
 
     public void setContentDescription(int i, String desc) {

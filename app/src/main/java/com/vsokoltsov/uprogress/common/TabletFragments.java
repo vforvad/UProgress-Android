@@ -42,6 +42,16 @@ public class TabletFragments {
         commitTransaction(fragment);
     }
 
+    public void shoAuthorizationProfile(String action, String resetPasswordMessage) {
+        this.fragmentTransaction = fragmentManager.beginTransaction();
+        Bundle arguments = new Bundle();
+        AuthorizationBaseFragment fragment = new AuthorizationBaseFragment();
+        arguments.putString("action", action);
+        arguments.putString("reset_password_message", resetPasswordMessage);
+        fragment.setArguments(arguments);
+        commitTransaction(fragment);
+    }
+
     public void directionsList() {
         this.fragmentTransaction = fragmentManager.beginTransaction();
         DirectionsListFragment frg = new DirectionsListFragment();

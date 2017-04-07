@@ -2,6 +2,7 @@ package com.vsokoltsov.uprogress.authentication.ui;
 
 import android.content.res.Resources;
 import android.graphics.drawable.ColorDrawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTabHost;
@@ -9,6 +10,7 @@ import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.vsokoltsov.uprogress.R;
 import com.vsokoltsov.uprogress.authentication.adapters.AuthorizationViewPagerAdapter;
@@ -28,6 +30,7 @@ public class AuthorizationBaseFragment extends Fragment {
 
     private android.support.v4.app.FragmentManager fragmentManager;
     private String action;
+    private String resetPasswordMessage;
 
     private FragmentTabHost mTabHost;
 
@@ -37,7 +40,7 @@ public class AuthorizationBaseFragment extends Fragment {
     private SlidingTabLayout tabs;
     private CharSequence Titles[];
     private List<String> titles = new ArrayList<String>();
-    private int Numboftabs =2;
+    private int Numboftabs =3;
     private Resources resources;
 
     @Override
@@ -51,19 +54,26 @@ public class AuthorizationBaseFragment extends Fragment {
         setTitles();
         defineCurrentTab();
         setSlidingTabs();
+        if (resetPasswordMessage != null) {
+            Toast.makeText(getContext(), getResources().getString(R.string.reset_password_success),
+                    Toast.LENGTH_LONG).show();
+        }
         return fragmentView;
     }
 
     private void setTitles() {
         String signIn = resources.getString(R.string.sign_in); //resources.getString(R.string.nav_sign_in);
         String signUp = resources.getString(R.string.sign_up); //resources.getString(R.string.nav_sign_up);
+        String restorePassword = resources.getString(R.string.restore_password);
         titles.add(signIn);
         titles.add(signUp);
+        titles.add(restorePassword);
     }
 
     private void defineCurrentTab() {
         Bundle extras = getArguments();
         action = extras.getString("action");
+        resetPasswordMessage = extras.getString("reset_password_message");
     }
 
     private void setSlidingTabs() {
@@ -88,7 +98,10 @@ public class AuthorizationBaseFragment extends Fragment {
         // Assiging the Sliding Tab Layout View
         tabs = (SlidingTabLayout) fragmentView.findViewById(R.id.tabs);
         tabs.setDistributeEvenly(true); // To make the Tabs Fixed set this true, This makes the tabs Space Evenly in Available width
-        tabs.setBackground(new ColorDrawable(getResources().getColor(R.color.colorPrimary)));
+        tabs.setTabsFontSize(12);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+            tabs.setBackground(new ColorDrawable(getResources().getColor(R.color.colorPrimary)));
+        }
         tabs.setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener(){
             @Override
             public void onPageSelected(int position) {

@@ -26,17 +26,4 @@ public class StatisticsActivity extends ApplicationBaseActivity {
         fragmentTransaction.replace(R.id.main_content, statisticsFragment);
         fragmentTransaction.commit();
     }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        statisticsFragment.onCreateOptionsMenu(menu, inflater);
-        return super.onCreateOptionsMenu(menu);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        statisticsFragment.onOptionsItemSelected(item);
-        return super.onOptionsItemSelected(item);
-    }
 }

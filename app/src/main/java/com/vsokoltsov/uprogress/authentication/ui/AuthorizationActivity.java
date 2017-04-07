@@ -5,10 +5,13 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.annotation.VisibleForTesting;
 import android.support.test.espresso.idling.CountingIdlingResource;
+import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatDelegate;
+import android.view.MenuItem;
 
 import com.vsokoltsov.uprogress.R;
 import com.vsokoltsov.uprogress.common.ApplicationBaseActivity;
+import com.vsokoltsov.uprogress.directions_list.ui.DirectionsActivity;
 import com.vsokoltsov.uprogress.user.ui.UserActivity;
 
 public class AuthorizationActivity extends ApplicationBaseActivity{
@@ -16,6 +19,7 @@ public class AuthorizationActivity extends ApplicationBaseActivity{
     private android.support.v4.app.FragmentManager fragmentManager;
     public AuthorizationBaseFragment authorizationBaseFragment;
     private CountingIdlingResource mIdlingResource;
+    private String resetPasswordMessage;
 
     static
     {
@@ -36,6 +40,11 @@ public class AuthorizationActivity extends ApplicationBaseActivity{
             action = "sign_in";
         }
         arguments.putString("action", action);
+
+        if (resetPasswordMessage != null) {
+            super.setLeftNavigationBar();
+            arguments.putString("reset_password_message", resetPasswordMessage);
+        }
         fragmentManager = getSupportFragmentManager();
         android.support.v4.app.FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         authorizationBaseFragment = new AuthorizationBaseFragment();
@@ -48,6 +57,7 @@ public class AuthorizationActivity extends ApplicationBaseActivity{
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             action = (String) extras.getString("action");
+            resetPasswordMessage = (String) extras.getString("reset_password_message");
         }
     }
 

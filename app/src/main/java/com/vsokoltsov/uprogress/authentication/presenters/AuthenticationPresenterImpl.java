@@ -1,5 +1,7 @@
 package com.vsokoltsov.uprogress.authentication.presenters;
 
+import com.vsokoltsov.uprogress.authentication.models.RestorePassword.RestorePasswordRequest;
+import com.vsokoltsov.uprogress.authentication.views.RestorePasswordScreen;
 import com.vsokoltsov.uprogress.common.helpers.PreferencesHelper;
 import com.vsokoltsov.uprogress.user.current.CurrentUser;
 import com.vsokoltsov.uprogress.authentication.models.AuthenticationModel;
@@ -21,9 +23,10 @@ import rx.schedulers.Schedulers;
 
 public class AuthenticationPresenterImpl implements AuthenticationPresenter {
     private final AuthenticationModel model;
-    private final AuthorizationScreen screen;
-    private final PreferencesHelper preferencesHelper;
+    private AuthorizationScreen screen;
+    private PreferencesHelper preferencesHelper;
     private Subscription subscription;
+    private RestorePasswordScreen passwordScreen;
 
 
     // Every component should consist in his own package
@@ -32,6 +35,11 @@ public class AuthenticationPresenterImpl implements AuthenticationPresenter {
         this.model = model;
         this.screen = screen;
         this.preferencesHelper = preferencesHelper;
+    }
+
+    public AuthenticationPresenterImpl(AuthenticationModel model, RestorePasswordScreen screen) {
+        this.model = model;
+        this.passwordScreen = screen;
     }
 
   /*  @Override
@@ -102,6 +110,31 @@ public class AuthenticationPresenterImpl implements AuthenticationPresenter {
                     public void onNext(CurrentUser currentUser) {
                         // TODO Add redirect to user's profile
                         screen.successResponse(currentUser);
+                    }
+                });
+    }
+
+    @Override
+    public void onRestorePassword(RestorePasswordRequest request) {
+        passwordScreen.startLoader();
+        model.restorePasswordRequest(request)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<Token>() {
+                    @Override
+                    public void onCompleted() {
+                        passwordScreen.stopLoader();
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        passwordScreen.failedRestoreResponse(e);
+                        passwordScreen.stopLoader();
+                    }
+
+                    @Override
+                    public void onNext(Token token) {
+                        passwordScreen.successRestoreResponse(token.getToken());
                     }
                 });
     }
